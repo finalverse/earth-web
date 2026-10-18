@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "mechanism": "reviewed-source-snapshot",
+  "repository": "https://github.com/finalverse/gods-eye-view.git",
+  "commit": "93ea088f4556a5a65b3292a2d15142d5a6c562bc",
+  "original_attribution": "Bilawal Sidhu and God\u2019s Eye View contributors",
+  "files": {
+    "src/app/viewer.js": "29c41d95ef114edb913e29c3d00e6c2f7051ad57d62d75d6cc6664ae9ba97df4",
+    "src/app/atmosphereCompat.js": "4682531175416e582d7992bffb6a32c7511e75042589068efa6bb50925be088b",
+    "src/tools/catalog.js": "d82d41ab73d8926f7fa6277eca01a7bfcb362821acd51b927fc147517232d5ad",
+    "src/tools/schema.js": "31914e206147d0769c56152dc238a169c0b23b5b5adb28e166ee6c21a60946b3",
+    "src/data/adminBoundaries.js": "90fc7801870c9a7c40b4c0d1d365a9f95bd922888767e652a5c271a249cf0028",
+    "src/data/bundledJson.js": "db6fc76e7e768ba48aa3944edc1b5bb45cdb8525bd6dde46064fc100ff2315c7",
+    "src/data/retryableLoad.js": "a0f9a3d4bb65d76baf2d13ab62b00518bff2f0f84fc4474837cc27e3bd79ae34",
+    "src/sources/httpBody.js": "e486290915f80a6429419a3189ebbfff02f3d12b9e3406358060c04afa11c48d",
+    "src/i18n/marker.js": "8b9c5d7a233d59205e7e74428bf5c8a6bd8e916a45737e44b199c02593199c41",
+    "src/data/local_data/natural_earth/countries.json": "b9f865783a8e539cd39ea6a0fb506c86482f04a5723fb48b6059b1c634456e50",
+    "LICENSE": "b231bb38e2d4eab741643126087cbe9df2b58e2f2e5abf27ad613d05f52b01ca"
+  },
+  "npm": {
+    "cesium": "1.138.0",
+    "vite-plugin-cesium": "1.2.23"
+  }
+}

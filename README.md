@@ -1,6 +1,6 @@
 # Finalverse Earth
 
-An independent, open-source spatial intelligence workspace built on [God’s Eye View](https://github.com/bilawalsidhu/gods-eye-view). A Cesium globe and headless applications share deterministic spatial tools, typed query plans and source provenance.
+An independent, open-source spatial intelligence workspace built on the [Finalverse-maintained God’s Eye View foundation](https://github.com/finalverse/gods-eye-view). A Cesium globe and headless applications share deterministic spatial tools, typed query plans and source provenance.
 
 **Core v0.1 is experimental.** No MutSea service, account, hosted AI, cloud key or paid tiles are required. The default globe uses an ellipsoid and generalized Natural Earth polygons; it does not show satellite imagery, terrain or live observations. The inherited upstream application remains available separately.
 
@@ -59,6 +59,8 @@ npm run build               # inherited full application, separate dist/
 The browser example at `/examples/country-explorer.html`, the JavaScript/TypeScript SDK and Python client all call the same HTTP API. Embed the headless core directly using `./earth/core/index.js`. See [API and contracts](docs/earth/api.md), [architecture](docs/earth/architecture.md), [verification](docs/earth/verification.md), [security](docs/earth/security.md), [license audit](docs/earth/licensing.md), and [next milestones](docs/earth/roadmap.md).
 
 ## Provenance and contribution
+
+Maintained dependency: [finalverse/gods-eye-view](https://github.com/finalverse/gods-eye-view), verified by a [source pin and update workflow](docs/earth/upstream.md). Original authorship and Git history are preserved.
 
 Starting upstream commit: `93ea088f4556a5a65b3292a2d15142d5a6c562bc`. Preserve the original [MIT license](LICENSE), [third-party notices](THIRD_PARTY_NOTICES.md), and attribution. Source licensing does not grant rights to every inherited feed, image or model. The independent Earth build excludes the upstream public asset tree and enables only the approved Natural Earth dataset.
 

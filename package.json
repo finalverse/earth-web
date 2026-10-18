@@ -55,7 +55,7 @@
     "check:boundaries": "node scripts/check-import-directions.mjs && node scripts/check-package-boundaries.mjs",
     "qa:transit": "node scripts/qa-transit.mjs",
     "mcp": "node server/mcp/stdio.js",
-    "earth:build": "vite build --config earth/vite.config.js",
+    "earth:build": "node earth/upstream.mjs verify && vite build --config earth/vite.config.js",
     "earth:start": "node earth/server/main.js",
     "earth:headless": "node earth/server/main.js --headless",
     "earth:test": "node --test earth/test/*.test.js",
