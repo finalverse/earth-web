@@ -45,3 +45,12 @@ Street Level viewer; the complete resolved dependency inventory remains in
 - Source: <https://github.com/mrdoob/three.js>
 - License: MIT
 - License text: <https://github.com/mrdoob/three.js/blob/dev/LICENSE>
+
+## Finalverse Earth additions
+
+- Proj4js 2.22.0 — MIT, https://github.com/proj4js/proj4js
+- geographiclib-geodesic 2.2.0 — MIT, Copyright Charles Karney, https://github.com/geographiclib/geographiclib-js
+
+New code under `earth/` is Copyright 2026 Finalverse contributors, MIT.
+Inherited code retains the upstream notices. Data rights are separate; see
+`docs/earth/licensing.md`.

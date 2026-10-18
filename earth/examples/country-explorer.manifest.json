@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "id": "example.country-explorer",
+  "version": "0.1.0",
+  "datasets": ["natural-earth-countries"],
+  "tools": ["search_features"],
+  "max_results": 5
+}

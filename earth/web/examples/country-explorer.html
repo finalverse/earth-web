@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Country Explorer — Earth SDK example</title>
+  </head>
+  <body>
+    <main>
+      <p>THIRD-PARTY APPLICATION EXAMPLE</p>
+      <h1>Country Explorer</h1>
+      <p>
+        A small application using the public Earth HTTP SDK, without Cesium, AI
+        or MutSea.
+      </p>
+      <form>
+        <label
+          >Country name
+          <input id="name" value="Canada" maxlength="128" required /></label
+        ><button>Query Earth</button>
+      </form>
+      <pre id="result" role="status"></pre>
+      <a href="/">Back to Earth</a>
+    </main>
+    <script type="module" src="./country-explorer.js"></script>
+  </body>
+</html>

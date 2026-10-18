@@ -1,3 +1,73 @@
+# Finalverse Earth
+
+An independent, open-source spatial intelligence workspace built on [God’s Eye View](https://github.com/bilawalsidhu/gods-eye-view). A Cesium globe and headless applications share deterministic spatial tools, typed query plans and source provenance.
+
+**Core v0.1 is experimental.** No MutSea service, account, hosted AI, cloud key or paid tiles are required. The default globe uses an ellipsoid and generalized Natural Earth polygons; it does not show satellite imagery, terrain or live observations. The inherited upstream application remains available separately.
+
+## Run locally
+
+Use **Node 24.14+ in the 24.x line** and npm. Node 24 is also required for upstream allocation tests. Check `node --version` first.
+
+```sh
+git clone https://github.com/finalverse/finalverse-earth.git
+cd finalverse-earth
+npm ci --ignore-scripts
+npm run earth:build
+npm run earth:start
+```
+
+Open **http://127.0.0.1:18640**. Search **Canada**, click its result or geometry to inspect it, and open **Method & provenance**. Spatial tools include point containment, bounding-envelope candidates, WGS84 ellipsoidal distance and WGS84/ECEF conversion. Results export as JSON with the plan and provenance.
+
+The install needs internet access; the default runtime uses bundled public-domain data and makes no provider requests. All server listeners are loopback only. Headless operation:
+
+```sh
+npm run earth:headless
+# In another terminal:
+node earth/examples/country-lookup.mjs Canada
+python3 earth/examples/country_lookup.py Canada
+```
+
+### Optional local AI
+
+Install Ollama separately, obtain `llama3.2:3b`, and start it locally. Then replace `earth:start` with:
+
+```sh
+npm run earth:start -- --ai
+```
+
+Ask **“Show me Canada”**. The model extracts a country name into a bounded, read-only `search_features` plan. Review it, then select **Run reviewed plan**. Direct search runs the same operator without a model. This is a narrow planning prototype, not general geographic reasoning. There is no cloud fallback, account lookup or arbitrary code execution. Question text is sent only to the explicitly enabled local Ollama endpoint.
+
+### Optional MutSea destinations
+
+```sh
+npm run earth:start -- --mutsea
+```
+
+The curated destinations panel links to the existing MutSea account portal. These are **fictional worlds without Earth coordinates**. It does not make the platform depend on MutSea or log in for the user. Native world entry still requires a separate world account and compatible Finalverse viewer. See [adapter limits](docs/earth/mutsea-adapter.md).
+
+## Develop and verify
+
+```sh
+npm run earth:test
+npm run earth:bench
+npm run earth:build
+npm run earth:audit-build
+npm test                    # inherited upstream regression suite
+npm run build               # inherited full application, separate dist/
+```
+
+The browser example at `/examples/country-explorer.html`, the JavaScript/TypeScript SDK and Python client all call the same HTTP API. Embed the headless core directly using `./earth/core/index.js`. See [API and contracts](docs/earth/api.md), [architecture](docs/earth/architecture.md), [verification](docs/earth/verification.md), [security](docs/earth/security.md), [license audit](docs/earth/licensing.md), and [next milestones](docs/earth/roadmap.md).
+
+## Provenance and contribution
+
+Starting upstream commit: `93ea088f4556a5a65b3292a2d15142d5a6c562bc`. Preserve the original [MIT license](LICENSE), [third-party notices](THIRD_PARTY_NOTICES.md), and attribution. Source licensing does not grant rights to every inherited feed, image or model. The independent Earth build excludes the upstream public asset tree and enables only the approved Natural Earth dataset.
+
+New Earth code is MIT-licensed; see [LICENSE.finalverse](LICENSE.finalverse). Open an issue with a reproducible example, dataset provenance, CRS and expected result. Contributions must include meaningful tests for changed contracts and cannot introduce silent cloud fallbacks, embedded credentials or unlicensed data. Do not report inferred, static or mock data as live observations.
+
+The original upstream introduction and instructions follow, unchanged, for lineage and the inherited application. Its hosted integrations and claims do **not** describe the independent Earth build above.
+
+---
+
 <div align="center">
 
 # 🌐 God's Eye View

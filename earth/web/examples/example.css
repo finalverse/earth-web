@@ -1,0 +1,39 @@
+:root {
+  font: 16px/1.6 system-ui;
+  color: #e2edf5;
+  background: #101925;
+  color-scheme: dark;
+}
+main {
+  max-width: 740px;
+  margin: 8vh auto;
+  padding: 24px;
+}
+h1 {
+  font-size: 42px;
+  font-weight: 500;
+}
+p {
+  color: #aabed2;
+}
+input,
+button {
+  font: inherit;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #4a6076;
+}
+button {
+  cursor: pointer;
+  background: #8ee3d4;
+  color: #102827;
+}
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 12px/1.6 monospace;
+  color: #9cdece;
+}
+a {
+  color: #b5d7ef;
+}

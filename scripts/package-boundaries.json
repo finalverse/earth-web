@@ -3943,5 +3943,23 @@
       "src/i18n/marker.js"
     ],
     "external": []
+  },
+  "earth-core": {
+    "exports": ["./earth/core", "./earth/geo"],
+    "modules": [
+      "earth/core/index.js",
+      "earth/core/geo.js",
+      "src/tools/catalog.js",
+      "src/tools/schema.js",
+      "src/data/adminBoundaries.js",
+      "src/data/bundledJson.js",
+      "src/data/retryableLoad.js"
+    ],
+    "external": ["proj4", "geographiclib-geodesic"]
+  },
+  "earth-sdk": {
+    "exports": ["./earth/sdk"],
+    "modules": ["earth/sdk.js"],
+    "external": []
   }
 }

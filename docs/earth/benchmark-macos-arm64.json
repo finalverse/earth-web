@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "workload": "200 full-layer point-containment queries; 20 warmups; 260 generalized map units",
+  "node": "v24.22.0",
+  "os": "darwin",
+  "arch": "arm64",
+  "cpu": "Apple M1",
+  "samples": 200,
+  "p50_ms": 6.526834000000008,
+  "p95_ms": 8.164457999999968,
+  "max_ms": 16.52129100000002,
+  "cpu_us": {
+    "user": 1464302,
+    "system": 47170
+  },
+  "rss_bytes": 248250368,
+  "limitations": "Single local machine and reference dataset. Not network, load, device or rendering certification."
+}
