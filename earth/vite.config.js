@@ -19,6 +19,26 @@ export default defineConfig({
       async closeBundle() {
         const directory = new URL('../dist-earth/notices/', import.meta.url);
         await mkdir(directory, { recursive: true });
+        const brand = new URL('../dist-earth/brand/', import.meta.url);
+        await mkdir(brand, { recursive: true });
+        for (const name of [
+          'finalverse-symbol.png',
+          'favicon.png',
+          'icon.png',
+          'wordmark-dark.svg',
+          'wordmark-light.svg',
+          'documentation-logo.svg',
+          'social-preview.svg',
+          'social-preview.png',
+        ])
+          await copyFile(
+            new URL('./web/brand/' + name, import.meta.url),
+            new URL(name, brand),
+          );
+        await copyFile(
+          new URL('./web/manifest.webmanifest', import.meta.url),
+          new URL('../dist-earth/manifest.webmanifest', import.meta.url),
+        );
         for (const [source, target] of [
           ['../LICENSE', 'upstream-MIT.txt'],
           ['../LICENSE.finalverse', 'Finalverse-MIT.txt'],
@@ -44,6 +64,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
+        time: fileURLToPath(new URL('./web/time.html', import.meta.url)),
         energy: fileURLToPath(new URL('./web/energy.html', import.meta.url)),
         main: fileURLToPath(new URL('./web/index.html', import.meta.url)),
         example: fileURLToPath(

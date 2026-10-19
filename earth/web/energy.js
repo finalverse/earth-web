@@ -1,3 +1,4 @@
+import { installWorkspaces } from './workspaces.js';
 import { installEarthIdentity } from './identity.js';
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import './energy.css';
@@ -128,6 +129,11 @@ async function run(p) {
       ? `${result.data.total} matching facilities`
       : result.summary;
     $('result-info').textContent = result.data.explanation || result.summary;
+    if (p.tool === 'aggregate_over_time' && !result.data.observations_total) {
+      $('result-title').textContent = 'No reported generation history';
+      $('result-info').textContent =
+        `No annual generation observations for ${result.data.missing_observations} selected source facilities. Missing reports do not mean zero electricity production. Capacity/reporting year remains available in the facility inspector.`;
+    }
     $('provenance').textContent = JSON.stringify(
       {
         provenance: result.provenance,
@@ -173,6 +179,18 @@ async function run(p) {
     }
   }
 }
+$('reporting-coverage').onclick = () =>
+  run(
+    plan('aggregate_over_time', {
+      dataset: catalog,
+      place_id: $('place').value,
+      radius_m: Number($('radius').value) * 1000,
+      start: '2013-01-01T00:00:00.000Z',
+      end: '2020-01-01T00:00:00.000Z',
+      aggregation: 'count',
+      ...($('renewables').checked ? { fuels: [...RENEWABLE_FUELS] } : {}),
+    }),
+  );
 $('energy-search').addEventListener('submit', (e) => {
   e.preventDefault();
   const args = {
@@ -289,7 +307,37 @@ try {
     container: $('globe'),
     creditContainer: $('credits'),
   });
-  installEarthIdentity(viewer);
+  installEarthIdentity(viewer, { energy: true });
+  installWorkspaces({
+    viewer,
+    client,
+    application: 'energy',
+    status,
+    capture: () => ({
+      plan: lastResult?.plan,
+      receipt: lastResult?.receipt,
+      provenance: lastResult?.provenance,
+      selected: lastResult?.data.features?.map((f) => f.id),
+      visibleLayers: [
+        ...($('show-facilities').checked ? [catalog] : []),
+        ...($('show-countries').checked ? ['natural-earth-countries'] : []),
+      ],
+    }),
+    restore: async (w) => {
+      for (const [id, layer] of [
+        ['show-facilities', catalog],
+        ['show-countries', 'natural-earth-countries'],
+      ]) {
+        const visible = w.layers.find((l) => l.id === layer)?.visible ?? true;
+        $(id).checked = visible;
+        if (id === 'show-facilities' && facilities) facilities.show = visible;
+        if (id === 'show-countries' && countries) countries.show = visible;
+      }
+      selected = new Set(w.selected_features);
+      if (facilities) highlight();
+      if (w.plan) $('plan').value = JSON.stringify(w.plan, null, 2);
+    },
+  });
   installTrackpadPinchZoom(viewer);
   viewer.scene.renderError.addEventListener(() => {
     status('3D rendering failed. The headless spatial API remains available.');

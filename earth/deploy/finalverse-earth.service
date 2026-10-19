@@ -1,0 +1,32 @@
+[Unit]
+Description=Finalverse Earth read-only public preview
+After=network.target
+
+[Service]
+Type=simple
+User=finalverse-earth
+Group=finalverse-earth
+WorkingDirectory=/srv/finalverse-earth/current
+Environment=NODE_ENV=production
+Environment=EARTH_LOG_JSON=1
+Environment=EARTH_PUBLIC_ORIGIN=https://earth.finalverse.com
+ExecStart=/opt/node-v24.22.0/bin/node earth/server/main.js
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+UMask=0077
+MemoryMax=512M
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target

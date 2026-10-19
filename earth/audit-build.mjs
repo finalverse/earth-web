@@ -10,8 +10,13 @@ async function visit(path) {
     const file = join(path, entry.name),
       name = relative(root, file).replaceAll('\\', '/');
     assert.ok(
-      /^(assets|cesium|examples|notices)(\/|$)/.test(name) ||
-        ['index.html', 'energy.html'].includes(name),
+      /^(assets|cesium|examples|notices|brand)(\/|$)/.test(name) ||
+        [
+          'index.html',
+          'energy.html',
+          'time.html',
+          'manifest.webmanifest',
+        ].includes(name),
       'Unexpected build path: ' + name,
     );
     assert.ok(

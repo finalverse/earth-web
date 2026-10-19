@@ -1,5 +1,7 @@
 # Finalverse Earth
 
+**v0.3 development preview:** source-backed space-time queries, a UTC timeline, before/after review and portable local workspaces are implemented. The public deployment gates are being validated; this is not a GA release. [v0.3 evidence and gates](docs/earth/verification-v03.md).
+
 [![Earth CI](https://github.com/finalverse/finalverse-earth/actions/workflows/earth.yml/badge.svg?branch=main)](https://github.com/finalverse/finalverse-earth/actions/workflows/earth.yml)
 
 **An open spatial intelligence platform for people, AI agents and applications.**
@@ -10,7 +12,7 @@ Finalverse Earth is part of the Finalverse ecosystem and works independently. It
 
 ## What you can do today
 
-**Core v0.2 is experimental software for local development.** The Energy Explorer is the first industry application, using an openly licensed, archival Canadian power-facility catalog.
+**Core v0.3 is experimental software for local development.** The Energy Explorer is the first industry application, using an openly licensed, archival Canadian power-facility catalog.
 
 - Explore a Cesium globe with 260 country/map units and 1,159 Canadian power facilities.
 - Ask **“Show renewable-energy facilities within 100 km of Montréal.”** Review the typed plan, then run it against source data.
@@ -149,3 +151,13 @@ The database guide documents the opt-in PostGIS integration suite. Tests cover c
 Source-code licensing does not grant rights to unrelated upstream feeds, images, models or brands. The Earth build excludes the inherited public asset tree. Review [third-party notices](THIRD_PARTY_NOTICES.md) and the [license audit](docs/earth/licensing.md) before redistribution.
 
 Contributions should include a reproducible example, source/license information, explicit coordinates and meaningful contract tests. Preserve working subsystems, provenance and privacy. Do not embed credentials, silently fall back to hosted providers, or present static/inferred data as live observations. Report security concerns privately to maintainers, without publishing secrets or private location data.
+
+## Space-time intelligence · v0.3
+
+After starting the app, open [Space-Time](http://127.0.0.1:18640/time.html). Play the pinned July 2019 Ridgecrest sequence, inspect the 90 source events, compare cumulative snapshots and export the evidence. Save/open/duplicate/import/export a workspace on your own device. The supplied Finalverse symbol, responsive themes and accessible source credits replace the placeholder identity. The independent build uses no Cesium ion services.
+
+The Canadian energy archive has **no populated reported annual generation values**. Energy Explorer now makes that coverage gap inspectable, rather than inventing output from capacity. Historical event time, observation time, ingestion time and catalog updates remain distinct. Missing measurements never imply zero output, creation or deletion.
+
+Seven new temporal tools use the existing read-only, reviewed-plan API. See [space-time contracts](docs/earth/space-time.md), [LayerProvider metadata](http://127.0.0.1:18640/v1/providers), [preview deployment](docs/earth/deployment.md) and [local benchmark](docs/earth/benchmark-v03-temporal.json). Headless use remains independent of rendering, accounts, hosted AI and MutSea.
+
+Target application: **earth.finalverse.com**. Product page: **finalverse.com/earth**. Public availability is recorded in the gate document; these addresses are not a claim that deployment has passed. v0.4 will focus on the spatial application SDK, reviewed provider adapters and application discovery, with collaboration/world handoff as later optional capabilities.

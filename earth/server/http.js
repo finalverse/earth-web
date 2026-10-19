@@ -1,5 +1,6 @@
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import http from 'node:http';
+import { isIP } from 'node:net';
 import { timingSafeEqual } from 'node:crypto';
 import { VERSION } from '../core/index.js';
 import { readFile, realpath, stat } from 'node:fs/promises';
@@ -38,6 +39,9 @@ export function createEarthServer({
   worlds = [],
   operatorCore = null,
   operatorToken = null,
+  publicOrigin = null,
+  readyCheck = async () => true,
+  logger = null,
 }) {
   if (
     !!operatorCore !== !!operatorToken ||
@@ -46,9 +50,41 @@ export function createEarthServer({
     throw new Error(
       'Operator core and a strong token must be configured together.',
     );
+  let publicURL = null;
+  if (publicOrigin) {
+    const u = new URL(publicOrigin);
+    if (
+      u.protocol !== 'https:' ||
+      u.username ||
+      u.password ||
+      u.pathname !== '/' ||
+      u.search ||
+      u.hash ||
+      u.port
+    )
+      throw new Error('An exact HTTPS public origin is required.');
+    if (operatorCore)
+      throw new Error('Public preview cannot expose operator registration.');
+    publicURL = u;
+  }
+  const metrics = { requests: 0, errors: 0, queries: 0, plans: 0 };
   const rates = new Map();
   let planning = 0;
   const server = http.createServer(async (req, res) => {
+    const started = performance.now(),
+      requestId = crypto.randomUUID();
+    metrics.requests++;
+    res.setHeader('X-Request-ID', requestId);
+    res.on('finish', () => {
+      if (res.statusCode >= 400) metrics.errors++;
+      logger?.({
+        event: 'http',
+        request_id: requestId,
+        method: req.method,
+        status: res.statusCode,
+        elapsed_ms: Math.round(performance.now() - started),
+      });
+    });
     res.setHeader('Content-Security-Policy', CSP);
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Referrer-Policy', 'no-referrer');
@@ -70,17 +106,40 @@ export function createEarthServer({
         `localhost:${port}`,
         `[::1]:${port}`,
       ]);
+      if (publicURL) allowed.add(publicURL.host);
       if (!allowed.has(req.headers.host))
         return send(403, { error: 'Untrusted host.' });
-      if (req.headers.origin && !allowed.has(new URL(req.headers.origin).host))
-        return send(403, { error: 'Untrusted origin.' });
-      if (
-        req.headers.origin &&
-        new URL(req.headers.origin).protocol !== 'http:'
-      )
+      const origins = new Set([
+        `http://127.0.0.1:${port}`,
+        `http://localhost:${port}`,
+        `http://[::1]:${port}`,
+        ...(publicURL ? [publicURL.origin] : []),
+      ]);
+      if (req.headers.origin && !origins.has(req.headers.origin))
         return send(403, { error: 'Untrusted origin.' });
       const url = new URL(req.url, `http://${req.headers.host}`),
         path = url.pathname;
+      if (req.method === 'GET' && path === '/healthz')
+        return send(200, { status: 'ok', version: VERSION });
+      if (req.method === 'GET' && path === '/readyz') {
+        try {
+          const ready = await readyCheck();
+          return send(ready ? 200 : 503, {
+            status: ready ? 'ready' : 'unavailable',
+            version: VERSION,
+          });
+        } catch {
+          return send(503, { status: 'unavailable', version: VERSION });
+        }
+      }
+      if (req.method === 'GET' && path === '/metrics') {
+        if (publicURL && req.headers.host === publicURL.host)
+          return send(404, { error: 'Not found.' });
+        return send(200, {
+          ...metrics,
+          uptime_s: Math.floor(process.uptime()),
+        });
+      }
       if (path.startsWith('/v1/')) {
         let activeCore = core;
         if (req.headers.authorization) {
@@ -95,7 +154,14 @@ export function createEarthServer({
           activeCore = operatorCore;
         }
         const now = Date.now(),
-          ip = req.socket.remoteAddress;
+          ip =
+            publicURL &&
+            ['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(
+              req.socket.remoteAddress,
+            ) &&
+            isIP(req.headers['x-earth-client-ip'])
+              ? req.headers['x-earth-client-ip']
+              : req.socket.remoteAddress;
         for (const [key, r] of rates) if (r.until < now) rates.delete(key);
         const rate = rates.get(ip) || { until: now + 60000, count: 0 };
         if (rates.size >= 256 && !rates.has(ip))
@@ -109,6 +175,8 @@ export function createEarthServer({
             worlds_enabled: worlds.length > 0,
             mutsea_required: false,
           });
+        if (req.method === 'GET' && path === '/v1/providers')
+          return send(200, { providers: activeCore.providers() });
         if (req.method === 'GET' && path === '/v1/layers')
           return send(200, { layers: activeCore.layers() });
         if (req.method === 'GET' && path === '/v1/tools')
@@ -128,14 +196,17 @@ export function createEarthServer({
             await activeCore.registerDataset(await body(req, 2 * 1024 * 1024)),
           );
         }
-        if (req.method === 'POST' && path === '/v1/query')
+        if (req.method === 'POST' && path === '/v1/query') {
+          metrics.queries++;
           return send(
             200,
             await activeCore.execute(await body(req), {
               signal: controller.signal,
             }),
           );
+        }
         if (req.method === 'POST' && path === '/v1/ai/plan') {
+          metrics.plans++;
           if (!planner)
             return send(503, {
               error:

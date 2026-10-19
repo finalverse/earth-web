@@ -200,3 +200,94 @@ test('operator registration shares the registry while anonymous/private access f
   await assert.rejects(operator.registerDataset(d));
   assert.equal((await anonymous.listLayers()).layers.length, 1);
 });
+test('v0.3 typed temporal AI proposals remain grounded and explicitly reviewed', async (t) => {
+  const { temporalCatalogs } = await import('../data/providers.js');
+  const { planIntent } = await import('../server/intents.js');
+  const d = (await temporalCatalogs())[0],
+    core = createEarthCore({ datasets: [d] });
+  const intent = {
+    intent: 'temporal_interval',
+    query: 'Ridgecrest',
+    place: '',
+    radius_km: 0,
+    renewable_only: false,
+    start: '2019-07-04T00:00:00Z',
+    end: '2019-07-08T00:00:00Z',
+  };
+  const url = await server(t, {
+    core,
+    planner: { propose: async () => planIntent(intent) },
+  });
+  const r = await new EarthClient(url).propose(
+    'Show the Ridgecrest archive from July 4 to July 8, 2019',
+  );
+  assert.equal(r.requires_review, true);
+  assert.equal(r.plan.tool, 'features_during_interval');
+  assert.equal((await new EarthClient(url).query(r.plan)).data.total, 90);
+  assert.throws(() => planIntent({ ...intent, start: '2019-02-30T00:00:00Z' }));
+  assert.throws(() => planIntent({ ...intent, query: 'secret-dataset' }));
+});
+test('public reverse-proxy mode accepts only the configured HTTPS origin and keeps metrics private', async (t) => {
+  const logs = [];
+  const url = await server(t, {
+    publicOrigin: 'https://earth.finalverse.com',
+    logger: (x) => logs.push(x),
+  });
+  const r = await fetch(url + '/v1/status', {
+    headers: {
+      host: 'earth.finalverse.com',
+      origin: 'https://earth.finalverse.com',
+    },
+  });
+  assert.equal(r.status, 200);
+  assert.ok(r.headers.get('x-request-id'));
+  assert.equal(
+    (
+      await fetch(url + '/v1/status', {
+        headers: {
+          host: 'earth.finalverse.com',
+          origin: 'http://earth.finalverse.com',
+        },
+      })
+    ).status,
+    403,
+  );
+  assert.equal(
+    await new Promise((resolve, reject) => {
+      http
+        .get(
+          url + '/metrics',
+          { headers: { host: 'earth.finalverse.com' } },
+          (r) => {
+            r.resume();
+            resolve(r.statusCode);
+          },
+        )
+        .on('error', reject);
+    }),
+    404,
+  );
+  assert.equal((await fetch(url + '/healthz')).status, 200);
+  assert.equal((await fetch(url + '/readyz')).status, 200);
+  assert.equal((await fetch(url + '/metrics')).status, 200);
+  assert.ok(logs.length > 0);
+  assert.ok(
+    logs.every((x) => !('url' in x) && !('headers' in x) && !('ip' in x)),
+  );
+  assert.throws(() =>
+    createEarthServer({
+      core: createEarthCore(),
+      publicOrigin: 'http://earth.finalverse.com',
+    }),
+  );
+});
+test('readiness detects a failed database/service without exposing details', async (t) => {
+  const url = await server(t, {
+    readyCheck: async () => {
+      throw new Error('private database URL');
+    },
+  });
+  const r = await fetch(url + '/readyz');
+  assert.equal(r.status, 503);
+  assert.ok(!(await r.text()).includes('private'));
+});

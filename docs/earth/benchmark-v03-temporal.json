@@ -1,0 +1,26 @@
+{
+  "version": "0.3.0",
+  "runtime": "v24.22.0",
+  "platform": "darwin",
+  "arch": "arm64",
+  "source_features": 90,
+  "registry_load_ms": 21.479625,
+  "samples": 200,
+  "warmups": 20,
+  "workloads": {
+    "interval": {
+      "p50_ms": 0.8377500000000282,
+      "p95_ms": 3.719791999999984
+    },
+    "comparison": {
+      "p50_ms": 1.0615000000000236,
+      "p95_ms": 2.939166
+    },
+    "aggregation": {
+      "p50_ms": 0.858208999999988,
+      "p95_ms": 2.2833340000001954
+    }
+  },
+  "rss_bytes": 86261760,
+  "scope": "Core only, local process; not HTTP, frame rate or production SLA"
+}

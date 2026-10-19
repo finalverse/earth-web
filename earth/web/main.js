@@ -1,3 +1,4 @@
+import { installWorkspaces } from './workspaces.js';
 import { installEarthIdentity } from './identity.js';
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import './style.css';
@@ -180,6 +181,21 @@ try {
     creditContainer: $('credits'),
   });
   installEarthIdentity(viewer);
+  installWorkspaces({
+    viewer,
+    client,
+    application: 'countries',
+    status,
+    capture: () => ({
+      plan: lastResult?.plan,
+      receipt: lastResult?.receipt,
+      provenance: lastResult?.provenance,
+      selected: lastResult?.data.features?.map((f) => f.id),
+    }),
+    restore: async (w) => {
+      if (w.plan) $('plan').value = JSON.stringify(w.plan, null, 2);
+    },
+  });
   installTrackpadPinchZoom(viewer);
   viewer.scene.globe.show = true;
   viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#142f47');

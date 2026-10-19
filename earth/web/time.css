@@ -1,0 +1,88 @@
+@import './style.css';
+select {
+  width: 100%;
+  padding: 9px;
+  border-radius: 7px;
+  border: 1px solid #435069;
+  background: #111c2d;
+  color: #e4eafb;
+  font: inherit;
+  font-size: 12px;
+}
+#timeline {
+  position: absolute;
+  bottom: 90px;
+  left: 18px;
+  right: 18px;
+  background: #10182aee;
+  border: 1px solid #615580;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 10px 35px #0005;
+}
+.timeline-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: #bca6f0;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+#cursor {
+  padding: 0;
+  accent-color: #b6a1ff;
+  margin: 15px 0;
+  cursor: pointer;
+}
+.timeline-controls {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  color: #d7d9f0;
+}
+.timeline-controls label {
+  margin: 0;
+  font-size: 11px;
+}
+#speed {
+  width: 62px;
+}
+#coverage {
+  margin-left: auto;
+}
+#inspection {
+  top: 70px;
+  z-index: 3;
+}
+#feature-info {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  #timeline {
+    left: 10px;
+    right: 10px;
+    padding: 10px;
+  }
+  .timeline-heading {
+    flex-wrap: wrap;
+  }
+  .timeline-controls {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  #coverage {
+    margin: 0;
+  }
+}
+@media (max-width: 700px) {
+  #timeline {
+    bottom: 145px;
+  }
+  #status {
+    bottom: 48px;
+    max-height: 85px;
+    overflow: auto;
+  }
+}

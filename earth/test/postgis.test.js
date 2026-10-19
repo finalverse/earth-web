@@ -1,3 +1,4 @@
+import { temporalCatalogs } from '../data/providers.js';
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -80,7 +81,11 @@ test(
       new PostGISStore(admin).verifyRuntimeRole(),
       /non-owner/,
     );
-    const bundled = [await defaultDataset(), ...(await pointCatalogs())];
+    const bundled = [
+      await defaultDataset(),
+      ...(await pointCatalogs()),
+      ...(await temporalCatalogs()),
+    ];
     await store.seed(bundled);
     await store.seed(bundled);
     const loaded = await store.datasets({ id: 'anonymous' }),
@@ -92,6 +97,25 @@ test(
     assert.deepEqual(
       country.features.find((f) => f.id === 'ne-CAN-44').geometry,
       bundled[0].features.find((f) => f.id === 'ne-CAN-44').geometry,
+    );
+    assert.deepEqual(
+      loaded.find((d) => d.id === 'usgs-ridgecrest-2019').temporal,
+      bundled.find((d) => d.id === 'usgs-ridgecrest-2019').temporal,
+    );
+    const temporalCore = createEarthCore({ datasets: loaded, backend: store });
+    assert.equal(
+      (
+        await temporalCore.execute({
+          schema_version: 1,
+          tool: 'features_during_interval',
+          arguments: {
+            dataset: 'usgs-ridgecrest-2019',
+            start: '2019-07-04T00:00:00Z',
+            end: '2019-07-08T00:00:00Z',
+          },
+        })
+      ).data.total,
+      90,
     );
     const local = createEarthCore({ datasets: bundled }),
       db = createEarthCore({ datasets: loaded, backend: store });

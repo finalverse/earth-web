@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0d101c" />
+    <link rel="icon" href="./brand/favicon.png" />
+    <link rel="apple-touch-icon" href="./brand/icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta
+      property="og:image"
+      content="https://earth.finalverse.com/brand/social-preview.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <title>Finalverse Earth — Space-Time Intelligence</title>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/"
+        ><img
+          src="./brand/finalverse-symbol.png"
+          alt=""
+          width="42"
+          height="42"
+        /><span>Finalverse <b>Earth</b></span></a
+      ><span class="badge">0.3 · DEVELOPMENT PREVIEW</span>
+      <nav>
+        <button id="theme" type="button" aria-label="Switch colour theme">
+          ◐</button
+        ><a href="/">Countries</a><a href="/energy.html">Energy</a
+        ><a href="https://github.com/finalverse/finalverse-earth">Source ↗</a>
+      </nav>
+    </header>
+    <main>
+      <aside aria-label="Space-time analysis">
+        <div class="eyebrow">SPACE × TIME × EVIDENCE</div>
+        <h1>See when.<br />Understand change.</h1>
+        <p class="intro">
+          Navigate source-supported history. Every point has a time, a method
+          and a source.
+        </p>
+        <section>
+          <label for="dataset">Time-aware layer</label
+          ><select id="dataset">
+            <option value="usgs-ridgecrest-2019">
+              Ridgecrest · July 2019 earthquakes
+            </option>
+            <option value="wri-canada-power-plants">
+              Canada energy · reporting coverage
+            </option>
+          </select>
+          <p id="availability" class="hint">Loading source availability…</p>
+          <div class="chips">
+            <span id="kind">Historical observations</span
+            ><span>No interpolation</span><span>UTC</span>
+          </div>
+        </section>
+        <form id="range-form">
+          <label for="start">From · UTC</label
+          ><input
+            id="start"
+            type="datetime-local"
+            step="1"
+            value="2019-07-04T00:00:00"
+            required
+          /><label for="end">Until · UTC, exclusive</label
+          ><input
+            id="end"
+            type="datetime-local"
+            step="1"
+            value="2019-07-08T00:00:00"
+            required
+          /><button id="analyze" disabled>Analyze this interval</button>
+        </form>
+        <section>
+          <div class="section-label">BEFORE / AFTER REVIEW</div>
+          <p class="hint">
+            Compare cumulative observations at the start and end of your
+            interval. A missing report is not a deleted entity.
+          </p>
+          <button id="compare" disabled>Review interval changes</button>
+        </section>
+        <form id="ai">
+          <label for="question"
+            >Ask local AI <span id="ai-state">checking…</span></label
+          ><textarea id="question" rows="3" maxlength="1000">
+Show Ridgecrest earthquakes from July 4 to July 8, 2019</textarea
+          ><button id="propose" disabled>Propose a time-aware query</button>
+        </form>
+        <details id="review">
+          <summary>Review typed plan</summary>
+          <label for="plan">Read-only query</label
+          ><textarea id="plan" rows="9" spellcheck="false"></textarea
+          ><button id="run" disabled>Run reviewed plan</button>
+        </details>
+      </aside>
+      <section id="workspace" aria-label="Time-aware globe">
+        <div id="globe"></div>
+        <div class="globe-toolbar">
+          <button id="home">Region view</button
+          ><button id="cancel">Cancel</button
+          ><button id="export" disabled>Export evidence</button>
+        </div>
+        <div id="inspection" hidden>
+          <div class="section-label">SOURCE OBSERVATION</div>
+          <h2 id="feature-name"></h2>
+          <p id="feature-info"></p>
+          <button id="feature-close">Close</button>
+        </div>
+        <section id="timeline" aria-label="Timeline navigation">
+          <div class="timeline-heading">
+            <span>ARCHIVE PLAYBACK</span
+            ><output id="cursor-label">2019-07-08 00:00 UTC</output>
+          </div>
+          <input
+            id="cursor"
+            aria-label="Timeline UTC hour"
+            type="range"
+            min="0"
+            max="96"
+            value="96"
+            step="1"
+            disabled
+          />
+          <div class="timeline-controls">
+            <button id="play" disabled>Play</button
+            ><button id="reset" disabled>Reset</button
+            ><label for="speed">Speed</label
+            ><select id="speed">
+              <option value="1">1×</option>
+              <option value="2">2×</option>
+              <option value="4">4×</option></select
+            ><span id="coverage">0 events</span>
+          </div>
+        </section>
+        <div id="status" role="status" aria-live="polite">
+          Loading temporal workspace…
+        </div>
+        <div id="credits"></div>
+      </section>
+      <aside id="results" aria-label="Temporal results">
+        <div class="eyebrow">HISTORY WITH CONTEXT</div>
+        <h2 id="result-title">An observed sequence.</h2>
+        <p id="result-info">
+          Catalog solutions acquired in 2026 for July 2019 events. Not a
+          reconstruction of what was known in 2019, a forecast or a live alert.
+        </p>
+        <div id="rows"></div>
+        <details>
+          <summary>Provenance & execution receipt</summary>
+          <pre id="provenance">No query yet.</pre>
+        </details>
+      </aside>
+    </main>
+    <script type="module" src="./time.js"></script>
+  </body>
+</html>

@@ -6,6 +6,7 @@ import { createEarthCore, naturalEarthDataset } from '../core/index.js';
 import { createEarthServer } from './http.js';
 import { OllamaPlanner } from './planner.js';
 import { DatasetRegistry } from '../core/registry.js';
+import { temporalCatalogs } from '../data/providers.js';
 import { pointCatalogs } from '../data/catalogs.js';
 export async function defaultDataset() {
   const bytes = await readFile(
@@ -38,7 +39,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       throw new Error('Operator token file must be private (0600).');
     operatorToken = (await readFile(file, 'utf8')).trim();
   }
-  let datasets = [await defaultDataset(), ...(await pointCatalogs())];
+  let datasets = [
+    await defaultDataset(),
+    ...(await pointCatalogs()),
+    ...(await temporalCatalogs()),
+  ];
   if (flags.has('--postgis')) {
     const { poolFor, connectionFile, PostGISStore } =
       await import('../db/store.js');
@@ -78,6 +83,15 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
             .features,
         })
       : null,
+    publicOrigin: process.env.EARTH_PUBLIC_ORIGIN || null,
+    readyCheck: async () => {
+      if (pool) await pool.query('SELECT 1');
+      return true;
+    },
+    logger:
+      process.env.EARTH_LOG_JSON === '1'
+        ? (entry) => console.log(JSON.stringify(entry))
+        : null,
     worlds: publicWorlds,
     webRoot: flags.has('--headless')
       ? null
