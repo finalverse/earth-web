@@ -73,12 +73,14 @@ export function installWorkspaces({
         version: l.version,
         visible: state.visibleLayers?.includes(l.id) ?? true,
       })),
-      selected_features: state.selected || [],
-      temporal_range: state.interval || null,
-      plan: state.plan || null,
-      receipt: state.receipt || null,
-      provenance: state.provenance ? [state.provenance] : [],
-      saved_views: [],
+      selected_features: state.selected ?? old?.selected_features ?? [],
+      temporal_range: state.interval ?? old?.temporal_range ?? null,
+      plan: state.plan ?? old?.plan ?? null,
+      receipt: state.receipt ?? old?.receipt ?? null,
+      provenance: state.provenance
+        ? [state.provenance]
+        : (old?.provenance ?? []),
+      saved_views: old?.saved_views ?? [],
     });
     current = w.id;
     status('Workspace saved on this device. Export to keep a portable backup.');

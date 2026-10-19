@@ -193,7 +193,27 @@ try {
       selected: lastResult?.data.features?.map((f) => f.id),
     }),
     restore: async (w) => {
+      active?.abort();
+      $('inspection').hidden = true;
+      lastResult = null;
+      $('export').disabled = true;
+      $('rows').replaceChildren();
+      $('result-title').textContent = 'Saved view · review its query';
+      $('result-info').textContent =
+        'Run the saved plan to refresh analysis. Opening a workspace does not execute it.';
+      $('provenance').textContent = JSON.stringify(
+        { saved_receipt: w.receipt, provenance: w.provenance },
+        null,
+        2,
+      );
+      if (selection) {
+        viewer.dataSources.remove(selection, true);
+        selection = null;
+      }
+
       if (w.plan) $('plan').value = JSON.stringify(w.plan, null, 2);
+      if (w.plan?.tool === 'search_features')
+        $('query').value = w.plan.arguments.query || '';
     },
   });
   installTrackpadPinchZoom(viewer);

@@ -225,11 +225,24 @@ $('dataset').onchange = () => {
   active?.abort();
   availability();
   $('rows').replaceChildren();
-  lastResult=null;lastIds=new Set();$('export').disabled=true;
-  $('coverage').textContent='No query';$('cursor-label').textContent=$('dataset').value===archive?'Choose an archive interval':'No observation history';
-  $('result-title').textContent='Choose a source-supported interval';$('result-info').textContent=$('availability').textContent;$('provenance').textContent='No query on this layer.';
-  if(context)context.show=$('dataset').value===archive;
-  if($('dataset').value===archive)camera();else viewer.camera.setView({destination:Cesium.Cartesian3.fromDegrees(-96,58,6500000),orientation:{heading:0,pitch:-Math.PI/2,roll:0}});
+  lastResult = null;
+  lastIds = new Set();
+  $('export').disabled = true;
+  $('coverage').textContent = 'No query';
+  $('cursor-label').textContent =
+    $('dataset').value === archive
+      ? 'Choose an archive interval'
+      : 'No observation history';
+  $('result-title').textContent = 'Choose a source-supported interval';
+  $('result-info').textContent = $('availability').textContent;
+  $('provenance').textContent = 'No query on this layer.';
+  if (context) context.show = $('dataset').value === archive;
+  if ($('dataset').value === archive) camera();
+  else
+    viewer.camera.setView({
+      destination: Cesium.Cartesian3.fromDegrees(-96, 58, 6500000),
+      orientation: { heading: 0, pitch: -Math.PI / 2, roll: 0 },
+    });
   $('inspection').hidden = true;
   for (const e of source.entities.values) e.show = false;
   viewer.scene.requestRender();
@@ -422,11 +435,39 @@ try {
       interval: lastResult?.data.interval,
     }),
     restore: async (w) => {
+      active?.abort();
+      $('inspection').hidden = true;
+      lastResult = null;
+      $('export').disabled = true;
+      $('rows').replaceChildren();
+      $('result-title').textContent = 'Saved view · review its query';
+      $('result-info').textContent =
+        'Run the saved plan to refresh analysis. Opening a workspace does not execute it.';
+      $('provenance').textContent = JSON.stringify(
+        { saved_receipt: w.receipt, provenance: w.provenance },
+        null,
+        2,
+      );
+
       stop();
       if (w.plan) {
         $('plan').value = JSON.stringify(w.plan, null, 2);
         if (layers.some((l) => l.id === w.plan.arguments.dataset))
           $('dataset').value = w.plan.arguments.dataset;
+      }
+      const end =
+        w.temporal_range?.end ||
+        w.plan?.arguments?.at ||
+        w.plan?.arguments?.after ||
+        w.plan?.arguments?.end;
+      if (end) {
+        $('cursor').value = String(
+          Math.max(0, Math.min(96, (Date.parse(end) - origin) / hour)),
+        );
+        $('cursor-label').textContent = end
+          .replace('T', ' ')
+          .replace('.000Z', ' UTC');
+        $('end').value = end.slice(0, 19);
       }
       if (w.temporal_range) {
         $('start').value = w.temporal_range.start.slice(0, 19);

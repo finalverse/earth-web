@@ -25,6 +25,8 @@ export default defineConfig({
           'finalverse-symbol.png',
           'favicon.png',
           'icon.png',
+          'icon-192.png',
+          'icon-512.png',
           'wordmark-dark.svg',
           'wordmark-light.svg',
           'documentation-logo.svg',

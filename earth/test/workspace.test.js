@@ -75,3 +75,12 @@ test('storage quota and corrupt local documents report failures without rewritin
   assert.throws(() => s.save(w()), /Quota/);
   assert.throws(() => new WorkspaceStore({ getItem: () => '{}' }).list());
 });
+test('importing the same document preserves the existing user work as a separate copy', () => {
+  const s = new WorkspaceStore(storage());
+  s.save({ ...w(), notes: 'My newer notes' });
+  const imported = s.import(JSON.stringify(w()));
+  assert.notEqual(imported.id, 'sample');
+  assert.equal(s.open('sample').notes, 'My newer notes');
+  assert.equal(s.list().length, 2);
+  assert.equal(imported.title, 'Research view (imported)');
+});

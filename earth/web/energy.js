@@ -324,6 +324,32 @@ try {
       ],
     }),
     restore: async (w) => {
+      active?.abort();
+      $('inspection').hidden = true;
+      lastResult = null;
+      $('export').disabled = true;
+      $('rows').replaceChildren();
+      $('result-title').textContent = 'Saved view · review its query';
+      $('result-info').textContent =
+        'Run the saved plan to refresh analysis. Opening a workspace does not execute it.';
+      $('provenance').textContent = JSON.stringify(
+        { saved_receipt: w.receipt, provenance: w.provenance },
+        null,
+        2,
+      );
+      facilities?.entities.removeById('distance-line');
+      measurement = new Map();
+      if (outline) {
+        viewer.dataSources.remove(outline, true);
+        outline = null;
+      }
+      const args = w.plan?.arguments || {};
+      if (args.place_id) $('place').value = args.place_id;
+      if (args.radius_m) $('radius').value = String(args.radius_m / 1000);
+      $('renewables').checked =
+        Array.isArray(args.fuels) &&
+        RENEWABLE_FUELS.every((f) => args.fuels.includes(f));
+
       for (const [id, layer] of [
         ['show-facilities', catalog],
         ['show-countries', 'natural-earth-countries'],

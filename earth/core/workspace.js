@@ -151,7 +151,18 @@ export class WorkspaceStore {
       new TextEncoder().encode(text).length > maxBytes
     )
       throw new Error('Invalid workspace import size.');
-    return this.save(validateWorkspace(JSON.parse(text)));
+    let w = validateWorkspace(JSON.parse(text));
+    if (this.list().some((existing) => existing.id === w.id)) {
+      const now = new Date().toISOString();
+      w = {
+        ...w,
+        id: crypto.randomUUID(),
+        title: w.title.slice(0, 109) + ' (imported)',
+        created_at: now,
+        updated_at: now,
+      };
+    }
+    return this.save(w);
   }
   export(id) {
     return JSON.stringify(this.open(id), null, 2);
