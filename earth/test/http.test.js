@@ -11,6 +11,7 @@ import { createEarthServer } from '../server/http.js';
 import { EarthClient } from '../sdk.js';
 import { OllamaPlanner } from '../server/planner.js';
 import { publicWorlds } from '../adapters/mutsea.js';
+import { DatasetRegistry } from '../core/registry.js';
 const dataset = await defaultDataset();
 async function server(t, options = {}) {
   const value = createEarthServer({
@@ -150,4 +151,52 @@ test('static serving confines real paths and emits the Cesium worker-compatible 
   }
   const traversal = await fetch(url + '/%2e%2e%2fprivate.txt');
   assert.notEqual(traversal.status, 200);
+});
+
+test('operator registration shares the registry while anonymous/private access fails closed', async (t) => {
+  const registry = new DatasetRegistry([dataset]),
+    token = 'fixture_operator_token_'.repeat(2);
+  const url = await server(t, {
+    core: createEarthCore({ registry }),
+    operatorCore: createEarthCore({
+      registry,
+      principal: { id: 'operator', canRegister: true },
+    }),
+    operatorToken: token,
+  });
+  const anonymous = new EarthClient(url),
+    operator = new EarthClient(url, { token });
+  const d = {
+    id: 'private-fixture',
+    title: 'Private test',
+    version: '1',
+    visibility: 'private',
+    features: [
+      {
+        type: 'Feature',
+        id: 'point',
+        properties: { name: 'Private point' },
+        geometry: { type: 'Point', coordinates: [0, 0] },
+      },
+    ],
+    provenance: {
+      crs: 'OGC:CRS84',
+      license: 'CC0-1.0',
+      license_url: 'https://creativecommons.org/publicdomain/zero/1.0/',
+      source: 'https://example.org/fixture',
+      content_sha256: '0'.repeat(64),
+    },
+  };
+  await assert.rejects(anonymous.registerDataset(d), /capability/);
+  await operator.registerDataset(d);
+  assert.equal((await operator.listLayers()).layers.length, 2);
+  assert.equal((await anonymous.listLayers()).layers.length, 1);
+  assert.equal(
+    (await operator.inspectFeature(d.id, 'point')).data.features[0].id,
+    'point',
+  );
+  await assert.rejects(anonymous.inspectFeature(d.id, 'point'));
+  await assert.rejects(new EarthClient(url, { token: 'wrong' }).listLayers());
+  await assert.rejects(operator.registerDataset(d));
+  assert.equal((await anonymous.listLayers()).layers.length, 1);
 });

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0a111b" />
+    <title>Finalverse Earth — Energy Explorer</title>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/"
+        >F<span>Finalverse <b>Earth</b></span></a
+      ><span class="badge">CORE 0.2 · EXPERIMENTAL</span>
+      <nav>
+        <a href="/">Countries</a
+        ><a href="/examples/country-explorer.html">SDK example ↗</a
+        ><a href="https://github.com/finalverse/finalverse-earth">Source ↗</a>
+      </nav>
+    </header>
+    <main>
+      <aside aria-label="Energy analysis">
+        <div class="eyebrow">SPATIAL INTELLIGENCE / 01</div>
+        <h1>Energy, in<br />perspective.</h1>
+        <p class="intro">
+          Ask a question. Review the method. Explore the evidence on Earth.
+        </p>
+        <form id="energy-search">
+          <label for="place">Reference city · Canada</label
+          ><select id="place" disabled></select
+          ><label for="radius">Distance radius · kilometres</label
+          ><input
+            id="radius"
+            type="number"
+            min="1"
+            max="500"
+            value="100"
+            required
+          /><label class="check"
+            ><input id="renewables" type="checkbox" checked /> Renewable fuel
+            categories</label
+          ><button id="explore" disabled>Explore facilities</button>
+        </form>
+        <form id="ai">
+          <label for="question"
+            >Ask local AI <span id="ai-state">checking…</span></label
+          ><textarea id="question" rows="3" maxlength="1000">
+Show renewable energy facilities within 100 km of Montréal</textarea
+          ><button id="propose" disabled>Propose a spatial query</button>
+          <p class="hint">
+            Optional local model interprets the question. Source place IDs and
+            deterministic tools supply coordinates and results.
+          </p>
+        </form>
+        <details id="review">
+          <summary>Review typed plan</summary>
+          <label for="plan">Read-only query plan</label
+          ><textarea id="plan" rows="10" spellcheck="false"></textarea
+          ><button id="run" disabled>Run reviewed plan</button>
+        </details>
+        <section>
+          <div class="section-label">LAYERS</div>
+          <label class="check"
+            ><input id="show-facilities" type="checkbox" checked /> Canadian
+            power facilities</label
+          ><label class="check"
+            ><input id="show-countries" type="checkbox" checked /> Country
+            reference geometry</label
+          ><label class="check"
+            ><input id="show-buffer" type="checkbox" checked /> Derived analysis
+            radius</label
+          >
+          <p id="layer-info" class="hint">Loading approved catalog…</p>
+          <div class="chips">
+            <span>WGS84 ellipsoid</span><span>CC BY 4.0</span
+            ><span>Archival · 2021 release</span>
+          </div>
+          <p class="hint">
+            World Resources Institute catalog, no longer maintained. Not live
+            output, current operating status or complete coverage. Renewable
+            categories include biomass and hydro; this is a source filter, not a
+            lifecycle impact rating.
+          </p>
+        </section>
+        <details>
+          <summary>Local rendering check</summary>
+          <p class="hint">
+            A three-second camera flight measures this browser at its current
+            viewport. It is a local sample, not a device certification.
+          </p>
+          <button id="benchmark" disabled>Sample camera rendering</button
+          ><output id="render-metrics" class="hint"></output>
+        </details>
+      </aside>
+      <section id="workspace" aria-label="Energy globe">
+        <div id="globe"></div>
+        <div class="globe-toolbar">
+          <button id="home">Canada view</button
+          ><button id="cancel">Cancel</button
+          ><button id="export" disabled>Export evidence JSON</button>
+        </div>
+        <div id="status" role="status" aria-live="polite">
+          Loading spatial workspace…
+        </div>
+        <div id="inspection" hidden>
+          <div class="section-label">SOURCE FEATURE</div>
+          <h2 id="feature-name"></h2>
+          <p id="feature-info"></p>
+          <button id="feature-close">Close inspector</button>
+        </div>
+        <div id="credits"></div>
+      </section>
+      <aside id="results" aria-label="Energy results">
+        <div class="eyebrow">TRACEABLE ANSWERS</div>
+        <h2 id="result-title">From question to evidence.</h2>
+        <p id="result-info">
+          Query the catalog to see source facilities and ellipsoidal distances.
+        </p>
+        <div id="rows"></div>
+        <details>
+          <summary>Method, provenance & receipt</summary>
+          <pre id="provenance">No query yet.</pre>
+        </details>
+      </aside>
+    </main>
+    <script type="module" src="./energy.js"></script>
+  </body>
+</html>

@@ -28,3 +28,30 @@ jobs:
       - run: npm run earth:build
       - run: npm run earth:audit-build
       - run: npm run earth:bench
+
+  postgis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.22.0
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Pull pinned official development database
+        run: docker pull --platform linux/amd64 postgis/postgis@sha256:01a6a70e41e6c4467c8f55f6063555ed72db2d6662cd0d571040d42eadaeb6f6
+      - run: npm run earth:db:start
+      - name: PostGIS integration and row isolation
+        run: |
+          export EARTH_TEST_ADMIN_URL_FILE="$HOME/.local/share/finalverse-earth/postgis-dev/admin-url"
+          export EARTH_TEST_URL_FILE="$HOME/.local/share/finalverse-earth/postgis-dev/runtime-url"
+          npm run earth:test
+      - name: Stop this job's development database
+        if: always()
+        continue-on-error: true
+        run: npm run earth:db:stop

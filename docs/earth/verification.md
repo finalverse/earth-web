@@ -1,50 +1,55 @@
 # Verification record — 2026-10-19
 
-This is an experimental developer milestone, not a production or public-service acceptance certificate.
+Local experimental v0.2 acceptance; not a public-service or device certification.
 
-## Baseline
+## Baseline and lineage
 
-Starting branch `main`, clean worktree, upstream commit `93ea088f4556a5a65b3292a2d15142d5a6c562bc`. Origin is `finalverse/finalverse-earth`; upstream is `bilawalsidhu/gods-eye-view`. Tests/build ran on macOS Apple Silicon (Apple M1), Node **24.22.0**, npm, with Chromium auto-download/install scripts disabled. The first local Node 22 install attempt was superseded by the supported Node 24 baseline; its partial results are not used as verification.
+Work began on clean `main` at `e89c2ae306312b765b07c7653943eeba85bd3260` (v0.1 independent core). The previous baseline recorded 13 passing Earth tests and 7,748 passing upstream tests, with one skipped. The maintained globe and original upstream both resolved to `93ea088f4556a5a65b3292a2d15142d5a6c562bc` at the source audit.
 
-The pristine upstream production build passed (6.37 s; existing large-chunk warning). The upstream suite passed **7,748 tests**, with **one skipped**, including the Node 24 serialized allocation gates. The same suite passed again after adding Earth exports/dependencies. Original MIT/license notices remain intact. The npm audit at installation reported zero known vulnerabilities; this is not a security certification.
+The owner requested recreation and manually deleted the GitHub Earth repository after backup. The recreated repository's immediate parent is `finalverse/gods-eye-view`; its ultimate source remains `bilawalsidhu/gods-eye-view`. All 13 branches/four tags were restored with identical ref hashes. The pin/lineage record was committed and pushed as `74876cc`. See [fork verification](github-fork-parent.md) and [source update workflow](upstream.md).
 
-## Earth acceptance
+## Executed v0.2 checks
 
-| Gate                            | Status and evidence                                                                                                                                                                               |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Independent install/build       | VERIFIED locally, locked dependencies, separate `dist-earth/`                                                                                                                                     |
-| Globe and approved dataset      | VERIFIED in native Safari and embedded WebKit: 260 Natural Earth map units, no provider account                                                                                                   |
-| Feature inspection/results      | VERIFIED Canada selection, geometry, feature inspector and provenance together                                                                                                                    |
-| Model-free queries              | VERIFIED automated geometry/CRS tests and actual JS/Python HTTP calls                                                                                                                             |
-| AI plan                         | VERIFIED actual local Ollama `llama3.2:3b`, “Show me Canada”; geometry equals direct query                                                                                                        |
-| UI review path                  | VERIFIED proposal displayed before Run; reviewed query executes through the shared API                                                                                                            |
-| Third-party app                 | VERIFIED browser Country Explorer through the same SDK, with no Cesium runtime import                                                                                                             |
-| Optional MutSea                 | PARTIAL: five public fictional references; disabled by default; native handoff remains unverified                                                                                                 |
-| Existing systems                | PRESERVED: no viewer/MutSea/Studio/gateway/website changes or production database operations                                                                                                      |
-| Automated tests                 | VERIFIED **13 Earth tests**, zero failures; private visibility, holes/dateline, geodesic references, CRS, anchors/redaction, capabilities, HTTP bounds, static path escape and polar tessellation |
-| Build/license audit             | VERIFIED separate output roots and six notice files; no inherited public asset tree copied                                                                                                        |
-| Package boundaries / formatting | VERIFIED; Earth exports classified, headless core does not import renderer                                                                                                                        |
-| Cross-platform CI               | CONFIGURED for macOS/Linux/Windows, not claimed executed                                                                                                                                          |
-| Public deployment / GA          | PLANNED, not delivered by this milestone                                                                                                                                                          |
+Machine: macOS, Apple M1, 16 GiB RAM, Node **24.22.0**. Local database: PostgreSQL 17/PostGIS 3.5 official pinned Linux amd64 image under Docker emulation, dedicated Earth development database. No MutSea/other product database or viewer/service source was modified.
 
-Two real visual defects were found and fixed: Cesium's nested embedded blob worker scripts needed a CSP script allowance, and polar reference vertices caused singular rhumb-line subdivision. The latter uses Cesium geodesic tessellation for visualization while preserving the original authoritative/query coordinates. A real polar geometry test covers that regression. Native Safari needed its window raised to resume WebGL rendering while testing; blank background-window captures are not evidence of acceptance.
+| Gate                                       | Evidence                                                                                                                                                                                                        |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Coordinate/spatial/security/API contracts  | **23 tests passed**, zero skipped/failures, including actual PostGIS integration                                                                                                                                |
+| PostGIS                                    | Migrations replayed; source coordinates preserved; private RLS isolation across pooled principals; runtime-role rejection; intentional failed insert rolls back; indexed latitude prefilter verified by EXPLAIN |
+| Real-data parity                           | Both backends return identical 24 facility IDs for Montréal / 100 km / renewable categories; distances agree within 0.00001 m in the test                                                                       |
+| Local AI                                   | Actual Ollama `llama3.2:3b`: hyphenated Montréal question → `within_distance` / 24 facilities; Canada → `search_features` / correct source feature                                                              |
+| Browser                                    | In-app browser, desktop 1280×900 and default narrow layout: actual globe, 24 highlights, source inspection/distance line, AI proposal → reviewed Run, all three layer toggles                                   |
+| Evidence export                            | Browser download parsed: 24 original source features, CC BY attribution/provenance, v0.2 receipt and derived-buffer record                                                                                      |
+| JS/Python/TypeScript                       | Actual energy lookup clients; legacy Python Canada lookup; TypeScript declarations compile under TypeScript 5.9.3 with strict checking                                                                          |
+| Build/artifact                             | Separate Earth build passed; 408 files / 12,984,419 bytes at the recorded audit; seven notice files; independent SDK example imports no Cesium runtime                                                          |
+| Package boundaries                         | Passed; embedded core imports no renderer/browser/database runtime                                                                                                                                              |
+| Legacy documentation                       | 18 targeted checks passed after retargeting two README-specific checks to the short inherited-app compatibility guide; their assertions remain intact                                                           |
+| Clean candidate / full upstream regression | Final fresh-checkout verification pending before publication of this candidate                                                                                                                                  |
+| CI                                         | Existing macOS/Linux/Windows Earth matrix preserved; a separate Linux PostGIS job added. Hosted completion is not claimed by local checks                                                                       |
+| Public hosting / release                   | Not performed; local listener remains loopback only                                                                                                                                                             |
 
-## Performance
+The README now describes Finalverse Earth rather than appending the inherited marketing introduction. Upstream authorship, source history, MIT notices and the separate reference application's documentation contracts remain preserved.
 
-Reproduce with `npm run earth:bench`; [machine-readable result](benchmark-macos-arm64.json). Workload: 20 warmups then 200 full-layer point-containment queries over 260 generalized map units. Observed median **6.53 ms**, p95 **8.16 ms**, max **16.52 ms**, process RSS approximately **237 MiB**. This includes result cloning and provenance generation. It is a local core microbenchmark, not network throughput or concurrent-user capacity.
+One real-model phrasing initially failed the expected result-count check during development. Prompt examples and hyphen normalization were added, then the hyphenated question and country regression passed. This is a bounded demonstration, not a claim of general natural-language accuracy. Human plan review and deterministic source-grounded execution remain necessary. Explanations are deterministic summaries of returned records.
 
-The embedded-browser first ready metric was observed at 5.46 seconds while the upstream suite was also running. This is diagnostic evidence, not an isolated startup benchmark or device target. No FPS, mobile support, browser matrix, load SLA or production scalability claim is made. Large ingestion, untrusted plugins, remote authentication and broader performance/load tests remain open.
+## Performance baseline
 
-## Repeat the checks
+Reproduce with `npm run earth:bench`, or `EARTH_DATABASE_URL_FILE=... npm run earth:bench -- --postgis`. The final recorded core samples ran after the upstream test job, not concurrently with it. Each workload uses 20 warmups then 200 samples. Timings include validation, source/result copies and receipt generation; they exclude HTTP and Node module-import startup.
 
-```sh
-npm run earth:test
-npm run earth:build
-npm run earth:audit-build
-npm run earth:bench
-npm run check:boundaries
-npm run format:check
-npm test
-```
+| Metric                          | Embedded          | PostGIS (local amd64 emulation)             |
+| ------------------------------- | ----------------- | ------------------------------------------- |
+| Dataset load + registry         | 77.5 ms           | 519.9 ms                                    |
+| Country containment p50 / p95   | 7.603 / 17.341 ms | 6.792 / 7.840 ms (legacy embedded operator) |
+| Montréal radius query p50 / p95 | 1.615 / 2.109 ms  | 4.413 / 9.453 ms                            |
+| Facility bounding-box p50 / p95 | 0.054 / 0.111 ms  | 3.107 / 3.965 ms                            |
+| Process RSS at sample end       | 208.9 MiB         | 230.0 MiB                                   |
 
-Start `npm run earth:start`; search Canada, inspect its geometry and provenance, then use the independent SDK example. With local Ollama available, restart with `--ai`, ask “Show me Canada”, review and execute the proposed plan. With `--mutsea`, confirm the optional fictional catalog appears without any geographic pins. Do not convert an unverified destination reference into a claimed native teleport success.
+[Embedded samples](benchmark-v02-embedded.json) · [PostGIS samples](benchmark-v02-postgis.json) · [Browser sample](benchmark-v02-browser.json)
+
+One warm local browser reload reported ready in **816.5 ms**. A three-second Canada camera flight rendered **180 frames, about 60.0 FPS**, with a 718×828 canvas, device pixel ratio 1, three layers and 1,159 facilities. This measures a moving request-render scene, not idle FPS, a stress test or a browser/device matrix. Screenshot: [Energy Explorer](media/energy-explorer.jpg).
+
+Actual local AI planning round trips were **7.18 s** for the Montréal question and **1.83 s** for Canada; these are individual observations, not latency percentiles or service targets. The UI's deterministic tool result excludes model planning time. Browser/GPU memory and a cold boot are not measured. Other desktop applications were running. No performance improvement over v0.1 or production capacity is claimed.
+
+## Remaining gates
+
+Larger datasets, concurrent-user/load testing, other physical devices/browsers, hosted authentication/operations, provider/data freshness, SDK distribution and public-release acceptance remain open. RLS may block GiST acceleration; the bounded point-query prefilter is tested, not a general large-GIS scaling guarantee. The inherited country source has 41 invalid generalized outlines; database query geometry is explicitly derived and source data is preserved. See [database limits](database.md), [security](security.md) and [v0.3 proposal](roadmap.md).

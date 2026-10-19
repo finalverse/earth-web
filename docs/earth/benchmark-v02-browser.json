@@ -1,0 +1,23 @@
+{
+  "browser": "Codex in-app browser",
+  "viewport": [
+    1280,
+    900
+  ],
+  "startup_ready_ms": 816.5,
+  "camera_sample": {
+    "completed": true,
+    "duration_ms": 3016.800000011921,
+    "frames": 180,
+    "fps": 59.9946373503719,
+    "canvas": [
+      718,
+      828
+    ],
+    "pixel_ratio": 1,
+    "layers": 3,
+    "facilities": 1159,
+    "workload": "3-second Canada camera flight, request-render Cesium"
+  },
+  "limits": "One local sample, not a device/load certification. Request-render scene; camera-flight FPS, not idle frame rate."
+}

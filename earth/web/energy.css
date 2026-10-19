@@ -1,0 +1,41 @@
+@import './style.css';
+select {
+  font: inherit;
+  font-size: 13px;
+  background: #0a121e;
+  color: #f0f4fa;
+  border: 1px solid #3c4c62;
+  border-radius: 7px;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+.check {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  margin-top: 16px;
+  line-height: 1.4;
+}
+.check input {
+  width: 15px;
+  height: 15px;
+  accent-color: #8ee3d4;
+  flex-shrink: 0;
+}
+#energy-search > button {
+  background: #8ee3d4;
+  color: #102827;
+  border-color: transparent;
+}
+#rows button[aria-pressed='true'] {
+  border-color: #f5cd77;
+  background: #35403e;
+}
+#feature-info {
+  white-space: pre-line;
+}
+select:focus-visible {
+  outline: 2px solid #8ee3d4;
+  outline-offset: 3px;
+}

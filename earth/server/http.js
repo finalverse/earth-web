@@ -1,5 +1,7 @@
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import http from 'node:http';
+import { timingSafeEqual } from 'node:crypto';
+import { VERSION } from '../core/index.js';
 import { readFile, realpath, stat } from 'node:fs/promises';
 import { resolve, sep, extname } from 'node:path';
 
@@ -16,14 +18,14 @@ const MIME = {
 };
 const CSP =
   "default-src 'self'; script-src 'self' blob: 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'";
-async function body(req) {
+async function body(req, maxBytes = 16384) {
   if (!/^application\/json(?:;|$)/i.test(req.headers['content-type'] || ''))
     throw Object.assign(new Error('JSON required.'), { status: 415 });
   let bytes = 0;
   const chunks = [];
   for await (const chunk of req) {
     bytes += chunk.length;
-    if (bytes > 16384)
+    if (bytes > maxBytes)
       throw Object.assign(new Error('Request too large.'), { status: 413 });
     chunks.push(chunk);
   }
@@ -34,7 +36,16 @@ export function createEarthServer({
   planner = null,
   webRoot = null,
   worlds = [],
+  operatorCore = null,
+  operatorToken = null,
 }) {
+  if (
+    !!operatorCore !== !!operatorToken ||
+    (operatorToken && !/^[A-Za-z0-9_-]{32,128}$/.test(operatorToken))
+  )
+    throw new Error(
+      'Operator core and a strong token must be configured together.',
+    );
   const rates = new Map();
   let planning = 0;
   const server = http.createServer(async (req, res) => {
@@ -71,6 +82,18 @@ export function createEarthServer({
       const url = new URL(req.url, `http://${req.headers.host}`),
         path = url.pathname;
       if (path.startsWith('/v1/')) {
+        let activeCore = core;
+        if (req.headers.authorization) {
+          const received = Buffer.from(req.headers.authorization);
+          const expected = Buffer.from(`Bearer ${operatorToken || ''}`);
+          if (
+            !operatorCore ||
+            received.length !== expected.length ||
+            !timingSafeEqual(received, expected)
+          )
+            return send(403, { error: 'Authorization unavailable.' });
+          activeCore = operatorCore;
+        }
         const now = Date.now(),
           ip = req.socket.remoteAddress;
         for (const [key, r] of rates) if (r.until < now) rates.delete(key);
@@ -81,24 +104,36 @@ export function createEarthServer({
         if (++rate.count > 120) return send(429, { error: 'Try again later.' });
         if (req.method === 'GET' && path === '/v1/status')
           return send(200, {
-            version: '0.1.0',
+            version: VERSION,
             ai_enabled: !!planner,
             worlds_enabled: worlds.length > 0,
             mutsea_required: false,
           });
         if (req.method === 'GET' && path === '/v1/layers')
-          return send(200, { layers: core.layers() });
+          return send(200, { layers: activeCore.layers() });
         if (req.method === 'GET' && path === '/v1/tools')
-          return send(200, { tools: core.definitions() });
+          return send(200, { tools: activeCore.definitions() });
         if (req.method === 'GET' && path === '/v1/worlds')
           return send(200, { worlds });
         const match = /^\/v1\/datasets\/([a-z0-9-]+)\/features$/.exec(path);
         if (req.method === 'GET' && match)
-          return send(200, core.features(match[1]));
+          return send(200, activeCore.features(match[1]));
+        if (req.method === 'POST' && path === '/v1/datasets') {
+          if (activeCore !== operatorCore)
+            return send(403, {
+              error: 'Dataset registration capability required.',
+            });
+          return send(
+            201,
+            await activeCore.registerDataset(await body(req, 2 * 1024 * 1024)),
+          );
+        }
         if (req.method === 'POST' && path === '/v1/query')
           return send(
             200,
-            await core.execute(await body(req), { signal: controller.signal }),
+            await activeCore.execute(await body(req), {
+              signal: controller.signal,
+            }),
           );
         if (req.method === 'POST' && path === '/v1/ai/plan') {
           if (!planner)
@@ -120,7 +155,7 @@ export function createEarthServer({
               signal: controller.signal,
             });
             // Validate proposals against the same deterministic core before returning them for review.
-            await core.execute(plan, { signal: controller.signal });
+            await activeCore.execute(plan, { signal: controller.signal });
             return send(200, {
               plan,
               requires_review: true,

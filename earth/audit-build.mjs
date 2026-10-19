@@ -10,7 +10,8 @@ async function visit(path) {
     const file = join(path, entry.name),
       name = relative(root, file).replaceAll('\\', '/');
     assert.ok(
-      /^(assets|cesium|examples|notices)(\/|$)/.test(name) || name === 'index.html',
+      /^(assets|cesium|examples|notices)(\/|$)/.test(name) ||
+        ['index.html', 'energy.html'].includes(name),
       'Unexpected build path: ' + name,
     );
     assert.ok(
@@ -40,6 +41,7 @@ for (const name of [
   'Proj4js.txt',
   'GeographicLib.txt',
   'third-party.md',
+  'geographic-data.md',
 ])
   assert.ok((await readFile(join(root, 'notices', name))).length > 100);
 console.log(
@@ -49,7 +51,7 @@ console.log(
       bytes,
       approved_roots: ['assets', 'cesium', 'examples', 'notices'],
       sdk_example_requires_cesium: false,
-      license_files: 6,
+      license_files: 7,
       scope:
         'Build-path/notice audit; not a complete legal or vulnerability assessment.',
     },

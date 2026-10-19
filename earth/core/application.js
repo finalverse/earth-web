@@ -1,5 +1,6 @@
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import { createEarthCore } from './index.js';
+import { SPATIAL_TOOLS } from './spatial.js';
 const TOOLS = [
   'list_layers',
   'search_features',
@@ -7,6 +8,7 @@ const TOOLS = [
   'bbox_candidates',
   'measure_distance',
   'transform_coordinates',
+  ...SPATIAL_TOOLS,
 ];
 export function createApplication({ manifest, datasets, principal }) {
   if (
@@ -48,9 +50,18 @@ export function createApplication({ manifest, datasets, principal }) {
         throw new Error('Application result budget exceeded.');
       const scoped = structuredClone(plan);
       if (
-        ['search_features', 'contains_point', 'bbox_candidates'].includes(
-          scoped?.tool,
-        ) &&
+        [
+          'search_features',
+          'contains_point',
+          'bbox_candidates',
+          'query_features',
+          'nearest',
+          'within_distance',
+          'bounding_box',
+          'contains',
+          'intersects',
+          'spatial_join',
+        ].includes(scoped?.tool) &&
         scoped.arguments
       )
         scoped.arguments.limit ??= config.max_results;

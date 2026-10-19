@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "core_version": "0.2.0",
+  "backend": "PostGIS",
+  "node": "v24.22.0",
+  "os": "darwin",
+  "arch": "arm64",
+  "cpu": "Apple M1",
+  "dataset_load_registry_ms": 519.89275,
+  "layers": [
+    {
+      "id": "natural-earth-countries",
+      "features": 260,
+      "version": "ca96624a56bd078437bca8184e78163e5039ad19"
+    },
+    {
+      "id": "natural-earth-places",
+      "features": 1251,
+      "version": "ca96624a56bd078437bca8184e78163e5039ad19"
+    },
+    {
+      "id": "wri-canada-power-plants",
+      "features": 1159,
+      "version": "gppd-1.3.0-7a91cfbb"
+    }
+  ],
+  "workloads": [
+    {
+      "name": "country_contains",
+      "samples": 200,
+      "warmups": 20,
+      "p50_ms": 6.791666999999961,
+      "p95_ms": 7.840291999999863,
+      "max_ms": 10.692542000000003,
+      "result_count": 1
+    },
+    {
+      "name": "montreal_renewables_100km",
+      "samples": 200,
+      "warmups": 20,
+      "p50_ms": 4.412583000000268,
+      "p95_ms": 9.452958000000308,
+      "max_ms": 28.11349999999993,
+      "result_count": 24
+    },
+    {
+      "name": "facility_bounding_box",
+      "samples": 200,
+      "warmups": 20,
+      "p50_ms": 3.1069589999997334,
+      "p95_ms": 3.964541000000281,
+      "max_ms": 4.879959000000326,
+      "result_count": 6
+    }
+  ],
+  "cpu_us": {
+    "user": 1895449,
+    "system": 139513
+  },
+  "rss_bytes": 241123328,
+  "limitations": "Single-machine warm core calls including validation, result copies and receipts. Dataset startup excludes Node module import time. No HTTP/network overhead. Optional local PostGIS runs amd64 emulation on Apple Silicon; not production or device certification."
+}

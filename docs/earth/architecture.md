@@ -1,43 +1,49 @@
-# Independent Earth Core v0.1
+# Independent Earth Core v0.2
 
-Decision date: 2026-10-19. Latest user architecture establishes Earth as an independent platform; the existing viewer, MutSea, Studio and AI gateway are preserved. Their outstanding native conversation/layout/WorldLine review work remains a separate queue. The inherited npm package name is retained because its public self-imports and regression tests depend on it; Earth has separate exports and runtime versioning.
+Finalverse Earth is a spatial intelligence platform with a standalone runtime. MutSea, Finalverse Social, the native viewer, Studio and the AI gateway remain independent systems; their existing work is preserved. The inherited npm package name/export map remains compatible, while Earth has its own core version and entry points.
 
 ```mermaid
 flowchart TD
-  Browser[Cesium Earth interface] --> HTTP[Loopback HTTP API]
-  SDK[JS / TypeScript / Python examples] --> HTTP
-  Model[Optional local Ollama] --> Plan[Versioned read-only query proposal]
-  Plan --> Review[Human review]
+  Browser[Cesium globe / Energy Explorer] --> HTTP[Loopback HTTP API]
+  SDK[JS / TS / Python clients] --> HTTP
+  LLM[Optional local provider] --> Intent[Strict semantic intent]
+  Intent --> Resolve[Resolve authoritative source place ID]
+  Resolve --> Review[Human plan review]
   Review --> HTTP
-  HTTP --> Core[Shared schema-validated tool catalog]
-  Core --> Data[Approved dataset registry]
-  Core --> Geo[Proj4js / GeographicLib]
-  Data --> Evidence[Geometry + provenance + uncertainty]
-  Geo --> Evidence
-  HTTP -. optional .-> Worlds[Curated MutSea destinations]
+  HTTP --> Core[Schema / capabilities / deterministic operators]
+  Core --> Registry[Immutable versioned dataset registry]
+  Core --> Embedded[RBush / Turf / GeographicLib / Proj4js]
+  Core --> DB[Optional PostGIS adapter / separate database / RLS]
+  Core --> Receipt[Source features / provenance / execution receipt]
 ```
 
-## Concrete boundaries
+## Implemented boundaries
 
-| Component             | Source                           | Responsibility                                                        |
-| --------------------- | -------------------------------- | --------------------------------------------------------------------- |
-| Core                  | `earth/core/index.js`            | Registry visibility, six read-only operators, bounded typed plans     |
-| Geo                   | `earth/core/geo.js`              | Explicit WGS84/ECEF/ENU and opt-in GeoAnchor transforms               |
-| Application contracts | `earth/core/application.js`      | Dataset/tool allowlists, result budget; no loaded plugin code         |
-| HTTP                  | `earth/server/http.js`           | Loopback transport, host/origin/rate/body bounds, safe static serving |
-| Planner               | `earth/server/planner.js`        | Local provider proposal; no executor privileges                       |
-| Interface             | `earth/web/`                     | Globe, source inspection, result display and explicit plan review     |
-| SDK                   | `earth/sdk.js`, `earth/sdk.d.ts` | Same HTTP tools for third-party applications                          |
-| MutSea adapter        | `earth/adapters/mutsea.js`       | Optional public fictional destinations only                           |
+| Component        | Source                                  | Responsibility                                                                        |
+| ---------------- | --------------------------------------- | ------------------------------------------------------------------------------------- |
+| Core/catalog     | `earth/core/index.js`                   | 18 schema-validated read-only operations; v0.1 compatibility                          |
+| Registry         | `earth/core/registry.js`                | Public/owner visibility, immutable IDs, operator registration, lazy spatial indexes   |
+| Geography        | `earth/core/geo.js`                     | WGS84/ECEF/ENU conversion, ellipsoidal distance, explicit optional GeoAnchors         |
+| Spatial engine   | `earth/core/spatial.js`                 | Bounded topology/proximity/join operations, derived buffers, source place resolution  |
+| Receipt          | `earth/core/receipt.js`                 | Execution ID/time and canonical-plan SHA-256; exportable evidence, not WorldLine      |
+| Database         | `earth/db/`                             | Optional PostGIS persistence, migrations, RLS and isolated development helper         |
+| Data             | `earth/data/`                           | Pinned WRI Canada/NE place snapshots, hash-verifying loader and reproducible curation |
+| Transport        | `earth/server/http.js`                  | Host/origin/body/rate checks, operator bearer capability, safe static serving         |
+| Planning         | `earth/server/planner.js`, `intents.js` | Replaceable proposal provider; validate semantic intent and resolve real places       |
+| Applications     | `earth/web/`                            | Country workspace, Energy Explorer and independent SDK example                        |
+| Client contracts | `earth/sdk.js`, `sdk.d.ts`, `python/`   | Browser/headless access to the same API                                               |
 
-No browser or Cesium dependency enters the headless core import graph. Upstream reuse is selective: `src/tools/catalog.js` and `schema.js` validate operations; `src/data/adminBoundaries.js` supplies tested geometry decoding/containment; `src/sources/httpBody.js` bounds model responses; `src/app/viewer.js` supplies Cesium initialization and Apple atmosphere compatibility. The whole upstream tool index is deliberately not imported, because it couples unrelated feeds and differently licensed datasets.
+No browser, Cesium or database dependency enters the embedded core import graph. The PostgreSQL adapter is loaded only when selected. Inherited tool/schema validation, geometry decoding and Cesium initialization are reused, not rewritten. Rendering assumptions and the 11 used upstream source/license/data files are pinned through the [maintained source workflow](upstream.md).
 
-## Technology decisions
+## Design decisions
 
-Cesium is already integrated upstream and handles geocentric rendering; retaining it minimizes migration risk. MapLibre is a strong map-oriented alternative and deck.gl a visualization layer, but replacing the working globe adds no v0.1 capability. Proj4js provides mature geocentric conversions; GeographicLib handles antipodal geodesics. ENU uses the standard ECEF tangent-frame rotation around an explicit ellipsoidal anchor. No spherical distance shortcut or invented projection is used.
+- **Preserve the working globe.** Cesium already handles geocentric display and the Mac atmosphere fix. Alternative renderers add no v0.2 proof; engine migration is not part of this milestone.
+- **Use established geographic libraries.** GeographicLib handles ellipsoidal inverse/direct solutions, including the dateline. Proj4js handles WGS84/ECEF; ENU is the standard local tangent-frame rotation. Turf supplies 2D topology; RBush limits intersection/join candidates. Display buffers sample 128 geodesic bearings and split at the dateline using polygon-clipping.
+- **Ship a bounded, real example.** 1,159 Canadian source facilities and 1,251 global place references need no keys or live feeds. The example is archival and its quality limits are visible. There is no inferred production/ownership/status.
+- **Keep storage optional.** Embedded queries are adequate at this size. PostGIS adds durable registration and database access controls without pulling another product's database into Earth. [Database geometry derivation and index limitations](database.md) are explicit.
+- **Constrain AI authority.** A model returns a small intent object, not executable code or free-form coordinates. Trusted code resolves Canadian places, builds typed plans and executes the same deterministic tools. Explanations are deterministic summaries of returned records; no second model adds geographic facts.
+- **Version evidence, not screenshots alone.** Immutable dataset versions, source hashes, parameters, tool method and plan receipts make results reviewable. Receipts are not a durable distributed audit log; consumers can export them. Dataset manifests persist registration metadata in PostGIS.
 
-The first dataset is bundled, pinned, generalized Natural Earth country/map-unit polygons. It needs no key, live feed, database or remote tile server. This isolates platform correctness from provider availability and terms. A 260-feature linear scan is intentional at this scale; benchmarks determine when to introduce an index or a database. PostgreSQL/PostGIS is a later option for large/multi-user registries, not a prerequisite for the independent core.
+## Boundaries still open
 
-## Limitations
-
-Point containment uses the inherited planar raycast on generalized lon/lat polygons, including holes. Points on edges have no guaranteed classification. Envelope queries are candidates, not exact polygon intersection. The globe uses geodesic tessellation to avoid rhumb-line singularities at polar source vertices; this display interpolation does not redefine the planar query model. No buffering, area analysis, route finding, raster processing, temporal playback, distributed query engine, world mutations or production plugin sandbox exists. The AI adapter supports country-name extraction only. UI review is enforced by the interface; external clients may directly call read-only queries.
+This is a local experimental foundation. No public multi-user authentication, untrusted plugin execution, temporal engine, streaming ingestion, raster analytics, route planning, general multi-step agent planner, live energy telemetry or production geographic publication exists. GeoParquet and OGC APIs are proposed adapters. Native Finalverse/MutSea world mutations remain behind their own policy/transaction systems; Earth queries cannot invoke them.

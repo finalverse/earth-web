@@ -3953,9 +3953,22 @@
       "src/tools/schema.js",
       "src/data/adminBoundaries.js",
       "src/data/bundledJson.js",
-      "src/data/retryableLoad.js"
+      "src/data/retryableLoad.js",
+      "earth/core/registry.js",
+      "earth/core/spatial.js",
+      "earth/core/constants.js",
+      "earth/core/receipt.js"
     ],
-    "external": ["proj4", "geographiclib-geodesic"]
+    "external": [
+      "proj4",
+      "geographiclib-geodesic",
+      "@turf/boolean-contains",
+      "@turf/boolean-intersects",
+      "@turf/bbox",
+      "@turf/boolean-valid",
+      "rbush",
+      "polygon-clipping"
+    ]
   },
   "earth-sdk": {
     "exports": ["./earth/sdk"],

@@ -1,6 +1,6 @@
 # Upstream and data audit
 
-Upstream: `bilawalsidhu/gods-eye-view`, starting commit `93ea088f4556a5a65b3292a2d15142d5a6c562bc`; local `upstream` remote retained. Finalverse fork: `finalverse/finalverse-earth`. Inherited source remains attributed to Bilawal Sidhu and upstream contributors. The original LICENSE and existing third-party notice sections are preserved. New Earth code has separate Finalverse MIT attribution.
+Maintained foundation: `finalverse/gods-eye-view`, reviewed pin `93ea088f4556a5a65b3292a2d15142d5a6c562bc`; Earth uses the `globe-upstream` remote. Original external upstream: `bilawalsidhu/gods-eye-view`, retained as `original` only in the maintained foundation checkout. Product: `finalverse/finalverse-earth`. Inherited source remains attributed to Bilawal Sidhu and upstream contributors. The original LICENSE and existing third-party notice sections are preserved. New Earth code has separate Finalverse MIT attribution.
 
 **The MIT software license does not license every bundled asset, dataset or service.** The inherited application contains, among other things:
 
@@ -20,3 +20,9 @@ Approved dataset: `src/data/local_data/natural_earth/countries.json`, **260** ac
 New geospatial dependencies: Proj4js 2.22.0 (MIT), geographiclib-geodesic 2.2.0 (MIT). Cesium and its dependencies retain their own notices. `package-lock.json` pins actual versions; the inherited package list is broader than the Earth runtime graph. A lockfile inventory is evidence, not a legal clearance or complete transitive asset review.
 
 Primary references: [upstream](https://github.com/bilawalsidhu/gods-eye-view), [Natural Earth terms](https://www.naturalearthdata.com/about/terms-of-use/), [CesiumJS](https://cesium.com/platform/cesiumjs/), [PROJ geodetic/geocentric conversion](https://proj.org/en/stable/operations/conversions/cart.html). Product names and logos do not transfer with source licenses.
+
+## v0.2 data and dependency additions
+
+The approved data allowlist now also includes 1,159 WRI Canadian power-facility records (Global Power Plant Database v1.3.0, **CC BY 4.0**) and 1,251 Natural Earth place references (public domain). The source CSV/repository software license must not be confused with the database license. [Dataset notices](../../earth/data/NOTICE.md) record source commits/hashes, attribution, modifications, quality and reproduction steps. Those notices are copied into the Earth browser artifact; source results/exports retain their provenance.
+
+New runtime dependencies are Turf 7.4.0 modules, RBush 4.0.1, polygon-clipping 0.15.7 and node-postgres 8.23.1, all MIT-licensed. The database driver is server-only. PostgreSQL/PostGIS is an optional external service and retains its own licenses, including PostGIS GPL obligations. No database image is bundled with the browser. The dependency inventory is updated from the resolved lockfile; it is not a legal opinion or a license to redistribute unrelated inherited assets.

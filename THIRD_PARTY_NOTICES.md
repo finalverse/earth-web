@@ -54,3 +54,9 @@ Street Level viewer; the complete resolved dependency inventory remains in
 New code under `earth/` is Copyright 2026 Finalverse contributors, MIT.
 Inherited code retains the upstream notices. Data rights are separate; see
 `docs/earth/licensing.md`.
+
+## Finalverse Earth v0.2 additions
+
+The independent Earth core adds MIT-licensed Turf 7.4.0 geometry modules (`@turf/bbox`, `boolean-contains`, `boolean-intersects`, `boolean-valid`), RBush 4.0.1, polygon-clipping 0.15.7 and node-postgres (`pg`) 8.23.1. Their copyright/license files remain included with the installed npm packages; resolved dependency versions are recorded in `package-lock.json`. These additions do not change inherited component licensing.
+
+The WRI Global Power Plant Database **data** is separately licensed CC BY 4.0. Natural Earth references are public domain. See [bundled geographic data attribution and modifications](earth/data/NOTICE.md). Dataset metadata and query exports carry source, license, attribution, source hashes and quality limitations. PostgreSQL/PostGIS is an optional external service, not part of the browser bundle. The development helper uses the official PostGIS image; PostgreSQL and PostGIS retain their own licenses (including PostGIS GPL terms).

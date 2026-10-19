@@ -23,6 +23,7 @@ export default defineConfig({
           ['../LICENSE', 'upstream-MIT.txt'],
           ['../LICENSE.finalverse', 'Finalverse-MIT.txt'],
           ['../THIRD_PARTY_NOTICES.md', 'third-party.md'],
+          ['./data/NOTICE.md', 'geographic-data.md'],
           ['../node_modules/cesium/LICENSE.md', 'Cesium.txt'],
           ['../node_modules/proj4/LICENSE.md', 'Proj4js.txt'],
           [
@@ -43,6 +44,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
+        energy: fileURLToPath(new URL('./web/energy.html', import.meta.url)),
         main: fileURLToPath(new URL('./web/index.html', import.meta.url)),
         example: fileURLToPath(
           new URL('./web/examples/country-explorer.html', import.meta.url),

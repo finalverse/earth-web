@@ -3,8 +3,11 @@
 import { defineTool, composeCatalog } from '../../src/tools/catalog.js';
 import { decodeRing, polygonsContain } from '../../src/data/adminBoundaries.js';
 import { distance, point, transform } from './geo.js';
+import { DatasetRegistry } from './registry.js';
+import { spatialTools } from './spatial.js';
+import { executionReceipt } from './receipt.js';
 
-export const VERSION = '0.1.0';
+export const VERSION = '0.2.0';
 const str = { type: 'string', minLength: 1, maxLength: 128 };
 const pos = {
   type: 'array',
@@ -67,29 +70,24 @@ export function createEarthCore({
   datasets = [],
   principal = { id: 'anonymous' },
   allowedTools = null,
+  registry: sharedRegistry = null,
+  backend = null,
 } = {}) {
   if (typeof principal?.id !== 'string' || !principal.id)
     throw new Error('Trusted principal required.');
   const principalId = principal.id;
-  const registry = new Map();
-  for (const dataset of datasets) {
-    if (
-      registry.has(dataset.id) ||
-      !dataset.id ||
-      !Array.isArray(dataset.features) ||
-      dataset.features.length > 10000 ||
-      !dataset.provenance?.license
-    )
-      throw new Error('Invalid operator dataset.');
-    registry.set(dataset.id, structuredClone(dataset));
-  }
+  const actor = {
+    id: principalId,
+    canRegister: principal.canRegister === true,
+  };
+  const registry = sharedRegistry ?? new DatasetRegistry(datasets);
   const visible = (d) =>
     d.visibility === 'public' ||
     (principalId !== 'anonymous' &&
       typeof d.owner_id === 'string' &&
       d.owner_id === principalId);
   const get = (id) => {
-    const d = registry.get(id);
+    const d = registry.get(id, actor);
     if (!d || !visible(d)) throw new Error('Dataset unavailable.');
     return d;
   };
@@ -126,11 +124,11 @@ export function createEarthCore({
       run,
     });
   }
-  const tools = [
+  const baseTools = [
     tool('list_layers', 'List authorized datasets', schema({}, []), () => ({
       summary: 'Authorized reference layers',
       data: {
-        layers: [...registry.values()].filter(visible).map(publicMetadata),
+        layers: registry.values(actor).map(publicMetadata),
       },
     })),
     tool(
@@ -282,10 +280,20 @@ export function createEarthCore({
         },
       }),
     ),
+  ];
+  const tools = [
+    ...baseTools,
+    ...spatialTools({ tool, registry, principal: actor, result, backend }),
   ].filter((t) => allowedTools === null || allowedTools.includes(t.name));
   const catalog = composeCatalog({ tools });
   return {
-    layers: () => [...registry.values()].filter(visible).map(publicMetadata),
+    layers: () => registry.values(actor).map(publicMetadata),
+    registerDataset: (input) =>
+      registry.register(
+        input,
+        actor,
+        backend ? (d, p) => backend.register(d, p) : null,
+      ),
     definitions: () =>
       catalog.list().map((t) => ({
         name: t.name,
@@ -305,12 +313,20 @@ export function createEarthCore({
         )
       )
         throw new Error('Invalid versioned query plan.');
+      const normalized = structuredClone({
+        schema_version: 1,
+        tool: plan.tool,
+        arguments: plan.arguments ?? {},
+      });
       const started = performance.now();
-      const value = await catalog.call(plan.tool, plan.arguments, { signal });
+      const value = await catalog.call(normalized.tool, normalized.arguments, {
+        signal,
+      });
       return {
         schema_version: 1,
-        plan: structuredClone(plan),
+        plan: normalized,
         ...value,
+        receipt: await executionReceipt(normalized),
         elapsed_ms: performance.now() - started,
       };
     },
