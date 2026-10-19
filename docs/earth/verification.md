@@ -1,6 +1,6 @@
 # Verification record — 2026-10-19
 
-Local experimental v0.2 acceptance; not a public-service or device certification.
+Historical local v0.2 acceptance; not a public-service or device certification. Use the [v0.3 record](verification-v03.md) for current public-preview acceptance.
 
 ## Baseline and lineage
 
