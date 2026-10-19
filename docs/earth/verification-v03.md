@@ -24,7 +24,7 @@ Starting point: `dc765e773a133d58c7ac1d6120ee111d4e848deb`, clean `main`. Mainta
 | Package/import boundaries | Passed, with new transport-neutral modules explicitly owned; core has no Node database/browser dependency |
 | Formatting | Adopted formatting check passed (1,426 files); changed Earth sources also formatted |
 | Native browser | Mac in-app browser: real 90-event scene, interval changes, source inspection, play/pause, theme switching, workspace save/reload/open and restored cursor verified |
-| Local model | Actual Ollama `llama3.2:3b` produced a temporal plan yielding all 90 events; first observed planning time ~16 s under development load. Boundary dates require explicit UTC review. Public AI remains off |
+| Local model | Actual Ollama `llama3.2:3b` produced a temporal plan yielding all 90 events; first observed planning time ~16 s under development load. A follow-up grounded prompt test returned the exact exclusive UTC boundaries in ~11.35 s; review remains mandatory. Public AI remains off |
 | Private Linux staging | Dedicated checksum-verified Node 24.22.0 installed under the Earth user's local runtime directory; existing host Node unchanged. Loopback readiness, Montréal **24** matches and historical **90** events passed with AI disabled |
 | Product website | Nine-page production build passed; `/earth` is staged, not proof of public availability |
 
@@ -36,7 +36,7 @@ Starting point: `dc765e773a133d58c7ac1d6120ee111d4e848deb`, clean `main`. Mainta
 | --- | --- |
 | G1 clean production build | Local candidate passed; final commit/CI pending |
 | G2 core tests | Passed locally, including PostGIS |
-| G3 browser smoke | Mac passed; responsive/cross-browser acceptance still being completed |
+| G3 browser smoke | Mac passed; 390 × 844 layout has no horizontal overflow or timeline/status overlap; other browser/device coverage remains limited |
 | G4 security | Host/origin, capability, body/query budgets, private metrics, path confinement and data isolation tested; no independent penetration-test claim |
 | G5 licensing | Dataset/software provenance recorded; ion services disabled; restricted inherited feeds excluded |
 | G6 brand | Integrated; assets documented |

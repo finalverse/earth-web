@@ -1,7 +1,7 @@
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import http from 'node:http';
 import { isIP } from 'node:net';
-import { timingSafeEqual } from 'node:crypto';
+import { createHash, timingSafeEqual } from 'node:crypto';
 import { VERSION } from '../core/index.js';
 import { readFile, realpath, stat } from 'node:fs/promises';
 import { resolve, sep, extname } from 'node:path';
@@ -11,6 +11,9 @@ const MIME = {
   '.js': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
   '.json': 'application/json',
+  '.webmanifest': 'application/manifest+json',
+  '.woff2': 'font/woff2',
+  '.woff': 'font/woff',
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
   '.jpg': 'image/jpeg',
@@ -119,9 +122,9 @@ export function createEarthServer({
         return send(403, { error: 'Untrusted origin.' });
       const url = new URL(req.url, `http://${req.headers.host}`),
         path = url.pathname;
-      if (req.method === 'GET' && path === '/healthz')
+      if (['GET', 'HEAD'].includes(req.method) && path === '/healthz')
         return send(200, { status: 'ok', version: VERSION });
-      if (req.method === 'GET' && path === '/readyz') {
+      if (['GET', 'HEAD'].includes(req.method) && path === '/readyz') {
         try {
           const ready = await readyCheck();
           return send(ready ? 200 : 503, {
@@ -132,7 +135,7 @@ export function createEarthServer({
           return send(503, { status: 'unavailable', version: VERSION });
         }
       }
-      if (req.method === 'GET' && path === '/metrics') {
+      if (['GET', 'HEAD'].includes(req.method) && path === '/metrics') {
         if (publicURL && req.headers.host === publicURL.host)
           return send(404, { error: 'Not found.' });
         return send(200, {
@@ -168,23 +171,23 @@ export function createEarthServer({
           return send(429, { error: 'Try again later.' });
         rates.set(ip, rate);
         if (++rate.count > 120) return send(429, { error: 'Try again later.' });
-        if (req.method === 'GET' && path === '/v1/status')
+        if (['GET', 'HEAD'].includes(req.method) && path === '/v1/status')
           return send(200, {
             version: VERSION,
             ai_enabled: !!planner,
             worlds_enabled: worlds.length > 0,
             mutsea_required: false,
           });
-        if (req.method === 'GET' && path === '/v1/providers')
+        if (['GET', 'HEAD'].includes(req.method) && path === '/v1/providers')
           return send(200, { providers: activeCore.providers() });
-        if (req.method === 'GET' && path === '/v1/layers')
+        if (['GET', 'HEAD'].includes(req.method) && path === '/v1/layers')
           return send(200, { layers: activeCore.layers() });
-        if (req.method === 'GET' && path === '/v1/tools')
+        if (['GET', 'HEAD'].includes(req.method) && path === '/v1/tools')
           return send(200, { tools: activeCore.definitions() });
-        if (req.method === 'GET' && path === '/v1/worlds')
+        if (['GET', 'HEAD'].includes(req.method) && path === '/v1/worlds')
           return send(200, { worlds });
         const match = /^\/v1\/datasets\/([a-z0-9-]+)\/features$/.exec(path);
-        if (req.method === 'GET' && match)
+        if (['GET', 'HEAD'].includes(req.method) && match)
           return send(200, activeCore.features(match[1]));
         if (req.method === 'POST' && path === '/v1/datasets') {
           if (activeCore !== operatorCore)
@@ -238,7 +241,7 @@ export function createEarthServer({
         }
         return send(404, { error: 'Endpoint unavailable.' });
       }
-      if (req.method !== 'GET' || !webRoot)
+      if (!['GET', 'HEAD'].includes(req.method) || !webRoot)
         return send(404, { error: 'Not found.' });
       const root = await realpath(webRoot),
         file = await realpath(
@@ -250,6 +253,21 @@ export function createEarthServer({
       if (!file.startsWith(root + sep) || !(await stat(file)).isFile())
         return send(404, { error: 'Not found.' });
       const content = await readFile(file);
+      const etag =
+        '"' + createHash('sha256').update(content).digest('hex') + '"';
+      res.setHeader('ETag', etag);
+      res.setHeader(
+        'Cache-Control',
+        path.startsWith('/assets/')
+          ? 'public, max-age=31536000, immutable'
+          : path.endsWith('.html') || path === '/'
+            ? 'no-cache'
+            : 'public, max-age=3600',
+      );
+      if (req.headers['if-none-match'] === etag) {
+        res.writeHead(304);
+        return res.end();
+      }
       res.writeHead(200, {
         'Content-Type': MIME[extname(file)] || 'application/octet-stream',
       });

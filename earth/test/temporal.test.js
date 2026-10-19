@@ -248,3 +248,30 @@ test('returned temporal observations are detached from the immutable registry', 
     1,
   );
 });
+test('the acquired raw source is retained and source-selected event values remain exact', async () => {
+  const { readFile } = await import('node:fs/promises'),
+    { createHash } = await import('node:crypto');
+  const bytes = await readFile(
+      new URL('../data/sources/usgs-ridgecrest-2019.geojson', import.meta.url),
+    ),
+    [d] = await temporalCatalogs();
+  assert.equal(
+    createHash('sha256').update(bytes).digest('hex'),
+    d.provenance.source_sha256,
+  );
+  const raw = JSON.parse(bytes);
+  assert.equal(raw.features.length, 90);
+  for (const f of raw.features) {
+    const observed = d.features.find((x) => x.id === f.id);
+    assert.deepEqual(
+      observed.geometry.coordinates,
+      f.geometry.coordinates.slice(0, 2),
+    );
+    assert.equal(
+      observed.properties.event_at,
+      new Date(f.properties.time).toISOString(),
+    );
+    assert.equal(observed.properties.magnitude, f.properties.mag);
+    assert.equal(observed.properties.depth_km, f.geometry.coordinates[2]);
+  }
+});

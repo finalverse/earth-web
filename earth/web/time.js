@@ -16,6 +16,7 @@ const origin = Date.parse('2019-07-04T00:00:00Z'),
   hour = 3600000;
 let viewer,
   source,
+  context,
   records = new Map(),
   layers = [],
   lastResult,
@@ -105,6 +106,21 @@ async function run(p, { playback = false } = {}) {
     const result = await client.query(p, { signal });
     if (signal.aborted) return;
     show(result);
+    const queryEnd = p.arguments.end || p.arguments.after || p.arguments.at;
+    if (p.arguments.dataset === archive && queryEnd) {
+      $('cursor').value = String(
+        Math.max(0, Math.min(96, (Date.parse(queryEnd) - origin) / hour)),
+      );
+      $('cursor-label').textContent = queryEnd
+        .replace('T', ' ')
+        .replace('.000Z', ' UTC');
+      if (p.arguments.start || p.arguments.before)
+        $('start').value = (p.arguments.start || p.arguments.before).slice(
+          0,
+          19,
+        );
+      $('end').value = queryEnd.slice(0, 19);
+    }
     $('globe').dataset.temporalLatency = (performance.now() - t).toFixed(1);
     status(
       `${result.summary} · ${result.elapsed_ms.toFixed(1)} ms core · historical archive.`,
@@ -137,20 +153,22 @@ async function tick() {
     stop();
     return;
   }
-  $('cursor').value = String(value + 1);
+  $('cursor').value = String(Math.min(96, value + Number($('speed').value)));
   await cursor({ playback: true });
-  if (playing)
-    timer = setTimeout(tick, Math.max(650, 1500 / Number($('speed').value)));
+  if (playing) timer = setTimeout(tick, 1000);
 }
 async function cursor(options = {}) {
   const end = new Date(origin + Number($('cursor').value) * hour).toISOString();
   $('cursor-label').textContent = end
     .replace('T', ' ')
     .replace('.000Z', ' UTC');
+  $('start').value = new Date(origin).toISOString().slice(0, 19);
+  $('end').value = end.slice(0, 19);
   if (Number($('cursor').value) === 0) {
-    for (const e of source.entities.values) e.show = false;
-    viewer.scene.requestRender();
-    $('coverage').textContent = '0 events';
+    await run(
+      plan('features_at_time', { dataset: archive, at: end, limit: 100 }),
+      options,
+    );
     return;
   }
   await run(
@@ -207,6 +225,11 @@ $('dataset').onchange = () => {
   active?.abort();
   availability();
   $('rows').replaceChildren();
+  lastResult=null;lastIds=new Set();$('export').disabled=true;
+  $('coverage').textContent='No query';$('cursor-label').textContent=$('dataset').value===archive?'Choose an archive interval':'No observation history';
+  $('result-title').textContent='Choose a source-supported interval';$('result-info').textContent=$('availability').textContent;$('provenance').textContent='No query on this layer.';
+  if(context)context.show=$('dataset').value===archive;
+  if($('dataset').value===archive)camera();else viewer.camera.setView({destination:Cesium.Cartesian3.fromDegrees(-96,58,6500000),orientation:{heading:0,pitch:-Math.PI/2,roll:0}});
   $('inspection').hidden = true;
   for (const e of source.entities.values) e.show = false;
   viewer.scene.requestRender();
@@ -310,7 +333,7 @@ try {
       }),
     ),
   );
-  const context = new Cesium.CustomDataSource(
+  context = new Cesium.CustomDataSource(
     'Derived coordinate grid and Natural Earth places',
   );
   for (let lon = -119; lon <= -116; lon += 0.5)

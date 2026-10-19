@@ -57,6 +57,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       'natural-earth-countries',
       'natural-earth-places',
       'wri-canada-power-plants',
+      'usgs-ridgecrest-2019',
     ])
       if (!datasets.some((d) => d.id === id))
         throw new Error('Seed the dedicated Earth database before starting.');
