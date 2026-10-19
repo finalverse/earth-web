@@ -16,9 +16,14 @@ restore() { ln -s "$previous" "$root/current.rollback"; mv -Tf "$root/current.ro
 ln -s "$candidate" "$root/current.next"
 mv -Tf "$root/current.next" "$root/current"
 if ! systemctl restart finalverse-earth; then restore; exit 1; fi
+# The known v0.2 rollback predates /readyz. Do not bypass a failed v0.3 probe.
+probe_ready() {
+  if curl --fail --silent --max-time 2 http://127.0.0.1:18640/readyz >/dev/null; then return 0; fi
+  curl --fail --silent --max-time 2 http://127.0.0.1:18640/v1/status | python3 -c 'import json,sys; d=json.load(sys.stdin); sys.exit(0 if d.get("version")=="0.2.0" and d.get("mutsea_required") is False else 1)' 2>/dev/null
+}
 ready=false
 for attempt in 1 2 3 4 5 6 7 8 9 10; do
-  if systemctl is-active --quiet finalverse-earth && curl --fail --silent --max-time 2 http://127.0.0.1:18640/readyz >/dev/null; then ready=true; break; fi
+  if systemctl is-active --quiet finalverse-earth && probe_ready; then ready=true; break; fi
   sleep 1
 done
 if [ "$ready" != true ]; then restore; echo 'Readiness failed; previous release restored' >&2; exit 1; fi
