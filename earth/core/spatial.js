@@ -349,6 +349,87 @@ export function spatialTools({
       (a) => proximity(a, false),
     ),
     tool(
+      'cluster_features',
+      'Group a complete bounded point selection using ellipsoidal edges',
+      schema(
+        {
+          ...pointArgs,
+          radius_m: { type: 'number', minimum: 1, maximum: 500000 },
+          cluster_radius_m: { type: 'number', minimum: 1, maximum: 50000 },
+        },
+        ['dataset', 'radius_m', 'cluster_radius_m'],
+      ),
+      async (a) => {
+        const output = await proximity(a, false),
+          data = output.data;
+        if (data.truncated)
+          throw new Error(
+            'Clustering requires a complete selection. Narrow the radius or fuel filter.',
+          );
+        const features = [...data.features].sort((x, y) =>
+            x.id < y.id ? -1 : x.id > y.id ? 1 : 0,
+          ),
+          parent = features.map((_, i) => i),
+          root = (i) => {
+            while (parent[i] !== i) {
+              parent[i] = parent[parent[i]];
+              i = parent[i];
+            }
+            return i;
+          };
+        for (let i = 0; i < features.length; i++)
+          for (let j = i + 1; j < features.length; j++)
+            if (
+              distance(
+                features[i].geometry.coordinates,
+                features[j].geometry.coordinates,
+              ) <= a.cluster_radius_m
+            )
+              parent[root(j)] = root(i);
+        const groups = new Map(),
+          fuels = new Map();
+        features.forEach((f, i) => {
+          const r = root(i);
+          if (!groups.has(r)) groups.set(r, []);
+          groups.get(r).push(f.id);
+          const fuel = String(f.properties.fuel || 'Unspecified');
+          if (!fuels.has(fuel))
+            fuels.set(fuel, {
+              fuel,
+              count: 0,
+              reported_capacity_mw: 0,
+              missing_capacity: 0,
+              feature_ids: [],
+            });
+          const g = fuels.get(fuel);
+          g.count++;
+          g.feature_ids.push(f.id);
+          if (Number.isFinite(f.properties.capacity_mw))
+            g.reported_capacity_mw += f.properties.capacity_mw;
+          else g.missing_capacity++;
+        });
+        data.clusters = [...groups.values()].map((ids) => ({
+          id: 'cluster:' + ids[0],
+          feature_ids: ids,
+          count: ids.length,
+        }));
+        data.fuel_groups = [...fuels.values()].sort((x, y) =>
+          x.fuel < y.fuel ? -1 : 1,
+        );
+        data.analysis.clustering = {
+          method:
+            'Single-link connected components; WGS84 ellipsoidal edge distances',
+          edge_threshold_m: a.cluster_radius_m,
+          complete: true,
+          maximum_pair_tests: 4950,
+        };
+        output.summary = `${features.length} source facilities in ${data.clusters.length} connected groups`;
+        data.explanation +=
+          ' Groups use single-link connectivity, not density inference or grid connectivity. Group members can be farther apart than the edge threshold.';
+        return output;
+      },
+    ),
+    tool(
       'nearest',
       'Find nearest point features',
       schema(

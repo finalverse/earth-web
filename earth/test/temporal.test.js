@@ -216,7 +216,7 @@ test('real USGS archive retains 90 source identities/times and versioned provide
   });
   assert.equal(r.data.total, 90);
   assert.equal(r.data.observations.length, 90);
-  assert.equal(r.receipt.core_version, '0.3.0');
+  assert.equal(r.receipt.core_version, '0.4.0-dev.1');
   const largest = d.features.find((f) => f.properties.magnitude === 7.1);
   assert.ok(largest);
   assert.equal(largest.properties.event_at, '2019-07-06T03:19:53.040Z');

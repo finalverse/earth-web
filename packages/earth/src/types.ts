@@ -71,15 +71,25 @@ export interface FeatureData extends FeatureCollection {
   missing_observations?: number;
   analysis?: { center?: Position; [key: string]: unknown };
   measurements?: { feature_id: string; distance_m: number }[];
+  clusters?: Cluster[];
+  fuel_groups?: FuelGroup[];
   [key: string]: unknown;
 }
 export type ToolData<K extends ToolName> = K extends 'list_layers'
   ? { layers: Dataset[] }
-  : K extends 'distance' | 'measure_distance'
-    ? { distance_m: number; units: string; [key: string]: unknown }
-    : K extends 'transform_coordinates' | 'coordinate_transform'
-      ? { position: number[]; [key: string]: unknown }
-      : FeatureData;
+  : K extends 'get_provenance'
+    ? { dataset_id: string; version: string }
+    : K extends 'spatial_join'
+      ? {
+          matches: { left_id: string; right_id: string }[];
+          total: number;
+          truncated: boolean;
+        }
+      : K extends 'distance' | 'measure_distance'
+        ? { distance_m: number; units: string; [key: string]: unknown }
+        : K extends 'transform_coordinates' | 'coordinate_transform'
+          ? { position: number[]; [key: string]: unknown }
+          : FeatureData;
 export interface QueryResult<K extends ToolName = ToolName> {
   schema_version: 1;
   plan: QueryPlan<K>;
@@ -180,4 +190,49 @@ export interface Workspace {
 export interface StorageAdapter {
   getItem(key: string): string | null;
   setItem(key: string, value: string): void;
+}
+
+export interface PlanningContext {
+  plan?: QueryPlan;
+  selected?: { dataset: string; feature_id: string };
+}
+export interface PlanningOptions extends RequestOptions {
+  context?: PlanningContext;
+}
+export interface PlanProposal {
+  plan: QueryPlan;
+  requires_review: true;
+  provider: string;
+  model?: string;
+  elapsed_ms?: number;
+  usage?: { input_tokens: number | null; output_tokens: number | null };
+  streaming?: false;
+  request_id?: string;
+}
+export interface ProviderDiscovery {
+  providers: {
+    id: string;
+    local: boolean;
+    model: string;
+    models: string[];
+    available: boolean;
+    capabilities: string[];
+    streaming: false;
+    estimated_latency_ms: number;
+    provider_fee: number;
+  }[];
+  streaming: false;
+  policy: { privacy: string; automatic_cloud_fallback: false };
+}
+export interface Cluster {
+  id: string;
+  feature_ids: string[];
+  count: number;
+}
+export interface FuelGroup {
+  fuel: string;
+  count: number;
+  reported_capacity_mw: number;
+  missing_capacity: number;
+  feature_ids: string[];
 }

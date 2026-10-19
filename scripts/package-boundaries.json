@@ -3958,6 +3958,7 @@
       "earth/core/spatial.js",
       "earth/core/constants.js",
       "earth/core/receipt.js",
+      "earth/core/version.js",
       "earth/core/time.js",
       "earth/core/temporal.js",
       "earth/core/workspace.js",

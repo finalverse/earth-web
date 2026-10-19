@@ -16,6 +16,7 @@ export const intentSchema = {
         'country_search',
         'energy_within_distance',
         'energy_nearest',
+        'energy_clusters',
         'discover_datasets',
         'temporal_interval',
         'temporal_compare',
@@ -27,6 +28,27 @@ export const intentSchema = {
     place: { type: 'string' },
     radius_km: { type: 'number' },
     renewable_only: { type: 'boolean' },
+    fuels: {
+      type: 'array',
+      items: {
+        type: 'string',
+        enum: [
+          'Hydro',
+          'Solar',
+          'Wind',
+          'Biomass',
+          'Geothermal',
+          'Wave and Tidal',
+          'Gas',
+          'Coal',
+          'Oil',
+          'Nuclear',
+          'Waste',
+          'Other',
+        ],
+      },
+      maxItems: 12,
+    },
     start: { type: 'string' },
     end: { type: 'string' },
   },
@@ -36,6 +58,7 @@ export const intentSchema = {
     'place',
     'radius_km',
     'renewable_only',
+    'fuels',
     'start',
     'end',
   ],
@@ -45,7 +68,7 @@ export function planIntent(answer, places = []) {
   if (
     !answer ||
     Object.keys(answer).length < 5 ||
-    Object.keys(answer).length > 7 ||
+    Object.keys(answer).length > 8 ||
     Object.keys(answer).some(
       (k) => !Object.hasOwn(intentSchema.properties, k),
     ) ||
@@ -59,6 +82,12 @@ export function planIntent(answer, places = []) {
         answer[k] !== undefined &&
         (typeof answer[k] !== 'string' || answer[k].length > 24),
     ) ||
+    (answer.fuels !== undefined &&
+      (!Array.isArray(answer.fuels) ||
+        answer.fuels.length > 12 ||
+        answer.fuels.some(
+          (f) => !intentSchema.properties.fuels.items.enum.includes(f),
+        ))) ||
     !Number.isFinite(answer.radius_km) ||
     typeof answer.renewable_only !== 'boolean'
   )
@@ -111,6 +140,7 @@ export function planIntent(answer, places = []) {
     ![
       'energy_within_distance',
       'energy_nearest',
+      'energy_clusters',
       'energy_reporting_comparison',
     ].includes(answer.intent)
   )
@@ -131,11 +161,14 @@ export function planIntent(answer, places = []) {
     place_id: matches[0].id,
     limit: 100,
   };
-  if (answer.renewable_only) args.fuels = [...RENEWABLE_FUELS];
+  if (answer.fuels?.length) args.fuels = [...new Set(answer.fuels)];
+  else if (answer.renewable_only) args.fuels = [...RENEWABLE_FUELS];
   if (
-    ['energy_within_distance', 'energy_reporting_comparison'].includes(
-      answer.intent,
-    )
+    [
+      'energy_within_distance',
+      'energy_clusters',
+      'energy_reporting_comparison',
+    ].includes(answer.intent)
   ) {
     if (answer.radius_km <= 0 || answer.radius_km > 500)
       throw new Error('Choose a radius above 0 and at most 500 kilometres.');
@@ -154,7 +187,57 @@ export function planIntent(answer, places = []) {
     };
   return {
     schema_version: 1,
-    tool: answer.intent === 'energy_nearest' ? 'nearest' : 'within_distance',
-    arguments: args,
+    tool:
+      answer.intent === 'energy_clusters'
+        ? 'cluster_features'
+        : answer.intent === 'energy_nearest'
+          ? 'nearest'
+          : 'within_distance',
+    arguments: {
+      ...args,
+      ...(answer.intent === 'energy_clusters'
+        ? { cluster_radius_m: 10000 }
+        : {}),
+    },
+  };
+}
+
+// A deliberately narrow follow-up grammar preserves an already authorized query.
+// It never guesses a new place/radius or handles general language by itself.
+export function groundRefinement(answer, question, context) {
+  const match =
+    /^\s*(?:only|just)\s+(hydro|solar|wind|biomass|geothermal)(?:\s+(?:facilities|plants))?\s*[.!]?\s*$/i.exec(
+      question,
+    );
+  const previous = context?.plan;
+  if (
+    !match ||
+    !previous ||
+    !['cluster_features', 'within_distance', 'nearest'].includes(
+      previous.tool,
+    ) ||
+    previous.arguments.dataset !== 'wri-canada-power-plants' ||
+    !context.place
+  )
+    return answer;
+  const fuel = {
+    hydro: 'Hydro',
+    solar: 'Solar',
+    wind: 'Wind',
+    biomass: 'Biomass',
+    geothermal: 'Geothermal',
+  }[match[1].toLowerCase()];
+  return {
+    ...answer,
+    intent:
+      previous.tool === 'cluster_features'
+        ? 'energy_clusters'
+        : previous.tool === 'nearest'
+          ? 'energy_nearest'
+          : 'energy_within_distance',
+    place: context.place,
+    radius_km: (previous.arguments.radius_m ?? 0) / 1000,
+    renewable_only: false,
+    fuels: [fuel],
   };
 }

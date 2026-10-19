@@ -7,6 +7,7 @@ import { createEarthServer } from '../server/http.js';
 import { defaultDataset } from '../server/main.js';
 import { pointCatalogs } from '../data/catalogs.js';
 import { temporalCatalogs } from '../data/providers.js';
+import { PlannerRouter } from '../server/intelligence.js';
 import { OllamaPlanner } from '../server/planner.js';
 const args = process.argv.slice(2);
 const flags = new Map();
@@ -76,8 +77,13 @@ const server = createEarthServer({
   ),
   webRoot,
   planner: flags.has('--ai')
-    ? new OllamaPlanner({
-        places: datasets.find((d) => d.id === 'natural-earth-places').features,
+    ? new PlannerRouter({
+        providers: [
+          new OllamaPlanner({
+            places: datasets.find((d) => d.id === 'natural-earth-places')
+              .features,
+          }),
+        ],
       })
     : null,
 });

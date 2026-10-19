@@ -1,0 +1,13 @@
+{
+  "measured_at": "2026-10-19",
+  "browser": "Codex in-app browser / Chromium on macOS ARM64",
+  "origin": "http://127.0.0.1:18644",
+  "scenario": "Final build reload, import selected solar workspace; five source records in three groups, selected Longueil TS Malbouef, retained 100 km sampled radius and original receipt",
+  "startup_ms": 525.2,
+  "sdk_runtime_manifest_and_discovery_ms": 96.1,
+  "render_request_to_frame_ms": 25.3,
+  "browser_js_heap_used_mib": 38.4316291809082,
+  "browser_js_heap_total_mib": 67.32854080200195,
+  "source_execution_ms_in_saved_snapshot": 26.918042,
+  "limitations": "Single observational browser sample after previous loads; not a controlled cold run, FPS, input-latency distribution or device/load benchmark. Render timing includes the next requested frame. Chromium performance.memory is coarse and includes the page, not SDK-only/GPU memory. Imported execution timing describes the original server run, not import execution."
+}

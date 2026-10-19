@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Source-grounded spatial analysis, conversation and portable workspaces, powered by the Finalverse Earth SDK."
+    />
+    <link rel="icon" href="/finalverse-symbol.png" />
+    <title>Energy Explorer · Finalverse Earth</title>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/" aria-label="Energy Explorer home"
+        ><img src="/finalverse-symbol.png" alt="" /><span
+          >Finalverse <b>Earth</b><small>ENERGY EXPLORER</small></span
+        ></a
+      ><span class="release">INDEPENDENT APP · v0.4 DEVELOPMENT</span>
+      <nav>
+        <a href="/notices/geographic-data.md">Data & attribution</a
+        ><a href="/notices/third-party.md">Open source</a>
+      </nav>
+    </header>
+    <main>
+      <aside class="discovery">
+        <div class="eyebrow">01 / DISCOVER</div>
+        <h1>Energy, in context.</h1>
+        <p class="intro">
+          Explore Canadian energy infrastructure. Ask questions. Keep the
+          evidence.
+        </p>
+        <form id="discovery">
+          <label for="place-search">Find a city</label>
+          <div class="search">
+            <input
+              id="place-search"
+              value="Montréal"
+              maxlength="128"
+              required
+            /><button type="button" id="search">Find</button>
+          </div>
+          <label for="places">Source location</label
+          ><select id="places" required>
+            <option value="ne-place-1173">Montréal · Canada</option>
+          </select>
+          <div class="split">
+            <div>
+              <label for="radius">Radius · km</label
+              ><input
+                id="radius"
+                type="number"
+                min="1"
+                max="500"
+                value="100"
+                required
+              />
+            </div>
+            <div>
+              <label for="edge">Group edge · km</label
+              ><input
+                id="edge"
+                type="number"
+                min="1"
+                max="50"
+                value="10"
+                required
+              />
+            </div>
+          </div>
+          <label for="fuels">Compare energy sources</label
+          ><select id="fuels">
+            <option value="renewable">All renewables</option>
+            <option value="Hydro,Solar">Hydro + solar</option>
+            <option value="Hydro">Hydro</option>
+            <option value="Solar">Solar</option>
+            <option value="Wind">Wind</option>
+            <option value="">All source fuels</option></select
+          ><button class="primary" type="submit" id="analyze">
+            Analyze this area <span>↗</span>
+          </button>
+        </form>
+        <div class="source-note">
+          <b>Archival data, honest answers.</b>
+          <p>
+            WRI GPPD v1.3.0 (2021 release), with reported years on each record.
+            This is not live generation, current operating status, or a complete
+            facility census.
+          </p>
+        </div>
+        <div class="eyebrow">02 / WORKSPACE</div>
+        <label for="workspace-title">Analysis title</label
+        ><input
+          id="workspace-title"
+          value="Montréal · Renewable landscape"
+          maxlength="120"
+        />
+        <div class="split actions">
+          <button id="save">Save locally</button
+          ><button id="export">Export JSON</button>
+        </div>
+        <label for="saved">Saved workspaces</label
+        ><select id="saved">
+          <option value="">Choose a workspace</option>
+        </select>
+        <div class="split actions">
+          <button id="open">Open saved</button
+          ><label class="file-button" for="import"
+            >Import JSON<input
+              id="import"
+              type="file"
+              accept="application/json,.json"
+          /></label>
+        </div>
+        <label class="check"
+          ><input id="legacy" type="checkbox" /> Import v0.3 Energy as a new
+          copy</label
+        ><button id="delete">Delete selected local copy</button>
+        <p class="subtle">
+          Opening restores a snapshot. Re-run explicitly to refresh. Export
+          files contain your saved evidence; review before sharing.
+        </p>
+      </aside>
+      <section class="world">
+        <div id="map" aria-label="3D globe of source facilities"></div>
+        <div class="map-title">
+          <span class="live-dot"></span
+          ><span id="map-caption">Canada / Source-backed infrastructure</span
+          ><label
+            ><input id="layer" type="checkbox" checked /> Facilities</label
+          >
+        </div>
+        <div class="map-help">
+          Drag to orbit · scroll to zoom · select a facility<br />White outline:
+          result bounds · violet: sampled radius
+        </div>
+        <section id="inspection" class="inspection" hidden>
+          <button
+            id="close-inspection"
+            aria-label="Close selected record"
+            class="close-inspection"
+          >
+            ×
+          </button>
+          <div class="eyebrow">SELECTED SOURCE RECORD</div>
+          <h2 id="feature-name"></h2>
+          <p id="feature-info"></p>
+          <button id="ask-selected">Ask about this selection</button>
+        </section>
+        <div class="map-bottom">
+          <span>Finalverse Earth SDK</span><span id="performance"></span>
+        </div>
+      </section>
+      <aside class="intelligence">
+        <div class="eyebrow">03 / SPATIAL INTELLIGENCE</div>
+        <h2>Conversation meets place.</h2>
+        <p id="ai-status" class="subtle">Checking local inference…</p>
+        <div id="timeline" class="timeline" aria-live="polite">
+          <article>
+            <b>Start with a real place.</b>
+            <p>
+              Analyze an area to compare fuels and reveal geographic groups.
+              Every result carries its query and source.
+            </p>
+          </article>
+        </div>
+        <section id="proposal" hidden>
+          <h3>Review proposed query</h3>
+          <pre id="plan"></pre>
+          <p id="proposal-info" class="subtle"></p>
+          <button id="approve" class="primary">
+            Approve & run read-only query
+          </button>
+        </section>
+        <form id="conversation">
+          <label for="question">Ask the spatial planner</label
+          ><textarea
+            id="question"
+            maxlength="1000"
+            rows="3"
+            placeholder="Compare hydro and solar facilities within 100 km of Montréal and identify clusters."
+          ></textarea>
+          <div class="split">
+            <button id="propose" type="submit">Propose a plan</button
+            ><button id="cancel" type="button">Cancel</button>
+          </div>
+        </form>
+        <section class="evidence">
+          <h3>Evidence & receipt</h3>
+          <p id="evidence-summary">Run an analysis to inspect its evidence.</p>
+          <details>
+            <summary>Query, provenance and receipt</summary>
+            <pre id="evidence"></pre>
+          </details>
+          <p class="subtle">
+            Generated text is interpretation. Dataset records and deterministic
+            execution results supply the evidence. Local snapshots are not
+            signed attestations.
+          </p>
+        </section>
+      </aside>
+    </main>
+    <footer>
+      <span id="status" role="status">Starting independent application…</span
+      ><span>WGS84 · longitude, latitude · metres · UTC</span>
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

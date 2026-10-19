@@ -11,7 +11,7 @@ import { temporalMetadata, instant, interval } from './time.js';
 import { validateValue } from '../../src/tools/schema.js';
 import { executionReceipt } from './receipt.js';
 
-export const VERSION = '0.3.0';
+export { VERSION } from './version.js';
 const str = { type: 'string', minLength: 1, maxLength: 128 };
 const pos = {
   type: 'array',
@@ -142,10 +142,18 @@ export function createEarthCore({
       schema({ dataset: str, query: str, limit }, ['dataset', 'query']),
       (args) => {
         const d = get(args.dataset),
-          q = args.query.trim().normalize('NFKD').toLowerCase();
+          q = args.query
+            .trim()
+            .normalize('NFKD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase();
         if (!q) throw new Error('Search text required.');
         const rows = d.features.filter((f) =>
-          f.properties.name.normalize('NFKD').toLowerCase().includes(q),
+          f.properties.name
+            .normalize('NFKD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase()
+            .includes(q),
         );
         return result(
           d,

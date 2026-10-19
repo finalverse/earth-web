@@ -27,6 +27,12 @@ jobs:
       - run: npm run earth:test
       - run: npm run earth:sdk:build
       - run: npm run earth:platform:test
+      - name: Install independent app from actual SDK tarball
+        run: npm ci --prefix apps/energy-explorer --ignore-scripts
+      - run: npm run earth:energy:test
+      - run: npm run earth:energy:package
+      - name: Audit independent application dependencies
+        run: npm audit --prefix apps/energy-explorer --audit-level=high
       - name: Verify generated public contract matches source
         run: git diff --exit-code -- earth/contracts/openapi.json
       - run: npm run earth:build

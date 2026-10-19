@@ -68,7 +68,10 @@
     "earth:contracts": "node earth/contracts/build.mjs",
     "earth:sdk:build": "node earth/platform/build-sdk.mjs",
     "earth:platform:test": "node --test earth/platform/test/*.test.mjs packages/earth/test/*.test.mjs",
-    "earth:platform:serve": "node earth/platform/serve.mjs"
+    "earth:platform:serve": "node earth/platform/serve.mjs",
+    "earth:energy:build": "npm run build --prefix apps/energy-explorer",
+    "earth:energy:test": "npm test --prefix apps/energy-explorer",
+    "earth:energy:package": "npm run package --prefix apps/energy-explorer"
   },
   "dependencies": {
     "@jtarrio/signals": "^0.10.0",

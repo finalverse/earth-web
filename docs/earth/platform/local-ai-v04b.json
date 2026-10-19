@@ -1,0 +1,60 @@
+{
+  "measured_at": "2026-10-19T12:51:56.140Z",
+  "local_model_only": true,
+  "public_deployment": false,
+  "runs": [
+    {
+      "question": "Compare hydro and solar facilities within 100 km of Montréal and identify clusters.",
+      "provider": "ollama-local",
+      "model": "llama3.2:3b",
+      "planning_ms": 3059.646458000003,
+      "usage": {
+        "input_tokens": 614,
+        "output_tokens": 41
+      },
+      "result_count": 18,
+      "clusters": 12,
+      "engine_ms": 48.34062499999709,
+      "roundtrip_ms": 3245.834,
+      "receipt": {
+        "execution_id": "01ecb53c-5ec2-4e3e-a7fe-2d37bb02976d",
+        "plan_sha256": "05b24d438f53a93f1e4d80f958878b09e5d1ac64c20d2fb5381c4e6c406a6cf8",
+        "executed_at": "2026-10-19T12:51:53.110Z",
+        "core_version": "0.4.0-dev.1",
+        "access": "read-only"
+      }
+    },
+    {
+      "question": "Only solar",
+      "provider": "ollama-local",
+      "model": "llama3.2:3b",
+      "planning_ms": 2960.1762080000044,
+      "usage": {
+        "input_tokens": 663,
+        "output_tokens": 37
+      },
+      "result_count": 5,
+      "clusters": 3,
+      "engine_ms": 3.8974159999925178,
+      "roundtrip_ms": 3027.776666,
+      "receipt": {
+        "execution_id": "4f59a2a9-8c52-4e8e-84e2-4c367fddacd6",
+        "plan_sha256": "46058271e9ccc90df18b8452711a7eda88302fbfe9fd8272d0e6d175c70e0646",
+        "executed_at": "2026-10-19T12:51:56.138Z",
+        "core_version": "0.4.0-dev.1",
+        "access": "read-only"
+      }
+    }
+  ],
+  "event_types": [
+    "session.started",
+    "message.delta",
+    "plan.proposed",
+    "approval.requested",
+    "tool.requested",
+    "tool.completed",
+    "artifact.created",
+    "execution.completed",
+    "session.completed"
+  ]
+}

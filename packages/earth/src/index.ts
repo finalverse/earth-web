@@ -7,3 +7,6 @@ export {
   createApplicationRuntime,
 } from './manifest.js';
 export type * from './types.js';
+
+export { IntelligenceSession } from './session.js';
+export type { SessionEvent, SessionPayloads } from './session.js';

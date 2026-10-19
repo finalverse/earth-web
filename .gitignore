@@ -36,3 +36,5 @@ packages/earth/dist/
 packages/earth/src/generated/
 apps/energy-explorer/dist/
 packages/earth/openapi.json
+
+apps/energy-explorer/.test-build/

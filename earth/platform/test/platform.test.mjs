@@ -28,7 +28,10 @@ test('OpenAPI, actual tool schemas and SDK requests agree with live response con
     c = new EarthClient({ endpoint: url, applicationId: manifest.id });
   assert.equal(spec.openapi, '3.1.1');
   check('ApplicationManifest', manifest);
-  assert.equal(spec.components.schemas.QueryRequest.oneOf.length, 25);
+  assert.equal(
+    spec.components.schemas.QueryRequest.oneOf.length,
+    core.definitions().length,
+  );
   for (const tool of core.definitions()) {
     const schema = spec.components.schemas.QueryRequest.oneOf.find(
       (x) => x.properties.tool.const === tool.name,

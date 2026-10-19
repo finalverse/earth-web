@@ -1027,7 +1027,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProposalRequest"
+                "$ref": "#/components/schemas/ScopedProposalRequest"
               }
             }
           }
@@ -1047,6 +1047,124 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Proposal"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sanitized failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Sanitized failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Sanitized failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Sanitized failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Sanitized failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Sanitized failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Budget exhausted; Retry-After seconds",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Sanitized failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/apps/{applicationId}/ai/providers": {
+      "get": {
+        "description": "Discover operator-configured local planners. No cloud fallback, no browser-supplied endpoint/model.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "applicationId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 80,
+              "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)+$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-Request-ID": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderDiscovery"
                 }
               }
             }
@@ -2889,6 +3007,75 @@
                 "const": 1
               },
               "tool": {
+                "const": "cluster_features"
+              },
+              "arguments": {
+                "type": "object",
+                "properties": {
+                  "dataset": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "point": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 2,
+                    "maxItems": 3
+                  },
+                  "place_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "fuels": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "maxLength": 40
+                    },
+                    "maxItems": 12
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100
+                  },
+                  "radius_m": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 500000
+                  },
+                  "cluster_radius_m": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 50000
+                  }
+                },
+                "required": [
+                  "dataset",
+                  "radius_m",
+                  "cluster_radius_m"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "schema_version",
+              "tool",
+              "arguments"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "schema_version": {
+                "const": 1
+              },
+              "tool": {
                 "const": "nearest"
               },
               "arguments": {
@@ -4344,6 +4531,74 @@
         ],
         "additionalProperties": false
       },
+      "PlanningContext": {
+        "type": "object",
+        "properties": {
+          "plan": {
+            "$ref": "#/components/schemas/QueryRequest"
+          },
+          "selected": {
+            "type": "object",
+            "properties": {
+              "dataset": {
+                "type": "string"
+              },
+              "feature_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "dataset",
+              "feature_id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "ScopedProposalRequest": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "context": {
+            "$ref": "#/components/schemas/PlanningContext"
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "additionalProperties": false
+      },
+      "ProviderDiscovery": {
+        "type": "object",
+        "properties": {
+          "providers": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "streaming": {
+            "const": false
+          },
+          "policy": {
+            "type": "object"
+          },
+          "request_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "providers",
+          "streaming"
+        ],
+        "additionalProperties": false
+      },
       "Proposal": {
         "type": "object",
         "properties": {
@@ -4356,6 +4611,24 @@
           "provider": {
             "type": "string"
           },
+          "model": {
+            "type": "string"
+          },
+          "elapsed_ms": {
+            "type": "number"
+          },
+          "usage": {
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "streaming": {
+            "const": false
+          },
+          "routing": {
+            "type": "object"
+          },
           "request_id": {
             "type": "string"
           }
@@ -4366,6 +4639,595 @@
           "provider"
         ],
         "additionalProperties": false
+      },
+      "SessionEvent": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "protocol_version": {
+                "const": 1
+              },
+              "session_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "event_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "request_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "type": {
+                "const": "session.started"
+              },
+              "payload": {
+                "type": "object",
+                "properties": {
+                  "protocol_version": {
+                    "const": 1
+                  }
+                },
+                "required": [
+                  "protocol_version"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "protocol_version",
+              "session_id",
+              "event_id",
+              "sequence",
+              "at",
+              "request_id",
+              "type",
+              "payload"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "protocol_version": {
+                "const": 1
+              },
+              "session_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "event_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "request_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "type": {
+                "const": "message.delta"
+              },
+              "payload": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "enum": [
+                      "user",
+                      "system"
+                    ]
+                  },
+                  "text": {
+                    "type": "string",
+                    "maxLength": 1000
+                  },
+                  "authoritative": {
+                    "const": false
+                  }
+                },
+                "required": [
+                  "role",
+                  "text",
+                  "authoritative"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "protocol_version",
+              "session_id",
+              "event_id",
+              "sequence",
+              "at",
+              "request_id",
+              "type",
+              "payload"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "protocol_version": {
+                "const": 1
+              },
+              "session_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "event_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "request_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "type": {
+                "const": "tool.requested"
+              },
+              "payload": {
+                "type": "object",
+                "properties": {
+                  "plan": {
+                    "$ref": "#/components/schemas/QueryRequest"
+                  }
+                },
+                "required": [
+                  "plan"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "protocol_version",
+              "session_id",
+              "event_id",
+              "sequence",
+              "at",
+              "request_id",
+              "type",
+              "payload"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "protocol_version": {
+                "const": 1
+              },
+              "session_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "event_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "request_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "type": {
+                "const": "tool.completed"
+              },
+              "payload": {
+                "type": "object",
+                "properties": {
+                  "result": {
+                    "$ref": "#/components/schemas/QueryResult"
+                  }
+                },
+                "required": [
+                  "result"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "protocol_version",
+              "session_id",
+              "event_id",
+              "sequence",
+              "at",
+              "request_id",
+              "type",
+              "payload"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "protocol_version": {
+                "const": 1
+              },
+              "session_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "event_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "request_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "type": {
+                "const": "artifact.created"
+              },
+              "payload": {
+                "type": "object",
+                "properties": {
+                  "artifact_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "kind": {
+                    "const": "spatial-result"
+                  },
+                  "result": {
+                    "$ref": "#/components/schemas/QueryResult"
+                  }
+                },
+                "required": [
+                  "artifact_id",
+                  "kind",
+                  "result"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "protocol_version",
+              "session_id",
+              "event_id",
+              "sequence",
+              "at",
+              "request_id",
+              "type",
+              "payload"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "protocol_version": {
+                "const": 1
+              },
+              "session_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "event_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "request_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "type": {
+                "const": "plan.proposed"
+              },
+              "payload": {
+                "type": "object",
+                "properties": {
+                  "proposal_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "proposal": {
+                    "$ref": "#/components/schemas/Proposal"
+                  }
+                },
+                "required": [
+                  "proposal_id",
+                  "proposal"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "protocol_version",
+              "session_id",
+              "event_id",
+              "sequence",
+              "at",
+              "request_id",
+              "type",
+              "payload"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "protocol_version": {
+                "const": 1
+              },
+              "session_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "event_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "request_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "type": {
+                "const": "approval.requested"
+              },
+              "payload": {
+                "type": "object",
+                "properties": {
+                  "proposal_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                },
+                "required": [
+                  "proposal_id"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "protocol_version",
+              "session_id",
+              "event_id",
+              "sequence",
+              "at",
+              "request_id",
+              "type",
+              "payload"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "protocol_version": {
+                "const": 1
+              },
+              "session_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "event_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "request_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "type": {
+                "const": "execution.completed"
+              },
+              "payload": {
+                "type": "object",
+                "properties": {
+                  "artifact_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "receipt": {
+                    "$ref": "#/components/schemas/Receipt"
+                  }
+                },
+                "required": [
+                  "artifact_id",
+                  "receipt"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "protocol_version",
+              "session_id",
+              "event_id",
+              "sequence",
+              "at",
+              "request_id",
+              "type",
+              "payload"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "protocol_version": {
+                "const": 1
+              },
+              "session_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "event_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "request_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "type": {
+                "const": "session.completed"
+              },
+              "payload": {
+                "type": "object",
+                "properties": {
+                  "reason": {
+                    "enum": [
+                      "closed",
+                      "cancelled"
+                    ]
+                  }
+                },
+                "required": [
+                  "reason"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "protocol_version",
+              "session_id",
+              "event_id",
+              "sequence",
+              "at",
+              "request_id",
+              "type",
+              "payload"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "protocol_version": {
+                "const": 1
+              },
+              "session_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "event_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "request_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "type": {
+                "const": "session.failed"
+              },
+              "payload": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "request_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code",
+                  "request_id",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "protocol_version",
+              "session_id",
+              "event_id",
+              "sequence",
+              "at",
+              "request_id",
+              "type",
+              "payload"
+            ],
+            "additionalProperties": false
+          }
+        ],
+        "description": "Local SDK session protocol v1. Replaying events never executes tools. No streaming HTTP endpoint is claimed."
       }
     }
   }

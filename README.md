@@ -10,6 +10,25 @@ Explore the planet, ask geographic questions, and trace every result to real dat
 
 Finalverse Earth is part of the Finalverse ecosystem and works independently. It does not require a MutSea server, a social-world account, a hosted model, proprietary credentials or paid map tiles.
 
+## v0.4 development: build an independent spatial application
+
+The `codex/earth-v04-platform` development branch adds a strict, renderer-independent **`@finalverse/earth`** SDK tarball, OpenAPI 3.1, server-owned application grants, local workspaces and ordered intelligence sessions. Its independent **Energy Explorer** demonstrates source-backed geographic grouping, fuel comparisons, selected map/conversation artifacts and optional reviewed local AI plans.
+
+These contracts and the independent app are **development artifacts**, not installed on the unchanged public v0.3 service. No npm package has been published. Start with the [SDK quickstart](docs/earth/platform/quickstart.md), [independent application build/tutorial](apps/energy-explorer/README.md), [intelligence architecture](docs/earth/platform/intelligence-v04.md) and [v0.4 acceptance and release assessment](docs/earth/platform/acceptance-v04b.md).
+
+```sh
+npm ci --ignore-scripts
+npm run earth:sdk:build
+npm ci --prefix apps/energy-explorer --ignore-scripts
+npm test --prefix apps/energy-explorer
+npm run build --prefix apps/energy-explorer
+node earth/platform/serve.mjs --manifest apps/energy-explorer/earth-app.json --grant earth/platform/dev-grants/energy-explorer.json --web-root apps/energy-explorer/dist --port 18644
+```
+
+Open <http://127.0.0.1:18644/>. Add `--ai` only for optional local Ollama. An application manifest requests permissions; a separate operator-owned installation grants them. Only reviewed trusted same-origin applications are supported; this runtime is not a remote plugin sandbox or multi-tenant identity service.
+
+![Independent v0.4 Energy Explorer: selected map record, grounded conversation and restored workspace](docs/earth/media/energy-v04-workspace.png)
+
 ## What you can do today
 
 **Core v0.3 is a read-only public preview, also available for local development.** The Energy Explorer is the first industry application, using an openly licensed, archival Canadian power-facility catalog.

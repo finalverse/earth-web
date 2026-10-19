@@ -2,6 +2,7 @@
 import http from 'node:http';
 import { isIP } from 'node:net';
 import { createHash, timingSafeEqual } from 'node:crypto';
+import { groundedContext } from './intelligence.js';
 import { VERSION } from '../core/index.js';
 import { readFile, realpath, stat } from 'node:fs/promises';
 import { resolve, sep, extname } from 'node:path';
@@ -21,6 +22,7 @@ const MIME = {
   '.jpg': 'image/jpeg',
   '.wasm': 'application/wasm',
   '.gif': 'image/gif',
+  '.md': 'text/plain; charset=utf-8',
 };
 const CSP =
   "default-src 'self'; script-src 'self' blob: 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'";
@@ -73,6 +75,10 @@ export function createEarthServer({
       u.port
     )
       throw new Error('An exact HTTPS public origin is required.');
+    if (planner)
+      throw new Error(
+        'Public AI requires an authenticated service and release review; this preview is local-only.',
+      );
     if (operatorCore)
       throw new Error('Public preview cannot expose operator registration.');
     publicURL = u;
@@ -262,6 +268,47 @@ export function createEarthServer({
             await scope.execute(await body(req), { signal: controller.signal }),
           );
         }
+        if (scope && req.method === 'GET' && route === '/v1/ai/providers') {
+          if (!scope.capabilities().capabilities.includes('earth.ai.plan'))
+            return send(403, {
+              error: 'Application capability denied.',
+              code: 'CAPABILITY_DENIED',
+            });
+          if (!planner)
+            return send(200, {
+              providers: [],
+              streaming: false,
+              policy: {
+                privacy: 'local-only',
+                automatic_cloud_fallback: false,
+              },
+            });
+          return send(
+            200,
+            planner.discover
+              ? await planner.discover({ signal: controller.signal })
+              : {
+                  providers: [
+                    {
+                      id: 'local-model',
+                      model: 'unknown',
+                      local: true,
+                      available: true,
+                      models: [],
+                      estimated_latency_ms: 20000,
+                      provider_fee: 0,
+                      capabilities: ['spatial-plan'],
+                      streaming: false,
+                    },
+                  ],
+                  streaming: false,
+                  policy: {
+                    privacy: 'local-only',
+                    automatic_cloud_fallback: false,
+                  },
+                },
+          );
+        }
         if (scope && req.method === 'POST' && route === '/v1/ai/plan') {
           if (!scope.capabilities().capabilities.includes('earth.ai.plan'))
             return send(403, {
@@ -273,20 +320,36 @@ export function createEarthServer({
           const input = await body(req);
           if (
             !input ||
-            Object.keys(input).length !== 1 ||
-            typeof input.question !== 'string'
+            Object.keys(input).some(
+              (k) => !['question', 'context'].includes(k),
+            ) ||
+            typeof input.question !== 'string' ||
+            !input.question.trim() ||
+            input.question.length > 1000
           )
             throw new Error('Question required.');
           planning++;
           try {
-            const proposal = await planner.propose(input.question, {
-              signal: controller.signal,
-            });
-            const plan = scope.validate(proposal);
+            const context = groundedContext(scope, input.context);
+            const proposal = planner.proposeWithMetadata
+              ? await planner.proposeWithMetadata(input.question, {
+                  signal: controller.signal,
+                  context,
+                  requestId,
+                })
+              : {
+                  plan: await planner.propose(input.question, {
+                    signal: controller.signal,
+                    context,
+                    requestId,
+                  }),
+                  provider: 'local-model',
+                };
+            const plan = scope.validate(proposal.plan);
             return send(200, {
+              ...proposal,
               plan,
               requires_review: true,
-              provider: 'local-model',
             });
           } finally {
             planning--;
@@ -343,7 +406,9 @@ export function createEarthServer({
           if (
             !input ||
             Object.keys(input).length !== 1 ||
-            typeof input.question !== 'string'
+            typeof input.question !== 'string' ||
+            !input.question.trim() ||
+            input.question.length > 1000
           )
             throw new Error('Question required.');
           planning++;
@@ -352,7 +417,7 @@ export function createEarthServer({
               signal: controller.signal,
             });
             // Validate proposals against the same deterministic core before returning them for review.
-            await activeCore.execute(plan, { signal: controller.signal });
+            activeCore.validate(plan);
             return send(200, {
               plan,
               requires_review: true,

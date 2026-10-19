@@ -40,6 +40,12 @@ const c=new EarthClient({endpoint:'http://127.0.0.1:18641'});
 const p:Position=[-73.5,45.5];
 c.spatial.withinRadius({dataset:'wri-canada-power-plants',point:p,radius_m:100000}).then(r=>{const n:number=r.data.features.length;const s:string=r.receipt.plan_sha256;console.log(n,s);});
 c.temporal.query('features_at_time',{dataset:'usgs-ridgecrest-2019',at:'2019-07-05T00:00:00Z'});
+c.spatial.query('get_provenance',{dataset:'wri-canada-power-plants'}).then(r=>{
+ const id:string=r.data.dataset_id;
+ // @ts-expect-error provenance results are not feature collections
+ r.data.features;
+});
+c.spatial.query('spatial_join',{left:'a',right:'b',predicate:'contains'}).then(r=>{const ids:string[]=r.data.matches.map(m=>m.left_id);});
 // @ts-expect-error no invented kilometre argument
 c.spatial.withinRadius({dataset:'wri-canada-power-plants',radius_km:100});
 // @ts-expect-error unsupported executable tool

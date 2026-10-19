@@ -3,6 +3,9 @@ import { EarthError } from './errors.js';
 import { LocalWorkspaces } from './workspaces.js';
 import type {
   ClientOptions,
+  PlanningOptions,
+  PlanProposal,
+  ProviderDiscovery,
   RequestOptions,
   PageOptions,
   PageResult,
@@ -311,12 +314,30 @@ export class EarthClient {
       this.request<Capabilities>('/capabilities', undefined, options),
   };
   readonly ai = {
-    propose: (question: string, options?: RequestOptions) =>
-      this.request<{
-        plan: QueryPlan;
-        requires_review: true;
-        provider: string;
-      }>('/ai/plan', { question }, options),
+    providers: (options?: RequestOptions) => {
+      if (!this.applicationId)
+        throw new EarthError(
+          'Provider discovery requires a registered application scope.',
+          'CONFIGURATION',
+        );
+      return this.request<ProviderDiscovery>(
+        '/ai/providers',
+        undefined,
+        options,
+      );
+    },
+    propose: (question: string, options: PlanningOptions = {}) => {
+      if (options.context && !this.applicationId)
+        throw new EarthError(
+          'Planning context requires a registered application scope.',
+          'CONFIGURATION',
+        );
+      return this.request<PlanProposal>(
+        '/ai/plan',
+        { question, ...(options.context ? { context: options.context } : {}) },
+        options,
+      );
+    },
   };
   readonly workspaces = {
     local: (applicationId: string, storage: StorageAdapter) =>

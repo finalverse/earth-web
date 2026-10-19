@@ -1,0 +1,39 @@
+{
+  "measured_at": "2026-10-19T10:47:09.287Z",
+  "node": "v24.22.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "cold_module_and_source_load_ms": 117.49516599999998,
+  "first_cluster_query_ms": 22.392291999999998,
+  "workloads": {
+    "cluster_query": {
+      "samples": 100,
+      "median_ms": 1.1984999999999957,
+      "p95_ms": 1.37741699999998
+    },
+    "temporal_query": {
+      "samples": 100,
+      "median_ms": 0.6182919999999967,
+      "p95_ms": 0.7140420000000063
+    },
+    "sdk_initialization": {
+      "samples": 1000,
+      "median_ms": 0.0013749999999959073,
+      "p95_ms": 0.0015419999999721767
+    },
+    "workspace_save": {
+      "samples": 100,
+      "median_ms": 0.6836249999999495,
+      "p95_ms": 0.8477919999999699
+    },
+    "workspace_open": {
+      "samples": 100,
+      "median_ms": 0.4625419999999849,
+      "p95_ms": 0.6065419999999904
+    }
+  },
+  "workspace_bytes": 25464,
+  "rss_mib": 183.28125,
+  "heap_used_mib": 62.09337615966797,
+  "limitations": "One Mac process; first query after dataset/module load, OS filesystem cache uncontrolled; 20 warmups then 100 samples (SDK: 1000); no concurrent load. In-memory Storage, not disk durability. Process RSS/heap are not browser/GPU or SDK-only memory. Browser rendering and local AI measured separately. No improvement/SLA/throughput claim."
+}

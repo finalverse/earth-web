@@ -1,0 +1,26 @@
+{
+  "status": "local-development-artifacts-only",
+  "public_release": false,
+  "artifacts": [
+    {
+      "path": "artifacts/finalverse-earth-0.4.0-dev.1.tgz",
+      "size_bytes": 26577,
+      "sha256": "fba609e5e8f71b7be56cab985e868399fb8c79597d90ab666bb862f8c3f40164"
+    },
+    {
+      "path": "apps/energy-explorer/artifacts/finalverse-energy-explorer-0.4.0-dev.1.tgz",
+      "size_bytes": 6271660,
+      "sha256": "84472c48b926626d378e436685847645c934378108f8626dc3dc3e1047ca7744"
+    }
+  ],
+  "app_archive_entry_count": 406,
+  "archive_safety": "No absolute/traversal paths, symlinks, macOS resource forks or DS_Store entries; manifest, Cesium runtime and notices included.",
+  "public_service_verification": {
+    "version": "0.3.0",
+    "ready": true,
+    "ai_enabled": false,
+    "worlds_enabled": false,
+    "mutsea_required": false
+  },
+  "limits": "Local artifacts only; not npm-published or publicly deployed v0.4. Review the release checklist before publication."
+}

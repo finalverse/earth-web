@@ -11,7 +11,7 @@
 | `capabilities` | `get()` for actual global/app policy and availability               |
 | `workspaces`   | `local(applicationId, storage)` with explicit caller storage        |
 | `ai`           | optional `propose(question)`, always `requires_review:true`         |
-| client         | typed `query(plan, options)` for all actual 25 operators            |
+| client         | typed `query(plan, options)` for all actual 26 operators            |
 
 Every request supports `AbortSignal`, a 1–60,000 ms per-call timeout and optional UUID correlation. Default timeout is 15 seconds; retries default to zero. Explicit retries 1/2 affect GET 429/503 only, respect Retry-After within the overall deadline and never replay proposal/query POSTs. Responses are capped at 2 MiB. `EarthError` exposes a stable code, status, request ID and optional retry delay; a non-enumerable cause supports local diagnosis. Server logs/errors remain sanitized.
 
@@ -22,3 +22,9 @@ Workspace methods: `list`, `save`, `open`, `duplicate`, `export`, `import`, `imp
 The transport-neutral API contract is `earth/contracts/openapi.json` (OpenAPI 3.1.1). Core JSON argument schemas are generated directly; additional domain checks (valid geometry, Gregorian instants, exact place IDs, one point or place, ownership) remain deterministic executor checks. Coordinates/ranges/precision follow the existing [API](../api.md) and [space-time](../space-time.md) specifications. The API version remains `/v1`; this SDK's `0.4.0-dev.1` version is separate from the reused `0.3.0` deterministic engine receipt version.
 
 No React adapter is shipped without a real consumer. The independent application owns its Cesium dependency and rendering adapter. A Rust rewrite is deferred until measured bottlenecks justify one; current query/permission contracts are language neutral.
+
+## Intelligence sessions (v0.4B)
+
+`earth.ai.providers()` discovers the configured local planner. `earth.ai.propose(question, {context, signal})` optionally includes a prior typed plan and selected source feature identity. The server resolves and authorizes those references before inference. `IntelligenceSession` adds ordered typed proposal/approval/tool/artifact/receipt events, single-use approvals, cancellation and non-executing replay. See [the protocol](intelligence-v04.md); sessions remain local and in-memory.
+
+Provider discovery and planning context require an explicit registered application ID. The legacy unscoped local planning route accepts question-only requests. Starting a new proposal or manual analysis invalidates any older pending approval, including when the newer proposal fails.

@@ -259,15 +259,91 @@ const schemas = {
 schemas.ProposalRequest = obj({
   question: { type: 'string', minLength: 1, maxLength: 1000 },
 });
+schemas.PlanningContext = obj(
+  {
+    plan: ref('QueryRequest'),
+    selected: obj({ dataset: str, feature_id: str }),
+  },
+  [],
+);
+schemas.ScopedProposalRequest = obj(
+  {
+    question: { type: 'string', minLength: 1, maxLength: 1000 },
+    context: ref('PlanningContext'),
+  },
+  ['question'],
+);
+schemas.ProviderDiscovery = obj(
+  {
+    providers: { type: 'array', items: { type: 'object' } },
+    streaming: { const: false },
+    policy: { type: 'object' },
+    request_id: str,
+  },
+  ['providers', 'streaming'],
+);
 schemas.Proposal = obj(
   {
     plan: ref('QueryRequest'),
     requires_review: { const: true },
     provider: str,
+    model: str,
+    elapsed_ms: { type: 'number' },
+    usage: { type: ['object', 'null'] },
+    streaming: { const: false },
+    routing: { type: 'object' },
     request_id: str,
   },
   ['plan', 'requires_review', 'provider'],
 );
+const sessionPayloads = {
+  'session.started': obj({ protocol_version: { const: 1 } }),
+  'message.delta': obj({
+    role: { enum: ['user', 'system'] },
+    text: { type: 'string', maxLength: 1000 },
+    authoritative: { const: false },
+  }),
+  'tool.requested': obj({ plan: ref('QueryRequest') }),
+  'tool.completed': obj({ result: ref('QueryResult') }),
+  'artifact.created': obj({
+    artifact_id: { type: 'string', format: 'uuid' },
+    kind: { const: 'spatial-result' },
+    result: ref('QueryResult'),
+  }),
+  'plan.proposed': obj({
+    proposal_id: { type: 'string', format: 'uuid' },
+    proposal: ref('Proposal'),
+  }),
+  'approval.requested': obj({
+    proposal_id: { type: 'string', format: 'uuid' },
+  }),
+  'execution.completed': obj({
+    artifact_id: { type: 'string', format: 'uuid' },
+    receipt: ref('Receipt'),
+  }),
+  'session.completed': obj({ reason: { enum: ['closed', 'cancelled'] } }),
+  'session.failed': obj({
+    code: str,
+    request_id: { type: 'string', format: 'uuid' },
+    message: str,
+  }),
+};
+schemas.SessionEvent = {
+  oneOf: Object.entries(sessionPayloads).map(([type, payload]) =>
+    obj({
+      protocol_version: { const: 1 },
+      session_id: { type: 'string', format: 'uuid' },
+      event_id: { type: 'string', format: 'uuid' },
+      sequence: { type: 'integer', minimum: 1 },
+      at: { type: 'string', format: 'date-time' },
+      request_id: { type: 'string', format: 'uuid' },
+      type: { const: type },
+      payload,
+    }),
+  ),
+  description:
+    'Local SDK session protocol v1. Replaying events never executes tools. No streaming HTTP endpoint is claimed.',
+};
 const response = (name) => ({
   description: 'Success',
   headers: { 'X-Request-ID': { schema: { type: 'string', format: 'uuid' } } },
@@ -335,11 +411,24 @@ for (const scope of ['', '/apps/{applicationId}']) {
       parameters: params,
       requestBody: {
         required: true,
-        content: { 'application/json': { schema: ref('ProposalRequest') } },
+        content: {
+          'application/json': {
+            schema: ref(scope ? 'ScopedProposalRequest' : 'ProposalRequest'),
+          },
+        },
       },
       responses: { 200: response('Proposal'), ...errors },
     },
   };
+  if (scope)
+    paths['/v1' + scope + '/ai/providers'] = {
+      get: {
+        description:
+          'Discover operator-configured local planners. No cloud fallback, no browser-supplied endpoint/model.',
+        parameters: params,
+        responses: { 200: response('ProviderDiscovery'), ...errors },
+      },
+    };
   paths['/v1' + scope + '/query'] = {
     post: {
       description:

@@ -1,4 +1,5 @@
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
+import { VERSION } from './version.js';
 function canonical(value) {
   if (Array.isArray(value)) return value.map(canonical);
   if (value && typeof value === 'object')
@@ -20,7 +21,7 @@ export async function executionReceipt(plan) {
       .map((v) => v.toString(16).padStart(2, '0'))
       .join(''),
     executed_at: new Date().toISOString(),
-    core_version: '0.3.0',
+    core_version: VERSION,
     access: 'read-only',
   };
 }

@@ -130,6 +130,10 @@ test(
         limit: 100,
       },
     };
+    const clusterPlan={...plan,tool:'cluster_features',arguments:{...plan.arguments,cluster_radius_m:10000}};
+    const localGroups=await local.execute(clusterPlan), dbGroups=await db.execute(clusterPlan);
+    assert.deepEqual(localGroups.data.clusters,dbGroups.data.clusters);
+    assert.deepEqual(localGroups.data.fuel_groups,dbGroups.data.fuel_groups);
     const a = await local.execute(plan),
       b = await db.execute(plan);
     assert.equal(b.data.total, 24);

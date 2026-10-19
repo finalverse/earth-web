@@ -1,0 +1,37 @@
+{
+  "manifest_version": "1.0",
+  "id": "finalverse.energy-explorer",
+  "name": "Finalverse Energy Explorer",
+  "version": "0.4.0-dev.1",
+  "api_version": "1",
+  "entry": "./index.html",
+  "runtime": "trusted-same-origin",
+  "capabilities": [
+    "earth.datasets.read",
+    "earth.spatial.query",
+    "earth.workspace.local.read",
+    "earth.workspace.local.write",
+    "earth.ai.plan"
+  ],
+  "datasets": [
+    "natural-earth-countries",
+    "natural-earth-places",
+    "wri-canada-power-plants"
+  ],
+  "tools": [
+    "list_layers",
+    "search_features",
+    "query_features",
+    "inspect_feature",
+    "get_provenance",
+    "within_distance",
+    "nearest",
+    "cluster_features",
+    "buffer",
+    "distance"
+  ],
+  "budgets": {
+    "max_features": 100,
+    "max_radius_m": 500000
+  }
+}

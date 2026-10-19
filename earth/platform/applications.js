@@ -102,7 +102,11 @@ export function installApplications(core, installations = []) {
           scope.assertDataset('natural-earth-places');
         if (a.limit !== undefined && a.limit > g.budgets.max_features)
           throw new CapabilityError('Application result budget exceeded.');
-        if (a.radius_m !== undefined && a.radius_m > g.budgets.max_radius_m)
+        if (
+          [a.radius_m, a.cluster_radius_m].some(
+            (v) => v !== undefined && v > g.budgets.max_radius_m,
+          )
+        )
           throw new CapabilityError('Application radius budget exceeded.');
         const definition = core.definitions().find((t) => t.name === p.tool);
         if (definition?.inputSchema.properties.limit)
