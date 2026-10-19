@@ -1,6 +1,6 @@
 # Finalverse Earth
 
-**v0.3 development preview:** source-backed space-time queries, a UTC timeline, before/after review and portable local workspaces are implemented. The public deployment gates are being validated; this is not a GA release. [v0.3 evidence and gates](docs/earth/verification-v03.md).
+**v0.3 public preview:** [Launch the application](https://earth.finalverse.com) · [Product page](https://finalverse.com/earth) · [Getting started](docs/earth/public-preview.md) · [Release evidence](docs/earth/verification-v03.md). No account or AI key required. This is a preview, not GA.
 
 [![Earth CI](https://github.com/finalverse/finalverse-earth/actions/workflows/earth.yml/badge.svg?branch=main)](https://github.com/finalverse/finalverse-earth/actions/workflows/earth.yml)
 
@@ -12,13 +12,15 @@ Finalverse Earth is part of the Finalverse ecosystem and works independently. It
 
 ## What you can do today
 
-**Core v0.3 is experimental software for local development.** The Energy Explorer is the first industry application, using an openly licensed, archival Canadian power-facility catalog.
+**Core v0.3 is a read-only public preview, also available for local development.** The Energy Explorer is the first industry application, using an openly licensed, archival Canadian power-facility catalog.
 
 - Explore a Cesium globe with 260 country/map units and 1,159 Canadian power facilities.
 - Ask **“Show renewable-energy facilities within 100 km of Montréal.”** Review the typed plan, then run it against source data.
 - Select facilities, inspect reported capacity and location sources, compare ellipsoidal distances, toggle layers and export evidence JSON.
 - Use the same deterministic spatial tools from the browser, JavaScript, TypeScript or Python, with no model required.
 - Convert explicit WGS84, ECEF and local ENU coordinates. Query distance, buffers, containment, intersections, nearest features, bounding boxes and spatial joins.
+- Explore 90 archived USGS earthquake events, scrub a UTC timeline, compare source snapshots and export evidence.
+- Save, reopen, duplicate and exchange versioned workspaces on your own device.
 - Optionally persist datasets in a dedicated PostgreSQL/PostGIS database with row security and immutable dataset registration.
 
 The default globe shows reference geometry on an ellipsoid. It does **not** provide satellite imagery, terrain or live energy observations. WRI's catalog is a 2021 release that stopped receiving maintenance in early 2022; reporting years and location quality vary. These records are not a current or complete facility census.
@@ -39,7 +41,7 @@ npm run earth:start
 
 Open **http://127.0.0.1:18640/energy.html** for the Energy Explorer, or **http://127.0.0.1:18640/** for the country workspace. The Montréal example runs deterministically without AI. Click a result to inspect its source record and distance line; **Export evidence JSON** includes the plan, provenance and execution receipt.
 
-Installation needs internet access. The default runtime uses pinned, bundled datasets and makes no map-provider requests. The listener binds to loopback only; this is not a publicly hosted multi-user service.
+Installation needs internet access. The default runtime uses pinned, bundled datasets and makes no map-provider requests. The local listener binds to loopback only. The public preview uses a separate hardened HTTPS deployment; private datasets and local workspaces are not shared through that service.
 
 ### Optional local AI
 
@@ -118,13 +120,13 @@ The globe foundation is maintained in [finalverse/gods-eye-view](https://github.
 
 The destination is a spatial application platform where an analyst, researcher, creator or AI agent can use the same world model and explainable tools. Finalverse social worlds and MutSea can connect through explicit adapters; Earth Core remains independently usable.
 
-| Milestone                              | Scope                                                                                                         | State                                                        |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| v0.1 · Independent core                | Standalone globe, country queries, coordinate contracts, local AI and SDK                                     | Implemented baseline                                         |
-| v0.2 · Spatial Intelligence Foundation | Real facility data, typed spatial analysis, optional PostGIS, grounded local planning and Energy Explorer     | Current experimental implementation; see verification report |
-| v0.3 · Unified Space-Time Intelligence | Observation timestamps, historical layers, temporal comparisons, versioned workspaces and simulation adapters | Proposed, not implemented                                    |
-| v0.4 · Application platform            | Distributable SDKs, permissioned application manifests, plugin isolation and independent industry apps        | Planned                                                      |
-| Ecosystem integration                  | Optional geographic anchors and explicit links to persistent Finalverse/MutSea experiences                    | Limited fictional-destination adapter today                  |
+| Milestone                              | Scope                                                                                                     | State                                           |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| v0.1 · Independent core                | Standalone globe, country queries, coordinate contracts, local AI and SDK                                 | Implemented baseline                            |
+| v0.2 · Spatial Intelligence Foundation | Real facility data, typed spatial analysis, optional PostGIS, grounded local planning and Energy Explorer | Implemented foundation; see verification report |
+| v0.3 · Unified Space-Time Intelligence | Source timestamps, historical layers, bounded temporal comparisons and portable local workspaces          | Public preview; see v0.3 evidence               |
+| v0.4 · Application platform            | Distributable SDKs, permissioned application manifests, plugin isolation and independent industry apps    | Planned                                         |
+| Ecosystem integration                  | Optional geographic anchors and explicit links to persistent Finalverse/MutSea experiences                | Limited fictional-destination adapter today     |
 
 GeoParquet, OGC services, streaming observations, generalized multi-step AI reasoning and a public multi-user cloud are future work. Roadmap entries describe direction, not shipped capabilities. Read the [implementation proposal and acceptance gates](docs/earth/roadmap.md).
 
@@ -146,6 +148,7 @@ The database guide documents the opt-in PostGIS integration suite. Tests cover c
 
 - **Source code:** [MIT](LICENSE.finalverse) for new Earth code; inherited [MIT license and copyright notices](LICENSE) remain intact. The original globe was created by [Bilawal Sidhu and contributors](https://github.com/bilawalsidhu/gods-eye-view); our maintained foundation preserves that history.
 - **Country/place references:** [Natural Earth](https://www.naturalearthdata.com/about/terms-of-use/), public domain, pinned source versions and explicit curation.
+- **Historical earthquakes:** USGS ComCat Ridgecrest archive, 90 events acquired and checksum-pinned; original event times and later catalog-update times remain distinct. This is not a live hazard service.
 - **Canadian power facilities:** World Resources Institute's [Global Power Plant Database v1.3.0](https://github.com/wri/global-power-plant-database), **CC BY 4.0**, with attribution, source hashes and modifications recorded in the [data notice](earth/data/NOTICE.md).
 
 Source-code licensing does not grant rights to unrelated upstream feeds, images, models or brands. The Earth build excludes the inherited public asset tree. Review [third-party notices](THIRD_PARTY_NOTICES.md) and the [license audit](docs/earth/licensing.md) before redistribution.
@@ -160,4 +163,4 @@ The Canadian energy archive has **no populated reported annual generation values
 
 Seven new temporal tools use the existing read-only, reviewed-plan API. See [space-time contracts](docs/earth/space-time.md), [LayerProvider metadata](http://127.0.0.1:18640/v1/providers), [preview deployment](docs/earth/deployment.md) and [local benchmark](docs/earth/benchmark-v03-temporal.json). Headless use remains independent of rendering, accounts, hosted AI and MutSea.
 
-Target application: **earth.finalverse.com**. Product page: **finalverse.com/earth**. Public availability is recorded in the gate document; these addresses are not a claim that deployment has passed. v0.4 will focus on the spatial application SDK, reviewed provider adapters and application discovery, with collaboration/world handoff as later optional capabilities.
+Public application: [earth.finalverse.com](https://earth.finalverse.com). Product page: [finalverse.com/earth](https://finalverse.com/earth). The preview runs anonymously with hosted AI disabled; local Ollama planning remains opt-in. v0.4 will focus on the spatial application SDK, reviewed provider adapters and application discovery, with collaboration/world handoff as later optional capabilities.

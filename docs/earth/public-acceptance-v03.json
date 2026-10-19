@@ -1,0 +1,184 @@
+{
+  "checked_at": "2026-10-19T08:11:39.468Z",
+  "base": "https://earth.finalverse.com",
+  "scope": "Anonymous external HTTPS checks; not a sustained-load or penetration test.",
+  "checks": [
+    {
+      "name": "anonymous readiness",
+      "passed": true,
+      "elapsed_ms": 980,
+      "status": "ready",
+      "version": "0.3.0"
+    },
+    {
+      "name": "public model and world services disabled",
+      "passed": true,
+      "elapsed_ms": 240,
+      "version": "0.3.0",
+      "ai_enabled": false,
+      "worlds_enabled": false,
+      "mutsea_required": false
+    },
+    {
+      "name": "four licensed providers",
+      "passed": true,
+      "elapsed_ms": 281,
+      "count": 4
+    },
+    {
+      "name": "Montr\u00e9al renewable facilities",
+      "passed": true,
+      "elapsed_ms": 289,
+      "matches": 24,
+      "receipt": {
+        "execution_id": "e56262ce-9ecd-4f54-8e3c-23c4dd85d707",
+        "plan_sha256": "90d60100db2e1767896565b86a07eac2d8482174cfe13286f9fa9535b052d624",
+        "executed_at": "2026-10-19T08:11:22.958Z",
+        "core_version": "0.3.0",
+        "access": "read-only"
+      }
+    },
+    {
+      "name": "USGS historical interval",
+      "passed": true,
+      "elapsed_ms": 254,
+      "events": 90
+    },
+    {
+      "name": "cumulative source snapshot comparison",
+      "passed": true,
+      "elapsed_ms": 259,
+      "newly_observed": 90,
+      "not_observed": 0,
+      "changed": 0,
+      "unchanged": 0
+    },
+    {
+      "name": "missing annual generation is explicit",
+      "passed": true,
+      "elapsed_ms": 245,
+      "missing_observations": 1159
+    },
+    {
+      "name": "private endpoint /metrics",
+      "passed": true,
+      "elapsed_ms": 236,
+      "status": 404
+    },
+    {
+      "name": "private endpoint /v1/datasets",
+      "passed": true,
+      "elapsed_ms": 816,
+      "status": 404
+    },
+    {
+      "name": "unapproved origin rejected",
+      "passed": true,
+      "elapsed_ms": 240,
+      "status": 403
+    },
+    {
+      "name": "invalid temporal range rejected",
+      "passed": true,
+      "elapsed_ms": 272,
+      "status": 400
+    },
+    {
+      "name": "manifest and real-sized icon",
+      "passed": true,
+      "elapsed_ms": 792,
+      "sizes": ["192x192", "512x512"]
+    },
+    {
+      "name": "static HEAD, security headers and conditional cache",
+      "passed": true,
+      "elapsed_ms": 512,
+      "head": 200,
+      "conditional": 304
+    },
+    {
+      "name": "public page /",
+      "passed": true,
+      "elapsed_ms": 850,
+      "status": 200
+    },
+    {
+      "name": "public page /energy.html",
+      "passed": true,
+      "elapsed_ms": 251,
+      "status": 200
+    },
+    {
+      "name": "public page /time.html",
+      "passed": true,
+      "elapsed_ms": 263,
+      "status": 200
+    },
+    {
+      "name": "public page /examples/country-explorer.html",
+      "passed": true,
+      "elapsed_ms": 244,
+      "status": 200
+    },
+    {
+      "name": "product website /earth/",
+      "passed": true,
+      "elapsed_ms": 802,
+      "status": 200
+    },
+    {
+      "name": "product website /",
+      "passed": true,
+      "elapsed_ms": 256,
+      "status": 200
+    },
+    {
+      "name": "product website /about/",
+      "passed": true,
+      "elapsed_ms": 752,
+      "status": 200
+    },
+    {
+      "name": "product website /press/",
+      "passed": true,
+      "elapsed_ms": 264,
+      "status": 200
+    },
+    {
+      "name": "product website /privacy/",
+      "passed": true,
+      "elapsed_ms": 234,
+      "status": 200
+    },
+    {
+      "name": "product website /demos/",
+      "passed": true,
+      "elapsed_ms": 258,
+      "status": 200
+    },
+    {
+      "name": "product website /download/",
+      "passed": true,
+      "elapsed_ms": 232,
+      "status": 200
+    },
+    {
+      "name": "product website /get-started/",
+      "passed": true,
+      "elapsed_ms": 257,
+      "status": 200
+    },
+    {
+      "name": "unrelated MutSea portal available",
+      "passed": true,
+      "elapsed_ms": 1244,
+      "status": 200
+    },
+    {
+      "name": "unknown website page is a real 404",
+      "passed": true,
+      "elapsed_ms": 339,
+      "status": 404
+    }
+  ]
+}
