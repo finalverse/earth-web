@@ -1,3 +1,4 @@
+import { installEarthIdentity } from './identity.js';
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import './energy.css';
 import * as Cesium from 'cesium';
@@ -288,6 +289,7 @@ try {
     container: $('globe'),
     creditContainer: $('credits'),
   });
+  installEarthIdentity(viewer);
   installTrackpadPinchZoom(viewer);
   viewer.scene.renderError.addEventListener(() => {
     status('3D rendering failed. The headless spatial API remains available.');

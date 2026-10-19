@@ -1,3 +1,4 @@
+import { installEarthIdentity } from './identity.js';
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import './style.css';
 import * as Cesium from 'cesium';
@@ -178,6 +179,7 @@ try {
     container: $('globe'),
     creditContainer: $('credits'),
   });
+  installEarthIdentity(viewer);
   installTrackpadPinchZoom(viewer);
   viewer.scene.globe.show = true;
   viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#142f47');
