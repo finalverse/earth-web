@@ -52,3 +52,7 @@ EARTH_TEST_URL_FILE="$HOME/.local/share/finalverse-earth/postgis-dev/runtime-url
 ```
 
 Checks include migration replay, source-coordinate preservation, real-data parity with the embedded engine, private-row isolation across pooled principals, runtime-role rejection, HTTP/SDK access, intentional insert failure/rollback and usable index plans. Without these files the integration test explicitly skips. For repeatable local query timings, run `EARTH_DATABASE_URL_FILE=... npm run earth:bench -- --postgis`.
+
+### Connection loss
+
+The pool handles idle-client disconnect events without crashing the process and logs only a sanitized SQLSTATE. The driver removes the failed connection and reconnects on a future query. Active query/transaction errors still fail; no successful result is fabricated. A regression test terminates only its own idle runtime connection on the explicitly selected development database and verifies reconnection/principal binding. Test database teardown closes pools and retries briefly for backend exit; it does not force-terminate unrelated sessions.

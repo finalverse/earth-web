@@ -1,5 +1,7 @@
 # Finalverse Earth
 
+[![Earth CI](https://github.com/finalverse/finalverse-earth/actions/workflows/earth.yml/badge.svg?branch=main)](https://github.com/finalverse/finalverse-earth/actions/workflows/earth.yml)
+
 **An open spatial intelligence platform for people, AI agents and applications.**
 
 Explore the planet, ask geographic questions, and trace every result to real data, a coordinate system and a reproducible method. Our goal is to make Earth a shared interface for understanding places, infrastructure, environments and change over time.

@@ -2,6 +2,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
+import { once } from 'node:events';
+import { setTimeout as delay } from 'node:timers/promises';
 import {
   connectionFile,
   earthConnection,
@@ -40,10 +42,23 @@ test(
     const control = poolFor(adminURL.href);
     let admin, app;
     t.after(async () => {
-      if (app) await app.end();
-      if (admin) await admin.end();
-      await control.query(`DROP DATABASE IF EXISTS "${database}" WITH (FORCE)`);
-      await control.end();
+      try {
+        if (app) await app.end();
+        if (admin) await admin.end();
+        // Server-side backend shutdown may trail socket close on fast runners.
+        // Wait briefly rather than force-terminating still-closing connections.
+        for (let attempt = 0; ; attempt++) {
+          try {
+            await control.query(`DROP DATABASE IF EXISTS "${database}"`);
+            break;
+          } catch (error) {
+            if (error.code !== '55006' || attempt >= 4) throw error;
+            await delay(100);
+          }
+        }
+      } finally {
+        await control.end();
+      }
     });
     await control.query(`CREATE DATABASE "${database}"`);
     adminURL.pathname = '/' + database;
@@ -249,5 +264,46 @@ test(
       ).rowCount,
       0,
     );
+  },
+);
+
+test(
+  'idle database connection loss reconnects without crashing or retaining a principal',
+  { skip: !adminFile || !appFile },
+  async (t) => {
+    const adminURL = new URL(await connectionFile(adminFile)),
+      runtimeURL = new URL(await connectionFile(appFile));
+    assert.equal(adminURL.host, runtimeURL.host);
+    assert.equal(adminURL.pathname, runtimeURL.pathname);
+    const admin = poolFor(adminURL.href),
+      app = poolFor(runtimeURL.href);
+    t.after(async () => {
+      await app.end();
+      await admin.end();
+    });
+    const client = await app.connect();
+    const identity = (
+      await client.query('SELECT pg_backend_pid() AS pid,current_user AS role')
+    ).rows[0];
+    client.release();
+    const disconnected = once(app, 'error', {
+      signal: AbortSignal.timeout(5000),
+    });
+    const killed = await admin.query(
+      'SELECT pg_terminate_backend(pid) AS terminated FROM pg_stat_activity WHERE pid=$1 AND datname=current_database() AND usename=$2',
+      [identity.pid, identity.role],
+    );
+    assert.equal(killed.rows[0]?.terminated, true);
+    const [error] = await disconnected;
+    assert.equal(error.code, '57P01');
+    const result = await new PostGISStore(app).transaction(
+      { id: 'anonymous' },
+      (c) =>
+        c.query(
+          "SELECT pg_backend_pid() AS pid,current_setting('earth.principal',true) AS principal",
+        ),
+    );
+    assert.notEqual(result.rows[0].pid, identity.pid);
+    assert.equal(result.rows[0].principal, 'anonymous');
   },
 );

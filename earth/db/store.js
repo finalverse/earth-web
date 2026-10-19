@@ -26,7 +26,7 @@ export async function connectionFile(path) {
   return earthConnection((await readFile(path, 'utf8')).trim());
 }
 export function poolFor(connectionString) {
-  return new pg.Pool({
+  const pool = new pg.Pool({
     connectionString: earthConnection(connectionString),
     max: 4,
     connectionTimeoutMillis: 5000,
@@ -34,6 +34,17 @@ export function poolFor(connectionString) {
     query_timeout: 8000,
     application_name: 'finalverse-earth-v02',
   });
+  // pg removes failed idle clients before emitting this event. Active query
+  // errors still reject normally; a background disconnect must not crash Node.
+  pool.on('error', (error) => {
+    const code = /^[A-Z0-9]{5}$/.test(error.code || '')
+      ? error.code
+      : 'TRANSPORT';
+    console.error(
+      `[earth-db] idle connection lost (${code}); pool will reconnect on demand.`,
+    );
+  });
+  return pool;
 }
 export async function migrate(pool) {
   const client = await pool.connect();
