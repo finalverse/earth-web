@@ -1,0 +1,35 @@
+{
+  "measured_at": "2026-10-19T10:22:44.827Z",
+  "node": "v24.22.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "workloads": {
+    "spatial": {
+      "samples": 100,
+      "median_ms": 1.5847909999999956,
+      "p95_ms": 1.9277500000000032
+    },
+    "temporal": {
+      "samples": 100,
+      "median_ms": 0.6068329999999946,
+      "p95_ms": 0.681083000000001
+    },
+    "sdk_initialization": {
+      "samples": 1000,
+      "median_ms": 0.001416000000006079,
+      "p95_ms": 0.0015420000000290202
+    },
+    "workspace_save": {
+      "samples": 100,
+      "median_ms": 0.017540999999994256,
+      "p95_ms": 0.02512500000000273
+    },
+    "workspace_load": {
+      "samples": 100,
+      "median_ms": 0.011458000000004631,
+      "p95_ms": 0.01637500000003911
+    }
+  },
+  "rss_mib": 181.25,
+  "limits": "20 warmups per workload. In-process core and in-memory Storage adapter; not HTTP, disk durability, browser rendering or public throughput. SDK construction is lazy and does not contact a model/server. No controlled before/after improvement claim."
+}

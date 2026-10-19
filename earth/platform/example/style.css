@@ -1,0 +1,42 @@
+:root {
+  font:
+    16px/1.6 system-ui,
+    sans-serif;
+  color: #eeeafc;
+  background: #101421;
+}
+main {
+  max-width: 860px;
+  margin: 6vh auto;
+  padding: 32px;
+}
+h1 {
+  font-size: clamp(30px, 5vw, 52px);
+  line-height: 1.15;
+}
+p {
+  color: #c9c1df;
+}
+button {
+  font: inherit;
+  padding: 14px 22px;
+  border: 1px solid #baa2ff;
+  background: #8060d0;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+button:focus-visible {
+  outline: 3px solid #8ee3d4;
+  outline-offset: 4px;
+}
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #1b2033;
+  border-radius: 14px;
+  padding: 22px;
+}
+h2 {
+  color: #8ee3d4;
+}

@@ -29,3 +29,10 @@ changelog.d/.assembling/
 dist-earth/
 __pycache__/
 *.pyc
+
+# Independent v0.4 platform build/package artifacts
+artifacts/
+packages/earth/dist/
+packages/earth/src/generated/
+apps/energy-explorer/dist/
+packages/earth/openapi.json

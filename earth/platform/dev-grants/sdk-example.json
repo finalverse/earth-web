@@ -1,0 +1,54 @@
+{
+  "manifest_version": "1.0",
+  "id": "finalverse.sdk-example",
+  "name": "SDK example",
+  "version": "0.4.0-dev.1",
+  "api_version": "1",
+  "entry": "./index.html",
+  "runtime": "trusted-same-origin",
+  "capabilities": [
+    "earth.datasets.read",
+    "earth.spatial.query",
+    "earth.temporal.query",
+    "earth.workspace.local.read",
+    "earth.workspace.local.write",
+    "earth.ai.plan"
+  ],
+  "datasets": [
+    "natural-earth-countries",
+    "wri-canada-power-plants",
+    "natural-earth-places",
+    "usgs-ridgecrest-2019"
+  ],
+  "tools": [
+    "list_layers",
+    "search_features",
+    "contains_point",
+    "bbox_candidates",
+    "measure_distance",
+    "transform_coordinates",
+    "distance",
+    "buffer",
+    "contains",
+    "intersects",
+    "within_distance",
+    "nearest",
+    "bounding_box",
+    "spatial_join",
+    "coordinate_transform",
+    "query_features",
+    "inspect_feature",
+    "get_provenance",
+    "features_at_time",
+    "nearest_at_time",
+    "features_during_interval",
+    "intersects_during_interval",
+    "aggregate_over_time",
+    "compare_snapshots",
+    "spatial_changes"
+  ],
+  "budgets": {
+    "max_features": 100,
+    "max_radius_m": 500000
+  }
+}

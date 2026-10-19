@@ -18,7 +18,12 @@ export function validateWorkspace(input) {
     w.title.length > 120 ||
     typeof w.notes !== 'string' ||
     w.notes.length > 10000 ||
-    !['countries', 'energy', 'time'].includes(w.application)
+    !(
+      ['countries', 'energy', 'time'].includes(w.application) ||
+      (typeof w.application === 'string' &&
+        /^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)+$/.test(w.application) &&
+        w.application.length <= 80)
+    )
   )
     throw new Error('Invalid workspace identity.');
   const known = [
@@ -37,6 +42,7 @@ export function validateWorkspace(input) {
     'receipt',
     'provenance',
     'saved_views',
+    'application_state',
   ];
   if (Object.keys(w).some((k) => !known.includes(k)))
     throw new Error('Unknown workspace field.');
@@ -99,14 +105,42 @@ export function validateWorkspace(input) {
     )
   )
     throw new Error('Invalid workspace evidence or saved views.');
+  if (w.application_state !== undefined) {
+    if (
+      !w.application_state ||
+      Array.isArray(w.application_state) ||
+      typeof w.application_state !== 'object' ||
+      new TextEncoder().encode(JSON.stringify(w.application_state)).length >
+        65536
+    )
+      throw new Error('Invalid application state.');
+    const visit = (v, depth = 0) => {
+      if (depth > 8)
+        throw new Error('Application state nesting budget exceeded.');
+      if (v && typeof v === 'object')
+        for (const [k, child] of Object.entries(v)) {
+          if (
+            /token|password|secret|authorization|api[_-]?key|cookie|credential|^__proto__$|^constructor$/i.test(
+              k,
+            )
+          )
+            throw new Error('Credentials are not workspace state.');
+          visit(child, depth + 1);
+        }
+    };
+    visit(w.application_state);
+  }
   return w;
 }
 export class WorkspaceStore {
-  constructor(storage) {
+  constructor(storage, namespace = key) {
+    if (typeof namespace !== 'string' || namespace.length > 200)
+      throw new Error('Invalid storage namespace.');
     this.storage = storage;
+    this.key = namespace;
   }
   list() {
-    const raw = this.storage.getItem(key) || '[]';
+    const raw = this.storage.getItem(this.key) || '[]';
     if (new TextEncoder().encode(raw).length > 5 * maxBytes)
       throw new Error('Workspace storage budget exceeded.');
     const rows = JSON.parse(raw);
@@ -120,7 +154,7 @@ export class WorkspaceStore {
     if (rows.length >= 5)
       throw new Error('Export/delete a workspace before adding a sixth.');
     rows.push(w);
-    this.storage.setItem(key, JSON.stringify(rows));
+    this.storage.setItem(this.key, JSON.stringify(rows));
     return w;
   }
   open(id) {
@@ -130,7 +164,7 @@ export class WorkspaceStore {
   }
   delete(id) {
     this.storage.setItem(
-      key,
+      this.key,
       JSON.stringify(this.list().filter((w) => w.id !== id)),
     );
   }

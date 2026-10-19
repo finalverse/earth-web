@@ -1,0 +1,37 @@
+{
+  "name": "@finalverse/earth",
+  "version": "0.4.0-dev.1",
+  "description": "Typed, renderer-independent Finalverse Earth SDK",
+  "type": "module",
+  "sideEffects": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE",
+    "LICENSE.upstream",
+    "openapi.json"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./workspaces": {
+      "types": "./dist/workspaces.d.ts",
+      "import": "./dist/workspaces.js"
+    },
+    "./manifest": {
+      "types": "./dist/manifest.d.ts",
+      "import": "./dist/manifest.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/finalverse/finalverse-earth.git",
+    "directory": "packages/earth"
+  }
+}

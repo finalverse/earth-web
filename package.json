@@ -64,7 +64,11 @@
     "earth:db:start": "node earth/db/dev.mjs start",
     "earth:db:stop": "node earth/db/dev.mjs stop",
     "earth:db:migrate": "node earth/db/cli.mjs migrate",
-    "earth:db:seed": "node earth/db/cli.mjs seed"
+    "earth:db:seed": "node earth/db/cli.mjs seed",
+    "earth:contracts": "node earth/contracts/build.mjs",
+    "earth:sdk:build": "node earth/platform/build-sdk.mjs",
+    "earth:platform:test": "node --test earth/platform/test/*.test.mjs packages/earth/test/*.test.mjs",
+    "earth:platform:serve": "node earth/platform/serve.mjs"
   },
   "dependencies": {
     "@jtarrio/signals": "^0.10.0",
@@ -90,9 +94,12 @@
     "satellite.js": "^6.0.2"
   },
   "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
     "prettier": "3.9.6",
     "puppeteer": "^25.10.0",
     "sharp": "^0.35.4",
+    "typescript": "7.0.2",
     "vite": "^6.0.0",
     "vite-plugin-cesium": "^1.2.23",
     "ws": "^8.21.0"

@@ -5,6 +5,8 @@ import { createHash, timingSafeEqual } from 'node:crypto';
 import { VERSION } from '../core/index.js';
 import { readFile, realpath, stat } from 'node:fs/promises';
 import { resolve, sep, extname } from 'node:path';
+import { installApplications } from '../platform/applications.js';
+import { catalogPage, pageRequest } from '../platform/catalog.js';
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -45,6 +47,9 @@ export function createEarthServer({
   publicOrigin = null,
   readyCheck = async () => true,
   logger = null,
+  applications = [],
+  openapi = null,
+  development = false,
 }) {
   if (
     !!operatorCore !== !!operatorToken ||
@@ -53,6 +58,8 @@ export function createEarthServer({
     throw new Error(
       'Operator core and a strong token must be configured together.',
     );
+  if (development && publicOrigin)
+    throw new Error('Development cache mode cannot be public.');
   let publicURL = null;
   if (publicOrigin) {
     const u = new URL(publicOrigin);
@@ -70,12 +77,18 @@ export function createEarthServer({
       throw new Error('Public preview cannot expose operator registration.');
     publicURL = u;
   }
+  const installed = installApplications(core, applications);
   const metrics = { requests: 0, errors: 0, queries: 0, plans: 0 };
   const rates = new Map();
   let planning = 0;
   const server = http.createServer(async (req, res) => {
     const started = performance.now(),
-      requestId = crypto.randomUUID();
+      requestId =
+        /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(
+          req.headers['x-request-id'] || '',
+        )
+          ? req.headers['x-request-id']
+          : crypto.randomUUID();
     metrics.requests++;
     res.setHeader('X-Request-ID', requestId);
     res.on('finish', () => {
@@ -95,10 +108,29 @@ export function createEarthServer({
     res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
     const send = (status, value) => {
       if (res.destroyed) return;
+      if (status >= 400) {
+        const codes = {
+          400: 'INVALID_REQUEST',
+          403: 'FORBIDDEN',
+          404: 'NOT_FOUND',
+          409: 'CONFLICT',
+          413: 'PAYLOAD_TOO_LARGE',
+          415: 'INVALID_REQUEST',
+          429: 'RATE_LIMITED',
+          503: 'UNAVAILABLE',
+        };
+        value = {
+          ...value,
+          code: value.code || codes[status] || 'UNAVAILABLE',
+          request_id: requestId,
+        };
+        if (status === 429) res.setHeader('Retry-After', '60');
+      } else if (req.url.startsWith('/v1/'))
+        value = { ...value, request_id: requestId };
       res.writeHead(status, {
         'Content-Type': 'application/json; charset=utf-8',
       });
-      res.end(JSON.stringify(value));
+      res.end(req.method === 'HEAD' ? undefined : JSON.stringify(value));
     };
     const controller = new AbortController();
     res.on('close', () => controller.abort());
@@ -171,6 +203,97 @@ export function createEarthServer({
           return send(429, { error: 'Try again later.' });
         rates.set(ip, rate);
         if (++rate.count > 120) return send(429, { error: 'Try again later.' });
+        const appMatch = /^\/v1\/apps\/([a-z][a-z0-9.-]{2,79})(\/.*)$/.exec(
+          path,
+        );
+        const scope = appMatch ? installed.get(appMatch[1]) : null;
+        const route = appMatch ? '/v1' + appMatch[2] : path;
+        const selectedCore = scope || activeCore;
+        if (
+          ['GET', 'HEAD'].includes(req.method) &&
+          route === '/v1/capabilities'
+        ) {
+          const value = scope
+            ? scope.capabilities()
+            : {
+                api_version: '1',
+                platform_version: '0.4.0-dev.1',
+                capabilities: [
+                  'earth.datasets.read',
+                  'earth.spatial.query',
+                  'earth.temporal.query',
+                ],
+                tools: activeCore.definitions().map((t) => t.name),
+                datasets: activeCore.layers().map((d) => d.id),
+                budgets: { max_features: 100, max_radius_m: 20000000 },
+                ai_enabled: !!planner,
+                workspace_storage: 'client-local',
+              };
+          value.ai_enabled =
+            !!planner &&
+            (!scope || value.capabilities.includes('earth.ai.plan'));
+          return send(200, value);
+        }
+        if (
+          ['GET', 'HEAD'].includes(req.method) &&
+          route === '/v1/openapi.json' &&
+          !scope
+        ) {
+          if (!openapi) return send(404, { error: 'Contract unavailable.' });
+          return send(200, openapi);
+        }
+        const pageMatch =
+          /^\/v1\/catalog\/datasets(?:\/([-a-z0-9]{1,80})\/features)?$/.exec(
+            route,
+          );
+        if (['GET', 'HEAD'].includes(req.method) && pageMatch)
+          return send(
+            200,
+            catalogPage(
+              selectedCore,
+              pageMatch[1],
+              pageRequest(url.searchParams),
+            ),
+          );
+        if (scope && req.method === 'POST' && route === '/v1/query') {
+          metrics.queries++;
+          return send(
+            200,
+            await scope.execute(await body(req), { signal: controller.signal }),
+          );
+        }
+        if (scope && req.method === 'POST' && route === '/v1/ai/plan') {
+          if (!scope.capabilities().capabilities.includes('earth.ai.plan'))
+            return send(403, {
+              error: 'Application capability denied.',
+              code: 'CAPABILITY_DENIED',
+            });
+          if (!planner) return send(503, { error: 'Local AI is disabled.' });
+          if (planning >= 2) return send(429, { error: 'Local planner busy.' });
+          const input = await body(req);
+          if (
+            !input ||
+            Object.keys(input).length !== 1 ||
+            typeof input.question !== 'string'
+          )
+            throw new Error('Question required.');
+          planning++;
+          try {
+            const proposal = await planner.propose(input.question, {
+              signal: controller.signal,
+            });
+            const plan = scope.validate(proposal);
+            return send(200, {
+              plan,
+              requires_review: true,
+              provider: 'local-model',
+            });
+          } finally {
+            planning--;
+          }
+        }
+        if (scope)
+          return send(404, { error: 'Application endpoint unavailable.' });
         if (['GET', 'HEAD'].includes(req.method) && path === '/v1/status')
           return send(200, {
             version: VERSION,
@@ -261,11 +384,13 @@ export function createEarthServer({
       res.setHeader('ETag', etag);
       res.setHeader(
         'Cache-Control',
-        path.startsWith('/assets/')
-          ? 'public, max-age=31536000, immutable'
-          : path.endsWith('.html') || path === '/'
-            ? 'no-cache'
-            : 'public, max-age=3600',
+        development
+          ? 'no-store'
+          : path.startsWith('/assets/')
+            ? 'public, max-age=31536000, immutable'
+            : path.endsWith('.html') || path === '/'
+              ? 'no-cache'
+              : 'public, max-age=3600',
       );
       // RFC 9110 §13.1.2: GET/HEAD validators use weak comparison.
       // Compression proxies may prefix the original tag with W/.
@@ -287,6 +412,7 @@ export function createEarthServer({
       if (controller.signal.aborted) return;
       // Dataset existence, local paths and model internals are never exposed through errors.
       send(error.status || 400, {
+        ...(error.code === 'CAPABILITY_DENIED' ? { code: error.code } : {}),
         error:
           error.status === 413
             ? 'Request too large.'

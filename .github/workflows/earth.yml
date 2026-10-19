@@ -1,7 +1,7 @@
 name: Independent Earth Core
 on:
   push:
-    branches: [main]
+    branches: [main, codex/earth-v04-platform]
   pull_request:
 permissions:
   contents: read
@@ -25,6 +25,10 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - run: npm run earth:test
+      - run: npm run earth:sdk:build
+      - run: npm run earth:platform:test
+      - name: Verify generated public contract matches source
+        run: git diff --exit-code -- earth/contracts/openapi.json
       - run: npm run earth:build
       - run: npm run earth:audit-build
       - run: npm run earth:bench

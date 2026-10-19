@@ -7,7 +7,8 @@ import { DatasetRegistry } from './registry.js';
 import { spatialTools } from './spatial.js';
 import { temporalTools } from './temporal.js';
 import { providerMetadata } from './provider.js';
-import { temporalMetadata } from './time.js';
+import { temporalMetadata, instant, interval } from './time.js';
+import { validateValue } from '../../src/tools/schema.js';
 import { executionReceipt } from './receipt.js';
 
 export const VERSION = '0.3.0';
@@ -291,7 +292,62 @@ export function createEarthCore({
     ...temporalTools({ tool, registry, principal: actor, result }),
   ].filter((t) => allowedTools === null || allowedTools.includes(t.name));
   const catalog = composeCatalog({ tools });
+  const validate = (plan) => {
+    if (
+      !plan ||
+      plan.schema_version !== 1 ||
+      Object.keys(plan).some(
+        (k) => !['schema_version', 'tool', 'arguments'].includes(k),
+      )
+    )
+      throw new Error('Invalid versioned query plan.');
+    const definition = tools.find((t) => t.name === plan.tool);
+    if (
+      !definition ||
+      validateValue(definition.inputSchema, plan.arguments ?? {}).length
+    )
+      throw new Error('Invalid or unauthorized query arguments.');
+    const p = structuredClone({
+        schema_version: 1,
+        tool: plan.tool,
+        arguments: plan.arguments ?? {},
+      }),
+      a = p.arguments;
+    for (const key of ['dataset', 'left', 'right', 'comparison_dataset'])
+      if (a[key] !== undefined) get(a[key]);
+    if (a.place_id !== undefined) {
+      const d = get('natural-earth-places');
+      if (!d.features.some((f) => f.id === a.place_id))
+        throw new Error('Place unavailable.');
+    }
+    if (a.point) point(a.point);
+    if (a.start !== undefined && a.end !== undefined)
+      interval({ start: a.start, end: a.end });
+    for (const key of ['at', 'before', 'after', 'window_start'])
+      if (a[key] !== undefined) instant(a[key]);
+    if (a.before && a.after && instant(a.before) > instant(a.after))
+      throw new Error('Reversed snapshots.');
+    return p;
+  };
   return {
+    validate,
+    featurePage(id, offset, limit) {
+      if (
+        !Number.isInteger(offset) ||
+        offset < 0 ||
+        offset > 50000 ||
+        !Number.isInteger(limit) ||
+        limit < 1 ||
+        limit > 100
+      )
+        throw new Error('Invalid feature page.');
+      const d = get(id);
+      return {
+        ...result(d, d.features.slice(offset, offset + limit), d.title),
+        total: d.features.length,
+        version: d.version,
+      };
+    },
     providers: () => registry.values(actor).map(providerMetadata),
     layers: () => registry.values(actor).map(publicMetadata),
     registerDataset: (input) =>
@@ -319,11 +375,7 @@ export function createEarthCore({
         )
       )
         throw new Error('Invalid versioned query plan.');
-      const normalized = structuredClone({
-        schema_version: 1,
-        tool: plan.tool,
-        arguments: plan.arguments ?? {},
-      });
+      const normalized = validate(plan);
       const started = performance.now();
       const value = await catalog.call(normalized.tool, normalized.arguments, {
         signal,
