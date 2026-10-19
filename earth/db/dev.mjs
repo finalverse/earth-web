@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { poolFor, migrate, PostGISStore, connectionFile } from './store.js';
 import { defaultDataset } from '../server/main.js';
+import { temporalCatalogs } from '../data/providers.js';
 import { pointCatalogs } from '../data/catalogs.js';
 const execFile = promisify(exec),
   name = 'finalverse-earth-postgis-dev',
@@ -154,6 +155,7 @@ if (process.argv[2] === 'stop') {
     await new PostGISStore(app).seed([
       await defaultDataset(),
       ...(await pointCatalogs()),
+      ...(await temporalCatalogs()),
     ]);
   } finally {
     await app.end();

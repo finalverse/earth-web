@@ -5,9 +5,12 @@ import { decodeRing, polygonsContain } from '../../src/data/adminBoundaries.js';
 import { distance, point, transform } from './geo.js';
 import { DatasetRegistry } from './registry.js';
 import { spatialTools } from './spatial.js';
+import { temporalTools } from './temporal.js';
+import { providerMetadata } from './provider.js';
+import { temporalMetadata } from './time.js';
 import { executionReceipt } from './receipt.js';
 
-export const VERSION = '0.2.0';
+export const VERSION = '0.3.0';
 const str = { type: 'string', minLength: 1, maxLength: 128 };
 const pos = {
   type: 'array',
@@ -96,6 +99,7 @@ export function createEarthCore({
     title: d.title,
     version: d.version,
     feature_count: d.features.length,
+    temporal: temporalMetadata(d),
     provenance: structuredClone(d.provenance),
   });
   function result(d, features, summary, extra = {}) {
@@ -104,7 +108,7 @@ export function createEarthCore({
       data: {
         type: 'FeatureCollection',
         features: structuredClone(features),
-        ...extra,
+        ...structuredClone(extra),
       },
       provenance: {
         ...structuredClone(d.provenance),
@@ -284,9 +288,11 @@ export function createEarthCore({
   const tools = [
     ...baseTools,
     ...spatialTools({ tool, registry, principal: actor, result, backend }),
+    ...temporalTools({ tool, registry, principal: actor, result }),
   ].filter((t) => allowedTools === null || allowedTools.includes(t.name));
   const catalog = composeCatalog({ tools });
   return {
+    providers: () => registry.values(actor).map(providerMetadata),
     layers: () => registry.values(actor).map(publicMetadata),
     registerDataset: (input) =>
       registry.register(

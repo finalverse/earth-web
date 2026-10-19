@@ -1,6 +1,7 @@
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import { connectionFile, poolFor, migrate, PostGISStore } from './store.js';
 import { defaultDataset } from '../server/main.js';
+import { temporalCatalogs } from '../data/providers.js';
 import { pointCatalogs } from '../data/catalogs.js';
 const [operation] = process.argv.slice(2);
 const path =
@@ -20,6 +21,7 @@ try {
     await new PostGISStore(pool).seed([
       await defaultDataset(),
       ...(await pointCatalogs()),
+      ...(await temporalCatalogs()),
     ]);
   else throw new Error('Usage: db/cli.mjs migrate | seed');
   console.log(`Earth database ${operation} complete.`);

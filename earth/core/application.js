@@ -1,5 +1,6 @@
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import { createEarthCore } from './index.js';
+import { TEMPORAL_TOOLS } from './temporal.js';
 import { SPATIAL_TOOLS } from './spatial.js';
 const TOOLS = [
   'list_layers',
@@ -9,6 +10,7 @@ const TOOLS = [
   'measure_distance',
   'transform_coordinates',
   ...SPATIAL_TOOLS,
+  ...TEMPORAL_TOOLS,
 ];
 export function createApplication({ manifest, datasets, principal }) {
   if (
@@ -61,6 +63,7 @@ export function createApplication({ manifest, datasets, principal }) {
           'contains',
           'intersects',
           'spatial_join',
+          ...TEMPORAL_TOOLS,
         ].includes(scoped?.tool) &&
         scoped.arguments
       )

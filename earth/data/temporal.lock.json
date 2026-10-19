@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "files": {
+    "usgs-ridgecrest.json": "bf9a28814eda26f8032d6e746305a6a06eb025977fb130b432134a7f4d20c372"
+  },
+  "source_sha256": "ad3bdcf88e25e723a0c6fcc01703d9aaa626392bcb8dc8bffbee72b597f0135d",
+  "source_url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2019-07-04T00:00:00&endtime=2019-07-08T00:00:00&minlatitude=35&maxlatitude=37&minlongitude=-119&maxlongitude=-116&minmagnitude=4&orderby=time-asc&limit=500"
+}

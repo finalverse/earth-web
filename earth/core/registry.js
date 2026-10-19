@@ -1,4 +1,5 @@
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
+import { validateTemporal } from './time.js';
 import RBush from 'rbush';
 import { bbox } from '@turf/bbox';
 import { booleanValid } from '@turf/boolean-valid';
@@ -106,6 +107,7 @@ function validateDataset(input, owner = null) {
     vertices += validateGeometry(f.geometry);
     if (vertices > 1500000) throw new Error('Dataset vertex budget exceeded.');
   }
+  validateTemporal(d);
   return d;
 }
 export class DatasetRegistry {

@@ -3957,7 +3957,11 @@
       "earth/core/registry.js",
       "earth/core/spatial.js",
       "earth/core/constants.js",
-      "earth/core/receipt.js"
+      "earth/core/receipt.js",
+      "earth/core/time.js",
+      "earth/core/temporal.js",
+      "earth/core/workspace.js",
+      "earth/core/provider.js"
     ],
     "external": [
       "proj4",

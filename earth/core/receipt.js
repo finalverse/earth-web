@@ -20,7 +20,7 @@ export async function executionReceipt(plan) {
       .map((v) => v.toString(16).padStart(2, '0'))
       .join(''),
     executed_at: new Date().toISOString(),
-    core_version: '0.2.0',
+    core_version: '0.3.0',
     access: 'read-only',
   };
 }

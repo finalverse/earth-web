@@ -32,7 +32,7 @@ export function poolFor(connectionString) {
     connectionTimeoutMillis: 5000,
     statement_timeout: 5000,
     query_timeout: 8000,
-    application_name: 'finalverse-earth-v02',
+    application_name: 'finalverse-earth-v03',
   });
   // pg removes failed idle clients before emitting this event. Active query
   // errors still reject normally; a background disconnect must not crash Node.
@@ -50,6 +50,8 @@ export async function migrate(pool) {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
+    // Extension DDL on an emulated/cold PostGIS instance needs a migration-only budget.
+    await client.query('SET LOCAL statement_timeout=30000');
     await client.query('SELECT pg_advisory_xact_lock(98640802)');
     await client.query('CREATE SCHEMA IF NOT EXISTS earth');
     await client.query(
@@ -70,7 +72,7 @@ export async function migrate(pool) {
         if (existing.rows[0].sha256 !== digest)
           throw new Error('Applied migration changed; create a new migration.');
       } else {
-        await client.query(sql);
+        await client.query({ text: sql, query_timeout: 35000 });
         await client.query(
           'INSERT INTO earth.migrations(id,sha256) VALUES($1,$2)',
           [id, digest],
