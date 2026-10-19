@@ -14,7 +14,7 @@ Finalverse Earth is part of the Finalverse ecosystem and works independently. It
 
 The `codex/earth-v04-platform` development branch adds a strict, renderer-independent **`@finalverse/earth`** SDK tarball, OpenAPI 3.1, server-owned application grants, local workspaces and ordered intelligence sessions. Its independent **Energy Explorer** demonstrates source-backed geographic grouping, fuel comparisons, selected map/conversation artifacts and optional reviewed local AI plans.
 
-These contracts and the independent app are **development artifacts**, not installed on the unchanged public v0.3 service. No npm package has been published. Start with the [SDK quickstart](docs/earth/platform/quickstart.md), [independent application build/tutorial](apps/energy-explorer/README.md), [intelligence architecture](docs/earth/platform/intelligence-v04.md) and [v0.4 acceptance and release assessment](docs/earth/platform/acceptance-v04b.md).
+Check out `codex/earth-v04-platform` to use the development commands below. These contracts and the independent app are **development artifacts**, not installed on the unchanged public v0.3 service. No npm package has been published. Start with the [SDK quickstart](docs/earth/platform/quickstart.md), [independent application build/tutorial](apps/energy-explorer/README.md), [intelligence architecture](docs/earth/platform/intelligence-v04.md) and [v0.4 acceptance and release assessment](docs/earth/platform/acceptance-v04b.md).
 
 ```sh
 npm ci --ignore-scripts

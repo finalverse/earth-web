@@ -9,7 +9,10 @@ This is **v0.4 development software**, not the public v0.3 deployment. Its trust
 Use Node 24.14+ (24.x; verified with 24.22.0) and npm. No MutSea, Viewer, cloud key or database is required for the embedded source snapshot.
 
 ```sh
-# At the finalverse-earth repository root:
+# Clone the development branch (the public deployment remains v0.3):
+git clone --branch codex/earth-v04-platform https://github.com/finalverse/finalverse-earth.git
+cd finalverse-earth
+# Or start at the repository root of an existing checkout of that branch.
 npm ci --ignore-scripts
 npm run earth:sdk:build
 npm ci --prefix apps/energy-explorer --ignore-scripts

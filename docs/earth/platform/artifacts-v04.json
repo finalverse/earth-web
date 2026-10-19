@@ -9,8 +9,8 @@
     },
     {
       "path": "apps/energy-explorer/artifacts/finalverse-energy-explorer-0.4.0-dev.1.tgz",
-      "size_bytes": 6271660,
-      "sha256": "84472c48b926626d378e436685847645c934378108f8626dc3dc3e1047ca7744"
+      "size_bytes": 6271764,
+      "sha256": "bc99dcda59973fb33d1ff69a2e3da355d0e336c95fbd08ae5315e240e4963317"
     }
   ],
   "app_archive_entry_count": 406,
