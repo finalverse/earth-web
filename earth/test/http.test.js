@@ -138,6 +138,28 @@ test('static serving confines real paths and emits the Cesium worker-compatible 
   const home = await fetch(url + '/');
   assert.equal(home.status, 200);
   assert.equal(await home.text(), 'Earth fixture');
+  const tag = home.headers.get('etag');
+  assert.ok(tag);
+  for (const validator of [tag, 'W/' + tag, '"older", W/' + tag, '*']) {
+    for (const method of ['GET', 'HEAD']) {
+      const cached = await fetch(url + '/', {
+        method,
+        headers: { 'If-None-Match': validator },
+      });
+      assert.equal(cached.status, 304);
+      assert.equal(await cached.text(), '');
+    }
+  }
+  assert.equal(
+    (await fetch(url + '/', { headers: { 'If-None-Match': 'W/"older"' } }))
+      .status,
+    200,
+  );
+  assert.equal(
+    (await fetch(url + '/absent', { headers: { 'If-None-Match': '*' } }))
+      .status,
+    404,
+  );
   assert.ok(
     home.headers
       .get('content-security-policy')

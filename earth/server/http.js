@@ -249,7 +249,10 @@ export function createEarthServer({
             root,
             `.${decodeURIComponent(path === '/' ? '/index.html' : path)}`,
           ),
-        );
+        ).catch((error) => {
+          if (['ENOENT', 'ENOTDIR'].includes(error.code)) error.status = 404;
+          throw error;
+        });
       if (!file.startsWith(root + sep) || !(await stat(file)).isFile())
         return send(404, { error: 'Not found.' });
       const content = await readFile(file);
@@ -264,7 +267,15 @@ export function createEarthServer({
             ? 'no-cache'
             : 'public, max-age=3600',
       );
-      if (req.headers['if-none-match'] === etag) {
+      // RFC 9110 §13.1.2: GET/HEAD validators use weak comparison.
+      // Compression proxies may prefix the original tag with W/.
+      const validators = req.headers['if-none-match'];
+      if (
+        validators?.trim() === '*' ||
+        validators
+          ?.split(',')
+          .some((v) => v.trim().replace(/^W\//, '') === etag)
+      ) {
         res.writeHead(304);
         return res.end();
       }
