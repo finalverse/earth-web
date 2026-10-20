@@ -95,7 +95,8 @@ checked in every session/artifact query using the configured token hash.
 Defaults: seven-day retention; operator range 1–30 days. Pruning runs at startup
 and hourly, excludes running sessions and cascades events/proposals/artifacts.
 Expired share grants are pruned. Per owner: 128 sessions. Per session: 4,096
-events, 8 MiB event bytes, 32 artifacts; each artifact <1.9 MB. Exports are private
+events, 8 MiB event bytes, 32 artifacts; streaming reserves terminal audit space
+and new requests are refused before exhaustion; each artifact <1.9 MB. Exports are private
 files, never silent uploads. Database backups/host disk encryption remain operator
 responsibilities. History context is reconstructed from persisted events with a
 16 KiB bound, including after a process restart.

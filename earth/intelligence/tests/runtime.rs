@@ -646,6 +646,63 @@ async fn durable_owned_sessions_streaming_approvals_cli_coding_and_explicit_brow
     store.prune(7).await.unwrap();
     assert!(store.session(&owner_b, expired.id).await.is_err());
 
+    let full = store
+        .create(
+            &owner_b,
+            NewSession {
+                title: "Quota boundary fixture".into(),
+                mode: Mode::Chat,
+            },
+        )
+        .await
+        .unwrap();
+    // Set metadata at the boundary without thousands of network round trips.
+    sqlx::query("UPDATE earth_intelligence.sessions SET cursor=4032 WHERE id=$1")
+        .bind(full.id)
+        .execute(&store.pool)
+        .await
+        .unwrap();
+    let budget_request = Message {
+        request_id: Uuid::new_v4(),
+        text: "Quota fixture".into(),
+        model: None,
+        file: None,
+        artifact: None,
+    };
+    assert!(
+        store
+            .claim(&owner_b, full.id, &budget_request)
+            .await
+            .is_err()
+    );
+    assert!(
+        store
+            .append(
+                &owner_b,
+                full.id,
+                budget_request.request_id,
+                EventBody::MessageDelta {
+                    text: "over quota".into()
+                }
+            )
+            .await
+            .is_err()
+    );
+    assert!(
+        store
+            .append(
+                &owner_b,
+                full.id,
+                budget_request.request_id,
+                EventBody::ToolFailed {
+                    code: "BUDGET_REACHED".into(),
+                    outcome: "Reserved terminal audit slot".into()
+                }
+            )
+            .await
+            .is_ok()
+    );
+
     let config = Config {
         bind: address,
         token_files: vec![token_file_a],

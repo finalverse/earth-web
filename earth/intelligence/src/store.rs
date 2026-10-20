@@ -134,6 +134,16 @@ impl Store {
             timestamp: Utc::now(),
             body,
         };
+        // Streaming cannot consume the space needed for durable failure/cancel
+        // receipts; otherwise a full session would leave an SSE client waiting.
+        if matches!(&event.body, EventBody::MessageDelta { .. }) {
+            ensure!(
+                sequence <= 4032
+                    && row.get::<i64, _>("event_bytes") + serde_json::to_vec(&event)?.len() as i64
+                        <= 8 * 1024 * 1024 - 65536,
+                "Narrative event budget reached"
+            );
+        }
         let value = serde_json::to_value(&event)?;
         let bytes = serde_json::to_vec(&value)?.len() as i64;
         ensure!(
@@ -209,8 +219,8 @@ impl Store {
     pub async fn claim(&self, owner: &str, id: Uuid, message: &Message) -> Result<Claim> {
         let hash = digest(&serde_json::to_vec(message)?);
         let mut tx = self.pool.begin().await?;
-        let state: String = sqlx::query_scalar(
-            "SELECT status FROM earth_intelligence.sessions WHERE id=$1 AND owner=$2 FOR UPDATE",
+        let state = sqlx::query(
+            "SELECT status,cursor,event_bytes FROM earth_intelligence.sessions WHERE id=$1 AND owner=$2 FOR UPDATE",
         )
         .bind(id)
         .bind(owner)
@@ -222,7 +232,15 @@ impl Store {
             ensure!(row.get::<String,_>("input_sha256") == hash, "Idempotency key reused with different input");
             return Ok(Claim::Existing(row.get("status")));
         }
-        ensure!(state == "idle", "Session is busy or awaiting approval");
+        ensure!(
+            state.get::<String, _>("status") == "idle",
+            "Session is busy or awaiting approval"
+        );
+        ensure!(
+            state.get::<i64, _>("cursor") < 4000
+                && state.get::<i64, _>("event_bytes") < 8 * 1024 * 1024 - 262144,
+            "Session capacity reached; export and start a new session"
+        );
         sqlx::query("INSERT INTO earth_intelligence.requests(session_id,request_id,input_sha256,status) VALUES($1,$2,$3,'running')")
             .bind(id).bind(message.request_id).bind(hash).execute(&mut *tx).await?;
         sqlx::query("UPDATE earth_intelligence.sessions SET status='running',updated_at=now() WHERE id=$1 AND owner=$2").bind(id).bind(owner).execute(&mut *tx).await?;
