@@ -313,6 +313,7 @@
     "./view": "./src/view/index.js",
     "./earth/core": "./earth/core/index.js",
     "./earth/geo": "./earth/core/geo.js",
-    "./earth/sdk": "./earth/sdk.js"
+    "./earth/sdk": "./earth/sdk.js",
+    "./agent/world-packet": "./src/agent/worldPacket.js"
   }
 }

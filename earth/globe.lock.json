@@ -2,7 +2,7 @@
   "schema_version": 1,
   "mechanism": "reviewed-source-snapshot",
   "repository": "https://github.com/finalverse/gods-eye-view.git",
-  "commit": "93ea088f4556a5a65b3292a2d15142d5a6c562bc",
+  "commit": "de2138e84c1778fd98a48b7c9fd0b9788c318946",
   "original_attribution": "Bilawal Sidhu and God\u2019s Eye View contributors",
   "files": {
     "src/app/viewer.js": "29c41d95ef114edb913e29c3d00e6c2f7051ad57d62d75d6cc6664ae9ba97df4",

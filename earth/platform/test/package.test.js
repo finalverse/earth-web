@@ -5,8 +5,27 @@ import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
+import { createHash } from 'node:crypto';
 import { fixture, manifest } from './fixtures.mjs';
 const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+test('independent application lock pins the exact freshly built SDK artifact', async () => {
+  const pkg = JSON.parse(await readFile('packages/earth/package.json'));
+  const lock = JSON.parse(
+    await readFile('apps/energy-explorer/package-lock.json'),
+  );
+  const locked = lock.packages['node_modules/@finalverse/earth'];
+  const artifact = `artifacts/finalverse-earth-${pkg.version}.tgz`;
+  assert.equal(locked.version, pkg.version);
+  assert.equal(locked.resolved, 'file:../../' + artifact);
+  assert.equal(
+    locked.integrity,
+    'sha512-' +
+      createHash('sha512')
+        .update(await readFile(artifact))
+        .digest('base64'),
+    'Rebuild the SDK after shared-source edits and refresh the owned package integrity before npm ci.',
+  );
+});
 test('clean SDK tarball installs independently, typechecks strict consumers and queries real data', async (t) => {
   const root = await mkdtemp(join(tmpdir(), 'earth-sdk-consumer-'));
   t.after(() => rm(root, { recursive: true, force: true }));
