@@ -10,11 +10,11 @@ Explore the planet, ask geographic questions, and trace every result to real dat
 
 Finalverse Earth is part of the Finalverse ecosystem and works independently. It does not require a MutSea server, a social-world account, a hosted model, proprietary credentials or paid map tiles.
 
-## v0.4 development: build an independent spatial application
+## v0.4 release candidate: independent spatial applications
 
-The `codex/earth-v04-platform` development branch adds a strict, renderer-independent **`@finalverse/earth`** SDK tarball, OpenAPI 3.1, server-owned application grants, local workspaces and ordered intelligence sessions. Its independent **Energy Explorer** demonstrates source-backed geographic grouping, fuel comparisons, selected map/conversation artifacts and optional reviewed local AI plans.
+The `codex/earth-v04-rc` candidate branch adds a strict, renderer-independent **`@finalverse/earth`** SDK tarball, OpenAPI 3.1, server-owned application grants, local workspaces and ordered intelligence sessions. Its independent **Energy Explorer** demonstrates source-backed geographic grouping, fuel comparisons, selected map/conversation artifacts and optional reviewed local AI plans.
 
-Check out `codex/earth-v04-platform` to use the development commands below. These contracts and the independent app are **development artifacts**, not installed on the unchanged public v0.3 service. No npm package has been published. Start with the [SDK quickstart](docs/earth/platform/quickstart.md), [independent application build/tutorial](apps/energy-explorer/README.md), [intelligence architecture](docs/earth/platform/intelligence-v04.md) and [v0.4 acceptance and release assessment](docs/earth/platform/acceptance-v04b.md).
+Check out `codex/earth-v04-rc` to use the commands below. These contracts and the independent app are **release-candidate artifacts**, not installed on the unchanged public v0.3 service. No npm package has been published. Start with the [SDK quickstart](docs/earth/platform/quickstart.md), [independent application build/tutorial](apps/energy-explorer/README.md), [intelligence architecture](docs/earth/platform/intelligence-v04.md) and [v0.4 acceptance and release assessment](docs/earth/platform/acceptance-v04b.md).
 
 ```sh
 npm ci --ignore-scripts
@@ -28,6 +28,23 @@ node earth/platform/serve.mjs --manifest apps/energy-explorer/earth-app.json --g
 Open <http://127.0.0.1:18644/>. Add `--ai` only for optional local Ollama. An application manifest requests permissions; a separate operator-owned installation grants them. Only reviewed trusted same-origin applications are supported; this runtime is not a remote plugin sandbox or multi-tenant identity service.
 
 ![Independent v0.4 Energy Explorer: selected map record, grounded conversation and restored workspace](docs/earth/media/energy-v04-workspace.png)
+
+The RC adds a full application bundle, standalone SDK and Energy Explorer
+packages, SHA-256 manifests, CycloneDX inventory, license notices and extracted
+installation/rollback rehearsal. See the [RC audit](docs/earth/releases/v04-rc-audit.md),
+[release validation](docs/earth/releases/v04-rc-validation.md) and
+[installation/upgrade guide](earth/release/README.md). Build candidates locally:
+
+```sh
+npm run earth:build
+npm run earth:energy:package
+npm run earth:release:build
+npm run earth:release:rehearse
+```
+
+Artifacts appear in `artifacts/release/`. Nothing is automatically published to
+npm, GitHub Releases or the public service. The artifact startup command exposes
+public read-only data with AI disabled; development AI remains explicitly opt-in.
 
 ## What you can do today
 
@@ -144,7 +161,7 @@ The destination is a spatial application platform where an analyst, researcher, 
 | v0.1 · Independent core                | Standalone globe, country queries, coordinate contracts, local AI and SDK                                 | Implemented baseline                            |
 | v0.2 · Spatial Intelligence Foundation | Real facility data, typed spatial analysis, optional PostGIS, grounded local planning and Energy Explorer | Implemented foundation; see verification report |
 | v0.3 · Unified Space-Time Intelligence | Source timestamps, historical layers, bounded temporal comparisons and portable local workspaces          | Public preview; see v0.3 evidence               |
-| v0.4 · Application platform            | Distributable SDKs, permissioned application manifests, plugin isolation and independent industry apps    | Planned                                         |
+| v0.4 · Application platform            | Distributable SDKs, permissioned application manifests, trusted application grants and independent industry apps | RC validation; public v0.3 unchanged                                         |
 | Ecosystem integration                  | Optional geographic anchors and explicit links to persistent Finalverse/MutSea experiences                | Limited fictional-destination adapter today     |
 
 GeoParquet, OGC services, streaming observations, generalized multi-step AI reasoning and a public multi-user cloud are future work. Roadmap entries describe direction, not shipped capabilities. Read the [implementation proposal and acceptance gates](docs/earth/roadmap.md).
@@ -182,4 +199,4 @@ The Canadian energy archive has **no populated reported annual generation values
 
 Seven new temporal tools use the existing read-only, reviewed-plan API. See [space-time contracts](docs/earth/space-time.md), [LayerProvider metadata](http://127.0.0.1:18640/v1/providers), [preview deployment](docs/earth/deployment.md) and [local benchmark](docs/earth/benchmark-v03-temporal.json). Headless use remains independent of rendering, accounts, hosted AI and MutSea.
 
-Public application: [earth.finalverse.com](https://earth.finalverse.com). Product page: [finalverse.com/earth](https://finalverse.com/earth). The preview runs anonymously with hosted AI disabled; local Ollama planning remains opt-in. v0.4 will focus on the spatial application SDK, reviewed provider adapters and application discovery, with collaboration/world handoff as later optional capabilities.
+Public application: [earth.finalverse.com](https://earth.finalverse.com). Product page: [finalverse.com/earth](https://finalverse.com/earth). The preview runs anonymously with hosted AI disabled; local Ollama planning remains opt-in. v0.4 candidate work adds the spatial application SDK, reviewed local provider adapter and application discovery. The new Rust intelligence runtime is a separate v0.5 milestone; collaboration and world handoff remain future capabilities.

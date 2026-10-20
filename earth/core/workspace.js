@@ -105,6 +105,28 @@ export function validateWorkspace(input) {
     )
   )
     throw new Error('Invalid workspace evidence or saved views.');
+  // Imported receipts remain editable evidence, never an authorization token.
+  // Validate the v0.3/v0.4 wire shape before typed consumers render it.
+  if (w.receipt !== null) {
+    const receipt = w.receipt;
+    if (
+      !receipt ||
+      typeof receipt !== 'object' ||
+      Array.isArray(receipt) ||
+      Object.keys(receipt).sort().join(',') !==
+        'access,core_version,executed_at,execution_id,plan_sha256' ||
+      !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        receipt.execution_id,
+      ) ||
+      !/^[0-9a-f]{64}$/.test(receipt.plan_sha256) ||
+      typeof receipt.core_version !== 'string' ||
+      !receipt.core_version ||
+      receipt.core_version.length > 128 ||
+      receipt.access !== 'read-only'
+    )
+      throw new Error('Invalid saved execution receipt.');
+    instant(receipt.executed_at);
+  }
   if (w.application_state !== undefined) {
     if (
       !w.application_state ||

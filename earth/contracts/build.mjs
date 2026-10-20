@@ -583,7 +583,7 @@ const doc = {
   openapi: '3.1.1',
   info: {
     title: 'Finalverse Earth Platform',
-    version: '0.4.0-dev.1',
+    version: '0.4.0-rc.1',
     description:
       'API /v1 remains backward compatible with v0.3. Reviewed same-origin app grants are operator-installed, not self-authorized. Generic GeoJSON follows RFC 7946. Temporal instants are the strict UTC subset documented here. Public anonymous endpoints remain read-only and bounded.',
   },

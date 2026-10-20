@@ -36,6 +36,7 @@ export class OllamaPlanner {
   }
   async discover({ signal } = {}) {
     const response = await fetch(new URL('/api/tags', this.endpoint), {
+      redirect: 'error',
       signal: AbortSignal.any([
         AbortSignal.timeout(3000),
         ...(signal ? [signal] : []),
@@ -65,6 +66,7 @@ export class OllamaPlanner {
     )
       throw new Error('Question must be 1–1000 characters.');
     const response = await fetch(this.endpoint, {
+      redirect: 'error',
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       signal: AbortSignal.any([

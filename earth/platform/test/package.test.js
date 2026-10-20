@@ -10,7 +10,7 @@ const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 test('clean SDK tarball installs independently, typechecks strict consumers and queries real data', async (t) => {
   const root = await mkdtemp(join(tmpdir(), 'earth-sdk-consumer-'));
   t.after(() => rm(root, { recursive: true, force: true }));
-  const artifact = resolve('artifacts/finalverse-earth-0.4.0-dev.1.tgz');
+  const artifact = resolve('artifacts/finalverse-earth-0.4.0-rc.1.tgz');
   await writeFile(
     join(root, 'package.json'),
     JSON.stringify({

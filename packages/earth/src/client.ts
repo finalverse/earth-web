@@ -109,6 +109,7 @@ export class EarthClient {
       try {
         const r = await this.transport(this.endpoint + this.prefix + path, {
           method: encoded ? 'POST' : 'GET',
+          redirect: 'error',
           headers: {
             'X-Request-ID': requestId,
             ...(encoded ? { 'Content-Type': 'application/json' } : {}),

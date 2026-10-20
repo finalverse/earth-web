@@ -77,6 +77,7 @@ function event(e: SessionEvent) {
 }
 const session = new IntelligenceSession(client, event),
   map = new EnergyMap($('map'), (id) => inspect(id));
+let aiReady = false;
 function setBusy(value: boolean) {
   busy = value;
   for (const id of [
@@ -90,7 +91,7 @@ function setBusy(value: boolean) {
     'export',
     'delete',
   ])
-    $<HTMLButtonElement>(id).disabled = value;
+    $<HTMLButtonElement>(id).disabled = value || (id === 'propose' && !aiReady);
 }
 async function guarded(fn: () => Promise<void>) {
   if (busy) return;
@@ -506,6 +507,7 @@ async function start() {
   if (capabilities.ai_enabled) {
     try {
       const info = await client.ai.providers();
+      aiReady = info.providers.some((p) => p.available);
       $('ai-status').textContent = info.providers.some((p) => p.available)
         ? info.providers
             .filter((p) => p.available)

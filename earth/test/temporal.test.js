@@ -1,5 +1,6 @@
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import test from 'node:test';
+import { VERSION } from '../core/version.js';
 import assert from 'node:assert/strict';
 import { createEarthCore } from '../core/index.js';
 import { createApplication } from '../core/application.js';
@@ -216,7 +217,7 @@ test('real USGS archive retains 90 source identities/times and versioned provide
   });
   assert.equal(r.data.total, 90);
   assert.equal(r.data.observations.length, 90);
-  assert.equal(r.receipt.core_version, '0.4.0-dev.1');
+  assert.equal(r.receipt.core_version, VERSION);
   const largest = d.features.find((f) => f.properties.magnitude === 7.1);
   assert.ok(largest);
   assert.equal(largest.properties.event_at, '2019-07-06T03:19:53.040Z');

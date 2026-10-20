@@ -1,7 +1,7 @@
 name: Independent Earth Core
 on:
   push:
-    branches: [main, codex/earth-v04-platform]
+    branches: [main, codex/earth-v04-platform, codex/earth-v04-rc]
   pull_request:
 permissions:
   contents: read
@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
     env:
       PUPPETEER_SKIP_DOWNLOAD: '1'
     steps:
@@ -38,6 +38,9 @@ jobs:
       - run: npm run earth:build
       - run: npm run earth:audit-build
       - run: npm run earth:bench
+      - name: Build and rehearse extracted release with rollback
+        if: matrix.os == 'ubuntu-latest'
+        run: npm run earth:release:build && npm run earth:release:rehearse
 
   postgis:
     runs-on: ubuntu-latest
@@ -61,6 +64,11 @@ jobs:
           export EARTH_TEST_ADMIN_URL_FILE="$HOME/.local/share/finalverse-earth/postgis-dev/admin-url"
           export EARTH_TEST_URL_FILE="$HOME/.local/share/finalverse-earth/postgis-dev/runtime-url"
           npm run earth:test
+      - name: Bounded embedded/PostGIS parity and load (isolated database only)
+        run: |
+          mkdir -p artifacts/release
+          export EARTH_DATABASE_URL_FILE="$HOME/.local/share/finalverse-earth/postgis-dev/runtime-url"
+          npm run earth:release:load
       - name: Stop this job's development database
         if: always()
         continue-on-error: true

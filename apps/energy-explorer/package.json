@@ -1,6 +1,6 @@
 {
   "name": "@finalverse/energy-explorer",
-  "version": "0.4.0-dev.1",
+  "version": "0.4.0-rc.1",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "tsc --noEmit && vite build",
-    "test": "tsc --outDir .test-build --noEmit false && node --test test/*.test.mjs",
+    "test": "tsc --outDir .test-build --noEmit false && node --test test/*.test.js",
     "package": "npm run build && node package.mjs"
   },
   "files": [
@@ -19,7 +19,7 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@finalverse/earth": "file:../../artifacts/finalverse-earth-0.4.0-dev.1.tgz",
+    "@finalverse/earth": "file:../../artifacts/finalverse-earth-0.4.0-rc.1.tgz",
     "cesium": "1.138.0"
   },
   "devDependencies": {

@@ -605,15 +605,17 @@ export function spatialTools({
             .normalize('NFKD')
             .replace(/[\u0300-\u036f]/g, '')
             .toLowerCase();
-        const rows = d.features.filter(
-          (f) =>
-            f.properties.name
-              .normalize('NFKD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .toLowerCase()
-              .includes(q) &&
-            (!a.fuels?.length || a.fuels.includes(f.properties.fuel)),
-        );
+        const rows = d.features
+          .filter(
+            (f) =>
+              f.properties.name
+                .normalize('NFKD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .includes(q) &&
+              (!a.fuels?.length || a.fuels.includes(f.properties.fuel)),
+          )
+          .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
         return selected(d, rows, `${rows.length} matching features`, a);
       },
     ),

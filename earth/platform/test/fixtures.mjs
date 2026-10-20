@@ -13,7 +13,7 @@ export const manifest = {
   manifest_version: '1.0',
   id: 'finalverse.sdk-example',
   name: 'SDK example',
-  version: '0.4.0-dev.1',
+  version: '0.4.0-rc.1',
   api_version: '1',
   entry: './index.html',
   runtime: 'trusted-same-origin',
