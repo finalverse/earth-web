@@ -22,6 +22,8 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 24.22.0
+      - name: Portable browser view-model contract
+        run: node --test earth/intelligence/web.test.js
       - name: Install pinned Rust with lint components
         run: rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy
       - run: cargo +1.92.0 fmt --manifest-path earth/intelligence/Cargo.toml --check

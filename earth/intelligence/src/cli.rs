@@ -202,14 +202,7 @@ impl Client {
         .await
     }
     fn print(&self, value: &Value) {
-        println!(
-            "{}",
-            if self.json {
-                serde_json::to_string(value).unwrap()
-            } else {
-                serde_json::to_string_pretty(value).unwrap()
-            }
-        );
+        println!("{}", terminal_json(value, !self.json));
     }
     async fn create(&self, mode: Mode, title: &str) -> Result<Uuid> {
         let title: String = title.chars().filter(|c| !c.is_control()).take(60).collect();
@@ -618,4 +611,33 @@ pub async fn run(args: Args) -> Result<()> {
         }
     }
     Ok(())
+}
+
+// Escape display-control characters while preserving the exact JSON value.
+// In particular, a model patch cannot visually reverse its own approval text.
+fn terminal_json(value: &Value, pretty: bool) -> String {
+    let encoded = if pretty {
+        serde_json::to_string_pretty(value).unwrap()
+    } else {
+        serde_json::to_string(value).unwrap()
+    };
+    encoded.chars().map(|c|if matches!(c,'\u{0080}'..='\u{009f}'|'\u{061c}'|'\u{200e}'|'\u{200f}'|'\u{202a}'..='\u{202e}'|'\u{2066}'..='\u{2069}') {format!("\\u{:04x}",c as u32)}else{c.to_string()}).collect()
+}
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn untrusted_approval_json_cannot_spoof_terminal_direction_and_still_roundtrips() {
+        let value = json!({"content":"safe\u{202e}reversed\u{2066}text\u{0085}next\u{001b}[2J","path":"source.js"});
+        for pretty in [false, true] {
+            let text = terminal_json(&value, pretty);
+            assert!(
+                !text.contains('\u{202e}')
+                    && !text.contains('\u{2066}')
+                    && !text.contains('\u{0085}')
+                    && !text.contains('\u{001b}')
+            );
+            assert_eq!(serde_json::from_str::<Value>(&text).unwrap(), value);
+        }
+    }
 }

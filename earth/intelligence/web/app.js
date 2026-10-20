@@ -2,7 +2,8 @@
 'use strict';
 const $ = (id) => document.getElementById(id);
 let viewer = null,
-  workspace = null;
+  workspace = null,
+  selected = null;
 if (window.Cesium) {
   window.CESIUM_BASE_URL = '/cesium/';
   viewer = new Cesium.Viewer('globe', {
@@ -77,6 +78,7 @@ function render(value) {
       throw new Error('Invalid source position.');
   }
   workspace = value;
+  selected = value.selected_features?.[0] ?? null;
   $('title').textContent = value.title;
   $('summary').textContent =
     `${features.length} shown / ${result.data.total} matches. Archival reported capacity; current operation and live output are unverified.`;
@@ -104,8 +106,12 @@ function render(value) {
       });
     const button = document.createElement('button');
     button.textContent = `${name} · ${feature.properties?.fuel ?? 'source category'}`;
-    button.setAttribute('aria-pressed', 'false');
+    button.setAttribute(
+      'aria-pressed',
+      String(selected === String(feature.id)),
+    );
     button.onclick = () => {
+      selected = String(feature.id);
       for (const other of $('facilities').children)
         other.setAttribute('aria-pressed', 'false');
       button.setAttribute('aria-pressed', 'true');
@@ -214,8 +220,24 @@ $('connect').onsubmit = async (event) => {
 };
 $('export').onclick = () => {
   if (!workspace) return;
+  const copy = structuredClone(workspace);
+  copy.id = crypto.randomUUID();
+  copy.updated_at = new Date().toISOString();
+  copy.selected_features = selected ? [selected] : [];
+  if (viewer) {
+    const c = viewer.camera,
+      p = c.positionCartographic;
+    copy.camera = {
+      longitude: Cesium.Math.toDegrees(p.longitude),
+      latitude: Cesium.Math.toDegrees(p.latitude),
+      height: p.height,
+      heading: c.heading,
+      pitch: c.pitch,
+      roll: c.roll,
+    };
+  }
   const url = URL.createObjectURL(
-    new Blob([JSON.stringify(workspace, null, 2)], {
+    new Blob([JSON.stringify(copy, null, 2)], {
       type: 'application/json',
     }),
   );

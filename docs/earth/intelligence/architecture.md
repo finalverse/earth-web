@@ -141,7 +141,8 @@ only that snapshot, its original `workspace.updated` event and public reference
 context; they cannot read private messages, source files or other sessions.
 
 The local globe restores source positions and camera, permits selection and
-exports v0.4-compatible Energy Explorer JSON without rerunning the original
+exports a separate v0.4-compatible Energy Explorer copy with current selection
+and camera without rerunning the original
 analysis. The public Canada outline is a separate bounded reference query with
 its own attribution/receipt. No ion assets or paid basemap are used. Engine and
 data attribution remain visible. Full cross-device identity/sync is deferred;

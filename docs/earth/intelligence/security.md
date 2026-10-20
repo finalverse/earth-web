@@ -39,7 +39,8 @@ security audit or a claim that approved JavaScript is safe hostile code.
   removes access; replacing it produces a different owner identity and does not
   migrate its sessions. Stable authenticated principals and rotation are future
   work. Browser keys are capabilities: anyone who obtains one can read that
-  spatial snapshot until expiry/revocation.
+  spatial snapshot until expiry/revocation. Revocation prevents future fetches;
+  it cannot erase an already downloaded copy.
 - Source/runtime receipts bind inputs/results for inspection; they are not
   signatures, remote attestation or proof that an imported JSON file is genuine.
 - An approved patch can complete just before cancellation. Cancellation cannot

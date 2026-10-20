@@ -40,13 +40,15 @@ not committed. Reproduce the scenarios with the [developer guide](developer-guid
 
 ## Automated verification
 
-- Rust: six unit tests and four provider-transport tests; `cargo fmt --check`
+- Rust: seven unit tests and four provider-transport tests; `cargo fmt --check`
   and all-target Clippy with warnings denied.
 - Separate disposable PostgreSQL integration case: atomic request idempotency,
   actual native CLI/SSE, durable replay and conversation reconstruction, ownership,
   proposal/review/write separation, approval consumption, restricted tests,
   explicit test-receipt explanation, cancellation/revocation, restart recovery
   without replay, retention pruning and artifact-only share revocation.
+- Browser view-model regression: exports a separate copy with current selection
+  and camera while preserving source evidence and leaving the shared snapshot unchanged.
 - Separate actual OS sandbox case: outside file access, writes, process creation
   and network denied; output overflow and cancellation terminate the child promptly.
   Local macOS execution passed. CI runs this case on macOS and Linux x64/ARM64;

@@ -165,6 +165,7 @@ earth workspace read ../outside.txt --session <code-session>
 ## Verification and cleanup
 
 ```sh
+node --test earth/intelligence/web.test.js
 cargo fmt --manifest-path earth/intelligence/Cargo.toml --check
 cargo clippy --locked --manifest-path earth/intelligence/Cargo.toml --all-targets -- -D warnings
 cargo test --locked --manifest-path earth/intelligence/Cargo.toml
