@@ -1,5 +1,6 @@
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import { validateManifest, toolCapability } from './manifest.js';
+import { VERSION } from '../core/version.js';
 export class CapabilityError extends Error {
   constructor(message = 'Application capability denied.') {
     super(message);
@@ -32,7 +33,7 @@ export function installApplications(core, installations = []) {
       manifest: Object.freeze(m),
       capabilities: () => ({
         api_version: '1',
-        platform_version: '0.4.0-dev.1',
+        platform_version: VERSION,
         application_id: m.id,
         application_version: m.version,
         runtime: m.runtime,

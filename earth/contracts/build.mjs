@@ -441,6 +441,36 @@ for (const scope of ['', '/apps/{applicationId}']) {
       responses: { 200: response('QueryResult'), ...errors },
     },
   };
+  if (scope)
+    paths['/v1' + scope + '/query/validate'] = {
+      post: {
+        description:
+          'Validate an external runtime proposal against the installed grant without executing it.',
+        parameters: params,
+        requestBody: {
+          required: true,
+          content: { 'application/json': { schema: ref('QueryRequest') } },
+        },
+        responses: {
+          200: {
+            description: 'Reviewed proposal input',
+            content: {
+              'application/json': {
+                schema: obj(
+                  {
+                    plan: ref('QueryRequest'),
+                    requires_review: { const: true },
+                    request_id: str,
+                  },
+                  ['plan', 'requires_review'],
+                ),
+              },
+            },
+          },
+          ...errors,
+        },
+      },
+    };
 }
 paths['/v1/openapi.json'] = {
   get: {

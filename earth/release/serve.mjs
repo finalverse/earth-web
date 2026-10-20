@@ -59,9 +59,17 @@ const grant = JSON.parse(
     new URL('../platform/dev-grants/energy-explorer.json', import.meta.url),
   ),
 );
+const intelligence = JSON.parse(
+  await readFile(
+    new URL('../platform/dev-grants/intelligence.json', import.meta.url),
+  ),
+);
 const server = createEarthServer({
   core: createEarthCore({ datasets, backend }),
-  applications: [{ manifest, grant }],
+  applications: [
+    { manifest, grant },
+    { manifest: intelligence, grant: structuredClone(intelligence) },
+  ],
   openapi: JSON.parse(
     await readFile(new URL('../contracts/openapi.json', import.meta.url)),
   ),

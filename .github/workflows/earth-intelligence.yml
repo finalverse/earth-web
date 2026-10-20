@@ -1,0 +1,51 @@
+name: Earth Intelligence
+on:
+  push:
+    branches: [main, codex/earth-v05-intelligence]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  rust:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    env:
+      CARGO_TARGET_DIR: ${{ github.workspace }}/artifacts/intelligence-target
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.22.0
+      - name: Install pinned Rust with lint components
+        run: rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy
+      - run: cargo +1.92.0 fmt --manifest-path earth/intelligence/Cargo.toml --check
+      - run: cargo +1.92.0 clippy --locked --manifest-path earth/intelligence/Cargo.toml --all-targets -- -D warnings
+      - run: cargo +1.92.0 test --locked --manifest-path earth/intelligence/Cargo.toml
+      - name: Actual OS network, filesystem, child-process and cancellation boundaries
+        run: |
+          export EARTH_INTELLIGENCE_NODE_BINARY="$(command -v node)"
+          cargo +1.92.0 test --locked --manifest-path earth/intelligence/Cargo.toml --test sandbox -- --ignored --nocapture
+      - name: Pull pinned isolated database image
+        if: matrix.os == 'ubuntu-latest'
+        run: docker pull --platform linux/amd64 postgis/postgis@sha256:01a6a70e41e6c4467c8f55f6063555ed72db2d6662cd0d571040d42eadaeb6f6
+      - name: Install isolated database helper
+        if: matrix.os == 'ubuntu-latest'
+        run: npm ci --ignore-scripts
+      - name: Initialize dedicated disposable session database
+        if: matrix.os == 'ubuntu-latest'
+        run: node earth/intelligence/dev-db.mjs --test
+      - name: Real protocol, native CLI and OS-restricted test subprocess
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          export EARTH_INTELLIGENCE_TEST_DATABASE_URL_FILE="$HOME/.local/share/finalverse-earth/intelligence-dev/test-runtime-url"
+          export EARTH_INTELLIGENCE_NODE_BINARY="$(command -v node)"
+          cargo +1.92.0 test --locked --manifest-path earth/intelligence/Cargo.toml --test runtime -- --ignored --nocapture
+      - name: Stop this job's isolated database
+        if: always() && matrix.os == 'ubuntu-latest'
+        run: node earth/db/dev.mjs stop

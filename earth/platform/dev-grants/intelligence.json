@@ -1,0 +1,31 @@
+{
+  "manifest_version": "1.0",
+  "id": "finalverse.intelligence",
+  "name": "Earth Intelligence local runtime",
+  "version": "0.5.0-dev.1",
+  "api_version": "1",
+  "entry": "./index.html",
+  "runtime": "trusted-same-origin",
+  "capabilities": [
+    "earth.datasets.read",
+    "earth.spatial.query",
+    "earth.temporal.query"
+  ],
+  "datasets": [
+    "natural-earth-countries",
+    "natural-earth-places",
+    "wri-canada-power-plants",
+    "usgs-ridgecrest-2019"
+  ],
+  "tools": [
+    "list_layers",
+    "search_features",
+    "query_features",
+    "inspect_feature",
+    "get_provenance",
+    "within_distance",
+    "cluster_features",
+    "features_during_interval"
+  ],
+  "budgets": { "max_features": 100, "max_radius_m": 500000 }
+}

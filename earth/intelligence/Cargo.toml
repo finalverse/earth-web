@@ -1,0 +1,56 @@
+[package]
+name = "earth-intelligence"
+version = "0.5.0-dev.1"
+edition = "2024"
+rust-version = "1.92"
+license = "MIT"
+description = "Authenticated local Earth Intelligence runtime and native CLI"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "earthd"
+path = "src/bin/earthd.rs"
+
+[[bin]]
+name = "earth"
+path = "src/bin/earth.rs"
+
+[dependencies]
+anyhow = "1"
+async-trait = "0.1"
+axum = { version = "=0.8.9", features = ["json", "query"] }
+chrono = { version = "0.4", features = ["serde"] }
+clap = { version = "=4.6.5", features = ["derive"] }
+futures-util = "0.3"
+reqwest = { version = "=0.12.28", default-features = false, features = ["json", "stream", "rustls-tls"] }
+regex-lite = "=0.1.9"
+unicode-normalization = "0.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "=0.10.9"
+sqlx = { version = "=0.8.6", default-features = false, features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono", "json"] }
+subtle = "2"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "sync", "time", "signal", "net", "process", "io-util", "io-std", "fs"] }
+tokio-util = { version = "0.7", features = ["rt"] }
+tower-http = { version = "0.6", features = ["fs", "limit", "set-header"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+
+[target.'cfg(unix)'.dependencies]
+rustix = { version = "=1.1.4", features = ["fs", "process"] }
+libc = "0.2"
+
+[dev-dependencies]
+tempfile = "3"
+tower = { version = "0.5", features = ["util"] }
+
+[profile.dev]
+debug = 0
+incremental = false
+
+[profile.test]
+debug = 0
+incremental = false

@@ -1,7 +1,13 @@
 name: Independent Earth Core
 on:
   push:
-    branches: [main, codex/earth-v04-platform, codex/earth-v04-rc]
+    branches:
+      [
+        main,
+        codex/earth-v04-platform,
+        codex/earth-v04-rc,
+        codex/earth-v05-intelligence,
+      ]
   pull_request:
 permissions:
   contents: read

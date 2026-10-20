@@ -38,3 +38,6 @@ apps/energy-explorer/dist/
 packages/earth/openapi.json
 
 apps/energy-explorer/.test-build/
+
+# Separately built native Earth Intelligence runtime
+earth/intelligence/target/

@@ -23,6 +23,46 @@ const check = (name, value) => {
   });
   assert.ok(f(value), JSON.stringify(f.errors));
 };
+test('external runtime validation preserves grants and does not pre-execute a proposal', async (t) => {
+  const { url, core } = await fixture(t);
+  let executions = 0;
+  const execute = core.execute;
+  core.execute = async (...args) => {
+    executions++;
+    return execute(...args);
+  };
+  const response = await fetch(
+    url + '/v1/apps/' + manifest.id + '/query/validate',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        schema_version: 1,
+        tool: 'within_distance',
+        arguments: renewable,
+      }),
+    },
+  );
+  assert.equal(response.status, 200);
+  const proposal = await response.json();
+  assert.equal(proposal.requires_review, true);
+  check('QueryRequest', proposal.plan);
+  assert.equal(executions, 0);
+  const denied = await fetch(
+    url + '/v1/apps/' + manifest.id + '/query/validate',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        schema_version: 1,
+        tool: 'execute_sql',
+        arguments: { sql: 'DELETE' },
+      }),
+    },
+  );
+  assert.equal(denied.status, 403);
+  assert.equal(executions, 0);
+});
 test('OpenAPI, actual tool schemas and SDK requests agree with live response contracts', async (t) => {
   const { url, core } = await fixture(t),
     c = new EarthClient({ endpoint: url, applicationId: manifest.id });

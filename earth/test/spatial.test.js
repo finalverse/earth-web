@@ -255,3 +255,29 @@ test('real WRI/NE catalogs ground Montreal renewable query; AI cannot invent coo
     /radius/,
   );
 });
+
+test('country-scoped place discovery provides complete Canadian grounding without global-limit bias', async () => {
+  const catalogs = await pointCatalogs();
+  const source = createEarthCore({ datasets: catalogs });
+  const result = await source.execute(
+    plan('query_features', {
+      dataset: 'natural-earth-places',
+      country: 'CAN',
+      limit: 100,
+    }),
+  );
+  assert.equal(result.data.total, 45);
+  assert.equal(result.data.truncated, false);
+  assert.ok(result.data.features.every((f) => f.properties.country === 'CAN'));
+  assert.ok(result.data.features.some((f) => f.id === 'ne-place-1173'));
+  await assert.rejects(
+    source.execute(
+      plan('query_features', {
+        dataset: 'natural-earth-places',
+        country: 'CA',
+        limit: 100,
+      }),
+    ),
+    /Invalid or unauthorized/,
+  );
+});

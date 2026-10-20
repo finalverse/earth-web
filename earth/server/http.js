@@ -261,6 +261,14 @@ export function createEarthServer({
               pageRequest(url.searchParams),
             ),
           );
+        if (scope && req.method === 'POST' && route === '/v1/query/validate') {
+          // Authoritative validation seam for external runtimes. Never execute
+          // a query merely to decide whether a proposal may be reviewed.
+          return send(200, {
+            plan: scope.validate(await body(req)),
+            requires_review: true,
+          });
+        }
         if (scope && req.method === 'POST' && route === '/v1/query') {
           metrics.queries++;
           return send(

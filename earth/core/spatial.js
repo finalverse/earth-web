@@ -594,6 +594,7 @@ export function spatialTools({
         {
           dataset: str,
           query: { type: 'string', maxLength: 128 },
+          country: { type: 'string', pattern: '^[A-Z]{3}$' },
           fuels: pointArgs.fuels,
           limit,
         },
@@ -613,7 +614,8 @@ export function spatialTools({
                 .replace(/[\u0300-\u036f]/g, '')
                 .toLowerCase()
                 .includes(q) &&
-              (!a.fuels?.length || a.fuels.includes(f.properties.fuel)),
+              (!a.fuels?.length || a.fuels.includes(f.properties.fuel)) &&
+              (!a.country || f.properties.country === a.country),
           )
           .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
         return selected(d, rows, `${rows.length} matching features`, a);

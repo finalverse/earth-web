@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Earth Intelligence · Spatial continuity</title>
+    <link rel="stylesheet" href="/app.css" />
+    <link rel="stylesheet" href="/cesium/Widgets/widgets.css" />
+    <script defer src="/cesium/Cesium.js"></script>
+    <script defer src="/app.js"></script>
+  </head>
+  <body>
+    <header>
+      <img src="/finalverse-symbol.png" alt="" width="38" height="38" />
+      <div>
+        <strong>Finalverse Earth</strong
+        ><span>INTELLIGENCE / LOCAL PREVIEW</span>
+      </div>
+      <a href="https://github.com/finalverse/finalverse-earth" rel="noreferrer"
+        >Source ↗</a
+      >
+    </header>
+    <main>
+      <aside>
+        <p class="eyebrow">ONE SESSION. MORE PERSPECTIVES.</p>
+        <h1>Bring the evidence<br />into view.</h1>
+        <p>
+          A spatial artifact from Earth CLI, with its original query, source and
+          receipt.
+        </p>
+        <form id="connect">
+          <label for="key">One-hour spatial share key</label
+          ><input
+            id="key"
+            type="password"
+            autocomplete="off"
+            spellcheck="false"
+            maxlength="64"
+            required
+            aria-describedby="boundary"
+          /><button>Open shared workspace ↗</button>
+        </form>
+        <p id="boundary" class="subtle">
+          Create a share with
+          <code>earth workspace share --session … --output …</code>. This grant
+          opens one spatial snapshot. It cannot read code, conversations or
+          other sessions.
+        </p>
+        <h2 id="title">No shared workspace open</h2>
+        <p id="summary">
+          No account, cloud model or paid map service is required.
+        </p>
+        <button id="export" disabled>Download workspace JSON</button>
+        <details>
+          <summary>Query, provenance &amp; receipt</summary>
+          <pre id="evidence">Connect to inspect the source evidence.</pre>
+        </details>
+        <details>
+          <summary>Original protocol event</summary>
+          <pre id="event">No event loaded.</pre>
+        </details>
+        <details>
+          <summary>Public reference context</summary>
+          <pre id="reference">
+Reference context loads only after a valid share.</pre>
+        </details>
+        <section aria-label="Source facilities">
+          <h2>Source facilities</h2>
+          <div id="facilities">No results loaded.</div>
+        </section>
+      </aside>
+      <section class="scene" aria-label="3D spatial workspace">
+        <div
+          id="globe"
+          role="region"
+          aria-label="Globe of shared source facilities"
+        ></div>
+        <div class="caption" id="caption">
+          Explicit local continuation · no private coding context
+        </div>
+        <div class="credit">
+          CesiumJS (Apache 2.0) · Natural Earth (public domain) · WRI GPPD (CC
+          BY 4.0)
+        </div>
+      </section>
+    </main>
+    <footer id="status" role="status" aria-live="polite">
+      Ready for an explicitly shared spatial snapshot.
+    </footer>
+  </body>
+</html>

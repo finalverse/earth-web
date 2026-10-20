@@ -10,11 +10,32 @@ Explore the planet, ask geographic questions, and trace every result to real dat
 
 Finalverse Earth is part of the Finalverse ecosystem and works independently. It does not require a MutSea server, a social-world account, a hosted model, proprietary credentials or paid map tiles.
 
+## v0.5 development preview: Earth Intelligence
+
+A separately testable **Rust runtime and native `earth` CLI** connect conversation,
+source-grounded spatial plans and explicitly approved coding tools through owned
+PostgreSQL sessions. Local Ollama streaming, hash-bound approvals, execution
+receipts, restart-safe replay and scoped browser workspace continuation are
+implemented. The Node Earth API remains the deterministic spatial authority.
+
+This is a **local developer preview**. The public v0.3 site is unchanged; no public
+AI service, cloud fallback, autonomous shell or viewer integration is enabled.
+Start with the [native runtime and CLI guide](docs/earth/intelligence/developer-guide.md),
+[architecture/protocol](docs/earth/intelligence/architecture.md),
+[security boundaries](docs/earth/intelligence/security.md),
+[acceptance and performance](docs/earth/intelligence/acceptance.md), and
+[v0.6 roadmap](docs/earth/intelligence/roadmap-v06.md).
+
+```sh
+cargo build --locked --manifest-path earth/intelligence/Cargo.toml
+cargo test --locked --manifest-path earth/intelligence/Cargo.toml
+```
+
 ## v0.4 release candidate: independent spatial applications
 
-The `codex/earth-v04-rc` candidate branch adds a strict, renderer-independent **`@finalverse/earth`** SDK tarball, OpenAPI 3.1, server-owned application grants, local workspaces and ordered intelligence sessions. Its independent **Energy Explorer** demonstrates source-backed geographic grouping, fuel comparisons, selected map/conversation artifacts and optional reviewed local AI plans.
+The consolidated `main` branch includes a strict, renderer-independent **`@finalverse/earth`** SDK tarball, OpenAPI 3.1, server-owned application grants, local workspaces and ordered intelligence sessions. Its independent **Energy Explorer** demonstrates source-backed geographic grouping, fuel comparisons, selected map/conversation artifacts and optional reviewed local AI plans.
 
-Check out `codex/earth-v04-rc` to use the commands below. These contracts and the independent app are **release-candidate artifacts**, not installed on the unchanged public v0.3 service. No npm package has been published. Start with the [SDK quickstart](docs/earth/platform/quickstart.md), [independent application build/tutorial](apps/energy-explorer/README.md), [intelligence architecture](docs/earth/platform/intelligence-v04.md) and [v0.4 acceptance and release assessment](docs/earth/platform/acceptance-v04b.md).
+These contracts and the independent app are **release-candidate artifacts**, not installed on the unchanged public v0.3 service. No npm package has been published. Start with the [SDK quickstart](docs/earth/platform/quickstart.md), [independent application build/tutorial](apps/energy-explorer/README.md), [intelligence architecture](docs/earth/platform/intelligence-v04.md) and [v0.4 acceptance and release assessment](docs/earth/platform/acceptance-v04b.md).
 
 ```sh
 npm ci --ignore-scripts
