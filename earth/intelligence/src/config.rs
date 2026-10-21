@@ -20,6 +20,8 @@ pub struct Config {
     pub node_binary: Option<PathBuf>,
     pub browser_assets: Option<PathBuf>,
     pub retention_days: u16,
+    #[serde(default)]
+    pub bridge: Option<crate::bridge::BridgeConfig>,
 }
 
 pub fn local_origin(value: &str) -> Result<Url> {
@@ -108,6 +110,15 @@ impl Config {
                 token.len() == 64 && token.bytes().all(|b| b.is_ascii_hexdigit()),
                 "Use a 64-character hexadecimal private token"
             );
+        }
+        if let Some(bridge) = &config.bridge {
+            let server_key = private_file(&bridge.token_file)?;
+            for owner_file in &config.token_files {
+                ensure!(
+                    private_file(owner_file)? != server_key,
+                    "Native-world and owner credentials must be distinct"
+                );
+            }
         }
         Ok(config)
     }

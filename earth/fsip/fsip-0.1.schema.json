@@ -1,0 +1,1367 @@
+{
+  "$defs": {
+    "AssetRef": {
+      "additionalProperties": false,
+      "properties": {
+        "license": {
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "type": "string"
+        },
+        "package_id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "package_id",
+        "version",
+        "manifest_sha256",
+        "license"
+      ],
+      "type": "object"
+    },
+    "Audience": {
+      "additionalProperties": false,
+      "properties": {
+        "grid_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "region_id": {
+          "format": "uuid",
+          "type": "string"
+        }
+      },
+      "required": [
+        "grid_id",
+        "region_id"
+      ],
+      "type": "object"
+    },
+    "CoordinateTransformReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "anchor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GeoAnchor"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "from_crs": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string"
+        },
+        "receipt_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "result": {
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "source": {
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "to_crs": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "receipt_id",
+        "from_crs",
+        "to_crs",
+        "source",
+        "result",
+        "method",
+        "timestamp"
+      ],
+      "type": "object"
+    },
+    "ErrorCode": {
+      "enum": [
+        "invalid_manifest",
+        "unauthorized",
+        "expired",
+        "revoked",
+        "replay",
+        "stale_source",
+        "region_unavailable",
+        "missing_asset",
+        "permission_denied",
+        "budget_exceeded",
+        "conflict",
+        "cancelled",
+        "outcome_unknown",
+        "recovery_required"
+      ],
+      "type": "string"
+    },
+    "ExecutionStatus": {
+      "enum": [
+        "prepared",
+        "executing",
+        "committed",
+        "cancelled",
+        "unknown",
+        "rejected",
+        "undone"
+      ],
+      "type": "string"
+    },
+    "ExperienceObject": {
+      "additionalProperties": false,
+      "properties": {
+        "asset": {
+          "$ref": "#/$defs/AssetRef"
+        },
+        "description": {
+          "type": "string"
+        },
+        "generated_geometry": {
+          "type": "boolean"
+        },
+        "local_id": {
+          "type": "string"
+        },
+        "offset_m": {
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "semantic_type": {
+          "type": "string"
+        },
+        "source_record_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "yaw_degrees": {
+          "format": "double",
+          "type": "number"
+        }
+      },
+      "required": [
+        "local_id",
+        "asset",
+        "offset_m",
+        "yaw_degrees",
+        "semantic_type",
+        "description",
+        "source_record_ids",
+        "generated_geometry"
+      ],
+      "type": "object"
+    },
+    "FsipError": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/ErrorCode"
+        },
+        "correlation_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "retry_safe": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "code",
+        "correlation_id",
+        "retry_safe"
+      ],
+      "type": "object"
+    },
+    "FsipVersion": {
+      "enum": [
+        "0.1"
+      ],
+      "type": "string"
+    },
+    "GeoAnchor": {
+      "additionalProperties": false,
+      "properties": {
+        "crs": {
+          "type": "string"
+        },
+        "ellipsoidal_height_m": {
+          "format": "double",
+          "type": "number"
+        },
+        "latitude_deg": {
+          "format": "double",
+          "type": "number"
+        },
+        "longitude_deg": {
+          "format": "double",
+          "type": "number"
+        },
+        "vertical_datum": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "crs",
+        "longitude_deg",
+        "latitude_deg",
+        "ellipsoidal_height_m",
+        "vertical_datum"
+      ],
+      "type": "object"
+    },
+    "Layout": {
+      "enum": [
+        "schematic_exhibition",
+        "virtual"
+      ],
+      "type": "string"
+    },
+    "LocalFrame": {
+      "additionalProperties": false,
+      "properties": {
+        "axes": {
+          "type": "string"
+        },
+        "frame_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "geo_anchor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GeoAnchor"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "metres_per_unit": {
+          "format": "double",
+          "type": "number"
+        },
+        "origin": {
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        }
+      },
+      "required": [
+        "frame_id",
+        "axes",
+        "metres_per_unit",
+        "origin"
+      ],
+      "type": "object"
+    },
+    "Owner": {
+      "additionalProperties": false,
+      "properties": {
+        "earth_subject": {
+          "type": "string"
+        },
+        "mutsea_agent_id": {
+          "format": "uuid",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "earth_subject"
+      ],
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "attribution": {
+          "type": "string"
+        },
+        "generated": {
+          "type": "boolean"
+        },
+        "license": {
+          "type": "string"
+        },
+        "record_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "record_ids",
+        "license",
+        "attribution",
+        "sha256",
+        "generated"
+      ],
+      "type": "object"
+    },
+    "ResourceBudget": {
+      "additionalProperties": false,
+      "properties": {
+        "max_asset_bytes": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "max_lights": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "max_objects": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "max_triangles": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "scripts_allowed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "max_objects",
+        "max_triangles",
+        "max_asset_bytes",
+        "max_lights",
+        "scripts_allowed"
+      ],
+      "type": "object"
+    },
+    "Scope": {
+      "enum": [
+        "read_context",
+        "preview",
+        "create_owned_place",
+        "inspect_receipt",
+        "undo_owned_place"
+      ],
+      "type": "string"
+    },
+    "SemanticZone": {
+      "additionalProperties": false,
+      "properties": {
+        "affordances": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        },
+        "zone_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "zone_id",
+        "title",
+        "affordances"
+      ],
+      "type": "object"
+    },
+    "SpatialArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "context": {
+          "$ref": "#/$defs/SpatialContext"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/$defs/Owner"
+        },
+        "protocol_version": {
+          "$ref": "#/$defs/FsipVersion"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/Provenance"
+          },
+          "type": "array"
+        },
+        "session_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "artifact_id",
+        "session_id",
+        "owner",
+        "kind",
+        "context",
+        "provenance",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "SpatialContext": {
+      "description": "Region and purely virtual frames have no geographic anchor by implication.",
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchor": {
+              "$ref": "#/$defs/GeoAnchor"
+            },
+            "kind": {
+              "const": "geographic",
+              "type": "string"
+            },
+            "temporal": {
+              "$ref": "#/$defs/TemporalReference"
+            }
+          },
+          "required": [
+            "kind",
+            "anchor",
+            "temporal"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "crs": {
+              "type": "string"
+            },
+            "kind": {
+              "const": "projected",
+              "type": "string"
+            },
+            "position_m": {
+              "items": {
+                "format": "double",
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            "vertical_datum": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "crs",
+            "position_m",
+            "vertical_datum"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "frame": {
+              "$ref": "#/$defs/LocalFrame"
+            },
+            "kind": {
+              "const": "local",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "frame"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "audience": {
+              "$ref": "#/$defs/Audience"
+            },
+            "frame": {
+              "$ref": "#/$defs/LocalFrame"
+            },
+            "kind": {
+              "const": "region",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "audience",
+            "frame"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "frame": {
+              "$ref": "#/$defs/LocalFrame"
+            },
+            "kind": {
+              "const": "virtual",
+              "type": "string"
+            },
+            "world_id": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "world_id",
+            "frame"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "SpatialExecution": {
+      "additionalProperties": false,
+      "properties": {
+        "cancellation_requested": {
+          "type": "boolean"
+        },
+        "correlation_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "execution_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "experience_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "grant_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idempotency_key": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/$defs/Owner"
+        },
+        "protocol_version": {
+          "$ref": "#/$defs/FsipVersion"
+        },
+        "sequence": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "status": {
+          "$ref": "#/$defs/ExecutionStatus"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "execution_id",
+        "experience_id",
+        "grant_id",
+        "owner",
+        "status",
+        "idempotency_key",
+        "correlation_id",
+        "sequence",
+        "cancellation_requested"
+      ],
+      "type": "object"
+    },
+    "SpatialExperienceManifest": {
+      "additionalProperties": false,
+      "properties": {
+        "ai_narrative": {
+          "type": "string"
+        },
+        "budget": {
+          "$ref": "#/$defs/ResourceBudget"
+        },
+        "created_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "experience_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "manifest_version": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "objects": {
+          "items": {
+            "$ref": "#/$defs/ExperienceObject"
+          },
+          "type": "array"
+        },
+        "owner": {
+          "$ref": "#/$defs/Owner"
+        },
+        "protocol_version": {
+          "$ref": "#/$defs/FsipVersion"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/Provenance"
+          },
+          "type": "array"
+        },
+        "required_permissions": {
+          "items": {
+            "$ref": "#/$defs/Scope"
+          },
+          "type": "array"
+        },
+        "semantic_zones": {
+          "items": {
+            "$ref": "#/$defs/SemanticZone"
+          },
+          "type": "array"
+        },
+        "source_workspace": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/WorkspaceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "transform": {
+          "$ref": "#/$defs/WorldTransform"
+        },
+        "world_template": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "manifest_version",
+        "experience_id",
+        "owner",
+        "title",
+        "world_template",
+        "transform",
+        "objects",
+        "semantic_zones",
+        "required_permissions",
+        "budget",
+        "provenance",
+        "ai_narrative",
+        "created_at"
+      ],
+      "type": "object"
+    },
+    "SpatialGrant": {
+      "additionalProperties": false,
+      "properties": {
+        "audience": {
+          "$ref": "#/$defs/Audience"
+        },
+        "experience_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "grant_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/$defs/Owner"
+        },
+        "protocol_version": {
+          "$ref": "#/$defs/FsipVersion"
+        },
+        "revoked_at": {
+          "format": "date-time",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scopes": {
+          "items": {
+            "$ref": "#/$defs/Scope"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "grant_id",
+        "owner",
+        "audience",
+        "experience_id",
+        "manifest_sha256",
+        "scopes",
+        "expires_at"
+      ],
+      "type": "object"
+    },
+    "SpatialIntent": {
+      "additionalProperties": false,
+      "properties": {
+        "audience": {
+          "$ref": "#/$defs/Audience"
+        },
+        "correlation_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "intent_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "layout": {
+          "$ref": "#/$defs/Layout"
+        },
+        "owner": {
+          "$ref": "#/$defs/Owner"
+        },
+        "protocol_version": {
+          "$ref": "#/$defs/FsipVersion"
+        },
+        "request": {
+          "type": "string"
+        },
+        "session_id": {
+          "format": "uuid",
+          "type": "string"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "intent_id",
+        "session_id",
+        "owner",
+        "request",
+        "layout",
+        "audience",
+        "correlation_id"
+      ],
+      "type": "object"
+    },
+    "SpatialPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "audience": {
+          "$ref": "#/$defs/Audience"
+        },
+        "correlation_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "experience_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/$defs/Owner"
+        },
+        "plan_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "protocol_version": {
+          "$ref": "#/$defs/FsipVersion"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "plan_id",
+        "experience_id",
+        "owner",
+        "manifest_sha256",
+        "audience",
+        "expires_at",
+        "correlation_id"
+      ],
+      "type": "object"
+    },
+    "SpatialPresence": {
+      "additionalProperties": false,
+      "properties": {
+        "agent_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "audience": {
+          "$ref": "#/$defs/Audience"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "presence_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "protocol_version": {
+          "$ref": "#/$defs/FsipVersion"
+        },
+        "role": {
+          "type": "string"
+        },
+        "session_id": {
+          "format": "uuid",
+          "type": "string"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "presence_id",
+        "session_id",
+        "agent_id",
+        "audience",
+        "role",
+        "expires_at"
+      ],
+      "type": "object"
+    },
+    "SpatialReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "audience": {
+          "$ref": "#/$defs/Audience"
+        },
+        "bindings": {
+          "items": {
+            "$ref": "#/$defs/WorldBinding"
+          },
+          "type": "array"
+        },
+        "execution_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/$defs/Owner"
+        },
+        "protocol_version": {
+          "$ref": "#/$defs/FsipVersion"
+        },
+        "receipt_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/ExecutionStatus"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "worldline_operation_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "protocol_version",
+        "receipt_id",
+        "execution_id",
+        "manifest_sha256",
+        "owner",
+        "audience",
+        "status",
+        "bindings",
+        "timestamp"
+      ],
+      "type": "object"
+    },
+    "SpatialSession": {
+      "additionalProperties": false,
+      "properties": {
+        "context": {
+          "$ref": "#/$defs/SpatialContext"
+        },
+        "created_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/$defs/Owner"
+        },
+        "protocol_version": {
+          "$ref": "#/$defs/FsipVersion"
+        },
+        "sequence": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "session_id": {
+          "format": "uuid",
+          "type": "string"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "session_id",
+        "owner",
+        "context",
+        "sequence",
+        "created_at"
+      ],
+      "type": "object"
+    },
+    "TemporalReference": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "observed_at": {
+          "format": "date-time",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_release_year": {
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "type": "object"
+    },
+    "WorkspaceRef": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "session_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "source_execution_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "artifact_id",
+        "sha256",
+        "source_execution_id",
+        "title"
+      ],
+      "type": "object"
+    },
+    "WorldBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "audience": {
+          "$ref": "#/$defs/Audience"
+        },
+        "binding_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "entity_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "experience_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "local_id": {
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/$defs/Owner"
+        },
+        "protocol_version": {
+          "$ref": "#/$defs/FsipVersion"
+        },
+        "source_record_ids": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "binding_id",
+        "experience_id",
+        "manifest_sha256",
+        "owner",
+        "audience",
+        "local_id",
+        "entity_ids",
+        "source_record_ids"
+      ],
+      "type": "object"
+    },
+    "WorldTransform": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "frame": {
+          "$ref": "#/$defs/LocalFrame"
+        },
+        "layout": {
+          "$ref": "#/$defs/Layout"
+        },
+        "source_context": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SpatialContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "target": {
+          "$ref": "#/$defs/Audience"
+        }
+      },
+      "required": [
+        "layout",
+        "target",
+        "frame",
+        "description"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Schema root keeps every public object reachable in the published definitions.",
+  "oneOf": [
+    {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/SpatialSession"
+        },
+        "type": {
+          "const": "session",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/SpatialContext"
+        },
+        "type": {
+          "const": "context",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/SpatialArtifact"
+        },
+        "type": {
+          "const": "artifact",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/SpatialIntent"
+        },
+        "type": {
+          "const": "intent",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/SpatialPlan"
+        },
+        "type": {
+          "const": "plan",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/SpatialGrant"
+        },
+        "type": {
+          "const": "grant",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/SpatialExecution"
+        },
+        "type": {
+          "const": "execution",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/SpatialReceipt"
+        },
+        "type": {
+          "const": "receipt",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/WorldBinding"
+        },
+        "type": {
+          "const": "binding",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/SpatialPresence"
+        },
+        "type": {
+          "const": "presence",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/SpatialExperienceManifest"
+        },
+        "type": {
+          "const": "experience",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/CoordinateTransformReceipt"
+        },
+        "type": {
+          "const": "transform",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/FsipError"
+        },
+        "type": {
+          "const": "error",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "type": "object"
+    }
+  ],
+  "title": "Document"
+}

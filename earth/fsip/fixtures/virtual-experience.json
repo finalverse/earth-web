@@ -1,0 +1,261 @@
+{
+  "ai_narrative": "Generated interpretation by llama3.2:3b: A proposed generated layout for a small Finalverse exhibition or virtual garden.",
+  "budget": {
+    "max_asset_bytes": 16777216,
+    "max_lights": 12,
+    "max_objects": 256,
+    "max_triangles": 65536,
+    "scripts_allowed": false
+  },
+  "created_at": "2026-10-20T13:57:58.217379Z",
+  "experience_id": "11111111-1111-4111-8111-111111111111",
+  "manifest_version": 1,
+  "objects": [
+    {
+      "asset": {
+        "license": "CC0-1.0",
+        "manifest_sha256": "335b97dc3ec2972cbaff6492978bd72c34253c803246da142d6e9c229e97185c",
+        "package_id": "mutsea.starter.pavilion-deck",
+        "version": "0.2.0"
+      },
+      "description": "Generated exhibition platform; not source infrastructure",
+      "generated_geometry": true,
+      "local_id": "deck-0",
+      "offset_m": [
+        -2.0,
+        -2.0,
+        2.5
+      ],
+      "semantic_type": "walkway",
+      "source_record_ids": [],
+      "yaw_degrees": 0.0
+    },
+    {
+      "asset": {
+        "license": "CC0-1.0",
+        "manifest_sha256": "335b97dc3ec2972cbaff6492978bd72c34253c803246da142d6e9c229e97185c",
+        "package_id": "mutsea.starter.pavilion-deck",
+        "version": "0.2.0"
+      },
+      "description": "Generated exhibition platform; not source infrastructure",
+      "generated_geometry": true,
+      "local_id": "deck-1",
+      "offset_m": [
+        2.0,
+        -2.0,
+        2.5
+      ],
+      "semantic_type": "walkway",
+      "source_record_ids": [],
+      "yaw_degrees": 0.0
+    },
+    {
+      "asset": {
+        "license": "CC0-1.0",
+        "manifest_sha256": "335b97dc3ec2972cbaff6492978bd72c34253c803246da142d6e9c229e97185c",
+        "package_id": "mutsea.starter.pavilion-deck",
+        "version": "0.2.0"
+      },
+      "description": "Generated exhibition platform; not source infrastructure",
+      "generated_geometry": true,
+      "local_id": "deck-2",
+      "offset_m": [
+        -2.0,
+        2.0,
+        2.5
+      ],
+      "semantic_type": "walkway",
+      "source_record_ids": [],
+      "yaw_degrees": 0.0
+    },
+    {
+      "asset": {
+        "license": "CC0-1.0",
+        "manifest_sha256": "335b97dc3ec2972cbaff6492978bd72c34253c803246da142d6e9c229e97185c",
+        "package_id": "mutsea.starter.pavilion-deck",
+        "version": "0.2.0"
+      },
+      "description": "Generated exhibition platform; not source infrastructure",
+      "generated_geometry": true,
+      "local_id": "deck-3",
+      "offset_m": [
+        2.0,
+        2.0,
+        2.5
+      ],
+      "semantic_type": "walkway",
+      "source_record_ids": [],
+      "yaw_degrees": 0.0
+    },
+    {
+      "asset": {
+        "license": "CC0-1.0",
+        "manifest_sha256": "45a315443836b6e5bbbaf56ce50f23db6ed469fafa990bcab989f5bdc647feae",
+        "package_id": "mutsea.starter.bench",
+        "version": "0.1.8"
+      },
+      "description": "Native seating in a proposed AI layout",
+      "generated_geometry": true,
+      "local_id": "seat-0",
+      "offset_m": [
+        -2.0,
+        -2.0,
+        2.8
+      ],
+      "semantic_type": "seating",
+      "source_record_ids": [],
+      "yaw_degrees": 90.0
+    },
+    {
+      "asset": {
+        "license": "CC0-1.0",
+        "manifest_sha256": "45a315443836b6e5bbbaf56ce50f23db6ed469fafa990bcab989f5bdc647feae",
+        "package_id": "mutsea.starter.bench",
+        "version": "0.1.8"
+      },
+      "description": "Native seating in a proposed AI layout",
+      "generated_geometry": true,
+      "local_id": "seat-1",
+      "offset_m": [
+        2.0,
+        -2.0,
+        2.8
+      ],
+      "semantic_type": "seating",
+      "source_record_ids": [],
+      "yaw_degrees": -90.0
+    },
+    {
+      "asset": {
+        "license": "CC0-1.0",
+        "manifest_sha256": "dded132ccf478f49a626299233e01cd51f56635311345413c7018f5b7286e2fd",
+        "package_id": "mutsea.starter.garden-bed",
+        "version": "0.2.0"
+      },
+      "description": "Original elevated garden; entirely virtual",
+      "generated_geometry": true,
+      "local_id": "garden-0",
+      "offset_m": [
+        -2.0,
+        2.0,
+        2.8
+      ],
+      "semantic_type": "garden",
+      "source_record_ids": [],
+      "yaw_degrees": 0.0
+    },
+    {
+      "asset": {
+        "license": "CC0-1.0",
+        "manifest_sha256": "dded132ccf478f49a626299233e01cd51f56635311345413c7018f5b7286e2fd",
+        "package_id": "mutsea.starter.garden-bed",
+        "version": "0.2.0"
+      },
+      "description": "Original elevated garden; entirely virtual",
+      "generated_geometry": true,
+      "local_id": "garden-1",
+      "offset_m": [
+        2.0,
+        2.0,
+        2.8
+      ],
+      "semantic_type": "garden",
+      "source_record_ids": [],
+      "yaw_degrees": 0.0
+    },
+    {
+      "asset": {
+        "license": "CC0-1.0",
+        "manifest_sha256": "de39e544ba3f72f32e013fa92481509350de9444ec459fc0c8f6b8453f9223f9",
+        "package_id": "mutsea.starter.coastal-tree",
+        "version": "0.1.9"
+      },
+      "description": "Generated decorative tree",
+      "generated_geometry": true,
+      "local_id": "tree-0",
+      "offset_m": [
+        -6.0,
+        1.0,
+        2.8
+      ],
+      "semantic_type": "nature",
+      "source_record_ids": [],
+      "yaw_degrees": 0.0
+    },
+    {
+      "asset": {
+        "license": "CC0-1.0",
+        "manifest_sha256": "de39e544ba3f72f32e013fa92481509350de9444ec459fc0c8f6b8453f9223f9",
+        "package_id": "mutsea.starter.coastal-tree",
+        "version": "0.1.9"
+      },
+      "description": "Generated decorative tree",
+      "generated_geometry": true,
+      "local_id": "tree-1",
+      "offset_m": [
+        6.0,
+        1.0,
+        2.8
+      ],
+      "semantic_type": "nature",
+      "source_record_ids": [],
+      "yaw_degrees": 0.0
+    }
+  ],
+  "owner": {
+    "earth_subject": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "mutsea_agent_id": null
+  },
+  "protocol_version": "0.1",
+  "provenance": [
+    {
+      "attribution": "Original Finalverse contributors' geometry; independent of source facility data",
+      "generated": true,
+      "license": "CC0-1.0",
+      "record_ids": [],
+      "sha256": "bfde89cf2d79640a88b9b7f7d96b7277b778931369b4862ccd457354a96ed303",
+      "source": "Finalverse Studio Starter Library; bounded layout compiler 0.1"
+    }
+  ],
+  "required_permissions": [
+    "read_context",
+    "preview",
+    "create_owned_place",
+    "inspect_receipt",
+    "undo_owned_place"
+  ],
+  "semantic_zones": [
+    {
+      "affordances": [
+        "inspect",
+        "sit",
+        "speak"
+      ],
+      "title": "Conversation and source review",
+      "zone_id": "commons"
+    }
+  ],
+  "source_workspace": null,
+  "title": "Synthetic identity fixture \u2014 virtual garden",
+  "transform": {
+    "description": "Purely virtual metre frame; no physical-world mapping or Earth source data",
+    "frame": {
+      "axes": "east_north_up",
+      "frame_id": "44444444-4444-4444-8444-444444444444",
+      "geo_anchor": null,
+      "metres_per_unit": 1.0,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "layout": "virtual",
+    "source_context": null,
+    "target": {
+      "grid_id": "22222222-2222-4222-8222-222222222222",
+      "region_id": "33333333-3333-4333-8333-333333333333"
+    }
+  },
+  "world_template": "mutsea.starter.schematic-pavilion-v1"
+}

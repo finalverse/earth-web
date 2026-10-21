@@ -3387,6 +3387,7 @@
                     "enum": [
                       "EPSG:4979",
                       "EPSG:4978",
+                      "EPSG:3857",
                       "LOCAL:ENU"
                     ]
                   },
@@ -3395,6 +3396,7 @@
                     "enum": [
                       "EPSG:4979",
                       "EPSG:4978",
+                      "EPSG:3857",
                       "LOCAL:ENU"
                     ]
                   },

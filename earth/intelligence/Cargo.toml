@@ -1,6 +1,6 @@
 [package]
 name = "earth-intelligence"
-version = "0.5.0-dev.1"
+version = "0.6.0-dev.1"
 edition = "2024"
 rust-version = "1.92"
 license = "MIT"
@@ -38,6 +38,7 @@ tower-http = { version = "0.6", features = ["fs", "limit", "set-header"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 uuid = { version = "1", features = ["v4", "serde"] }
+schemars = { version = "=1.2.3", features = ["uuid1", "chrono04"] }
 
 [target.'cfg(unix)'.dependencies]
 rustix = { version = "=1.1.4", features = ["fs", "process"] }

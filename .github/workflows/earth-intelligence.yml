@@ -1,7 +1,7 @@
 name: Earth Intelligence
 on:
   push:
-    branches: [main, codex/earth-v05-intelligence]
+    branches: [main, codex/earth-v05-intelligence, codex/earth-world-v06]
   pull_request:
 permissions:
   contents: read
@@ -51,6 +51,14 @@ jobs:
           export EARTH_INTELLIGENCE_TEST_DATABASE_URL_FILE="$HOME/.local/share/finalverse-earth/intelligence-dev/test-runtime-url"
           export EARTH_INTELLIGENCE_NODE_BINARY="$(command -v node)"
           cargo +1.92.0 test --locked --manifest-path earth/intelligence/Cargo.toml --test runtime -- --ignored --nocapture
+          cargo +1.92.0 test --locked --manifest-path earth/intelligence/Cargo.toml --test bridge -- --include-ignored
+      - name: FSIP wire schemas, generated bindings and coordinate boundaries
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cargo +1.92.0 run --locked --manifest-path earth/intelligence/Cargo.toml --bin fsip-schema > earth/fsip/fsip-0.1.schema.json
+          node earth/fsip/build.mjs
+          node --test earth/fsip/*.test.mjs
+          git diff --exit-code -- earth/fsip/fsip-0.1.schema.json packages/fsip/src/index.ts
       - name: Stop this job's isolated database
         if: always() && matrix.os == 'ubuntu-latest'
         run: node earth/db/dev.mjs stop

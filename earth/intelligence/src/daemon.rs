@@ -43,6 +43,33 @@ pub async fn serve(path: &Path) -> Result<()> {
         Earth::new(&config.earth_origin)?,
         coding,
     );
+    let bridge = if let Some(settings) = config.bridge {
+        Some(crate::bridge::Bridge::new(runtime.clone(), settings).await?)
+    } else {
+        None
+    };
+    #[cfg(unix)]
+    let private_bridge = if let Some(state) = bridge.clone() {
+        let listener = crate::bridge_api::bind(&state).await?;
+        let failure_runtime = runtime.clone();
+        Some(tokio::spawn(async move {
+            let result = crate::bridge_api::serve(listener, state).await;
+            if result.is_err() {
+                failure_runtime.shutdown();
+            }
+            result
+        }))
+    } else {
+        None
+    };
+    #[cfg(not(unix))]
+    let private_bridge: Option<tokio::task::JoinHandle<Result<()>>> = {
+        ensure!(
+            bridge.is_none(),
+            "Private world bridge transport requires Unix for this preview"
+        );
+        None
+    };
     let retention_store = runtime.store.clone();
     let stop_retention = runtime.stopping.clone();
     let retention = config.retention_days;
@@ -58,8 +85,14 @@ pub async fn serve(path: &Path) -> Result<()> {
     });
     let listener = tokio::net::TcpListener::bind(&config.bind).await?;
     let authority = listener.local_addr()?.to_string();
-    let state = Api::new(runtime.clone(), authority.clone(), &config.token_files)?;
-    let app = router(state, config.browser_assets);
+    let mut state = Api::new(runtime.clone(), authority.clone(), &config.token_files)?;
+    state.bridge = bridge.clone();
+    let mut app = router(state, config.browser_assets);
+    if let Some(private) = bridge.filter(|b| b.config.loopback_tcp) {
+        // Explicit opt-in for a local Docker Desktop simulator. Still bound to
+        // the existing literal-loopback listener, separate Host and credential.
+        app = app.merge(crate::bridge_api::router(private));
+    }
     println!(
         "{}",
         serde_json::json!({"event":"intelligence_ready","origin":format!("http://{authority}"),"version":crate::protocol::VERSION,"protocol_version":crate::protocol::PROTOCOL,"public_runtime":false})
@@ -67,12 +100,15 @@ pub async fn serve(path: &Path) -> Result<()> {
     let shutdown = runtime.clone();
     axum::serve(listener, app)
         .with_graceful_shutdown(async move {
-            shutdown_signal().await;
+            tokio::select! { _=shutdown_signal()=>{},_=shutdown.stopping.cancelled()=>{} }
             shutdown.shutdown();
             tokio::time::sleep(std::time::Duration::from_millis(300)).await;
         })
         .await?;
     drop(lease);
+    if let Some(task) = private_bridge {
+        task.await??;
+    }
     Ok(())
 }
 async fn shutdown_signal() {

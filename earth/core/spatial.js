@@ -536,15 +536,15 @@ export function spatialTools({
     ),
     tool(
       'coordinate_transform',
-      'Convert WGS84/ECEF/local ENU',
+      'Convert explicit WGS84/ECEF/Web Mercator/local ENU coordinates',
       schema(
         {
           position: { ...pos, minItems: 3 },
           from: {
             type: 'string',
-            enum: ['EPSG:4979', 'EPSG:4978', 'LOCAL:ENU'],
+            enum: ['EPSG:4979', 'EPSG:4978', 'EPSG:3857', 'LOCAL:ENU'],
           },
-          to: { type: 'string', enum: ['EPSG:4979', 'EPSG:4978', 'LOCAL:ENU'] },
+          to: { type: 'string', enum: ['EPSG:4979', 'EPSG:4978', 'EPSG:3857', 'LOCAL:ENU'] },
           anchor: { ...pos, minItems: 3 },
         },
         ['position', 'from', 'to'],
@@ -557,14 +557,14 @@ export function spatialTools({
           point(a.anchor);
         }
         if (a.from === 'LOCAL:ENU') p = fromEnu(p, a.anchor);
-        else if (a.from === 'EPSG:4978')
-          p = transform(p, 'EPSG:4978', 'EPSG:4979');
+        else if (a.from !== 'EPSG:4979')
+          p = transform(p, a.from, 'EPSG:4979');
         else point(p);
         const output =
           a.to === 'LOCAL:ENU'
             ? toEnu(p, a.anchor)
-            : a.to === 'EPSG:4978'
-              ? transform(p, 'EPSG:4979', 'EPSG:4978')
+            : a.to !== 'EPSG:4979'
+              ? transform(p, 'EPSG:4979', a.to)
               : p;
         return {
           summary: 'Explicit coordinate conversion',
@@ -581,7 +581,7 @@ export function spatialTools({
             anchor: a.anchor ?? null,
           },
           provenance: {
-            method: 'Proj4js WGS84 ECEF and ECEF/ENU tangent frame',
+            method: 'Proj4js WGS84 / ECEF / Web Mercator with an explicit ECEF/ENU tangent frame',
             vertical_datum: 'WGS84_ELLIPSOID',
           },
         };

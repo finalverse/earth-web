@@ -504,7 +504,9 @@ impl Store {
         sqlx::query("DELETE FROM earth_intelligence.shares WHERE expires_at<=now()")
             .execute(&self.pool)
             .await?;
-        sqlx::query("DELETE FROM earth_intelligence.sessions WHERE status<>'running' AND updated_at<now()-make_interval(days=>$1)").bind(i32::from(days)).execute(&self.pool).await?;
+        // A live world instance pins its immutable source artifact and receipt.
+        // Revoking authorization cannot destroy the evidence for an uncertain write.
+        sqlx::query("DELETE FROM earth_intelligence.sessions s WHERE status<>'running' AND updated_at<now()-make_interval(days=>$1) AND NOT EXISTS (SELECT 1 FROM earth_intelligence.bridge_experiences e JOIN earth_intelligence.bridge_grants g ON g.experience_id=e.id WHERE e.session_id=s.id AND (g.status IN ('executing','committed','unknown') OR (g.status IN ('issued','redeemed') AND g.expires_at>now() AND g.revoked_at IS NULL)))").bind(i32::from(days)).execute(&self.pool).await?;
         Ok(())
     }
 }

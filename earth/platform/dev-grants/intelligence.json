@@ -2,7 +2,7 @@
   "manifest_version": "1.0",
   "id": "finalverse.intelligence",
   "name": "Earth Intelligence local runtime",
-  "version": "0.5.0-dev.1",
+  "version": "0.6.0-dev.1",
   "api_version": "1",
   "entry": "./index.html",
   "runtime": "trusted-same-origin",
@@ -25,7 +25,8 @@
     "get_provenance",
     "within_distance",
     "cluster_features",
-    "features_during_interval"
+    "features_during_interval",
+    "coordinate_transform"
   ],
   "budgets": { "max_features": 100, "max_radius_m": 500000 }
 }

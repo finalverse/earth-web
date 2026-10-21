@@ -1,0 +1,9 @@
+{
+  "name": "@finalverse/fsip",
+  "version": "0.1.0-dev.1",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "types": "src/index.ts",
+  "description": "Generated Finalverse Spatial Intelligence Protocol 0.1 wire types"
+}

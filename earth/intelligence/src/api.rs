@@ -26,6 +26,7 @@ pub struct Api {
     pub authority: String,
     pub owner_hashes: Arc<Vec<String>>,
     streams: Arc<Semaphore>,
+    pub bridge: Option<crate::bridge::Bridge>,
 }
 impl Api {
     pub fn new(
@@ -42,6 +43,7 @@ impl Api {
             authority,
             owner_hashes: Arc::new(hashes),
             streams: Arc::new(Semaphore::new(4)),
+            bridge: None,
         })
     }
     fn owner(&self, headers: &HeaderMap) -> Result<String, Error> {
@@ -118,6 +120,11 @@ pub fn router(state: Api, assets: Option<std::path::PathBuf>) -> Router {
         .route("/v1/sessions/{id}/artifacts",get(artifacts))
         .route("/v1/sessions/{id}/artifacts/{artifact}",get(artifact))
         .route("/v1/sessions/{id}/workspace",get(workspace))
+        .route("/v1/sessions/{id}/experiences",get(list_experiences).post(create_experience))
+        .route("/v1/experiences/{id}",get(inspect_experience))
+        .route("/v1/experiences/{id}/handoff",post(experience_handoff))
+        .route("/v1/experiences/{id}/grants/{grant}/revoke",post(revoke_experience))
+        .route("/v1/experiences/{id}/grants/{grant}/events",get(experience_events))
         .route("/v1/sessions/{id}/share",post(share))
         .route("/v1/sessions/{id}/revoke",post(revoke))
         .route("/v1/sessions/{id}/code/read",post(read_code))
@@ -150,6 +157,76 @@ pub fn router(state: Api, assets: Option<std::path::PathBuf>) -> Router {
         .layer(DefaultBodyLimit::max(131072))
         .layer(middleware::from_fn_with_state(state.clone(), boundary))
         .with_state(state)
+}
+
+async fn create_experience(
+    State(state): State<Api>,
+    headers: HeaderMap,
+    Path(id): Path<Uuid>,
+    Json(input): Json<crate::bridge::CreateExperience>,
+) -> Result<Json<Value>, Error> {
+    let owner = state.owner(&headers)?;
+    let bridge = state.bridge.as_ref().ok_or_else(Error::unavailable)?;
+    bridge
+        .create(&owner, id, input)
+        .await
+        .map(Json)
+        .map_err(|_| Error::refused())
+}
+async fn list_experiences(
+    State(state): State<Api>,
+    headers: HeaderMap,
+    Path(id): Path<Uuid>,
+) -> Result<Json<Value>, Error> {
+    let owner = state.owner(&headers)?;
+    state
+        .bridge
+        .as_ref()
+        .ok_or_else(Error::unavailable)?
+        .list(&owner, id)
+        .await
+        .map(Json)
+        .map_err(|_| Error::unavailable())
+}
+async fn inspect_experience(
+    State(state): State<Api>,
+    headers: HeaderMap,
+    Path(id): Path<Uuid>,
+) -> Result<Json<Value>, Error> {
+    let owner = state.owner(&headers)?;
+    let bridge = state.bridge.as_ref().ok_or_else(Error::unavailable)?;
+    bridge
+        .inspect(&owner, id)
+        .await
+        .map(Json)
+        .map_err(|_| Error::unavailable())
+}
+async fn experience_handoff(
+    State(state): State<Api>,
+    headers: HeaderMap,
+    Path(id): Path<Uuid>,
+    Json(input): Json<crate::bridge::HandoffRequest>,
+) -> Result<Json<Value>, Error> {
+    let owner = state.owner(&headers)?;
+    let bridge = state.bridge.as_ref().ok_or_else(Error::unavailable)?;
+    bridge
+        .handoff(&owner, id, input)
+        .await
+        .map(Json)
+        .map_err(|_| Error::refused())
+}
+async fn revoke_experience(
+    State(state): State<Api>,
+    headers: HeaderMap,
+    Path((id, grant)): Path<(Uuid, Uuid)>,
+) -> Result<Json<Value>, Error> {
+    let owner = state.owner(&headers)?;
+    let bridge = state.bridge.as_ref().ok_or_else(Error::unavailable)?;
+    bridge
+        .revoke(&owner, id, grant)
+        .await
+        .map(Json)
+        .map_err(|_| Error::refused())
 }
 
 async fn boundary(
@@ -537,6 +614,74 @@ async fn search_code(
 struct Cursor {
     #[serde(default)]
     after: i64,
+}
+async fn experience_events(
+    State(s): State<Api>,
+    headers: HeaderMap,
+    Path((id, grant)): Path<(Uuid, Uuid)>,
+    Query(cursor): Query<Cursor>,
+) -> Result<Response, Error> {
+    let owner = s.owner(&headers)?;
+    let bridge = s.bridge.as_ref().ok_or_else(Error::unavailable)?;
+    let initial = bridge
+        .events(&owner, id, grant, cursor.after)
+        .await
+        .map_err(|_| Error::unavailable())?;
+    if !headers
+        .get(header::ACCEPT)
+        .and_then(|s| s.to_str().ok())
+        .is_some_and(|s| s.contains("text/event-stream"))
+    {
+        let last = initial
+            .last()
+            .and_then(|e| e["sequence"].as_i64())
+            .unwrap_or(cursor.after);
+        return Ok(
+            Json(json!({"protocol_version":"0.1","events":initial,"cursor":last})).into_response(),
+        );
+    }
+    let permit = s
+        .streams
+        .clone()
+        .try_acquire_owned()
+        .map_err(|_| Error::refused())?;
+    let state = (
+        s,
+        owner,
+        id,
+        grant,
+        cursor.after,
+        VecDeque::from(initial),
+        permit,
+    );
+    let output = stream::unfold(state, |mut state| async move {
+        loop {
+            if let Some(event) = state.5.pop_front() {
+                state.4 = event["sequence"].as_i64()?;
+                let frame = SseEvent::default()
+                    .event("fsip.event")
+                    .id(state.4.to_string())
+                    .json_data(event)
+                    .ok()?;
+                return Some((Ok::<_, Infallible>(frame), state));
+            }
+            let next = state
+                .0
+                .bridge
+                .as_ref()?
+                .events(&state.1, state.2, state.3, state.4)
+                .await
+                .ok()?;
+            if !next.is_empty() {
+                state.5 = VecDeque::from(next);
+                continue;
+            }
+            tokio::select! {_=state.0.runtime.stopping.cancelled()=>return None,_=tokio::time::sleep(Duration::from_secs(1))=>{}}
+        }
+    });
+    Ok(Sse::new(output)
+        .keep_alive(KeepAlive::new().interval(Duration::from_secs(10)))
+        .into_response())
 }
 async fn events(
     State(s): State<Api>,

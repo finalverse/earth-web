@@ -4,6 +4,10 @@ import geographic from 'geographiclib-geodesic';
 
 const LLH = '+proj=longlat +datum=WGS84 +units=degrees +no_defs';
 const XYZ = '+proj=geocent +datum=WGS84 +units=m +no_defs';
+// Web Mercator has metre coordinates but is not a distance-preserving local frame.
+const MERCATOR = '+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +no_defs';
+const CRS = { 'EPSG:4979': LLH, 'EPSG:4978': XYZ, 'EPSG:3857': MERCATOR };
+const MERCATOR_LIMIT = 20037508.342789244;
 export function point(value) {
   if (
     !Array.isArray(value) ||
@@ -21,11 +25,10 @@ export function point(value) {
 }
 export function transform(position, from, to) {
   if (
-    !['EPSG:4979', 'EPSG:4978'].includes(from) ||
-    !['EPSG:4979', 'EPSG:4978'].includes(to)
+    !Object.hasOwn(CRS, from) || !Object.hasOwn(CRS, to)
   )
     throw new Error(
-      'Supported CRS: EPSG:4979 (WGS84 ellipsoidal height) and EPSG:4978 (ECEF).',
+      'Supported CRS: EPSG:4979 (WGS84 ellipsoidal height), EPSG:4978 (ECEF), EPSG:3857 (Web Mercator).',
     );
   if (
     !Array.isArray(position) ||
@@ -34,17 +37,28 @@ export function transform(position, from, to) {
   )
     throw new Error('Three finite coordinates required.');
   if (from === 'EPSG:4979') point(position);
+  if (from === 'EPSG:3857' &&
+      (Math.abs(position[0]) > MERCATOR_LIMIT || Math.abs(position[1]) > MERCATOR_LIMIT ||
+       position[2] < -12000 || position[2] > 100000000))
+    throw new Error('Web Mercator point outside declared extent.');
   if (
     from === 'EPSG:4978' &&
     (Math.hypot(...position) < 1 || Math.hypot(...position) > 110000000)
   )
     throw new Error('ECEF point outside supported Earth extent.');
+  // Refuse out-of-domain input rather than clamp a polar location to a new place.
+  if (to === 'EPSG:3857') {
+    const geographic = from === 'EPSG:4978' ? proj4(XYZ, LLH, position) :
+      from === 'EPSG:3857' ? proj4(MERCATOR, LLH, position) : position;
+    if (Math.abs(geographic[1]) > 85.0511287798066)
+      throw new Error('Web Mercator does not represent polar regions.');
+  }
   const result =
     from === to
       ? [...position]
       : proj4(
-          from === 'EPSG:4979' ? LLH : XYZ,
-          to === 'EPSG:4979' ? LLH : XYZ,
+          CRS[from],
+          CRS[to],
           position,
         );
   if (!result.every(Number.isFinite))

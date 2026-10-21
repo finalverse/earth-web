@@ -10,6 +10,21 @@ Explore the planet, ask geographic questions, and trace every result to real dat
 
 Finalverse Earth is part of the Finalverse ecosystem and works independently. It does not require a MutSea server, a social-world account, a hosted model, proprietary credentials or paid map tiles.
 
+## v0.6 local integration: Earth → persistent worlds
+
+The development branch adds **FSIP 0.1** and an opt-in bridge inside the existing
+Rust runtime. An owned Earth workspace can become a reviewed, source-linked native
+MutSea place through a one-use identity handoff, native policy checks, WorldLine
+and guarded Undo. The same contract supports a virtual-only garden without an
+Earth dataset. The existing viewer, renderer and world protocols are preserved.
+
+This is **not a public release**. Local native creation, scene display,
+independent observation, restart, Undo and frame measurements pass. Hosted Lumi
+and the post-upgrade Harbor smoke remain open; v0.7 is gated on acceptance. See the [operator/developer guide](docs/earth/bridge-v06/developer-guide.md),
+[architecture](docs/earth/bridge-v06/architecture.md),
+[acceptance ledger](docs/earth/bridge-v06/acceptance.md),
+[rollback](docs/earth/bridge-v06/rollback.md), and [FSIP schema/types](earth/fsip/README.md).
+
 ## v0.5 development preview: Earth Intelligence
 
 A separately testable **Rust runtime and native `earth` CLI** connect conversation,
@@ -19,7 +34,8 @@ receipts, restart-safe replay and scoped browser workspace continuation are
 implemented. The Node Earth API remains the deterministic spatial authority.
 
 This is a **local developer preview**. The public v0.3 site is unchanged; no public
-AI service, cloud fallback, autonomous shell or viewer integration is enabled.
+AI service, cloud fallback or autonomous shell is enabled. The opt-in local
+viewer bridge is described separately above.
 Start with the [native runtime and CLI guide](docs/earth/intelligence/developer-guide.md),
 [architecture/protocol](docs/earth/intelligence/architecture.md),
 [security boundaries](docs/earth/intelligence/security.md),

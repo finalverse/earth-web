@@ -704,6 +704,7 @@ async fn durable_owned_sessions_streaming_approvals_cli_coding_and_explicit_brow
     );
 
     let config = Config {
+        bridge: None,
         bind: address,
         token_files: vec![token_file_a],
         database_url_file: database,

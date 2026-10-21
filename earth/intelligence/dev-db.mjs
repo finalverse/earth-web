@@ -72,6 +72,7 @@ try {
       'utf8',
     ),
   );
+  await target.query(await readFile(new URL('./migrations/002_bridge.sql', import.meta.url), 'utf8'));
   await target.query('GRANT USAGE ON SCHEMA earth_intelligence TO ' + role);
   await target.query(
     'GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA earth_intelligence TO ' +

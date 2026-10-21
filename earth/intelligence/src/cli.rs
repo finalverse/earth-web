@@ -54,6 +54,11 @@ impl From<CliMode> for Mode {
 }
 #[derive(Subcommand)]
 enum Command {
+    /// Propose a pinned experience; native preview and approval are separate.
+    Experience {
+        #[command(subcommand)]
+        action: ExperienceAction,
+    },
     Ask {
         question: String,
     },
@@ -75,6 +80,37 @@ enum Command {
         action: Option<ConfigAction>,
     },
     Doctor,
+}
+#[derive(Subcommand)]
+enum ExperienceAction {
+    List,
+    Plan {
+        request: String,
+        #[arg(long)]
+        grid: Uuid,
+        #[arg(long)]
+        region: Uuid,
+        #[arg(long)]
+        virtual_only: bool,
+        #[arg(long)]
+        request_id: Option<Uuid>,
+        #[arg(long)]
+        output: PathBuf,
+    },
+    Inspect {
+        id: Uuid,
+    },
+    Handoff {
+        id: Uuid,
+        #[arg(long)]
+        agent: Uuid,
+        #[arg(long)]
+        output: PathBuf,
+    },
+    Revoke {
+        id: Uuid,
+        grant: Uuid,
+    },
 }
 #[derive(Subcommand)]
 enum SessionAction {
@@ -393,6 +429,7 @@ pub async fn run(args: Args) -> Result<()> {
             let token_file = parent.join("owner-token");
             let token = format!("{}{}", Uuid::new_v4().simple(), Uuid::new_v4().simple());
             let config = Config {
+                bridge: None,
                 bind: bind.clone(),
                 token_files: vec![token_file.clone()],
                 database_url_file: std::fs::canonicalize(database_url_file)?,
@@ -435,6 +472,69 @@ pub async fn run(args: Args) -> Result<()> {
             .ok_or_else(|| anyhow::anyhow!("Supply --session <UUID>"))
     };
     match args.command {
+        Some(Command::Experience { action }) => match action {
+            ExperienceAction::List => client.print(
+                &client
+                    .get(&format!("/v1/sessions/{}/experiences", id()?))
+                    .await?,
+            ),
+            ExperienceAction::Plan {
+                request,
+                grid,
+                region,
+                virtual_only,
+                request_id,
+                output,
+            } => {
+                ensure!(
+                    std::fs::symlink_metadata(&output).is_err(),
+                    "Choose a new export path"
+                );
+                let session = if virtual_only {
+                    match args.session {
+                        Some(s) => s,
+                        None => {
+                            client
+                                .create(Mode::Chat, "Virtual experience proposal")
+                                .await?
+                        }
+                    }
+                } else {
+                    id()?
+                };
+                let request_id = request_id.unwrap_or_else(Uuid::new_v4);
+                client.print(&json!({"session_id":session,"request_id":request_id,"planning":true,"native_world_mutation":false}));
+                let value=client.post(&format!("/v1/sessions/{session}/experiences"),json!({"request_id":request_id,"request":request,"layout":if virtual_only{"virtual"}else{"schematic_exhibition"},"audience":{"grid_id":grid,"region_id":region},"model":args.model})).await?;
+                write_private(&output, &serde_json::to_vec_pretty(&value)?)?;
+                client.print(&json!({"session_id":session,"experience_id":value["experience_id"],"manifest_sha256":value["manifest_sha256"],"proposal_file":output,"native_approval_required":true}));
+            }
+            ExperienceAction::Inspect { id } => {
+                client.print(&client.get(&format!("/v1/experiences/{id}")).await?)
+            }
+            ExperienceAction::Handoff { id, agent, output } => {
+                ensure!(
+                    std::fs::symlink_metadata(&output).is_err(),
+                    "Choose a new handoff path"
+                );
+                let value = client
+                    .post(
+                        &format!("/v1/experiences/{id}/handoff"),
+                        json!({"agent_id":agent}),
+                    )
+                    .await?;
+                write_private(&output, &serde_json::to_vec_pretty(&value)?)?;
+                // A handoff is a secret. Even --json only prints its file path.
+                client.print(&json!({"grant_id":value["grant_id"],"expires_at":value["expires_at"],"handoff_file":output,"next":"Native Create → Earth → World; paste the file's token, review and approve. Never place it in a URL."}));
+            }
+            ExperienceAction::Revoke { id, grant } => client.print(
+                &client
+                    .post(
+                        &format!("/v1/experiences/{id}/grants/{grant}/revoke"),
+                        json!({}),
+                    )
+                    .await?,
+            ),
+        },
         Some(Command::Datasets) => client.print(&client.get("/v1/earth/datasets").await?),
         Some(Command::Places { query }) => {
             let encoded = reqwest::Url::parse_with_params("http://127.0.0.1/", [("query", query)])?;
