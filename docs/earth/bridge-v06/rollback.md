@@ -1,7 +1,8 @@
 # v0.6 rollback and deployment boundary
 
-The local pilot is isolated. No hosted service, public site, GitHub branch or
-download has been changed by the v0.6 rehearsal. Hosted enablement requires a
+The local pilot is isolated. No hosted service, public site or download has
+been changed by the v0.6 rehearsal. The user authorized source publication to
+GitHub main on 2026-10-21; that is separate from deployment. Hosted enablement requires a
 separate authorized, coordinated pilot with the existing Lumi runtime.
 
 ## Preserve before changing a world

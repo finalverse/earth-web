@@ -86,3 +86,11 @@ v0.7 starts only after the v0.6 integration and security gates pass. Hosted Lumi
 must retain its one existing identity/runtime; no duplicate is started for a new
 region. Public deployments require separate authorization after a reviewable
 result exists.
+
+## Integration source milestones
+
+The tested local bridge spans viewer `ce2553ed0b`, MutSea `007f6a3295`, citizen
+runtime `4a2f9d1`, and AI gateway `97fa085`. Source publication to GitHub main
+was authorized on 2026-10-21. The subsequent compact workspace/conversation UI
+is a separate viewer milestone. Source publication does not enable the hosted
+bridge, change the public site, pass G16/G17, or promote v0.7.
