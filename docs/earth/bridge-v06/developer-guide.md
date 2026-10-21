@@ -252,3 +252,14 @@ public registration service deliberately requires 12–16 printable ASCII
 characters; an operator-created fixture must respect that limit for GUI tests
 even though native administrative provisioning accepts longer secrets. A CLI
 login alone does not prove compatibility with the GUI password field.
+
+## CI consolidation (2026-10-21)
+
+The inherited unit runner now discovers `earth/` as well as `src/` and
+`server/`, so the FSIP coordinate and schema suites run in the normal CI job.
+The independent Energy Explorer pins Vite 6.4.4, the patched release for
+[GHSA-r825-w8mm-5pxw](https://github.com/advisories/GHSA-r825-w8mm-5pxw).
+Local verification: full Node 24 unit runner including allocation probes passed;
+Energy Explorer's five tests, production build and npm high-severity audit
+passed (zero vulnerabilities). GitHub matrix validation is recorded by the
+commit's Actions runs. This dependency change does not deploy the public site.
