@@ -10,6 +10,24 @@ Explore the planet, ask geographic questions, and trace every result to real dat
 
 Finalverse Earth is part of the Finalverse ecosystem and works independently. It does not require a MutSea server, a social-world account, a hosted model, proprietary credentials or paid map tiles.
 
+## v0.7 Confluence integration · local R&D
+
+The `codex/confluence-v07` integration branch connects **one existing Intelligence
+session** to Earth CLI, the local Web view and the native Finalverse Viewer.
+Explicit, expiring participant grants allow source inspection and bounded
+conversation; they never grant world approval or editing authority. Native
+identity, canonical event replay, model identity, immutable artifact references
+and revocation use the existing runtime, PostgreSQL and MutSea capability relay.
+
+Real local-model conversation, two simultaneous native accounts, source-backed
+workspace recovery and approved 94-part exhibition creation/Undo have been
+verified. **This is not a completed v0.7 release.** Shared-session Lumi, additional
+artifact producers and the broader performance gates remain open. See the
+[architecture](docs/finalverse/v07/architecture.md),
+[acceptance and evidence](docs/finalverse/v07/acceptance.md) and
+[local operator guide](docs/finalverse/v07/operator-guide.md). Public Earth and
+downloadable viewer packages have not been silently upgraded.
+
 ## v0.6 local integration: Earth → persistent worlds
 
 The development branch adds **FSIP 0.1** and an opt-in bridge inside the existing

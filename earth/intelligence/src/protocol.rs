@@ -60,6 +60,8 @@ pub struct Event {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type", content = "data")]
 pub enum EventBody {
+    #[serde(rename = "confluence.participant_message")]
+    ParticipantMessage { agent_id: Uuid },
     #[serde(rename = "session.started")]
     SessionStarted { mode: Mode },
     #[serde(rename = "message.started")]

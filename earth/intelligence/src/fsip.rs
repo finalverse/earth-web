@@ -226,6 +226,7 @@ pub enum Document {
     Session(SpatialSession),
     Context(SpatialContext),
     Artifact(SpatialArtifact),
+    ArtifactReference(crate::confluence::ArtifactReference),
     Intent(SpatialIntent),
     Plan(SpatialPlan),
     Grant(SpatialGrant),
