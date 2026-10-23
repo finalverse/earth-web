@@ -39,7 +39,7 @@ const rocketLaunches = readLayerSource(
 const realtime = readRealtimeSource();
 const voice = [
   './voice/actionSchemas.js',
-  '../server/providers/openai/toolDescriptions.js',
+  './voice/actionDescriptions.js',
   '../server/providers/openai/instructions.js',
 ]
   .map((file) => readFileSync(new URL(file, import.meta.url), 'utf8'))
@@ -50,11 +50,11 @@ function realtimeTools() {
   return GEV_REALTIME_TOOLS;
 }
 
-test('Realtime schema exposes the authoritative 31-tool inventory', () => {
+test('Realtime schema exposes the authoritative 34-tool inventory', () => {
   const tools = realtimeTools();
-  assert.equal(tools.length, 31);
+  assert.equal(tools.length, 34);
   const names = tools.map((tool) => tool.name);
-  assert.equal(new Set(names).size, 31, 'tool names are unique');
+  assert.equal(new Set(names).size, tools.length, 'tool names are unique');
   assert.ok(names.includes('set_context_mode'));
   assert.ok(names.includes('control_cockpit'));
   assert.ok(names.includes('select_nearest_aircraft'));

@@ -97,6 +97,18 @@ export function installCoreNavigation({ viewer, status }) {
       };
       if (reduced) viewer.camera.setView(view);
       else viewer.camera.flyTo({ ...view, duration: 1.2 });
+      const removeScreenProbe = viewer.scene.postRender.addEventListener(() => {
+        const screen = Cesium.SceneTransforms.worldToWindowCoordinates(
+          viewer.scene,
+          marker.position.getValue(viewer.clock.currentTime),
+        );
+        if (screen)
+          panel.dataset.destinationScreen = JSON.stringify({
+            x: screen.x,
+            y: screen.y,
+          });
+        removeScreenProbe();
+      });
       viewer.scene.requestRender();
       inspect(result);
     },

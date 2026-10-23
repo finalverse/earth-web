@@ -1,3 +1,4 @@
+import { msg } from '../../i18n/marker.js';
 import * as Cesium from 'cesium';
 import { OSM_PLACES_LAYER_ID } from './model.js';
 export * from './model.js';
@@ -73,7 +74,7 @@ export function createOsmPlacesLayer({ overlayHost } = {}) {
 
   return {
     id: OSM_PLACES_LAYER_ID,
-    name: 'OSM Places',
+    name: msg('OSM Places'),
     icon: '⌖',
     source: 'OpenStreetMap',
     updateInterval: 0,
@@ -151,7 +152,7 @@ export function createOsmPlacesLayer({ overlayHost } = {}) {
         error: null,
         statusMessage: meta
           ? `${meta.label} · ${meta.area}`
-          : 'Voice place search (needs an Overpass server)',
+          : msg('Voice place search (needs an Overpass server)'),
       };
     },
   };

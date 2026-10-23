@@ -920,6 +920,14 @@ export function planStepLabel(name, args = {}) {
       return t('Read the view');
     case 'get_current_view_state':
       return t('Check view state');
+    case 'spatial_selection':
+      return t('Inspect selection');
+    case 'resolve_area':
+      return t('Resolve area');
+    case 'find_imagery':
+      return t('Find imagery');
+    case 'osm_query':
+      return t('Find places');
     case 'frame_overhead':
       return frameStepLabel(spokenLabel(args.target || 'flights', 24));
     default:

@@ -276,9 +276,7 @@ try {
     const picked = viewer.scene.pick(event.position),
       id = picked?.id;
     if (id?.earthCoreResult) {
-      earthNavigation.inspect(
-        id.earthCoreResult.getValue(Cesium.JulianDate.now()),
-      );
+      earthNavigation.inspect(id.earthCoreResult);
     } else if (id?.properties) {
       const p = id.properties.getValue(Cesium.JulianDate.now());
       inspect({ properties: p });

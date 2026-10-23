@@ -1,3 +1,4 @@
+import { msg } from '../i18n/marker.js';
 import {
   checkLocalVoiceSupport,
   findLlmModel,
@@ -123,13 +124,13 @@ export function voiceEngineView({ engine, probe = null, badge = null }) {
     chips: [
       {
         id: 'cloud',
-        label: 'CLOUD',
+        label: msg('CLOUD'),
         title: ENGINE_DESCRIPTIONS.cloud,
         active: !onDevice,
       },
       {
         id: 'on-device',
-        label: 'ON-DEVICE',
+        label: msg('ON-DEVICE'),
         title: ENGINE_DESCRIPTIONS['on-device'],
         active: onDevice,
         // Stay selectable while checking or when already chosen, so the

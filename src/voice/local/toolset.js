@@ -33,7 +33,13 @@ export const MORE_ACTIONS_TOOL = 'more_actions';
  * Actions left out of the on-device prompt to keep its cached prefix small:
  * the Cyber sonar controls apply to one HUD theme only.
  */
-export const LOCAL_EXCLUDED_ACTIONS = Object.freeze(['set_cyber_sonar']);
+export const LOCAL_EXCLUDED_ACTIONS = Object.freeze([
+  'set_cyber_sonar',
+  'spatial_selection',
+  'resolve_area',
+  'find_imagery',
+  'osm_query',
+]);
 
 /** Actions the on-device model can call. */
 export const LOCAL_ACTIONS = Object.freeze(

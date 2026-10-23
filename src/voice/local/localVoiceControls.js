@@ -1,8 +1,11 @@
+import { t } from '../../i18n/index.js';
+import { msg } from '../../i18n/marker.js';
 import { syncChipGroup } from '../../ui/chipGroup.js';
 import { UiLifetime } from '../../ui/uiLifetime.js';
 import { localVoiceTrayView } from './localVoicePresentation.js';
 
 const setText = (element, text) => {
+  text = t(text);
   if (element && element.textContent !== text) element.textContent = text;
 };
 
@@ -35,7 +38,7 @@ export class LocalVoiceControls {
     const make = (tag, className, parent, text) => {
       const node = document.createElement(tag);
       if (className) node.className = className;
-      if (text) node.textContent = text;
+      if (text) node.textContent = t(text);
       parent?.appendChild(node);
       return node;
     };
@@ -46,7 +49,7 @@ export class LocalVoiceControls {
       make('div', 'gev-voice-local-slot', root);
     const section = make('div', 'gev-voice-local-settings', slot);
     section.setAttribute('role', 'group');
-    section.setAttribute('aria-label', 'On-device voice');
+    section.setAttribute('aria-label', t('On-device voice'));
     const heading = make('div', 'gev-voice-local-heading', section);
     make('span', 'gev-voice-local-kicker', heading, 'ON-DEVICE MODELS');
     const state = make('span', 'gev-voice-local-state', heading);

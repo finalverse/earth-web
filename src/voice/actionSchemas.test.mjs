@@ -1,3 +1,6 @@
+import { createAreaStore } from '../data/areaStore.js';
+import { createAreaResolver } from '../data/areaResolver.js';
+import { findAdminCandidates } from '../data/adminBoundaries.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
@@ -55,7 +58,7 @@ test('the complete Realtime tool payload pins the manifest-generated layer relea
     // requested radius and center authority in descriptions only.
     // Street Level and GNSS extend the manifest; tracked and analyst aircraft describe broadcasts.
     // Air quality (ECCC AQHI) extends the manifest.
-    '775ba323384b4c1b62fb8415bac52aecc3fc668e20bedcfa57e426dcd1da3969',
+    '8c0d0ec4bdefd981fdcde3003f881b3063e6403655240f3628d7ae621968e6d0',
   );
 });
 
@@ -145,9 +148,14 @@ test('metadata cannot add tools, fields, types or enum values', () => {
 test('all legacy action arguments are byte-identical after removing the deliberate additions', () => {
   const legacy = structuredClone(GEV_ACTION_SCHEMAS).filter(
     (tool) =>
-      !['next_satellite_pass', 'set_cyber_sonar', 'spatial_selection'].includes(
-        tool.name,
-      ),
+      ![
+        'next_satellite_pass',
+        'set_cyber_sonar',
+        'spatial_selection',
+        'resolve_area',
+        'find_imagery',
+        'osm_query',
+      ].includes(tool.name),
   );
   // Layer enums are generated from the voice layer manifest and pinned by
   // layerManifest.test.mjs; the two shipped right-rail panels are additive.

@@ -39,6 +39,7 @@ test('explicit build inputs preserve browser-only defines, plugin order and loop
     'import.meta.env.GOOGLE_MAPS_API_KEY': '"browser-fixture"',
     'import.meta.env.CESIUM_ION_TOKEN': '"ion-fixture"',
     'import.meta.env.MAPILLARY_CLIENT_TOKEN': '""',
+    'import.meta.env.GEV_NATURAL_VOICE': '""',
   });
   assert.equal(
     createBrowserViteConfig({ mapillaryToken: 'MLY|1|abc' }).define[
@@ -76,7 +77,7 @@ test('build helper does not discover environment values or construct local provi
     );
     assert.deepEqual(
       config.plugins.slice(3).map((plugin) => plugin.name),
-      ['embed-framing', 'panel-build'],
+      ['embed-framing', 'panel-build', 'gev-on-device-runtime'],
     );
   } finally {
     if (before === undefined) delete process.env.GOOGLE_MAPS_API_KEY;
@@ -89,7 +90,7 @@ test('root config retains existing named exports and standalone provider order',
     assert.equal(compatibility[name], value, name);
   const config = standaloneConfig({ mode: 'test' });
   const standaloneProviders = config.plugins
-    .slice(3, -5)
+    .slice(3, -6)
     .map((plugin) => plugin.name);
   assert.equal(
     standaloneProviders.filter((name) => name === 'gemini-live-proxy').length,
@@ -103,14 +104,14 @@ test('root config retains existing named exports and standalone provider order',
     standaloneProviders.filter((name) => name !== 'gemini-live-proxy'),
     providers.localProviderPlugins().map((plugin) => plugin.name),
   );
-  assert.equal(config.plugins.at(-6).name, 'gev-key-setup');
+  assert.equal(config.plugins.at(-7).name, 'gev-key-setup');
   // The local MCP route follows every provider and precedes the API fallback.
-  assert.equal(config.plugins.at(-5).name, 'local-mcp');
-  assert.equal(config.plugins.at(-4).name, 'api-not-found');
+  assert.equal(config.plugins.at(-6).name, 'local-mcp');
+  assert.equal(config.plugins.at(-5).name, 'api-not-found');
   // Config-only, so it sits after the provider slice rather than in it.
-  assert.equal(config.plugins.at(-3).name, 'gev-unwatched-runtime-dirs');
-  assert.equal(config.plugins.at(-2).name, 'embed-framing');
-  assert.equal(config.plugins.at(-1).name, 'panel-build');
+  assert.equal(config.plugins.at(-4).name, 'gev-unwatched-runtime-dirs');
+  assert.equal(config.plugins.at(-3).name, 'embed-framing');
+  assert.equal(config.plugins.at(-2).name, 'panel-build');
 });
 
 test('directories the server writes while it runs are kept out of the dev watcher', () => {

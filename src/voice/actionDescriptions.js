@@ -455,6 +455,7 @@ export const ACTION_DESCRIPTIONS = {
                 description: 'For type=arrow: the destination place name.',
                 $position: 2,
               },
+              // i18n-ignore: canonical model/tool metadata or fixture proper name; preserve provider identity.
               label: {
                 description:
                   'Short caption shown on the map (a few words). Optional.',
@@ -543,6 +544,7 @@ export const ACTION_DESCRIPTIONS = {
     $position: 1,
     parameters: {
       properties: {
+        // i18n-ignore: canonical model/tool metadata or fixture proper name; preserve provider identity.
         label: {
           description: 'Match an existing route mark by (partial) label.',
           $position: 1,

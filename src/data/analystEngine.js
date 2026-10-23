@@ -906,8 +906,13 @@ export function createAnalystEngine(providers) {
     }
 
     // 2) Spatial scope
-    const rememberedScope =
-      followUp && !spec.scope ? lastResult.scopePresentation || null : null;
+    const rememberedPresentation = inheritsRememberedScope
+      ? lastResult.presentation || lastResult.scopePresentation || null
+      : null;
+    const rememberedCoverageNote =
+      rememberedPresentation?.coverageNote ||
+      (inheritsRememberedScope ? lastResult.coverage?.note : null) ||
+      null;
     const rememberedDistanceOf =
       followUp && !spec.scope ? lastResult.distanceOf || null : null;
     let resolvedScope = null;

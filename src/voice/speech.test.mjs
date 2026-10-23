@@ -414,7 +414,7 @@ test('analyst speech preserves exact counts, lower bounds and partial status', (
     });
     assert.equal(
       result.say,
-      `3 aircraft anywhere in the loaded data. ${spoken}`,
+      feedState === 'unavailable' ? 'Feed unavailable anywhere in the loaded data; no authoritative count.' : `3 aircraft anywhere in the loaded data, ${feedState}.`,
     );
     assert.equal(
       presentResult('analyst_query', result).display.chips[0].label,

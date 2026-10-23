@@ -51,6 +51,7 @@ async function resolveAnnotationTarget({ target }) {
     return {
       lat: 27.7,
       lon: 85.3,
+      // i18n-ignore: canonical model/tool metadata or fixture proper name; preserve provider identity.
       label: 'Kathmandu',
       ring: null,
       resolveOutline: async () => ({

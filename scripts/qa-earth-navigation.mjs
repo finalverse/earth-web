@@ -57,6 +57,30 @@ try {
       await page.$eval('#earth-navigation-source', (e) => e.textContent),
       /no terrain or building survey/,
     );
+    await page.$eval('#earth-navigation-details', (element) => {
+      element.hidden = true;
+    });
+    await page.waitForFunction(
+      () =>
+        document.querySelector('.earth-navigation').dataset.destinationScreen,
+    );
+    await page.$eval('#globe canvas', (element) =>
+      element.scrollIntoView({ block: 'center' }),
+    );
+    const screen = await page.$eval('.earth-navigation', (element) =>
+      JSON.parse(element.dataset.destinationScreen),
+    );
+    const bounds = await (await page.$('#globe canvas')).boundingBox();
+    await page.mouse.click(bounds.x + screen.x, bounds.y + screen.y);
+    await page.waitForFunction(
+      () => !document.querySelector('#earth-navigation-details').hidden,
+    );
+    await page.focus('#earth-destination');
+    await page.keyboard.press('Tab');
+    assert.equal(
+      await page.evaluate(() => document.activeElement.textContent),
+      'Go',
+    );
     await page.locator('#earth-destination').fill('geo:0,0');
     await page.$eval('#earth-navigation-form', (f) => f.requestSubmit());
     await page.waitForFunction(() =>

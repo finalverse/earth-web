@@ -1,3 +1,4 @@
+import { msg } from '../i18n/marker.js';
 /**
  * The OpenStreetMap feature kinds voice can search for ("hospitals",
  * "petrol stations", "police"), each with the exact tags it stands for.
@@ -65,12 +66,12 @@ const PRESETS = {
     tags: [['amenity', 'library']],
   },
   police: {
-    label: 'police stations',
+    label: msg('police stations'),
     terms: ['police', 'police station', 'police post'],
     tags: [['amenity', 'police']],
   },
   fire_station: {
-    label: 'fire stations',
+    label: msg('fire stations'),
     terms: ['fire station', 'fire department', 'firehouse'],
     tags: [['amenity', 'fire_station']],
   },
@@ -85,7 +86,7 @@ const PRESETS = {
     tags: [['amenity', 'courthouse']],
   },
   townhall: {
-    label: 'town halls',
+    label: msg('town halls'),
     terms: ['town hall', 'city hall'],
     tags: [['amenity', 'townhall']],
   },
@@ -98,18 +99,18 @@ const PRESETS = {
     ],
   },
   post_office: {
-    label: 'post offices',
+    label: msg('post offices'),
     terms: ['post office'],
     tags: [['amenity', 'post_office']],
   },
   bank: { label: 'banks', terms: ['bank'], tags: [['amenity', 'bank']] },
   atm: {
-    label: 'ATMs',
+    label: msg('ATMs'),
     terms: ['atm', 'cash machine', 'cashpoint'],
     tags: [['amenity', 'atm']],
   },
   fuel: {
-    label: 'fuel stations',
+    label: msg('fuel stations'),
     terms: [
       'gas station',
       'petrol station',
@@ -120,12 +121,12 @@ const PRESETS = {
     tags: [['amenity', 'fuel']],
   },
   charging_station: {
-    label: 'EV charging stations',
+    label: msg('EV charging stations'),
     terms: ['charging station', 'ev charger', 'ev charging', 'car charger'],
     tags: [['amenity', 'charging_station']],
   },
   parking: {
-    label: 'car parks',
+    label: msg('car parks'),
     terms: ['parking', 'parking lot', 'car park', 'parking garage'],
     tags: [['amenity', 'parking']],
   },
@@ -135,12 +136,12 @@ const PRESETS = {
     tags: [['amenity', 'restaurant']],
   },
   cafe: {
-    label: 'cafés',
+    label: msg('cafés'),
     terms: ['cafe', 'café', 'coffee shop', 'coffee'],
     tags: [['amenity', 'cafe']],
   },
   fast_food: {
-    label: 'fast-food places',
+    label: msg('fast-food places'),
     terms: ['fast food', 'fast-food'],
     tags: [['amenity', 'fast_food']],
   },
@@ -153,7 +154,7 @@ const PRESETS = {
     ],
   },
   place_of_worship: {
-    label: 'places of worship',
+    label: msg('places of worship'),
     terms: [
       'place of worship',
       'church',
@@ -175,12 +176,12 @@ const PRESETS = {
     tags: [['shop', 'supermarket']],
   },
   mall: {
-    label: 'shopping malls',
+    label: msg('shopping malls'),
     terms: ['mall', 'shopping mall', 'shopping center', 'shopping centre'],
     tags: [['shop', 'mall']],
   },
   convenience: {
-    label: 'convenience stores',
+    label: msg('convenience stores'),
     terms: ['convenience store', 'corner shop'],
     tags: [['shop', 'convenience']],
   },
@@ -196,7 +197,7 @@ const PRESETS = {
     tags: [['tourism', 'museum']],
   },
   attraction: {
-    label: 'tourist attractions',
+    label: msg('tourist attractions'),
     terms: ['tourist attraction', 'attraction', 'sight', 'sights'],
     tags: [['tourism', 'attraction']],
   },
@@ -228,7 +229,7 @@ const PRESETS = {
     tags: [['leisure', 'playground']],
   },
   sports_centre: {
-    label: 'sports centres',
+    label: msg('sports centres'),
     terms: ['sports center', 'sports centre', 'gym', 'leisure center'],
     tags: [
       ['leisure', 'sports_centre'],
@@ -244,12 +245,12 @@ const PRESETS = {
     ],
   },
   toilets: {
-    label: 'public toilets',
+    label: msg('public toilets'),
     terms: ['toilet', 'toilets', 'restroom', 'public toilet', 'bathroom'],
     tags: [['amenity', 'toilets']],
   },
   drinking_water: {
-    label: 'drinking water points',
+    label: msg('drinking water points'),
     terms: ['drinking water', 'water fountain', 'water point'],
     tags: [['amenity', 'drinking_water']],
   },
@@ -272,17 +273,17 @@ const PRESETS = {
     ],
   },
   train_station: {
-    label: 'train stations',
+    label: msg('train stations'),
     terms: ['train station', 'railway station', 'rail station'],
     tags: [['railway', 'station']],
   },
   bus_station: {
-    label: 'bus stations',
+    label: msg('bus stations'),
     terms: ['bus station', 'bus terminal', 'bus depot'],
     tags: [['amenity', 'bus_station']],
   },
   ferry_terminal: {
-    label: 'ferry terminals',
+    label: msg('ferry terminals'),
     terms: ['ferry terminal', 'ferry'],
     tags: [['amenity', 'ferry_terminal']],
   },
@@ -306,12 +307,12 @@ const PRESETS = {
     tags: [['man_made', 'lighthouse']],
   },
   water_tower: {
-    label: 'water towers',
+    label: msg('water towers'),
     terms: ['water tower'],
     tags: [['man_made', 'water_tower']],
   },
   power_plant: {
-    label: 'power plants',
+    label: msg('power plants'),
     terms: ['power plant', 'power station', 'generating station'],
     tags: [['power', 'plant']],
   },
@@ -321,13 +322,13 @@ const PRESETS = {
     tags: [['power', 'substation']],
   },
   wind_turbine: {
-    label: 'wind turbines',
+    label: msg('wind turbines'),
     terms: ['wind turbine', 'windmill'],
     tags: [['generator:source', 'wind']],
   },
   dam: { label: 'dams', terms: ['dam'], tags: [['waterway', 'dam']] },
   military: {
-    label: 'military sites',
+    label: msg('military sites'),
     terms: ['military base', 'military site', 'base', 'barracks'],
     tags: [
       ['landuse', 'military'],

@@ -226,6 +226,7 @@ export async function checkModelStorage({ llm, stt, ttsEngine }) {
     ttsEngine === 'kokoro' &&
     !(await libraryCacheHas(`${TTS_MODEL.repo}/resolve/`))
   )
+    // i18n-ignore: canonical model/tool metadata or fixture proper name; preserve provider identity.
     pending.push({ label: 'Kokoro voice', bytes: TTS_MODEL.approxBytes });
   let estimate = null;
   try {

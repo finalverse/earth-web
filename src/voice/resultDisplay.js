@@ -80,6 +80,16 @@ function candidateLines(candidates) {
   });
 }
 
+const AIRCRAFT_LAYERS = new Set(['flights', 'military', 'local-adsb']);
+function analystNounFor(layerKeys) {
+  const keys = [...new Set((layerKeys || []).filter(Boolean))];
+  if (keys.length > 1 && keys.every((key) => AIRCRAFT_LAYERS.has(key)))
+    return 'aircraft';
+  if (keys.length !== 1) return 'results';
+  const key = keys[0];
+  return LAYER_NOUNS[key] || voiceLayer(key)?.aliases?.[0] || 'results';
+}
+
 /** The count/scope headline shared by the analyst card and spoken answer. */
 const ANALYST_HEADLINE_MAX = 64;
 // The card's headline wraps, and a translation runs longer than the English:
@@ -407,8 +417,8 @@ function shownFeedState(state) {
   return key ? t(key) : state;
 }
 
-function analystCard(result) {
-  if (!result?.ok) return null;
+function analystCard(result, args = {}) {
+  if (!result?.ok) return clarification(result, result?.query || args.query);
   const display = result.display || {};
   const unanswered = Array.isArray(result.unanswered) ? result.unanswered : [];
   const provenance = result.feedProvenance || result.coverage?.feedProvenance;
@@ -462,13 +472,14 @@ function clarification(result, subject) {
   if (!result?.needsClarification) return null;
   return {
     display: {
-      title: `Which ${spokenLabel(subject || 'place', 40)}?`,
+      title: t('Which {place}?', {
+        place: spokenLabel(subject || 'place', 40),
+      }),
       lines: candidateLines(result.candidates),
     },
     referents: [],
   };
 }
-
 
 function areaCard(result, args = {}) {
   if (!result?.ok) return clarification(result, result?.query || args.query);
@@ -523,7 +534,7 @@ function imageryCard(result) {
     display: {
       title: shown
         ? `${spokenLabel(shown.source, 32)} · ${shown.date}`
-        : 'No matching imagery',
+        : t('No matching imagery'),
       lines: lines.filter(Boolean),
       chips: shown && !shown.onMap ? [{ label: 'loading' }] : [],
       notes: notesOf(display.caveat),

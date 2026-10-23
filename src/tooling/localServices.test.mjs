@@ -653,7 +653,10 @@ test('Realtime sessions carry supplied tools, and the standalone voice adds the 
     ),
   );
   assert.equal(response.status, 200);
-  assert.deepEqual(sent.at(-1).session.tools, tools);
+  assert.deepEqual(
+    sent.at(-1).session.tools,
+    tools.filter((tool) => tool.name !== 'osm_query'),
+  );
   const names = tools.map((tool) => tool.name);
   assert.equal(new Set(names).size, names.length);
   assert.deepEqual(

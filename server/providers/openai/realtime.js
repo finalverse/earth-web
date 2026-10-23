@@ -303,7 +303,7 @@ function createRealtimeTokenHandler({
           output: { voice },
         },
         instructions: realtimeInstructions(annotationGuidance, { overpass }),
-        tools: tools.filter(tool => overpass || tool.name !== "osm_query"),
+        tools: tools.filter((tool) => overpass || tool.name !== 'osm_query'),
         tool_choice: 'auto',
       },
     };

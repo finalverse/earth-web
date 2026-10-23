@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createVectorTileSource, createSharedDecodedTileCache } from './vectorTiles.js';
+import {
+  createVectorTileSource,
+  createSharedDecodedTileCache,
+} from './vectorTiles.js';
 const meta = { tiles: ['https://tiles.example/{z}/{x}/{y}.pbf'] };
 const box = { south: 30.267, north: 30.268, west: -97.744, east: -97.743 };
 const options = {
@@ -246,7 +249,6 @@ test('an explicit allowedOrigin still wins over the one derived from tileJsonUrl
   );
 });
 
-
 test('compatible consumers share bounded decoded ownership without sharing local lifetimes', async () => {
   const sharedDecodedCache = createSharedDecodedTileCache({
     maxEntries: 2,
@@ -288,7 +290,6 @@ test('compatible consumers share bounded decoded ownership without sharing local
   assert.equal(decodes, 1);
   assert.deepEqual(sharedDecodedCache.stats(), { entries: 1, bytes: 12 });
 });
-
 
 test('shared decoded tiles are isolated from consumer mutation', async () => {
   const sharedDecodedCache = createSharedDecodedTileCache();
@@ -332,7 +333,6 @@ test('shared decoded tiles are isolated from consumer mutation', async () => {
   assert.equal(requests, 1);
   assert.equal(decodes, 1);
 });
-
 
 test('one source isolates in-flight and completed cache results from consumer mutation', async () => {
   const sharedDecodedCache = createSharedDecodedTileCache();
@@ -390,7 +390,6 @@ test('one source isolates in-flight and completed cache results from consumer mu
   assert.equal(decodes, 1);
 });
 
-
 test('compatible consumers share one in-flight fetch and survive one consumer clearing', async () => {
   const sharedDecodedCache = createSharedDecodedTileCache();
   let requests = 0,
@@ -440,7 +439,6 @@ test('compatible consumers share one in-flight fetch and survive one consumer cl
   assert.equal(decodes, 1);
 });
 
-
 test('shared ownership recharges materialized projections and evicts over budget', () => {
   const shared = createSharedDecodedTileCache({ maxCacheBytes: 100 });
   let resize,
@@ -464,7 +462,6 @@ test('shared ownership recharges materialized projections and evicts over budget
   shared.clear();
   assert.equal(releases, 1, 'clearing after eviction does not release twice');
 });
-
 
 test('shared clear releases entries and prevents a pending loader from refilling', async () => {
   const shared = createSharedDecodedTileCache();

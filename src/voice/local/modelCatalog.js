@@ -1,3 +1,4 @@
+import { msg } from '../../i18n/marker.js';
 const HF = 'https://huggingface.co';
 const litert = (name, revision) =>
   `${HF}/litert-community/${name}-litert-lm/resolve/${revision}/${name}-web.litertlm`;
@@ -9,6 +10,7 @@ const litert = (name, revision) =>
 export const LLM_MODELS = Object.freeze([
   {
     id: 'gemma-4-e2b',
+    // i18n-ignore: canonical model/tool metadata or fixture proper name; preserve provider identity.
     label: 'Gemma 4 E2B',
     url: litert('gemma-4-E2B-it', 'b3ca0d2f076785a8f4b2219ddbd2bdb99954eae1'),
     sha256: '3a08e8d94e23b814ae5414469c370c503813949acb8ceaa17e4ebf8a35af35b5',
@@ -17,6 +19,7 @@ export const LLM_MODELS = Object.freeze([
   },
   {
     id: 'gemma-4-e4b',
+    // i18n-ignore: canonical model/tool metadata or fixture proper name; preserve provider identity.
     label: 'Gemma 4 E4B',
     url: litert('gemma-4-E4B-it', '2eee7ac325f20eb8c9ac1d0e972f7c84663062da'),
     sha256: '3904d826d5dddd25ea173e85204caec09e68ba038116e9b992b69cbdc94f57a0',
@@ -25,6 +28,7 @@ export const LLM_MODELS = Object.freeze([
   },
   {
     id: 'gemma-4-12b',
+    // i18n-ignore: canonical model/tool metadata or fixture proper name; preserve provider identity.
     label: 'Gemma 4 12B',
     url: litert('gemma-4-12B-it', '7a0b1ce0ea821bcd01c5f72af84155e02191152f'),
     sha256: 'd37f9392b4f093b470b50b72624c9a752cc0b288ed549b769037cbbd04024449',
@@ -34,6 +38,7 @@ export const LLM_MODELS = Object.freeze([
   },
   {
     id: 'gemma-4-26b-a4b',
+    // i18n-ignore: canonical model/tool metadata or fixture proper name; preserve provider identity.
     label: 'Gemma 4 26B A4B',
     url: litert(
       'gemma-4-26B-A4B-it',
@@ -50,6 +55,7 @@ export const LLM_MODELS = Object.freeze([
 export const STT_MODELS = Object.freeze([
   {
     id: 'moonshine-base',
+    // i18n-ignore: canonical model/tool metadata or fixture proper name; preserve provider identity.
     label: 'Moonshine Base',
     repo: 'onnx-community/moonshine-base-ONNX',
     revision: 'b1e9b6aae3c3c7298f10c3798393fdf38e8fbbad',
@@ -58,6 +64,7 @@ export const STT_MODELS = Object.freeze([
   },
   {
     id: 'whisper-base',
+    // i18n-ignore: canonical model/tool metadata or fixture proper name; preserve provider identity.
     label: 'Whisper Base (English)',
     repo: 'onnx-community/whisper-base.en',
     revision: '51eefc0af78b103839eda9e7e4f4186acc6517fe',
@@ -66,6 +73,7 @@ export const STT_MODELS = Object.freeze([
   },
   {
     id: 'whisper-large-v3-turbo',
+    // i18n-ignore: canonical model/tool metadata or fixture proper name; preserve provider identity.
     label: 'Whisper Large v3 Turbo',
     repo: 'onnx-community/whisper-large-v3-turbo',
     revision: '360ebcde2559d60bb474678be3c1de9ef347d01a',
@@ -101,17 +109,17 @@ export const PHONEMIZER_RUNTIME = Object.freeze({
 export const TTS_ENGINES = Object.freeze([
   {
     id: 'kokoro',
-    label: 'Natural',
+    label: msg('Natural'),
     approxBytes: TTS_MODEL.approxBytes + PHONEMIZER_RUNTIME.bytes,
     note: 'Kokoro-82M. Downloads an open-source speech component (GPL) to this browser.',
   },
   {
     id: 'system',
-    label: 'System',
+    label: msg('System'),
     approxBytes: 0,
     note: 'Browser speech synthesis limited to voices on this device',
   },
-  { id: 'none', label: 'Text only', approxBytes: 0, note: 'No speech' },
+  { id: 'none', label: msg('Text only'), approxBytes: 0, note: 'No speech' },
 ]);
 
 export const DEFAULT_STT_ID = 'moonshine-base';

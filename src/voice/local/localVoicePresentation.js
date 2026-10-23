@@ -1,3 +1,4 @@
+import { msg, t } from '../../i18n/index.js';
 import {
   LLM_MODELS,
   STT_MODELS,
@@ -73,13 +74,14 @@ export function localVoiceTrayView(
   const progress = busy ? progressLine(state.progress, { llm, stt }) : null;
   let status;
   if (unsupported) status = state.support.reason;
-  else if (state.phase === 'error') status = state.message || 'Voice failed';
-  else if (state.phase === 'checking') status = 'CHECKING THIS DEVICE';
-  else if (state.phase === 'preparing') status = 'PREPARING MODEL';
-  else if (state.phase === 'loading') status = 'LOADING MODELS';
+  else if (state.phase === 'error')
+    status = state.message || msg('Voice failed');
+  else if (state.phase === 'checking') status = msg('CHECKING THIS DEVICE');
+  else if (state.phase === 'preparing') status = msg('PREPARING MODEL');
+  else if (state.phase === 'loading') status = msg('LOADING MODELS');
   else if (state.phase === 'ready')
-    status = `READY · ${shortModelLabel(llm)} · HOLD SPACE`;
-  else status = 'OFF · FIRST START DOWNLOADS THE MODEL';
+    status = t('READY · {model} · HOLD SPACE', { model: shortModelLabel(llm) });
+  else status = msg('OFF · FIRST START DOWNLOADS THE MODEL');
   const pending =
     state.phase === 'ready' &&
     ((state.loadedLlm && state.loadedLlm !== state.llm) ||

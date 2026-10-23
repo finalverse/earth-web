@@ -15,7 +15,7 @@ if(command==='verify'){
   for(const [path,digest] of Object.entries(lock.files))if(hash(await readFile(resolve(root,path)))!==(lock.reviewed_local_overrides?.[path]?.sha256 || digest))throw new Error(`Pinned globe source changed: ${path}. Review and update the maintained-source pin.`);
   const packages=JSON.parse(await readFile(resolve(root,'package-lock.json'))).packages;
   for(const [name,version] of Object.entries(lock.npm))if(packages[`node_modules/${name}`]?.version!==version)throw new Error(`Globe dependency changed: ${name}`);
-  console.log(`Verified maintained globe ${lock.commit}: ${Object.keys(lock.files).length} source/license/data files and locked renderer dependencies.`);
+  console.log(`Verified reviewed globe ${lock.commit} (${Object.keys(lock.reviewed_local_overrides || {}).length} local overrides): ${Object.keys(lock.files).length} source/license/data files and locked renderer dependencies.`);
 }else if(command==='fetch'||command==='prepare'){
   const sha=command==='fetch'?lock.commit:commit;
   if(!/^[a-f0-9]{40}$/.test(sha||''))throw new Error('A full reviewed maintained-fork commit is required.');

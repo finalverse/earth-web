@@ -1,3 +1,5 @@
+import { t } from '../i18n/index.js';
+import { msg } from '../i18n/marker.js';
 import { syncChipGroup } from '../ui/chipGroup.js';
 import { UiLifetime } from '../ui/uiLifetime.js';
 import { probeDevice, voiceEngineView } from './voiceEnginePresentation.js';
@@ -5,6 +7,7 @@ import { probeDevice, voiceEngineView } from './voiceEnginePresentation.js';
 export const VOICE_ENGINE_TRAY_ID = 'gev-voice-engine-tray';
 
 const setText = (element, text) => {
+  text = t(text);
   if (element && element.textContent !== text) element.textContent = text;
 };
 
@@ -45,7 +48,7 @@ export class VoiceEngineControls {
     const make = (tag, className, parent, text) => {
       const node = document.createElement(tag);
       if (className) node.className = className;
-      if (text) node.textContent = text;
+      if (text) node.textContent = t(text);
       parent?.appendChild(node);
       return node;
     };
@@ -64,12 +67,12 @@ export class VoiceEngineControls {
     const tray = make('div', 'gev-voice-engine-tray', root);
     tray.id = VOICE_ENGINE_TRAY_ID;
     tray.setAttribute('role', 'group');
-    tray.setAttribute('aria-label', 'Where voice runs');
+    tray.setAttribute('aria-label', t('Where voice runs'));
     const heading = make('div', 'gev-voice-local-heading', tray);
     make('span', 'gev-voice-local-kicker', heading, 'VOICE RUNS ON');
     const chips = make('div', 'gev-voice-local-chips', tray);
     chips.setAttribute('role', 'group');
-    chips.setAttribute('aria-label', 'Voice engine');
+    chips.setAttribute('aria-label', t('Voice engine'));
     const description = make('p', 'gev-voice-local-hint', tray);
     const device = make('div', 'gev-voice-engine-device', tray);
     const deviceHeading = make('div', 'gev-voice-local-heading', device);
@@ -77,7 +80,7 @@ export class VoiceEngineControls {
     const gpu = make('span', 'gev-voice-engine-fact', device);
     const memory = make('span', 'gev-voice-engine-fact', device);
     const guidance = make('ul', 'gev-voice-engine-guidance', device);
-    guidance.setAttribute('aria-label', 'Hardware guidance');
+    guidance.setAttribute('aria-label', t('Hardware guidance'));
     const verdict = make('p', 'gev-voice-engine-verdict', device);
     verdict.setAttribute('role', 'status');
     // The on-device provider renders its model settings here.
