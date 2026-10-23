@@ -262,3 +262,7 @@ The Canadian energy archive has **no populated reported annual generation values
 Seven new temporal tools use the existing read-only, reviewed-plan API. See [space-time contracts](docs/earth/space-time.md), [LayerProvider metadata](http://127.0.0.1:18640/v1/providers), [preview deployment](docs/earth/deployment.md) and [local benchmark](docs/earth/benchmark-v03-temporal.json). Headless use remains independent of rendering, accounts, hosted AI and MutSea.
 
 Public application: [earth.finalverse.com](https://earth.finalverse.com). Product page: [finalverse.com/earth](https://finalverse.com/earth). The preview runs anonymously with hosted AI disabled; local Ollama planning remains opt-in. v0.4 candidate work adds the spatial application SDK, reviewed local provider adapter and application discovery. The new Rust intelligence runtime is a separate v0.5 milestone; collaboration and world handoff remain future capabilities.
+
+## Shared Earth Core navigation
+
+The embedded country workspace now consumes the versioned Earth Core SDK for geographic/USAP navigation and place inspection. See [integration, security and acceptance boundaries](earth/docs/core-integration.md). The Montréal shortcut is a geographic anchor over existing map context; real city terrain/publication and authenticated world entry remain open gates.

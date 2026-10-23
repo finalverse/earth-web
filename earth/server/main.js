@@ -1,3 +1,4 @@
+import { createResourceGateway } from './resource-gateway.js';
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import { readFile, stat } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -75,6 +76,9 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     ? await import('../adapters/mutsea.js')
     : { publicWorlds: [] };
   const server = createEarthServer({
+    resourceResolver: process.env.EARTH_SPATIALDB_ENDPOINT
+      ? createResourceGateway(process.env.EARTH_SPATIALDB_ENDPOINT)
+      : null,
     core,
     operatorCore,
     operatorToken,
