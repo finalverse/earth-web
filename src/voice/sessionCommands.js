@@ -4,6 +4,7 @@ import { VoiceCardControls } from './voiceCard.js';
 import { PointerReticle } from './pointerReticle.js';
 import { VOICE_PROVIDERS } from './providerCapabilities.js';
 import { msg, registerUnsavedWork, t } from '../i18n/index.js';
+import { VoiceEngineControls } from './voiceEngineControls.js';
 
 function createDefaultReticle(pointer) {
   const element = pointer?.element;
@@ -36,9 +37,23 @@ export function createVoiceCommands({
   pointer = null,
   referents = null,
   createReticle = createDefaultReticle,
+  engineChoice = null,
+  createEngineControls = (options) => new VoiceEngineControls(options),
 }) {
   if (resetExisting) window.__gevVoiceCommands?.stop?.({ removeUi: true });
   const ui = createControl({ reset: true });
+  // Cloud / On-device choice; the on-device provider mounts its model
+  // settings in this tray.
+  const engineControls =
+    engineChoice && ui.root
+      ? createEngineControls({
+          root: ui.root,
+          engine: engineChoice.engine,
+          onSelect: engineChoice.select,
+          open: Boolean(engineChoice.openTray),
+        })
+      : null;
+  ui.engineControls = engineControls;
   const session = createVoiceSession({
     runner,
     signal,
@@ -122,6 +137,7 @@ export function createVoiceCommands({
     ? session.subscribe((event) => card.handle(event))
     : null;
   controls.voiceCard = card;
+  controls.engineControls = engineControls;
   // Point-and-ask: the reticle follows turn events; pointer and referents are
   // session-scoped, so a session that ends forgets both.
   const reticle = pointer ? createReticle(pointer) : null;
@@ -169,6 +185,7 @@ export function createVoiceCommands({
     forwardEvents?.();
     reticle?.destroy();
     card?.destroy();
+    engineControls?.destroy();
     if (disposeRunner) runner.dispose?.();
     ui.root.remove();
   };

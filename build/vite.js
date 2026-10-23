@@ -1,3 +1,4 @@
+import { onDeviceRuntimePlugin, phonemizerLoaderPath } from './onDeviceRuntime.js';
 import { fileURLToPath } from 'node:url';
 import { applicationHtmlPlugin } from './application-html.js';
 import cesium from 'vite-plugin-cesium';
@@ -62,6 +63,7 @@ export function createBrowserViteConfig({
   cesiumToken,
   mapillaryToken,
   photonUrl,
+  naturalVoice,
   host = 'localhost',
   port = 4173,
   allowedHosts = DEFAULT_ALLOWED_HOSTS,
@@ -77,11 +79,14 @@ export function createBrowserViteConfig({
       ...plugins,
       embedFramingPlugin(),
       panelBuildPlugin(),
+      onDeviceRuntimePlugin(),
     ],
     ...(publicDir === undefined ? {} : { publicDir }),
     // A production build must not clean the dependency cache a running dev
     // server is still serving optimized module URLs from.
     ...(command === 'build' ? { cacheDir: 'node_modules/.vite-build' } : {}),
+    worker: { plugins: () => [onDeviceRuntimePlugin()] },
+    resolve: { alias: [{ find: /^phonemizer$/, replacement: phonemizerLoaderPath() }] },
     optimizeDeps: {
       // First reached through the SDR worker or a dynamic import. Pre-bundle
       // them at startup so first use cannot invalidate already-transformed
@@ -93,6 +98,7 @@ export function createBrowserViteConfig({
         'egm96-universal',
         // Loaded on demand when the first street-level image opens.
         'mapillary-js',
+        '@litert-lm/core', '@huggingface/transformers', 'kokoro-js',
       ],
     },
     server: {
@@ -115,6 +121,7 @@ export function createBrowserViteConfig({
     // framing + CSP hardening (one constant, no drift).
     preview: { headers: BROWSER_HEADERS },
     define: {
+      "import.meta.env.GEV_NATURAL_VOICE": JSON.stringify(naturalVoice ?? ""),
       ...(photonUrl === undefined ? {} : { "import.meta.env.PHOTON_URL": JSON.stringify(String(photonUrl)) }),
       'import.meta.env.GOOGLE_MAPS_API_KEY': JSON.stringify(googleApiKey),
       'import.meta.env.CESIUM_ION_TOKEN': JSON.stringify(cesiumToken),
