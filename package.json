@@ -63,7 +63,7 @@
     "preview": "vite preview"
   },
   "bugs": {
-    "url": "https://github.com/finalverse/finalverse-earth/issues"
+    "url": "https://github.com/finalverse/earth-web/issues"
   },
   "name": "gods-eye-view",
   "devDependencies": {
@@ -77,7 +77,7 @@
     "puppeteer": "^25.10.0",
     "typescript": "7.0.2"
   },
-  "homepage": "https://github.com/finalverse/finalverse-earth#readme",
+  "homepage": "https://github.com/finalverse/earth-web#readme",
   "type": "module",
   "dependencies": {
     "mgrs": "^2.1.0",
@@ -318,6 +318,6 @@
   "version": "0.2.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/finalverse/finalverse-earth.git"
+    "url": "https://github.com/finalverse/earth-web.git"
   }
 }

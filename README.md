@@ -2,7 +2,7 @@
 
 **v0.3 public preview:** [Launch the application](https://earth.finalverse.com) · [Product page](https://finalverse.com/earth) · [Getting started](docs/earth/public-preview.md) · [Release evidence](docs/earth/verification-v03.md). No account or AI key required. This is a preview, not GA.
 
-[![Earth CI](https://github.com/finalverse/finalverse-earth/actions/workflows/earth.yml/badge.svg?branch=main)](https://github.com/finalverse/finalverse-earth/actions/workflows/earth.yml)
+[![Earth CI](https://github.com/finalverse/earth-web/actions/workflows/earth.yml/badge.svg?branch=main)](https://github.com/finalverse/earth-web/actions/workflows/earth.yml)
 
 **An open spatial intelligence platform for people, AI agents and applications.**
 
@@ -130,8 +130,8 @@ The default globe shows reference geometry on an ellipsoid. It does **not** prov
 Use **Node 24.14 or later in the 24.x line**, npm, and a WebGL-capable browser. Node 24 is required for the inherited allocation regression tests.
 
 ```sh
-git clone https://github.com/finalverse/finalverse-earth.git
-cd finalverse-earth
+git clone https://github.com/finalverse/earth-web.git
+cd earth-web
 npm ci --ignore-scripts
 npm run earth:build
 npm run earth:start
