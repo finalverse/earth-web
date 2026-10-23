@@ -2,7 +2,7 @@
   "name": "gods-eye-view",
   "private": true,
   "version": "0.2.1",
-  "description": "Finalverse Earth: independent spatial intelligence core and globe, built on God\u2019s Eye View.",
+  "description": "Finalverse Earth: independent spatial intelligence core and globe, built on God’s Eye View.",
   "type": "module",
   "license": "MIT",
   "author": "Bilawal Sidhu",
@@ -77,6 +77,7 @@
     "earth:release:rehearse": "node earth/release/rehearse.mjs"
   },
   "dependencies": {
+    "@finalverse/earth-core": "file:vendor/finalverse-earth-core-0.1.0.tgz",
     "@jtarrio/signals": "^0.10.0",
     "@jtarrio/webrtlsdr": "^3.0.6",
     "@mapbox/vector-tile": "^3.0.0",

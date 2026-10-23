@@ -1,3 +1,4 @@
+import { installCoreNavigation } from './navigation.js';
 import { installWorkspaces } from './workspaces.js';
 import { installEarthIdentity } from './identity.js';
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
@@ -180,6 +181,7 @@ try {
     container: $('globe'),
     creditContainer: $('credits'),
   });
+  const earthNavigation = installCoreNavigation({ viewer, status });
   installEarthIdentity(viewer);
   installWorkspaces({
     viewer,
@@ -273,7 +275,11 @@ try {
   click.setInputAction((event) => {
     const picked = viewer.scene.pick(event.position),
       id = picked?.id;
-    if (id?.properties) {
+    if (id?.earthCoreResult) {
+      earthNavigation.inspect(
+        id.earthCoreResult.getValue(Cesium.JulianDate.now()),
+      );
+    } else if (id?.properties) {
       const p = id.properties.getValue(Cesium.JulianDate.now());
       inspect({ properties: p });
     }

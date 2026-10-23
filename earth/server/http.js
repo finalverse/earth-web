@@ -49,6 +49,7 @@ export function createEarthServer({
   publicOrigin = null,
   readyCheck = async () => true,
   logger = null,
+  resourceResolver = null,
   applications = [],
   openapi = null,
   development = false,
@@ -183,17 +184,6 @@ export function createEarthServer({
       }
       if (path.startsWith('/v1/')) {
         let activeCore = core;
-        if (req.headers.authorization) {
-          const received = Buffer.from(req.headers.authorization);
-          const expected = Buffer.from(`Bearer ${operatorToken || ''}`);
-          if (
-            !operatorCore ||
-            received.length !== expected.length ||
-            !timingSafeEqual(received, expected)
-          )
-            return send(403, { error: 'Authorization unavailable.' });
-          activeCore = operatorCore;
-        }
         const now = Date.now(),
           ip =
             publicURL &&
@@ -209,6 +199,42 @@ export function createEarthServer({
           return send(429, { error: 'Try again later.' });
         rates.set(ip, rate);
         if (++rate.count > 120) return send(429, { error: 'Try again later.' });
+        const resourceMatch =
+          /^\/v1\/earth-core\/entities\/([0-9a-f-]{36})$/.exec(path);
+        if (resourceMatch && ['GET', 'HEAD'].includes(req.method)) {
+          if (url.search)
+            return send(400, {
+              error:
+                'Destination credentials and parameters do not belong in URLs.',
+            });
+          if (!resourceResolver)
+            return send(503, { error: 'Place details are not connected.' });
+          try {
+            const resource = await resourceResolver(
+              'usap://spatialdb/entity/' + resourceMatch[1],
+              {
+                signal: controller.signal,
+                authorization: req.headers.authorization,
+              },
+            );
+            return send(200, resource);
+          } catch {
+            return send(404, {
+              error: 'Destination unavailable for this caller.',
+            });
+          }
+        }
+        if (req.headers.authorization) {
+          const received = Buffer.from(req.headers.authorization);
+          const expected = Buffer.from(`Bearer ${operatorToken || ''}`);
+          if (
+            !operatorCore ||
+            received.length !== expected.length ||
+            !timingSafeEqual(received, expected)
+          )
+            return send(403, { error: 'Authorization unavailable.' });
+          activeCore = operatorCore;
+        }
         const appMatch = /^\/v1\/apps\/([a-z][a-z0-9.-]{2,79})(\/.*)$/.exec(
           path,
         );

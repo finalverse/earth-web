@@ -1,0 +1,52 @@
+.earth-navigation {
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #839b9b55;
+}
+.earth-navigation h2 {
+  font-size: 1.15rem;
+}
+.earth-navigation label,
+.earth-navigation input {
+  display: block;
+  width: 100%;
+}
+.earth-navigation input {
+  box-sizing: border-box;
+  min-height: 44px;
+  margin: 0.5rem 0;
+  padding: 0.6rem;
+  border: 1px solid #839b9b;
+  border-radius: 0.4rem;
+  background: transparent;
+  color: inherit;
+}
+.earth-navigation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.earth-navigation button {
+  min-height: 44px;
+}
+.earth-navigation dt {
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+.earth-navigation dd {
+  margin: 0.15rem 0;
+  overflow-wrap: anywhere;
+}
+#earth-navigation-state {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+#earth-navigation-montreal {
+  margin-top: 0.6rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .earth-navigation * {
+    scroll-behavior: auto;
+    transition: none;
+  }
+}
