@@ -293,6 +293,10 @@ test('no unchanged Realtime tool definition drifts silently', () => {
     'track_entity',
     // Point-and-ask: 'pointer' sentinels and referent arguments.
     'annotate_map',
+    // Voice geometry: new tools.
+    'resolve_area',
+    'find_imagery',
+    'osm_query',
   ]);
   const unchanged = realtimeTools()
     .filter((tool) => !TOUCHED.has(tool.name))

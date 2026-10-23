@@ -131,7 +131,7 @@ export function createVoiceCommands({
       pointer?.clear();
       referents?.clear();
       // Conversation memory ("those", "the last answer") ends with the
-      // session.
+      // session; area handles live for the page.
       runner.resetConversation?.();
     }
   });

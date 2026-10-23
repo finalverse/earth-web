@@ -61,6 +61,7 @@ export function createBrowserViteConfig({
   googleApiKey,
   cesiumToken,
   mapillaryToken,
+  photonUrl,
   host = 'localhost',
   port = 4173,
   allowedHosts = DEFAULT_ALLOWED_HOSTS,
@@ -114,6 +115,7 @@ export function createBrowserViteConfig({
     // framing + CSP hardening (one constant, no drift).
     preview: { headers: BROWSER_HEADERS },
     define: {
+      ...(photonUrl === undefined ? {} : { "import.meta.env.PHOTON_URL": JSON.stringify(String(photonUrl)) }),
       'import.meta.env.GOOGLE_MAPS_API_KEY': JSON.stringify(googleApiKey),
       'import.meta.env.CESIUM_ION_TOKEN': JSON.stringify(cesiumToken),
       // Mapillary client tokens are public by design (see SECURITY.md).

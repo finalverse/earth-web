@@ -1,3 +1,4 @@
+import { voiceLayer } from './layerManifest.js';
 /**
  * Voice result envelope: what a tool result should SAY and what it should
  * SHOW, composed by code rather than by prompt prose.
@@ -43,9 +44,29 @@ import { formatQuantity } from '../ui/unitLabels.js';
 const LAYER_NOUNS = Object.freeze({
   flights: 'aircraft',
   military: 'military aircraft',
+  'local-adsb': 'aircraft',
   'ais-live-vessels': 'ships',
   satellites: 'satellites',
+  'rocket-launches': 'launches',
+  earthquakes: 'earthquakes',
+  'local-firms': 'fires',
+  'osm-places': 'places',
 });
+
+const AIRCRAFT_LAYERS = new Set(['flights', 'military', 'local-adsb']);
+const MAX_ANALYST_HEADLINE = 64;
+
+export function analystNounFor(layerKeys) {
+  const keys = [...new Set((layerKeys || []).filter(Boolean))];
+  if (keys.length > 1 && keys.every((key) => AIRCRAFT_LAYERS.has(key)))
+    return 'aircraft';
+  if (keys.length !== 1) return 'results';
+  const key = keys[0];
+  return LAYER_NOUNS[key] || voiceLayer(key)?.aliases?.[0] || 'results';
+}
+
+/** The count/scope headline shared by the analyst card and spoken answer. */
+export { analystHeadline } from './resultDisplay.js';
 
 /** Feed states that change what a spoken answer means. */
 const MATERIAL_FEED_TAGS = Object.freeze({
@@ -964,6 +985,16 @@ export function progressLine(step, label) {
       return place ? `Finding ${place} on the map.` : 'Finding those places.';
     case 'search':
       return place ? `Looking up ${place}.` : null;
+    case 'draw':
+      return place ? `Outlining ${place}.` : null;
+    case 'catalog':
+      return 'Searching the imagery catalog.';
+    case 'drape':
+      return 'Loading the image.';
+    case 'osm':
+      return place
+        ? `Searching OpenStreetMap for ${place}.`
+        : 'Searching OpenStreetMap.';
     case 'fly':
       return place ? `Heading to ${place}.` : null;
     case 'layer':

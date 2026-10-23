@@ -651,7 +651,9 @@ Voice controls bind to a protocol-independent session factory. The default WebRT
 
 The standalone app offers OpenAI and Gemini Live through an explicit provider chooser. Gemini keeps its permanent API key on the local server and mints a short-lived, single-use credential with server-owned instructions and the standalone action catalog. Its native WebSocket adapter supports open microphone and push-to-talk input, streaming audio, captions and the existing action runner. In push-to-talk, a tool call that arrives with no input, reply or tool result outstanding is answered with a failure and never runs, and neither does any other call in the reply it starts; open-microphone turns start on Gemini's server-side activity detection, which reports no boundary to check. Switching providers ends the old conversation and releases its microphone and connection; only the input mode carries over. Gemini uses bounded shutdown draining and explicit manual restart, without automatic reconnection or a promise of uninterrupted session duration. Hosts that do not opt into the provider facade retain their existing default or custom adapter.
 
-Voice action argument schemas have one portable owner under `src/voice/actionSchemas.js`. The Realtime provider builds 30 tools using separate description-only metadata. Description customization cannot replace argument types, enum values or required fields.
+Voice action argument schemas have one portable owner under `src/voice/actionSchemas.js`. The Realtime provider builds 33 tools using separate description-only metadata; a session is offered 32 of them unless `OVERPASS_UPSTREAMS` is set, which adds `osm_query` and its one prompt sentence (`server/providers/openai/tools.js`). Description customization cannot replace argument types, enum values or required fields.
+
+Voice areas live in a store owned by the action runner for the page (`src/data/areaStore.js`); the model gets an `areaId`, a rounded bounding box and a summary, never geometry. `resolve_area` (`src/voice/areaActions.js`, `src/data/areaResolver.js`) checks the store, bundled Natural Earth regions, then bundled countries and states by name — a name several prominent units share returns up to four candidates unless the view is inside exactly one — and then the annotation outline ladder (`resolveAnnotationTarget`: bundled counties, Census places and neighborhoods, the guarded `/api/geocode/outline`, and Overpass only when configured). Administrative geometry is stored only when its source identity agrees with the requested unit; stale, mismatched, synthesized or otherwise unverified administrative boundaries are refused rather than relabelled. Clarification IDs use the bounded `ne:<kind>:<slug>` grammar and are accepted only from the current resolver's candidate memory. A lookup past 8 s answers `AREA_TIMEOUT` and keeps filling the caches. `around=true` asks the same ladder for the grounds enclosing a landmark (Nominatim, then the OpenFreeMap area holding it) and otherwise stores a 250 m buffer marked approximate. `analyst_query` scopes add `area`, `drawn` (newest draw-tool outline) and `annotation` (newest or named outline); region scopes use the same resolver within 3 s. Drawn outlines are a simplified copy (≤1,200 vertices); counting reads the stored geometry (`src/data/areaGeometry.js`). `find_imagery` (`src/voice/imageryActions.js`) sets the Recent Imagery box from an area, the view or the turn's pointer snapshot and pins the best acquisition; any hand change to the panel or explicit layer OFF while it searches ends the request (`DISPLACED`) without pinning or success narration. `osm_query` asks `/api/osm/features` for one curated preset in a bounded box; the route answers `OVERPASS_NOT_CONFIGURED` without an operator Overpass. Results go to the session-only `osm-places` layer and become the analyst's last answer. An explicit OSM Places OFF while the provider is pending aborts the work and prevents re-enable, result, credit and follow-up-memory commits. The voice answer deadline also aborts the client provider request, so the caller does not leave a timed-out request without a cancellation owner.
 
 `src/voice/layerManifest.js` declares each catalog layer's voice capabilities: spoken aliases, `toggle`, in-view `context`, `track`, and analyst `query` fields with type and unit, or `noQuery` with the reason. The `set_layer_visibility`, `show_data_layers_menu`, `get_entity_context` and `analyst_query` layer enums, the runner's alias table and the analyst field hints are generated from it. `src/voice/layerManifest.test.mjs` fails when a catalog layer is neither listed nor named in `VOICE_OFF_LAYERS` (today only the two scene-driven Bhote Koshi layers). Global Context is listed with `toggle: false`; `set_context_mode` reaches it. `set_panel_open` also opens `weather-panel` and `recent-imagery-panel`.
 
@@ -706,10 +708,9 @@ voice disposes the runner.
 Analyst result memory is committed only after any Contacts-window projection
 finishes and the call is still current. Cancelled or superseded queries cannot
 return success or replace follow-up memory; Contacts follow-ups filter the same
-cohort that was shown, and partial/unanswered coverage remains attached when a
-remembered result is narrowed.
-The narrowed answer retains the remembered scope label and detail, including
-the Contacts-window attribution, unless the follow-up supplies a new scope.
+cohort that was shown and retain its displayed scope and loaded-data note unless
+the follow-up supplies a new scope. Partial/unanswered coverage remains attached
+when a remembered result is narrowed.
 
 Application startup constructs fresh layer instances from explicit source objects.
 Standalone composition selects the existing providers. Controls, launch orbit
@@ -4960,6 +4961,28 @@ are omitted rather than framing the wrong part of the globe.
   Berlin inside Brandenburg). Each pack loads on the first ask that needs it,
   never at start-up; the analyst region lookup uses the same packs. Gate:
   `scripts/qa-admin-outlines.mjs`.
+- Bundled place and neighborhood outlines (`src/data/placeBoundaries.js`):
+  US Census places (`src/data/local_data/us_census_places/`, one file per
+  state, public domain, `scripts/build-census-places.mjs`) and Who's On First
+  neighborhoods (`src/data/local_data/wof_neighborhoods/`, quadtree tiles,
+  per-source licences, `scripts/build-wof-neighborhoods.py`). After the admin
+  packs, an area ask named at or near the view is drawn from, in order, a
+  Census place ("Austin"; a state qualifier narrows the search to that state
+  wherever the camera is: "Springfield, Illinois"), the San Francisco DataSF
+  pack, then WOF ("Notting Hill", "Le Marais"). "Near" reaches half the view
+  radius. A district ask takes a neighborhood first and a place only when the
+  view is inside it; without an entity kind, the candidate holding the view
+  wins, else the nearer. "City of X" asks for an incorporated place; when
+  several places still fit and nothing decides, the geocoder answers.
+  Compound, grounds, monument and "around" asks skip these, as do names that
+  end like a landmark ("Central Park") unless asked as a district, and a
+  qualified neighborhood ("Williamsburg, Virginia") goes to the geocoder. A
+  geocoded city or neighborhood is drawn from the same packs when one carries
+  the name and holds the point, before any boundary lookup. Only the index and
+  the state files or tiles around the point are fetched (files under 4 KB are
+  inlined into the bundle), and the recently used ones are kept (12 state
+  files, 24 tiles). Gate:
+  `node scripts/qa-voice-routing.mjs --layer behavior --behavior outlines`.
 - Renderer contract: `src/annotations/hybridAnnotationRenderer.js` routes draped `area`/`route` geometry to world-space Cesium rendering and reticles/pins/arrows/callouts to the screen-space SVG renderer. Area labels are screen-space callouts so all captions share one visual language; progressive outline upgrades convert the existing screen group in place when the anchor snaps to the resolved centroid.
 - Tooling: voice has `annotate_map` and `clear_annotations` tools. Annotations accumulate and persist by default; clearing is explicit only. Partial failures, approximate synthesized zones, and route fallbacks are returned as structured tool results so the voice layer can be honest.
 - Console/dev API: `window.__gevAnnotations.tour()`, `.demo()`, `.annotate()`, `.clear()`, `.count()`, and `.list()` are the deterministic no-mic test surface.

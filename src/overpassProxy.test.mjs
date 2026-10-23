@@ -1,3 +1,4 @@
+import { resolveOverpassUpstreamTag } from '../server/providers/overpass/constants.js';
 // OVERPASS PROXY — which upstream answers count as an answer.
 //
 // One predicate governs cache reads, writes, and stale fallback. A configured
@@ -12,7 +13,6 @@ import { createHash, randomUUID } from 'node:crypto';
 import path from 'node:path';
 import { Readable } from 'node:stream';
 import createViteConfig, { fetchOverpassPayload, overpassPayloadIsData, readOverpassDisk } from '../vite.config.js';
-import { resolveOverpassUpstreamTag } from '../server/providers/overpass/constants.js';
 
 const DATA = { status: 200, body: '{"elements":[]}' };
 
@@ -264,3 +264,72 @@ test('a disk entry is not served after OVERPASS_UPSTREAMS is repointed', async (
     await unlink(file);
   }
 });
+
+
+test('caller cancellation aborts transport without cooling down the upstream', async () => {
+  const endpoint = `https://cancelled-${randomUUID()}.example/api`;
+  const controller = new AbortController();
+  const entered = Promise.withResolvers();
+  const first = fetchOverpassPayload('data=x', 1024, {
+    endpoints: [endpoint],
+    signal: controller.signal,
+    fetchImpl: async (_url, { signal }) => {
+      entered.resolve();
+      return new Promise((_, reject) => {
+        signal.addEventListener('abort', () => reject(signal.reason), {
+          once: true,
+        });
+      });
+    },
+  });
+  await entered.promise;
+  controller.abort();
+  await assert.rejects(first);
+
+  let retried = 0;
+  const next = await fetchOverpassPayload('data=y', 1024, {
+    endpoints: [endpoint],
+    fetchImpl: async () => {
+      retried += 1;
+      return new Response(DATA.body, { status: 200 });
+    },
+  });
+  assert.equal(
+    retried,
+    1,
+    'the next live caller is not held behind a cooldown',
+  );
+  assert.equal(next.body, DATA.body);
+});
+
+function proxyHandler() {
+  const plugin = createViteConfig({ mode: 'test' }).plugins.find(
+    (p) => p.name === 'overpass-proxy',
+  );
+  const routes = new Map();
+  plugin.configureServer({
+    middlewares: { use: (route, handler) => routes.set(route, handler) },
+  });
+  return routes.get('/api/overpass');
+}
+
+function invoke(handler, body) {
+  const req = Readable.from([Buffer.from(body)]);
+  Object.assign(req, {
+    method: 'POST',
+    headers: {},
+    socket: { remoteAddress: '127.0.0.1' },
+  });
+  return new Promise((resolve, reject) => {
+    const res = {
+      writeHead(status, headers) {
+        this.status = status;
+        this.headers = headers;
+      },
+      end(body) {
+        resolve({ status: this.status, headers: this.headers, body });
+      },
+    };
+    Promise.resolve(handler(req, res)).catch(reject);
+  });
+}

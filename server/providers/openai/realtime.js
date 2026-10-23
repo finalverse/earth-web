@@ -126,6 +126,8 @@ function createRealtimeOAuthLoginHandler({
     }
   };
 }
+import { realtimeTools } from './tools.js';
+import { resolveOverpassUpstreams } from '../overpass/constants.js';
 
 function createRealtimeTokenHandler({
   annotationGuidance,
@@ -136,6 +138,7 @@ function createRealtimeTokenHandler({
   environment = process.env,
   models = {},
   tools = GEV_REALTIME_TOOLS,
+  overpassConfigured = () => resolveOverpassUpstreams().length > 0,
 } = {}) {
   return async (req, res) => {
     res.setHeader('Cache-Control', 'no-store');
@@ -273,6 +276,7 @@ function createRealtimeTokenHandler({
       transcribeModel.toLowerCase() === 'off'
         ? {}
         : { transcription: { model: transcribeModel } };
+    const overpass = overpassConfigured();
     const sessionConfig = {
       session: {
         type: 'realtime',
@@ -298,8 +302,8 @@ function createRealtimeTokenHandler({
           },
           output: { voice },
         },
-        instructions: realtimeInstructions(annotationGuidance),
-        tools,
+        instructions: realtimeInstructions(annotationGuidance, { overpass }),
+        tools: tools.filter(tool => overpass || tool.name !== "osm_query"),
         tool_choice: 'auto',
       },
     };

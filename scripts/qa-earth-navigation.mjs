@@ -57,9 +57,7 @@ try {
       await page.$eval('#earth-navigation-source', (e) => e.textContent),
       /no terrain or building survey/,
     );
-    const input = await page.$('#earth-destination');
-    await input.click({ clickCount: 3 });
-    await input.type('geo:0,0');
+    await page.locator('#earth-destination').fill('geo:0,0');
     await page.$eval('#earth-navigation-form', (f) => f.requestSubmit());
     await page.waitForFunction(() =>
       document

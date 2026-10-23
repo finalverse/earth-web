@@ -85,6 +85,37 @@ test('descriptions customize wording without changing immutable shared arguments
   );
 });
 
+test('every emitted area candidate round-trips through the production schema', async () => {
+  const candidateSchema = GEV_ACTION_SCHEMAS.find(
+    (tool) => tool.name === 'resolve_area',
+  ).parameters.properties.candidateId;
+  const resolver = createAreaResolver({
+    store: createAreaStore(),
+    findAdminCandidates,
+  });
+  const ambiguous = await resolver.resolve({ query: 'Georgia' });
+  assert.equal(ambiguous.needsClarification, true);
+  for (const choice of ambiguous.candidates) {
+    assert.ok(choice.candidateId.length >= candidateSchema.minLength);
+    assert.ok(choice.candidateId.length <= candidateSchema.maxLength);
+    assert.match(choice.candidateId, new RegExp(candidateSchema.pattern, 'u'));
+    assert.equal(
+      (await resolver.resolve({ candidateId: choice.candidateId })).ok,
+      true,
+    );
+  }
+  assert.equal(ambiguous.candidates[0].candidateId.length, 41);
+  const grammar = new RegExp(candidateSchema.pattern, 'u');
+  for (const malformed of [
+    'ne:state:bad slug',
+    'ne:state:../../etc',
+    'ne:state:!!!',
+    'ne:state:a_b',
+  ])
+    assert.doesNotMatch(malformed, grammar);
+  assert.ok(`ne:state:${'x'.repeat(80)}`.length > candidateSchema.maxLength);
+});
+
 test('metadata cannot add tools, fields, types or enum values', () => {
   for (const descriptions of [
     { execute_shell: { description: 'not an action' } },
@@ -148,6 +179,13 @@ test('all legacy action arguments are byte-identical after removing the delibera
   analystScopeKind.enum = analystScopeKind.enum.filter(
     (key) => key !== 'pointer',
   );
+  // Area handles add three scope kinds and their two identifiers.
+  const scope = property('analyst_query').scope;
+  scope.properties.kind.enum = scope.properties.kind.enum.filter(
+    (kind) => !['area', 'drawn', 'annotation'].includes(kind),
+  );
+  delete scope.properties.areaId;
+  delete scope.properties.id;
   // The analyst centre now requires a real coordinate.
   const center = property('analyst_query').scope.properties.center;
   delete center.required;

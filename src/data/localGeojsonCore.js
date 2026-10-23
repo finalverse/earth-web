@@ -105,63 +105,6 @@ export function localInfrastructureOverlayCopy(properties, layerId) {
  *   operator: string|null, capacity: string|null, river: string|null,
  *   output: string|null}}
  */
-export function mapAnalystRecord(raw, layerId = '') {
-  const num = (v) => (Number.isFinite(v) ? v : null);
-  const text = (v) => {
-    const t = String(v ?? '').trim();
-    return t && t !== 'undefined' && t !== 'null' ? t : null;
-  };
-  const props =
-    raw?.properties &&
-    typeof raw.properties === 'object' &&
-    !Array.isArray(raw.properties)
-      ? raw.properties
-      : {};
-  const tags =
-    props.tags && typeof props.tags === 'object' && !Array.isArray(props.tags)
-      ? props.tags
-      : {};
-  const name =
-    text(props.name) ||
-    text(tags.name) ||
-    text(tags['name:en']) ||
-    text(tags.official_name) ||
-    null;
-  const operator =
-    text(tags.operator) ||
-    text(props.operator) ||
-    text(tags['operator:short']) ||
-    null;
-  const capacity =
-    layerId === 'local-datacenters'
-      ? text(tags['capacity:it_load']) ||
-        text(tags.it_load) ||
-        text(tags.capacity) ||
-        text(props.capacity)
-      : null;
-  const river =
-    layerId === 'local-dams'
-      ? text(tags.associated_river) ||
-        text(props.associated_river) ||
-        text(tags.river) ||
-        text(props.river) ||
-        text(tags['river:name'])
-      : null;
-  const output =
-    layerId === 'local-dams'
-      ? text(props.output) || text(tags['plant:output:electricity'])
-      : null;
-  return {
-    id: name || text(raw?.id) || layerTitle(layerId),
-    name,
-    lat: num(raw?.lat),
-    lon: num(raw?.lon),
-    operator,
-    capacity,
-    river,
-    output,
-  };
-}
 
 /**
  * Produce one normalized-contract input owned by a local infrastructure layer.

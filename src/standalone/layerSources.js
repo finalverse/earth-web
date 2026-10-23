@@ -24,10 +24,12 @@ import { createReferenceSources } from '../sources/reference.js';
 export { createReferenceSources as createStandaloneReferenceSources } from '../sources/reference.js';
 
 /** Select standalone providers without starting their acquisition. */
-export function createStandaloneLayerSources(overrides = {}) {
+export function createStandaloneLayerSources(options = {}) {
+  const { createMapTiles = createOpenFreeMapSource, ...overrides } = options;
   if (!overrides || typeof overrides !== 'object' || Array.isArray(overrides))
     throw new TypeError('Source overrides must be an object');
-  const mapTiles = createOpenFreeMapSource();
+  const trafficTiles = createMapTiles();
+  const installationTiles = createMapTiles();
   const defaults = {
     ...createReferenceSources(),
     directions: createDirectionsSource(),
@@ -42,10 +44,10 @@ export function createStandaloneLayerSources(overrides = {}) {
     }),
     cctv: createCctvSource(),
     radio: createRadioSource(),
-    traffic: createTrafficSource({ mapTiles }),
+    traffic: createTrafficSource({ mapTiles: trafficTiles }),
     transit: createTransitSource(),
     bikeshare: createBikeshareSource(),
-    installations: createInstallationSource({ mapTiles }),
+    installations: createInstallationSource({ mapTiles: installationTiles }),
     satellites: createSatelliteSource(),
     launches: createLaunchSource(),
     alpr: createAlprTileSource(),

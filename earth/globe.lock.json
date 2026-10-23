@@ -20,5 +20,17 @@
   "npm": {
     "cesium": "1.138.0",
     "vite-plugin-cesium": "1.2.23"
+  },
+  "reviewed_local_overrides": {
+    "src/data/adminBoundaries.js": {
+      "upstream_sha256": "90fc7801870c9a7c40b4c0d1d365a9f95bd922888767e652a5c271a249cf0028",
+      "sha256": "06e914bcfa52cff273566ac2d6b87ac670822fb86b77c94f25154efdc88c7557",
+      "reason": "Reviewed voice-geometry feature merge: exported geographic helpers and explicit administrative type matching; upstream provenance retained."
+    },
+    "src/data/bundledJson.js": {
+      "upstream_sha256": "db6fc76e7e768ba48aa3944edc1b5bb45cdb8525bd6dde46064fc100ff2315c7",
+      "sha256": "f1c6eb09554dd94468356deb6210177d0bd9b4e440d6e3c5ad61cc57faaea089",
+      "reason": "Reviewed voice-geometry feature merge: exported geographic helpers and explicit administrative type matching; upstream provenance retained."
+    }
   }
 }
