@@ -59,6 +59,26 @@ provider registration rejects compositions that cannot fit rather than truncatin
 identities. A malformed or duplicate entry invalidates the complete custom-switch
 field. Existing whole-link size limits still apply.
 
+## Mobile app prototype — October 18, 2026
+
+`/mobile/` is a phone and foldable shell over the same engine, specified in
+[`mobile/DESIGN.md`](../mobile/DESIGN.md). It has five tabs: a situation feed,
+the globe, capture, reconstruction threads and the user's own captures.
+`mobile/globe/` is a phone-tuned Cesium engine. It blends Esri day imagery
+with NASA Black Marble night lights across the terminator, uses Google 3D
+tiles below 25 km when keyed, and builds its layers on the existing `/api`
+routes and source parsers. Capture signs each bundle on the device with a
+non-extractable ECDSA P-256 WebCrypto key held in IndexedDB. A bundle carries
+a SHA-256 media hash, a per-device hash chain, and the IMU and GPS trace.
+These signatures are browser equivalents of hardware attestation; they are
+not hardware attestation. Hypotheses and authors in the reconstruction
+threads are labelled example content. `npm run build -- --mode mobile` emits
+`dist/mobile/index.html` beside the app, while `npm run build:panel` still
+builds the app page alone. The default P0 build excludes the experimental shell.
+Physical-phone, capture-permission and sensor acceptance remain separate.
+`mobile/vision/index.html` is a self-contained
+concept mockup with illustrative data and no production code.
+
 ## God's Eye View in conversations — October 2, 2026
 
 Tool answers that can be shown in God's Eye View include a view: camera, layers,
@@ -251,6 +271,15 @@ catalog construction owns each instance.
 
 Wind animates one forecast without advancing forecast time. Separate Weather
 observation layers provide radar and satellite history; none claims measured cloud volume.
+Rain radar defaults to **US (NOAA)** MRMS; **Global (RainViewer)** selects a keyless
+composite where national radars exist, with the past 2 hours at 10-minute steps
+on the shared observed timeline, and the region choice persists in share links.
+RainViewer uses pinned, validated 256 px Web Mercator tiles through zoom 7,
+5-minute metadata caching and a server-wide 80-tile-request rolling-minute limit;
+excess requests wait up to 20 seconds in a bounded FIFO queue;
+gaps do not mean no rain. Globe hosts draw those tiles directly; on 3D Tiles,
+the 6.2 km shell composes at most 24 tiles per full frame or detail window and
+reprojects them to an equirectangular image.
 Weather imagery drapes onto the globe basemap. On photorealistic 3D Tiles each
 observed product is instead a raised, translucent shell: one rectangle over the
 product bounds at a fixed height (global infrared 5.5 km, regional infrared
@@ -263,10 +292,10 @@ other map content draws over the shells, and shells are not pickable. A
 map-source change tears down one renderer and restages the shown observation on
 the other. A map without an imagery host pauses history while metadata refresh
 continues, then resumes when a host returns.
-Globe tiled products use 256 px tiles to maximum level 6. The tile proxy accepts
+NOAA globe tiled products use 256 px tiles to maximum level 6. The tile proxy accepts
 size=256 (default), 512 or 1024 and keys cached bytes by size, retaining the
 24-hour immutable response and eight upstream slots. The image proxy serves every
-product as one whole-extent PNG at its advertised bounds, up to 4096×2048 for
+NOAA product as one whole-extent PNG at its advertised bounds, up to 4096×2048 for
 radar, regional infrared and lightning and 2048×1024 for global infrared
 (`size=W×H`, default the maximum), capped at 16 MiB and cached by product, time
 and size. NOAA returned each of these sizes from a single request in a live
@@ -285,7 +314,7 @@ full-extent image covers it. A new frame swaps the full-extent image first and
 keeps the previous detail image until the new one decodes, over at most one
 newer frame; a moved window hides until its image arrives. Global
 infrared contrast depends on the requested extent, so it keeps one image. The
-image proxy accepts `bbox=west,south,east,north` for every product: inside the
+image proxy accepts `bbox=west,south,east,north` for every NOAA product: inside the
 product bounds, 2:1 within 1 %, rounded to 0.25°, up to 4096×2048 (the
 default), cached by product, time, size and bbox. Diagnostics report
 `shell.detail` (`bbox`, `size`, `ready`, `enabled`).

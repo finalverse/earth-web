@@ -1,5 +1,10 @@
 # Changelog
 
+- Add Global (RainViewer) beside US (NOAA) in Rain radar, with shared observed
+  history and share-link region selection. Validated, rate-limited Web Mercator
+  tiles draw on globe basemaps and compose into reprojected images on 3D Tiles
+  shells; coverage follows national radar networks, with 2 hours of history.
+
 - The tracked-aircraft descriptor now publishes `verticalRateMps`, on both the
   civil and military layers, so a consumer reading `getTrackedInfo()` no longer
   has to reach past it into the raw poll record for climb/descent. Reported,

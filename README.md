@@ -266,3 +266,6 @@ Public application: [earth.finalverse.com](https://earth.finalverse.com). Produc
 ## Shared Earth Core navigation
 
 The embedded country workspace now consumes the versioned Earth Core SDK for geographic/USAP navigation and place inspection. See [integration, security and acceptance boundaries](earth/docs/core-integration.md). The Montréal shortcut is a geographic anchor over existing map context; real city terrain/publication and authenticated world entry remain open gates.
+## Spatial building evidence
+
+The [bounded spatial workspace](docs/SPATIAL_CONVERSATIONS.md) inspects explicitly selected OpenStreetMap buildings and their evidence. It is a read-only analysis surface; it does not replace canonical Confluence sessions, create a world-state database or grant MutSea write authority.

@@ -19,12 +19,29 @@ const stable = (value) =>
         )
       : value;
 
+test('spatial selection exposes only explicit bounded actions', () => {
+  const tool = GEV_REALTIME_TOOLS.find(
+    (tool) => tool.name === 'spatial_selection',
+  );
+  assert.deepEqual(tool.parameters.properties.action.enum, [
+    'context',
+    'color_by_use',
+    'recorded_height',
+  ]);
+  assert.deepEqual(tool.parameters.required, ['action']);
+  assert.equal(tool.parameters.additionalProperties, false);
+  assert.match(tool.description, /explicitly selected/);
+});
+
 test('the complete Realtime tool payload pins the manifest-generated layer release', () => {
   const digest = createHash('sha256')
     .update(
       JSON.stringify(
         stable(
-          GEV_REALTIME_TOOLS.filter((tool) => tool.name !== 'set_cyber_sonar'),
+          GEV_REALTIME_TOOLS.filter(
+            (tool) =>
+              !['set_cyber_sonar', 'spatial_selection'].includes(tool.name),
+          ),
         ),
       ),
     )
@@ -96,7 +113,10 @@ test('metadata cannot add tools, fields, types or enum values', () => {
 
 test('all legacy action arguments are byte-identical after removing the deliberate additions', () => {
   const legacy = structuredClone(GEV_ACTION_SCHEMAS).filter(
-    (tool) => !['next_satellite_pass', 'set_cyber_sonar'].includes(tool.name),
+    (tool) =>
+      !['next_satellite_pass', 'set_cyber_sonar', 'spatial_selection'].includes(
+        tool.name,
+      ),
   );
   // Layer enums are generated from the voice layer manifest and pinned by
   // layerManifest.test.mjs; the two shipped right-rail panels are additive.

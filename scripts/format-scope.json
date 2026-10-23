@@ -1070,5 +1070,15 @@
   "scripts/assemble-changelog.mjs",
   "src/tooling/changelogFragments.test.mjs",
   "src/data/gbfsProxyRateLimit.test.mjs",
-  "src/terrainHeightsBounds.test.mjs"
+  "src/terrainHeightsBounds.test.mjs",
+  "src/data/weatherRainviewer.test.mjs",
+  "src/layers/weather/mercatorMosaic.test.mjs",
+  "scripts/qa-spatial-workspace.mjs",
+  "scripts/review-spatial-gemini.mjs",
+  "server/providers/openai/spatial-answer.js",
+  "src/sources/spatialBuildings.js",
+  "src/spatial/buildings.js",
+  "src/spatial/renderer.js",
+  "src/spatial/workspace.js",
+  "src/ui/styles/spatial.css"
 ]
