@@ -13,10 +13,6 @@
  * production build emit a JavaScript copy of every pack that the browser
  * never loads.
  *
- * A pack split into many files passes no `importJson` (a literal import per
- * file would also bundle every file as a script chunk); under Node its file
- * is then read directly.
- *
  * @module data/bundledJson
  */
 
