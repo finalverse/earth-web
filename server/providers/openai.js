@@ -8,6 +8,7 @@ import {
 } from './openai/realtime.js';
 import { sameSiteGated } from './common/same-site.js';
 import { createCodexOAuthLogin } from './openai/codex-auth.js';
+import { createSpatialAnswerHandler } from './openai/spatial-answer.js';
 
 /**
  * Vite plugin: OpenAI Realtime ephemeral client secret.
@@ -25,6 +26,10 @@ function openAiRealtimeProxy({
     // Cost-bearing and log endpoints refuse cross-site browser requests
     // (see server/providers/common/same-site.js and SECURITY.md).
     middlewares.use('/api/openai/hud-summary', sameSiteGated(handleHudSummary));
+    middlewares.use(
+      '/api/openai/spatial-answer',
+      sameSiteGated(createSpatialAnswerHandler()),
+    );
 
     middlewares.use(
       '/api/realtime/debug-log',

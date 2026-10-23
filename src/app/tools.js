@@ -4,6 +4,7 @@ import { initDrawTool } from '../annotations/drawTool.js';
 import { initGeoFileImport } from '../ui/geoFileImport.js';
 import { initImageryBoxTool } from '../ui/imageryBoxTool.js';
 import { createRecentImageryPanel } from '../ui/recentImagery.js';
+import { initSpatialWorkspace } from '../spatial/workspace.js';
 import { initGevVoiceCommands } from '../voice/gevRealtime.js';
 import { installViews, isEmbeddedInline } from './embed.js';
 import { installScopeMask, destroyScopeMask } from '../scopeMask.js';
@@ -104,6 +105,8 @@ export function createApplicationTools({
       imageryBoxTool?.destroy();
     });
   }
+  const spatialWorkspace = initSpatialWorkspace({ viewer });
+  defer(() => spatialWorkspace?.destroy());
   if (startChrome)
     defer(startChrome({ loadingScreen, styleManager, dataManager, signal }));
   // Idle render governor: flips the scene into requestRenderMode whenever
@@ -162,6 +165,7 @@ export function createApplicationTools({
     mapStackController,
     annotations,
     weatherEffects,
+    spatialWorkspace,
     cockpitCloudEffects,
     getRenderGovernorDiagnostics,
     surfaceServices: operations.surface,
@@ -183,6 +187,7 @@ export function createApplicationTools({
     dataManager,
     sceneDirector,
     annotations,
+    spatialWorkspace,
   });
   defer(() => {
     voiceCommands.stop({ removeUi: true });

@@ -235,6 +235,7 @@ export function createGevActionRunner({
   styleManager,
   dataManager,
   sceneDirector = null,
+  spatialWorkspace = null,
   annotations = null,
   placeSearch = unavailablePlaceSearch,
   floorServices = defaultFloorServices,
@@ -282,6 +283,21 @@ export function createGevActionRunner({
         /* Progress is advisory. */
       }
     };
+    if (name === 'spatial_selection') {
+      if (!current()) return { ok: false, error: 'Request superseded.' };
+      if (!spatialWorkspace)
+        return { ok: false, error: 'Spatial workspace is unavailable.' };
+      if (args.action === 'color_by_use')
+        return spatialWorkspace.query({ kind: 'use' });
+      if (args.action === 'recorded_height')
+        return spatialWorkspace.query({ kind: 'height' });
+      const context = spatialWorkspace.getContext();
+      return {
+        ok: context.active && context.count > 0,
+        ...context,
+        note: 'Only the explicitly selected OSM buildings. A closed workspace is not active context. Unknown heights and use remain unknown. Display estimates are not measurements.',
+      };
+    }
 
     // Navigation tools interrupt any continuous camera motion (spec §1.1) —
     // checked FIRST because each handler returns.
