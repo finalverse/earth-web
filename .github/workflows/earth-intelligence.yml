@@ -1,7 +1,7 @@
 name: Earth Intelligence
 on:
   push:
-    branches: [main, codex/earth-v05-intelligence, codex/earth-world-v06]
+    branches: [main, codex/earth-v05-intelligence, codex/earth-world-v06, codex/confluence-v07]
   pull_request:
 permissions:
   contents: read
@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: 24.22.0
       - name: Portable browser view-model contract
-        run: node --test earth/intelligence/web.test.js
+        run: node --test earth/intelligence/web.test.js earth/intelligence/confluence-web.test.js
       - name: Install pinned Rust with lint components
         run: rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy
       - run: cargo +1.92.0 fmt --manifest-path earth/intelligence/Cargo.toml --check
@@ -52,6 +52,7 @@ jobs:
           export EARTH_INTELLIGENCE_NODE_BINARY="$(command -v node)"
           cargo +1.92.0 test --locked --manifest-path earth/intelligence/Cargo.toml --test runtime -- --ignored --nocapture
           cargo +1.92.0 test --locked --manifest-path earth/intelligence/Cargo.toml --test bridge -- --include-ignored
+          cargo +1.92.0 test --locked --manifest-path earth/intelligence/Cargo.toml --test confluence -- --include-ignored
       - name: FSIP wire schemas, generated bindings and coordinate boundaries
         if: matrix.os == 'ubuntu-latest'
         run: |

@@ -54,6 +54,11 @@ impl From<CliMode> for Mode {
 }
 #[derive(Subcommand)]
 enum Command {
+    /// Share a non-code session with an explicitly named world participant.
+    Confluence {
+        #[command(subcommand)]
+        action: ConfluenceAction,
+    },
     /// Propose a pinned experience; native preview and approval are separate.
     Experience {
         #[command(subcommand)]
@@ -80,6 +85,33 @@ enum Command {
         action: Option<ConfigAction>,
     },
     Doctor,
+}
+#[derive(Subcommand)]
+enum ConfluenceAction {
+    Invite {
+        #[arg(long)]
+        agent: Uuid,
+        #[arg(long)]
+        grid: Uuid,
+        #[arg(long)]
+        region: Uuid,
+        #[arg(long)]
+        can_propose: bool,
+        #[arg(long)]
+        output: PathBuf,
+    },
+    Revoke {
+        grant: Uuid,
+    },
+    /// Read a scoped session without acquiring its owner credential.
+    Read {
+        #[arg(long)]
+        grant_file: PathBuf,
+        #[arg(long, default_value = "http://127.0.0.1:18651")]
+        origin: String,
+        #[arg(long, default_value = "0")]
+        after: i64,
+    },
 }
 #[derive(Subcommand)]
 enum ExperienceAction {
@@ -465,6 +497,34 @@ pub async fn run(args: Args) -> Result<()> {
         );
         return Ok(());
     }
+    if let Some(Command::Confluence {
+        action:
+            ConfluenceAction::Read {
+                grant_file,
+                origin,
+                after,
+            },
+    }) = &args.command
+    {
+        local_origin(origin)?;
+        let grant: Value = serde_json::from_str(&private_file(grant_file)?)?;
+        let token = grant["token"]
+            .as_str()
+            .ok_or_else(|| anyhow::anyhow!("Scoped grant file required"))?
+            .to_owned();
+        let client = Client {
+            http: client()?,
+            origin: origin.trim_end_matches('/').into(),
+            token,
+            json: args.json,
+        };
+        client.print(
+            &client
+                .get(&format!("/v1/browser/confluence?after={after}"))
+                .await?,
+        );
+        return Ok(());
+    }
     let config = Config::load(&config_path)?;
     let client = Client::new(&config, args.json)?;
     let id = || {
@@ -472,6 +532,30 @@ pub async fn run(args: Args) -> Result<()> {
             .ok_or_else(|| anyhow::anyhow!("Supply --session <UUID>"))
     };
     match args.command {
+        Some(Command::Confluence { action }) => match action {
+            ConfluenceAction::Invite {
+                agent,
+                grid,
+                region,
+                can_propose,
+                output,
+            } => {
+                let value=client.post(&format!("/v1/sessions/{}/confluence",id()?),json!({"agent_id":agent,"audience":{"grid_id":grid,"region_id":region},"can_propose":can_propose})).await?;
+                write_private(&output, &serde_json::to_vec_pretty(&value)?)?;
+                client.print(&json!({"private_grant_file":output,"grant_id":value["grant_id"],"session_id":value["session_id"],"expires_at":value["expires_at"],"can_edit_world":false}));
+            }
+            ConfluenceAction::Revoke { grant } => client.print(
+                &client
+                    .post(
+                        &format!("/v1/sessions/{}/confluence/{grant}/revoke", id()?),
+                        json!({}),
+                    )
+                    .await?,
+            ),
+            ConfluenceAction::Read { .. } => {
+                unreachable!("Scoped read handled before owner credentials")
+            }
+        },
         Some(Command::Experience { action }) => match action {
             ExperienceAction::List => client.print(
                 &client

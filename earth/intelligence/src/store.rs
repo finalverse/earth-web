@@ -10,6 +10,7 @@ use uuid::Uuid;
 #[derive(Clone)]
 pub struct Store {
     pub pool: PgPool,
+    pub(crate) confluence_slots: std::sync::Arc<tokio::sync::Semaphore>,
 }
 pub enum Claim {
     Started,
@@ -54,7 +55,10 @@ impl Store {
         sqlx::query("SELECT id FROM earth_intelligence.sessions LIMIT 0")
             .execute(&pool)
             .await?;
-        Ok(Self { pool })
+        Ok(Self {
+            pool,
+            confluence_slots: std::sync::Arc::new(tokio::sync::Semaphore::new(2)),
+        })
     }
 
     pub async fn create(&self, owner: &str, input: NewSession) -> Result<Session> {
@@ -217,7 +221,21 @@ impl Store {
     }
 
     pub async fn claim(&self, owner: &str, id: Uuid, message: &Message) -> Result<Claim> {
-        let hash = digest(&serde_json::to_vec(message)?);
+        self.claim_context(owner, id, message, None).await
+    }
+    pub(crate) async fn claim_context(
+        &self,
+        owner: &str,
+        id: Uuid,
+        message: &Message,
+        context: Option<&Value>,
+    ) -> Result<Claim> {
+        let hash = match context {
+            Some(context) => digest(&serde_json::to_vec(
+                &json!({"message":message,"context":context}),
+            )?),
+            None => digest(&serde_json::to_vec(message)?),
+        };
         let mut tx = self.pool.begin().await?;
         let state = sqlx::query(
             "SELECT status,cursor,event_bytes FROM earth_intelligence.sessions WHERE id=$1 AND owner=$2 FOR UPDATE",

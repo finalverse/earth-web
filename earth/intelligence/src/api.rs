@@ -105,6 +105,8 @@ pub fn router(state: Api, assets: Option<std::path::PathBuf>) -> Router {
         .route("/",get(||async{axum::response::Html(include_str!("../web/index.html"))}))
         .route("/app.js",get(||async{([(header::CONTENT_TYPE,"text/javascript; charset=utf-8")],include_str!("../web/app.js"))}))
         .route("/app.css",get(||async{([(header::CONTENT_TYPE,"text/css; charset=utf-8")],include_str!("../web/app.css"))}))
+        .route("/confluence.js",get(||async{([(header::CONTENT_TYPE,"text/javascript; charset=utf-8")],include_str!("../web/confluence.js"))}))
+        .route("/confluence-model.js",get(||async{([(header::CONTENT_TYPE,"text/javascript; charset=utf-8")],include_str!("../web/confluence-model.js"))}))
         .route("/healthz",get(||async{Json(json!({"status":"ready","version":VERSION,"protocol_version":PROTOCOL,"public_runtime":false}))}))
         .route("/v1/models",get(models))
         .route("/v1/earth/datasets",get(datasets))
@@ -125,6 +127,10 @@ pub fn router(state: Api, assets: Option<std::path::PathBuf>) -> Router {
         .route("/v1/experiences/{id}/handoff",post(experience_handoff))
         .route("/v1/experiences/{id}/grants/{grant}/revoke",post(revoke_experience))
         .route("/v1/experiences/{id}/grants/{grant}/events",get(experience_events))
+        .route("/v1/sessions/{id}/confluence",post(confluence_invite))
+        .route("/v1/sessions/{id}/confluence/{grant}/revoke",post(confluence_revoke))
+        .route("/v1/browser/confluence",get(confluence_read))
+        .route("/v1/browser/confluence/artifacts/{artifact}",get(confluence_artifact_read))
         .route("/v1/sessions/{id}/share",post(share))
         .route("/v1/sessions/{id}/revoke",post(revoke))
         .route("/v1/sessions/{id}/code/read",post(read_code))
@@ -739,4 +745,63 @@ async fn events(
     Ok(Sse::new(output)
         .keep_alive(KeepAlive::new().interval(Duration::from_secs(10)))
         .into_response())
+}
+
+async fn confluence_invite(
+    State(s): State<Api>,
+    headers: HeaderMap,
+    Path(id): Path<Uuid>,
+    Json(input): Json<crate::confluence::Invite>,
+) -> Result<Json<Value>, Error> {
+    let owner = s.owner(&headers)?;
+    let bridge = s.bridge.as_ref().ok_or_else(Error::unavailable)?;
+    if input.audience.grid_id != bridge.config.grid_id
+        || !bridge.config.region_ids.contains(&input.audience.region_id)
+    {
+        return Err(Error::refused());
+    }
+    s.runtime
+        .store
+        .confluence_invite(&owner, id, input)
+        .await
+        .map(Json)
+        .map_err(|_| Error::refused())
+}
+async fn confluence_revoke(
+    State(s): State<Api>,
+    headers: HeaderMap,
+    Path((id, grant)): Path<(Uuid, Uuid)>,
+) -> Result<Json<Value>, Error> {
+    let owner = s.owner(&headers)?;
+    s.runtime
+        .store
+        .confluence_revoke(&owner, id, grant)
+        .await
+        .map(Json)
+        .map_err(|_| Error::unavailable())
+}
+async fn confluence_read(
+    State(s): State<Api>,
+    headers: HeaderMap,
+    Query(input): Query<Cursor>,
+) -> Result<Json<Value>, Error> {
+    s.runtime
+        .store
+        .confluence_browser_snapshot(bearer(&headers)?, input.after)
+        .await
+        .map(Json)
+        .map_err(|_| Error::unavailable())
+}
+
+async fn confluence_artifact_read(
+    State(s): State<Api>,
+    headers: HeaderMap,
+    Path(artifact): Path<Uuid>,
+) -> Result<Json<Value>, Error> {
+    s.runtime
+        .store
+        .confluence_browser_artifact(bearer(&headers)?, artifact)
+        .await
+        .map(Json)
+        .map_err(|_| Error::unavailable())
 }

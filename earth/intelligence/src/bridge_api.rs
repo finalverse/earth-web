@@ -68,6 +68,10 @@ async fn report(
 }
 pub fn router(state: Bridge) -> Router {
     Router::new()
+        .route("/v1/world/confluence/join", post(confluence_join))
+        .route("/v1/world/confluence/read", post(confluence_read))
+        .route("/v1/world/confluence/message", post(confluence_message))
+        .route("/v1/world/confluence/artifact", post(confluence_artifact))
         .route("/v1/world/bridge/redeem", post(redeem))
         .route("/v1/world/bridge/authorize", post(authorize))
         .route("/v1/world/bridge/{grant}/receipt", post(report))
@@ -130,4 +134,34 @@ pub async fn serve(listener: tokio::net::UnixListener, state: Bridge) -> anyhow:
     }
     result?;
     Ok(())
+}
+
+async fn confluence_join(
+    State(state): State<Bridge>,
+    Json(input): Json<crate::confluence::Join>,
+) -> Response {
+    if input.audience.grid_id != state.config.grid_id
+        || !state.config.region_ids.contains(&input.audience.region_id)
+    {
+        return response(Err(anyhow::anyhow!("Audience refused")));
+    }
+    response(state.runtime.store.confluence_join(input).await)
+}
+async fn confluence_read(
+    State(state): State<Bridge>,
+    Json(input): Json<crate::confluence::Access>,
+) -> Response {
+    response(state.runtime.store.confluence_native_snapshot(&input).await)
+}
+async fn confluence_message(
+    State(state): State<Bridge>,
+    Json(input): Json<crate::confluence::Access>,
+) -> Response {
+    response(state.confluence_message(input).await)
+}
+async fn confluence_artifact(
+    State(state): State<Bridge>,
+    Json(input): Json<crate::confluence::Access>,
+) -> Response {
+    response(state.runtime.store.confluence_native_artifact(&input).await)
 }

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/cesium/Widgets/widgets.css" />
     <script defer src="/cesium/Cesium.js"></script>
     <script defer src="/app.js"></script>
+    <script type="module" src="/confluence.js"></script>
   </head>
   <body>
     <header>
@@ -63,6 +64,32 @@
           <summary>Public reference context</summary>
           <pre id="reference">
 Reference context loads only after a valid share.</pre>
+        </details>
+        <details>
+          <summary>Confluence · shared conversation</summary>
+          <form id="confluence-connect">
+            <label for="confluence-key"
+              >Scoped session key · expires in one hour</label
+            >
+            <input
+              id="confluence-key"
+              type="password"
+              autocomplete="off"
+              spellcheck="false"
+              maxlength="64"
+              required
+            />
+            <button>Resume shared session</button>
+          </form>
+          <button id="confluence-disconnect" type="button">Disconnect</button>
+          <p id="confluence-status" role="status">
+            Explicit non-code session sharing. Read-only in this browser.
+          </p>
+          <pre id="confluence-messages" aria-label="Shared conversation"></pre>
+          <div
+            id="confluence-artifacts"
+            aria-label="Shared spatial artifacts"
+          ></div>
         </details>
         <section aria-label="Source facilities">
           <h2>Source facilities</h2>

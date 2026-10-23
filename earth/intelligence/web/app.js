@@ -3,6 +3,7 @@
 const $ = (id) => document.getElementById(id);
 let viewer = null,
   workspace = null,
+  workspaceSource = null,
   selected = null;
 if (window.Cesium) {
   window.CESIUM_BASE_URL = '/cesium/';
@@ -51,7 +52,7 @@ async function request(path, key) {
     throw new Error('Spatial artifact exceeds the view budget.');
   return JSON.parse(raw);
 }
-function render(value) {
+function render(value, source = 'spatial') {
   if (
     value?.schema_version !== 1 ||
     value.application !== 'finalverse.energy-explorer'
@@ -78,6 +79,7 @@ function render(value) {
       throw new Error('Invalid source position.');
   }
   workspace = value;
+  workspaceSource = source;
   selected = value.selected_features?.[0] ?? null;
   $('title').textContent = value.title;
   $('summary').textContent =
@@ -252,4 +254,33 @@ $('export').onclick = () => {
 };
 window.addEventListener('pagehide', () => {
   $('key').value = '';
+});
+
+window.addEventListener('confluence-workspace', (event) => {
+  try {
+    render(event.detail, 'confluence');
+    status(
+      'Original session artifact opened; no geographic query was re-executed.',
+    );
+  } catch (error) {
+    status(error.message);
+  }
+});
+window.addEventListener('confluence-disconnected', () => {
+  // The scoped session owns this presentation, including its open artifact.
+  // A separately opened spatial share has its own explicit authorization.
+  if (workspaceSource !== 'confluence') return;
+  workspace = selected = workspaceSource = null;
+  $('title').textContent = 'No shared workspace open';
+  $('summary').textContent = 'Reconnect with an authorized session key.';
+  for (const id of ['evidence', 'event', 'reference', 'caption'])
+    $(id).textContent = '';
+  $('facilities').replaceChildren();
+  $('export').disabled = true;
+  if (viewer) {
+    viewer.entities.removeAll();
+    viewer.dataSources.removeAll();
+    viewer.scene.requestRender();
+  }
+  status('Shared session disconnected; its source presentation was cleared.');
 });

@@ -5,6 +5,7 @@ pub mod bridge_api;
 pub mod cli;
 pub mod coding;
 pub mod config;
+pub mod confluence;
 pub mod daemon;
 pub mod fsip;
 pub mod grounding;
