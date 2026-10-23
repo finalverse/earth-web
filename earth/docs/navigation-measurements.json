@@ -1,0 +1,57 @@
+{
+  "mode": "actual Cesium with software rendering; bundled generalized Natural Earth, no city dataset",
+  "checks": [
+    "geographic navigation",
+    "entity inspection",
+    "return navigation",
+    "malformed coordinates",
+    "unavailable service fallback",
+    "country search regression",
+    "desktop/mobile layouts",
+    "reduced motion",
+    "self-only CSP without unsafe-eval",
+    "actual Cesium destination-marker picking",
+    "keyboard focus order"
+  ],
+  "reports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "globe_ready_ms": 4522.604818,
+      "navigation_ms": 1.7,
+      "canvas": [
+        878,
+        928
+      ],
+      "document_width": 1440,
+      "viewport_width": 1440,
+      "js_heap_bytes": 128238225,
+      "transfer_bytes": 9865644
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "globe_ready_ms": 3948.9679109999997,
+      "navigation_ms": 1.1,
+      "canvas": [
+        390,
+        549
+      ],
+      "document_width": 390,
+      "viewport_width": 390,
+      "js_heap_bytes": 146140184,
+      "transfer_bytes": 2360435
+    }
+  ],
+  "errors": [],
+  "core_source": "finalverse/earth@c7f4f49",
+  "limitations": [
+    "Synthetic SpatialDB metadata only; no real city geometry or live world login",
+    "Software rendering and viewport simulation; no physical mobile/GPU benchmark",
+    "No production deployment"
+  ]
+}

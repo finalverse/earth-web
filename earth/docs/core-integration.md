@@ -32,3 +32,9 @@ Do not deploy from this task. Follow the established operator process under `ear
 Implemented and locally tested: shared SDK consumption, geographic navigation, marker/entity inspection, return navigation, metadata gateway and unavailable-service fallback. Existing country/query functionality remains in place.
 
 BLOCKED: real Montréal terrain/buildings/roads, measured geographic alignment and a licensed/versioned SpatialDB Geo publication. The pre-acquisition source/licensing audit is in Earth Core `docs/audit.md`; no new geographic datasets were downloaded. Native world admission and live Confluence/Lumi/session integration are NOT TESTED. Physical mobile/tablet/GPU performance and production deployment are NOT TESTED. These gaps prevent claiming complete Earth Web R0 acceptance.
+
+## Current measured checks
+
+Core metadata resolution was tested against a real local SpatialDB service serving the committed synthetic district. The embedded app passed 47 tests with two optional database skips. Its browser check uses actual Cesium/SwiftShader at 1440×1000 and 390×844, including marker picking, keyboard focus, reduced motion, coordinate errors, disconnected-service fallback, Back, and the original Canada search. These are desktop/phone viewport simulations, not physical phone or native-app measurements.
+
+The full upstream production build, package boundaries, 1,532-file formatting check and Spanish/Russian catalog checks were also exercised during branch integration. See [branch integration decisions](branch-integration.md). The real Montréal city slice remains blocked: the environment proxy returned HTTP 403 for the Montréal source portal and Canada’s licence site. The two required domain additions were saved to the environment draft but have not been applied or published.

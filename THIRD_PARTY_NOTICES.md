@@ -1,10 +1,8 @@
 # Third-party software notices
 
 The project depends on third-party npm packages whose own licenses apply. This
-file records the packages added for the browser-local SDR feature and the
-Street Level viewer; the complete resolved dependency inventory remains in
-file records the packages added for the browser-local SDR and on-device voice
-features; the complete resolved dependency inventory remains in
+file records packages added for browser-local SDR, the Street Level viewer and
+on-device voice; the complete resolved dependency inventory remains in
 `package-lock.json`.
 
 ## Web RTL-SDR
