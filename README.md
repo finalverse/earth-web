@@ -12,6 +12,13 @@ Finalverse Earth is part of the Finalverse ecosystem and works independently. It
 
 ## v0.7 Confluence integration · local R&D
 
+Cross-product acceptance is recorded in the [canonical P0 ledger](https://github.com/finalverse/finalverse/blob/main/integration/acceptance/p0.json).
+The actual Desktop now presents native meshes and a bounded textured primitive
+through FinalStorm. This does not by itself accept Earth destination resolution,
+published geographic world placement or shared-session Lumi. Those remain
+separate application gates; the existing canonical conversation store and
+WorldKernel authority are retained.
+
 The `codex/confluence-v07` integration branch connects **one existing Intelligence
 session** to Earth CLI, the local Web view and the native Finalverse Viewer.
 Explicit, expiring participant grants allow source inspection and bounded
