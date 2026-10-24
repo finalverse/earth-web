@@ -6,7 +6,7 @@ import {
   serializeDestination,
 } from './navigation-controller.js';
 import './navigation.css';
-export function installCoreNavigation({ viewer, status }) {
+export function installCoreNavigation({ viewer, status, geographic }) {
   const panel = document.createElement('section');
   panel.className = 'earth-navigation';
   panel.setAttribute('aria-label', 'Explore a place');
@@ -138,7 +138,7 @@ export function installCoreNavigation({ viewer, status }) {
     go($('earth-destination').value);
   });
   $('earth-navigation-montreal').addEventListener('click', () =>
-    go('geo:45.5088,-73.554,28'),
+    geographic ? geographic() : go('geo:45.5088,-73.554,28'),
   );
   $('earth-navigation-back').addEventListener('click', async () => {
     try {

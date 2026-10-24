@@ -1,3 +1,4 @@
+import { createLivingGateway } from './living-world.js';
 import { createResourceGateway } from './resource-gateway.js';
 // Copyright 2026 Finalverse contributors. SPDX-License-Identifier: MIT
 import { readFile, stat } from 'node:fs/promises';
@@ -76,6 +77,9 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     ? await import('../adapters/mutsea.js')
     : { publicWorlds: [] };
   const server = createEarthServer({
+    livingGateway: process.env.EARTH_LIVING_CONFIG
+      ? createLivingGateway(JSON.parse(await readFile(process.env.EARTH_LIVING_CONFIG,'utf8')))
+      : null,
     resourceResolver: process.env.EARTH_SPATIALDB_ENDPOINT
       ? createResourceGateway(process.env.EARTH_SPATIALDB_ENDPOINT)
       : null,
@@ -110,9 +114,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       });
       server.closeAllConnections();
     });
-  server.listen(18640, '127.0.0.1', () =>
+  const port = Number(process.env.EARTH_PORT || 18640);
+  if (!Number.isInteger(port) || port < 1024 || port > 65535) throw Error('Invalid local Earth port.');
+  server.listen(port, '127.0.0.1', () =>
     console.log(
-      `Finalverse Earth http://127.0.0.1:18640 | local AI ${flags.has('--ai') ? 'enabled' : 'off'} | MutSea ${flags.has('--mutsea') ? 'optional destinations' : 'off'}`,
+      `Finalverse Earth http://127.0.0.1:${port} | local AI ${flags.has('--ai') ? 'enabled' : 'off'} | MutSea ${flags.has('--mutsea') ? 'optional destinations' : 'off'}`,
     ),
   );
 }

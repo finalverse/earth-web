@@ -1,0 +1,64 @@
+.living-earth {
+  border: 1px solid var(--line, #344458);
+  border-radius: 14px;
+  padding: 16px;
+  margin: 0 0 18px;
+  background: var(--panel, #121d2b);
+}
+.living-earth h2 {
+  margin: 8px 0;
+  font-size: 1.45rem;
+}
+.living-connect {
+  display: block;
+  padding: 10px;
+  border: 1px dashed #6e90b8;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+.living-connect input {
+  display: block;
+  max-width: 100%;
+  margin-top: 8px;
+  font-size: 0.8rem;
+}
+.living-earth dl {
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+.living-earth dt {
+  color: var(--muted, #a3b4c9);
+  margin-top: 8px;
+}
+.living-earth dd {
+  margin: 2px 0;
+}
+.living-entry {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  background: #a9eedb;
+  color: #10232b;
+  border-radius: 9px;
+  text-decoration: none;
+  margin-top: 12px;
+  font-weight: 600;
+}
+.living-entry[aria-disabled='true'] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.living-earth details p {
+  white-space: pre-line;
+  font-size: 0.8rem;
+}
+/* A growing inspector must scroll beside the canvas, never enlarge its render target. */
+@media (min-width: 1101px) {
+  main {
+    grid-template-rows: minmax(0, 1fr);
+  }
+  main > aside,
+  #workspace {
+    min-height: 0;
+  }
+}

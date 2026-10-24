@@ -102,7 +102,7 @@
     "geographiclib-geodesic": "2.2.0",
     "mapillary-js": "^4.1.2",
     "polygon-clipping": "0.15.7",
-    "@finalverse/earth-core": "file:vendor/finalverse-earth-core-0.1.0.tgz",
+    "@finalverse/earth-core": "file:vendor/finalverse-earth-core-0.2.0.tgz",
     "@turf/boolean-contains": "7.4.0",
     "@turf/boolean-intersects": "7.4.0"
   },

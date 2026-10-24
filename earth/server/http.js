@@ -53,6 +53,7 @@ export function createEarthServer({
   applications = [],
   openapi = null,
   development = false,
+  livingGateway = null,
 }) {
   if (
     !!operatorCore !== !!operatorToken ||
@@ -182,6 +183,7 @@ export function createEarthServer({
           uptime_s: Math.floor(process.uptime()),
         });
       }
+      if (livingGateway && await livingGateway(req,res,url,send,controller.signal)) return;
       if (path.startsWith('/v1/')) {
         let activeCore = core;
         const now = Date.now(),

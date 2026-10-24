@@ -1,3 +1,4 @@
+import { installLivingEarth } from './living-earth.js';
 import { installCoreNavigation } from './navigation.js';
 import { installWorkspaces } from './workspaces.js';
 import { installEarthIdentity } from './identity.js';
@@ -181,7 +182,8 @@ try {
     container: $('globe'),
     creditContainer: $('credits'),
   });
-  const earthNavigation = installCoreNavigation({ viewer, status });
+  const livingEarth = installLivingEarth({ viewer, status });
+  const earthNavigation = installCoreNavigation({ viewer, status, geographic: livingEarth.explore });
   installEarthIdentity(viewer);
   installWorkspaces({
     viewer,

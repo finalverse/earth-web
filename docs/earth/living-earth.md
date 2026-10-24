@@ -1,0 +1,13 @@
+# Living Earth local integration
+
+This optional vertical slice renders the real, licensed Montréal SpatialDB Geo publication through the existing CesiumJS browser. It discovers the calibrated MutSea-O world, inspects geographic identity/provenance and produces an Earth Core 0.2.0 native handoff. It does not create a cloud account or share a native session.
+
+Set `EARTH_LIVING_CONFIG` to a private local JSON file containing schema `earth.living-config/v1`, `title`, `publication` (the exact Earth Core geographic publication pin), `spatialdb_endpoint` and `mutsea_endpoint`. `EARTH_PORT` selects a local port; the default product port remains unchanged. Build with `npm run earth:build`, run `npm run earth:test`, then `npm run earth:start` in the configured environment. Without this configuration the existing product remains usable and the geographic panel hides itself.
+
+The browser explicitly connects a publication read credential from a local file. It stays in memory, is not put in browser storage or URLs and is not forwarded to MutSea. The fixed-authority same-origin gateway verifies hashes, bounds reads/concurrency/time, enforces the caller's independent grant, forbids redirects and sends private responses with `no-store`. Cesium's asset `v` query is accepted only when it exactly equals the configured immutable publication version. CAS-relative dependency validation and the existing same-origin CSP prevent scene resources from sending inherited read headers elsewhere.
+
+Explore Montréal, click a rendered building and inspect its stable identity, estimated geometry status, source attribution and nearby native standing place. “Enter world in Finalverse” opens a credential-free native destination review. Browser automation may prohibit custom app links; a human click is required in that environment. The Viewer still uses normal configured-grid native authentication and checks the actual world binding after login.
+
+Return uses an `earth.navigation/v1` destination in `#earth_return`; no capability or session token crosses back. The browser restores the original geographic location and can require a fresh publication read grant. Publication access is periodically revalidated; denial, failed tiles or a disconnected grant retire the displayed geographic scene. An ordinary terrain/street click clears an older building handoff so it cannot be mistaken for the new selection.
+
+This is a research integration, not a public signup deployment. Full native composition, return and two-user UI evidence are recorded separately in `finalverse/docs/rd/living-earth/`. Tests for synthetic gateway failure responses are unit tests; the real delivery/provenance checks use the accepted Montréal publication.
