@@ -1,0 +1,354 @@
+{
+  "schema": "finalverse.network-browser-acceptance/v1",
+  "method": "Actual Chromium 156 in-app browser with DOM actions and screenshots; readiness measured from document navigation; warm local run",
+  "records": [
+    {
+      "step": "desktop_explore_select_audio",
+      "state": {
+        "schema": "finalverse.web-player-review/v1",
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          }
+        },
+        "status": "ready",
+        "geometry_ready": 139,
+        "first_geometry_ms": 638,
+        "all_geometry_ms": 1283,
+        "experience": "montreal-after-dark",
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea",
+        "manifest_schema": "finalverse.el/v1",
+        "renderer": "Cesium 1.138.0",
+        "source_entities": 139,
+        "selected_entity": {
+          "address": "usap://spatialdb/entity/0448039a-cd33-5938-a8d1-ff09b01a7b0c",
+          "authority": "spatialdb",
+          "entity_id": "0448039a-cd33-5938-a8d1-ff09b01a7b0c",
+          "entity_kind": "geographic"
+        },
+        "verified_assets": 143,
+        "verified_asset_bytes": 6660068,
+        "resources": {
+          "active_models": 139,
+          "object_urls": 139,
+          "audio_contexts": 1,
+          "audio_sources": 3,
+          "viewer_active": true,
+          "inflight_assets": 0
+        },
+        "metrics": {
+          "scope": "this tab only; no analytics transmission",
+          "counts": {
+            "preview_load_success": 1,
+            "experience_start": 1,
+            "audio_activation": 1,
+            "share_action": 0,
+            "open_from_share": 1,
+            "return_visit": 0
+          },
+          "first_meaningful_interaction_ms": 489,
+          "return_visit_measured": false
+        },
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ]
+      },
+      "provenance": "Building roof-outline proxy CARTO-BAT-TOIT:66541usap://spatialdb/entity/0448039a-cd33-5938-a8d1-ff09b01a7b0cSource identityCARTO-BAT-TOIT:66541Geometry qualityestimatedSource datasetmontreal-roofsProvenanceNAD83 SCRS / C-GVD28 (NMM); avril 2016; clipped planar roof extrusion, not surveyed full building; urban v0.1 procedural facade bays/roof material; not observed doors/windows/roof design"
+    },
+    {
+      "step": "share_version_and_validated_entity",
+      "url": "http://127.0.0.1:54447/x/montreal-after-dark/16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea?entity=0448039a-cd33-5938-a8d1-ff09b01a7b0c",
+      "state": {
+        "schema": "finalverse.web-player-review/v1",
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          }
+        },
+        "status": "ready",
+        "geometry_ready": 139,
+        "first_geometry_ms": 638,
+        "all_geometry_ms": 1283,
+        "experience": "montreal-after-dark",
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea",
+        "manifest_schema": "finalverse.el/v1",
+        "renderer": "Cesium 1.138.0",
+        "source_entities": 139,
+        "selected_entity": {
+          "address": "usap://spatialdb/entity/0448039a-cd33-5938-a8d1-ff09b01a7b0c",
+          "authority": "spatialdb",
+          "entity_id": "0448039a-cd33-5938-a8d1-ff09b01a7b0c",
+          "entity_kind": "geographic"
+        },
+        "verified_assets": 143,
+        "verified_asset_bytes": 6660068,
+        "resources": {
+          "active_models": 139,
+          "object_urls": 139,
+          "audio_contexts": 1,
+          "audio_sources": 3,
+          "viewer_active": true,
+          "inflight_assets": 0
+        },
+        "metrics": {
+          "scope": "this tab only; no analytics transmission",
+          "counts": {
+            "preview_load_success": 1,
+            "experience_start": 1,
+            "audio_activation": 1,
+            "share_action": 1,
+            "open_from_share": 1,
+            "return_visit": 0
+          },
+          "first_meaningful_interaction_ms": 489,
+          "return_visit_measured": false
+        },
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ]
+      }
+    },
+    {
+      "step": "anonymous_recipient_mobile_width",
+      "state": {
+        "schema": "finalverse.web-player-review/v1",
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        "status": "ready",
+        "geometry_ready": 139,
+        "first_geometry_ms": 402,
+        "all_geometry_ms": 1052,
+        "experience": "montreal-after-dark",
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea",
+        "manifest_schema": "finalverse.el/v1",
+        "renderer": "Cesium 1.138.0",
+        "source_entities": 139,
+        "selected_entity": {
+          "address": "usap://spatialdb/entity/0448039a-cd33-5938-a8d1-ff09b01a7b0c",
+          "authority": "spatialdb",
+          "entity_id": "0448039a-cd33-5938-a8d1-ff09b01a7b0c",
+          "entity_kind": "geographic"
+        },
+        "verified_assets": 140,
+        "verified_asset_bytes": 5507936,
+        "resources": {
+          "active_models": 139,
+          "object_urls": 139,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "viewer_active": true,
+          "inflight_assets": 0
+        },
+        "metrics": {
+          "scope": "this tab only; no analytics transmission",
+          "counts": {
+            "preview_load_success": 1,
+            "experience_start": 0,
+            "audio_activation": 0,
+            "share_action": 0,
+            "open_from_share": 1,
+            "return_visit": 0
+          },
+          "first_meaningful_interaction_ms": 300,
+          "return_visit_measured": false
+        },
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ]
+      }
+    },
+    {
+      "step": "canvas_pick",
+      "state": {
+        "schema": "finalverse.web-player-review/v1",
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        "status": "ready",
+        "geometry_ready": 139,
+        "first_geometry_ms": 402,
+        "all_geometry_ms": 1052,
+        "experience": "montreal-after-dark",
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea",
+        "manifest_schema": "finalverse.el/v1",
+        "renderer": "Cesium 1.138.0",
+        "source_entities": 139,
+        "selected_entity": {
+          "address": "usap://spatialdb/entity/500e9e1d-9014-516c-819a-8a735700c2db",
+          "authority": "spatialdb",
+          "entity_id": "500e9e1d-9014-516c-819a-8a735700c2db",
+          "entity_kind": "geographic"
+        },
+        "verified_assets": 140,
+        "verified_asset_bytes": 5507936,
+        "resources": {
+          "active_models": 139,
+          "object_urls": 139,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "viewer_active": true,
+          "inflight_assets": 0
+        },
+        "metrics": {
+          "scope": "this tab only; no analytics transmission",
+          "counts": {
+            "preview_load_success": 1,
+            "experience_start": 0,
+            "audio_activation": 0,
+            "share_action": 0,
+            "open_from_share": 1,
+            "return_visit": 0
+          },
+          "first_meaningful_interaction_ms": 300,
+          "return_visit_measured": false
+        },
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ]
+      }
+    },
+    {
+      "step": "recipient_cleanup",
+      "state": {
+        "schema": "finalverse.web-player-review/v1",
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        "status": "closed",
+        "geometry_ready": 139,
+        "first_geometry_ms": 402,
+        "all_geometry_ms": 1052,
+        "experience": "montreal-after-dark",
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea",
+        "manifest_schema": "finalverse.el/v1",
+        "renderer": "accessible entity list",
+        "source_entities": 139,
+        "selected_entity": {
+          "address": "usap://spatialdb/entity/500e9e1d-9014-516c-819a-8a735700c2db",
+          "authority": "spatialdb",
+          "entity_id": "500e9e1d-9014-516c-819a-8a735700c2db",
+          "entity_kind": "geographic"
+        },
+        "verified_assets": 0,
+        "verified_asset_bytes": 5507936,
+        "resources": {
+          "active_models": 0,
+          "object_urls": 0,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "viewer_active": false,
+          "inflight_assets": 0
+        },
+        "metrics": {
+          "scope": "this tab only; no analytics transmission",
+          "counts": {
+            "preview_load_success": 1,
+            "experience_start": 0,
+            "audio_activation": 0,
+            "share_action": 0,
+            "open_from_share": 1,
+            "return_visit": 0
+          },
+          "first_meaningful_interaction_ms": 300,
+          "return_visit_measured": false
+        },
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ]
+      }
+    },
+    {
+      "step": "desktop_cleanup",
+      "state": {
+        "schema": "finalverse.web-player-review/v1",
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        "status": "closed",
+        "geometry_ready": 139,
+        "first_geometry_ms": 638,
+        "all_geometry_ms": 1283,
+        "experience": "montreal-after-dark",
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea",
+        "manifest_schema": "finalverse.el/v1",
+        "renderer": "accessible entity list",
+        "source_entities": 139,
+        "selected_entity": {
+          "address": "usap://spatialdb/entity/c28cd08d-d7da-5184-ae3c-8e1cddc1f993",
+          "authority": "spatialdb",
+          "entity_id": "c28cd08d-d7da-5184-ae3c-8e1cddc1f993",
+          "entity_kind": "geographic"
+        },
+        "verified_assets": 0,
+        "verified_asset_bytes": 6660068,
+        "resources": {
+          "active_models": 0,
+          "object_urls": 0,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "viewer_active": false,
+          "inflight_assets": 0
+        },
+        "metrics": {
+          "scope": "this tab only; no analytics transmission",
+          "counts": {
+            "preview_load_success": 1,
+            "experience_start": 1,
+            "audio_activation": 1,
+            "share_action": 1,
+            "open_from_share": 1,
+            "return_visit": 0
+          },
+          "first_meaningful_interaction_ms": 489,
+          "return_visit_measured": false
+        },
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ]
+      }
+    }
+  ],
+  "console_errors": [],
+  "status": "PASS",
+  "core_implementation": "d12d5562de320088cbe1c12ff2bfa4c3024b4aab",
+  "web_implementation": "022e58305d51f00f30913a3c9822de7ba5ba37cf"
+}
