@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="Step into Montréal After Dark. A source-backed interactive experience, shared through Finalverse."
+    />
+    <title>Finalverse · Montréal After Dark</title>
+    <link rel="stylesheet" href="/cesium/Widgets/widgets.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/cesium/Cesium.js" defer></script>
+    <script type="module" src="/player.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/" aria-label="Finalverse experiences"
+        ><img src="/logo.svg" alt="Finalverse" width="150" height="28" /></a
+      ><span class="header-caption"
+        >EXPERIENCE NETWORK <i>LOCAL PREVIEW</i></span
+      ><button id="share" class="quiet" disabled>Share experience ↗</button>
+    </header>
+    <main id="landing" hidden>
+      <p class="eyebrow">A place to begin</p>
+      <h1>Share an experience.<br /><em>Open a world.</em></h1>
+      <p class="lead">
+        Places, music and stories you can step inside. Start with one authored
+        night in Montréal.
+      </p>
+      <section id="publications" aria-label="Published experiences"></section>
+      <p id="landing-status" role="status">Finding available experiences…</p>
+    </main>
+    <main id="experience" hidden>
+      <section class="intro" aria-labelledby="title">
+        <div>
+          <p class="eyebrow">
+            MONTRÉAL · OLD PORT <span id="version-badge">VERIFIED EDITION</span>
+          </p>
+          <h1 id="title">Opening an experience…</h1>
+          <p id="description" class="lead"></p>
+          <p id="byline"></p>
+        </div>
+        <button id="enter" class="primary" disabled>
+          Start exploring <span>↗</span>
+        </button>
+      </section>
+      <div class="experience-grid">
+        <section class="stage" aria-label="Interactive Montréal district">
+          <div
+            id="viewport"
+            tabindex="0"
+            aria-label="3D district. Drag to orbit, scroll to zoom. Use the entity list for accessible selection."
+          ></div>
+          <div id="scene-state" class="scene-state" role="status">
+            Loading the verified district…
+          </div>
+          <div class="scene-label">
+            <span class="live-dot"></span> An authored night · real source
+            geometry
+          </div>
+          <div class="stage-controls">
+            <button id="reset" disabled>Reset view</button
+            ><button id="focus" disabled>Focus selection</button
+            ><button id="close" class="quiet">Close preview</button>
+          </div>
+          <div class="stage-foot">
+            Drag to orbit · scroll to approach<br /><small
+              >Estimated city geometry. Lighting and music are authored.</small
+            >
+          </div>
+        </section>
+        <aside aria-label="Experience details">
+          <section class="sound-card">
+            <p class="eyebrow">THE SOUND OF THIS PLACE</p>
+            <h2>Make room for the city.</h2>
+            <p>
+              Original score, airy ambience and chimes. Press play when you’re
+              ready.
+            </p>
+            <button id="audio" class="audio-button" disabled>
+              ▶ Play original score</button
+            ><label class="volume"
+              >Volume
+              <input
+                id="volume"
+                aria-label="Audio volume"
+                type="range"
+                min="0"
+                max="70"
+                value="32"
+            /></label>
+            <p id="audio-state" class="muted" role="status">
+              Audio starts only with your permission.
+            </p>
+          </section>
+          <section class="inspect-card">
+            <p class="eyebrow">DISCOVER THE DISTRICT</p>
+            <label for="entity">Choose a place</label
+            ><select id="entity" disabled>
+              <option value="">Select a building, road or terrain</option>
+            </select>
+            <div id="selection" aria-live="polite">
+              <h2>A city with a source.</h2>
+              <p>
+                Select geometry in the scene or choose an entity to see its
+                identity and provenance.
+              </p>
+            </div>
+          </section>
+        </aside>
+      </div>
+      <section class="below">
+        <div>
+          <p class="eyebrow">WHAT YOU’RE EXPERIENCING</p>
+          <h2>A night in Montréal.<br /><em>Made to be explored.</em></h2>
+          <p>
+            This lightweight web edition preserves source identities and
+            attribution. Native world sessions, live environment queries and
+            full spatial audio remain available to capable clients.
+          </p>
+          <p id="capability-status" role="status"></p>
+        </div>
+        <details>
+          <summary>Attribution, rights & remix</summary>
+          <div id="attribution"></div>
+          <p id="remix"></p>
+          <p id="parent"></p>
+        </details>
+        <details>
+          <summary>Privacy & local diagnostics</summary>
+          <p>
+            No analytics requests, accounts, cookies or visitor identifiers.
+            Operational counters stay in this tab.
+          </p>
+          <label
+            ><input id="metrics-consent" type="checkbox" /> Remember one visit
+            bit on this device to measure a return visit.</label
+          ><button id="export">Export this tab’s review</button>
+          <pre id="diagnostics" tabindex="0"></pre>
+        </details>
+      </section>
+    </main>
+    <section id="error" class="error" role="alert" hidden>
+      <p class="eyebrow">THIS EXPERIENCE IS UNAVAILABLE</p>
+      <h1>Let’s find another way in.</h1>
+      <p id="error-message"></p>
+      <a href="/">Return to available experiences</a>
+    </section>
+    <div
+      id="share-panel"
+      class="share-panel"
+      hidden
+      role="dialog"
+      aria-labelledby="share-title"
+      aria-modal="true"
+    >
+      <h2 id="share-title">Share the experience.</h2>
+      <p>One immutable edition. No account or installation needed.</p>
+      <label for="share-link">Experience link</label
+      ><input id="share-link" readonly /><button id="copy" class="primary">
+        Copy link</button
+      ><button id="share-close">Done</button>
+      <p id="share-status" role="status"></p>
+    </div>
+    <footer>
+      <span>Imagine it. Create it. Experience it. Share it.</span
+      ><span>Finalverse · a local publishing foundation</span>
+    </footer>
+  </body>
+</html>
