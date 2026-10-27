@@ -10,7 +10,7 @@ import {
 } from '/protocol.mjs';
 const $ = (id) => document.getElementById(id);
 const lifetime = new AbortController(),
-  metrics = new LocalMetrics();
+  metrics = new LocalMetrics(() => performance.now(), 0);
 let publication,
   scene,
   viewer,

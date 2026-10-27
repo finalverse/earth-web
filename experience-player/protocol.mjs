@@ -245,9 +245,9 @@ export async function verifyAsset(asset, bytes, mime) {
   return bytes;
 }
 export class LocalMetrics {
-  constructor(clock = () => performance.now()) {
+  constructor(clock = () => performance.now(), started = clock()) {
     this.clock = clock;
-    this.started = clock();
+    this.started = started;
     this.counts = {
       preview_load_success: 0,
       experience_start: 0,
