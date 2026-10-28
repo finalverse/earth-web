@@ -15,7 +15,13 @@ if (cesium.version !== '1.138.0')
   );
 const out = path.join(here, 'dist');
 await mkdir(out, { recursive: true });
-for (const file of ['index.html', 'player.js', 'protocol.mjs', 'styles.css'])
+for (const file of [
+  'index.html',
+  'player.js',
+  'creator.js',
+  'protocol.mjs',
+  'styles.css',
+])
   await copyFile(path.join(here, file), path.join(out, file));
 await cp(path.join(deps, 'cesium/Build/Cesium'), path.join(out, 'cesium'), {
   recursive: true,

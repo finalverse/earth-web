@@ -1,3 +1,4 @@
+import { mountCreator } from '/creator.js';
 import {
   assert,
   parseEntry,
@@ -11,7 +12,14 @@ import {
 const $ = (id) => document.getElementById(id);
 const lifetime = new AbortController(),
   metrics = new LocalMetrics(() => performance.now(), 0);
-let publication,
+let creator,
+  activeDocument,
+  snowFrame,
+  snowActive = false,
+  frameProbe,
+  frameSamples = [],
+  authoredMarkers = [],
+  publication,
   scene,
   viewer,
   selected,
@@ -25,11 +33,16 @@ let publication,
   master,
   sources = [],
   audioGeneration = 0;
+const shaders = new Set();
 const cache = new Map(),
   urls = new Set(),
   models = new Map();
 const resources = {
   active_models: 0,
+  get animation_frames() {
+    return Number(snowFrame != null) + Number(frameProbe != null);
+  },
+  custom_shaders: 0,
   object_urls: 0,
   audio_contexts: 0,
   audio_sources: 0,
@@ -41,6 +54,14 @@ function notice(id, text) {
 }
 function diagnostics() {
   const value = {
+    creator: creator?.snapshot() || null,
+    authored: {
+      lighting: activeDocument?.lighting || 'after_dark',
+      atmosphere: activeDocument?.atmosphere || null,
+      markers: authoredMarkers.length,
+      snow_active: snowActive,
+    },
+    frame_performance: frameSummary(),
     schema: 'finalverse.web-player-review/v1',
     environment: {
       user_agent: navigator.userAgent,
@@ -225,12 +246,29 @@ function selectEntity(id, focus = false) {
   diagnostics();
 }
 function baseTint(entity) {
+  const festival = activeDocument?.lighting === 'festival',
+    daylight = activeDocument?.lighting === 'daylight';
+  if (entity.kind === 'building') {
+    const palettes = festival
+      ? ['#d4b899', '#b6bccb', '#c6ad9e', '#9bbac8', '#e0c8aa']
+      : daylight
+        ? ['#cebdad', '#b8c5c6', '#e0d2c1', '#aabbbd', '#c6aea3']
+        : ['#8996ae', '#a2989d', '#7898a3', '#b1aa9d'];
+    let n = 0;
+    for (const c of entity.entity.entity_id)
+      n = (n * 31 + c.charCodeAt(0)) >>> 0;
+    return Cesium.Color.fromCssColorString(palettes[n % palettes.length]);
+  }
   return Cesium.Color.fromCssColorString(
     entity.kind === 'building'
       ? '#8d9bbd'
       : entity.kind === 'road'
-        ? '#6d809c'
-        : '#678b90',
+        ? festival
+          ? '#54667a'
+          : '#46566b'
+        : festival
+          ? '#b7cad1'
+          : '#68848b',
   );
 }
 async function render() {
@@ -298,9 +336,10 @@ async function render() {
           forwardAxis: Cesium.Axis.X,
           allowPicking: true,
           lightColor: new Cesium.Cartesian3(0.7, 0.85, 1.2),
+          customShader: e.kind === 'building' ? facadeShader() : undefined,
           color: baseTint(e),
           colorBlendMode: Cesium.ColorBlendMode.MIX,
-          colorBlendAmount: 0.35,
+          colorBlendAmount: 0.5,
           imageBasedLighting: new Cesium.ImageBasedLighting({
             imageBasedLightingFactor: new Cesium.Cartesian2(0.45, 0),
           }),
@@ -341,6 +380,8 @@ async function render() {
   }
   await Promise.all(Array.from({ length: 6 }, worker));
   if (closed) return;
+  await applyDocument(activeDocument);
+  probeFrames();
   assert(
     modelCount > 0,
     '3D is unavailable; the accessible entity list remains usable.',
@@ -411,7 +452,8 @@ async function playAudio() {
   await context.resume();
   try {
     for (const layer of Object.values(
-      publication.content.package.manifest.audio.layers,
+      (activeDocument?.package || publication.content.package).manifest.audio
+        .layers,
     ).filter((l) => l.contexts.includes('earth'))) {
       const ref = publication.content.package.assets[layer.asset];
       const bytes = await asset(ref.sha256);
@@ -450,13 +492,20 @@ async function playAudio() {
 async function dispose(show = true) {
   if (closed) return;
   closed = true;
+  await creator?.dispose();
   lifetime.abort();
+  cancelAnimationFrame(frameProbe);
+  frameProbe = null;
   await stopAudio();
   if (viewer) {
     viewer._fenPickHandler?.destroy();
     viewer.destroy();
     viewer = null;
   }
+  for (const shader of shaders) if (!shader.isDestroyed()) shader.destroy();
+  shaders.clear();
+  resources.custom_shaders = 0;
+  authoredMarkers = [];
   models.clear();
   resources.active_models = 0;
   resources.viewer_active = false;
@@ -473,10 +522,12 @@ async function dispose(show = true) {
     );
   diagnostics();
 }
-async function share() {
-  const result = await getJson(
-    api('/link') + (selected ? '?entity=' + selected.entity.entity_id : ''),
-  );
+async function share(path) {
+  const result = path
+    ? { path }
+    : await getJson(
+        api('/link') + (selected ? '?entity=' + selected.entity.entity_id : ''),
+      );
   assert(result.path.startsWith('/x/'), 'Invalid share path');
   $('share-link').value = new URL(result.path, location.origin).href;
   $('share-panel').hidden = false;
@@ -506,7 +557,7 @@ function attribution() {
   notice(
     'remix',
     publication.content.remix_permission === 'with_attribution'
-      ? 'Remix permitted with attribution. This milestone preserves derivative metadata; a web remix editor is not included.'
+      ? 'Create your own authored version with the plan editor. Original attribution stays attached.'
       : 'The publisher has not granted remix permission.',
   );
   const parent = publication.content.parent;
@@ -528,13 +579,15 @@ async function openExperience() {
       entry.version,
   );
   publication = await validatePublication(record, entry);
+  activeDocument = publication.content.authored?.version.document || null;
   $('experience').hidden = false;
   notice('title', publication.content.title);
   notice('description', publication.content.description);
   notice(
     'byline',
-    'Created by ' +
-      publication.content.creator.creator +
+    (publication.content.authored
+      ? 'A Finalverse creation'
+      : 'Created by ' + publication.content.creator.creator) +
       ' · immutable edition ' +
       publication.version.slice(0, 8),
   );
@@ -577,8 +630,17 @@ async function openExperience() {
   }
   notice(
     'capability-status',
-    'Web edition: explore, select, provenance and consented audio. World sessions, live Terra queries and native renderer/spatial audio capabilities are unavailable here.',
+    'An interactive web edition. Lighting and snow are authored; city forms are source backed and may be estimated. Native world sessions and live weather are unavailable.',
   );
+  creator = mountCreator({
+    base: () => ({
+      experience: publication.content.experience,
+      version: publication.version,
+    }),
+    apply: applyDocument,
+    share,
+    diagnostics,
+  });
   metrics.event('preview_load_success');
   metrics.meaningful();
   diagnostics();
@@ -610,6 +672,199 @@ async function landing() {
       ? 'Public editions · original attribution included'
       : 'No public experiences are available yet.',
   );
+}
+// Fixed host-authored material: decorative windows, never surveyed facades.
+function facadeShader() {
+  const shader = new Cesium.CustomShader({
+    uniforms: {
+      u_festival: {
+        type: Cesium.UniformType.FLOAT,
+        value: activeDocument?.lighting === 'festival' ? 1 : 0,
+      },
+    },
+    fragmentShaderText: `
+  void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material) {
+    vec3 p = fsInput.attributes.positionMC;
+    vec3 n = normalize(cross(dFdx(p), dFdy(p)));
+    float wall = 1.0 - smoothstep(0.35,0.8,abs(n.y));
+    float horizontal = abs(n.x)>abs(n.z) ? p.z : p.x;
+    vec2 cell = fract(vec2(horizontal / 4.0, p.y / 3.6));
+    float windowMask=step(.28,cell.x)*step(cell.x,.65)*step(.25,cell.y)*step(cell.y,.7)*wall;
+    float occupied=step(.32,fract(sin(floor(horizontal/4.0)*12.9898+floor(p.y/3.6)*78.233)*43758.5453));
+    material.diffuse *= 1.0 - .28*windowMask;
+    material.roughness=.82;
+    material.emissive += vec3(1.0,.56,.22)*windowMask*occupied*(.12+.85*u_festival);
+  }`,
+  });
+  shaders.add(shader);
+  resources.custom_shaders = shaders.size;
+  return shader;
+}
+function frameSummary() {
+  if (!frameSamples.length) return { samples: 0 };
+  const sorted = [...frameSamples].sort((a, b) => a - b),
+    mean = frameSamples.reduce((a, b) => a + b, 0) / frameSamples.length;
+  return {
+    samples: sorted.length,
+    mean_interval_ms: mean,
+    p95_interval_ms: sorted[Math.floor((sorted.length - 1) * 0.95)],
+    approximate_fps: 1000 / mean,
+    scope:
+      'requestAnimationFrame intervals during active preview; local browser, not GPU timing',
+  };
+}
+function probeFrames() {
+  cancelAnimationFrame(frameProbe);
+  frameSamples = [];
+  let last;
+  function step(t) {
+    if (closed) return;
+    if (last !== undefined) frameSamples.push(t - last);
+    last = t;
+    if (frameSamples.length < 180) frameProbe = requestAnimationFrame(step);
+    else {
+      frameProbe = null;
+      diagnostics();
+    }
+  }
+  frameProbe = requestAnimationFrame(step);
+}
+function snow(enabled) {
+  cancelAnimationFrame(snowFrame);
+  snowFrame = null;
+  snowActive = enabled && !closed;
+  const canvas = $('snow'),
+    ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (!snowActive) return;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const particles = Array.from({ length: 90 }, (_, i) => ({
+    x: (i * 0.61803398875) % 1,
+    y: (i * 0.381966) % 1,
+    r: 1 + (i % 3) * 0.6,
+  }));
+  let last = performance.now();
+  function step(t) {
+    if (!snowActive || closed) return;
+    const dt = Math.min(50, t - last) / 1000;
+    last = t;
+    const w = canvas.clientWidth,
+      h = canvas.clientHeight;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width = w;
+      canvas.height = h;
+    }
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(235,245,255,.78)';
+    for (const p of particles) {
+      if (!reduced) {
+        p.y = (p.y + dt * (0.025 + p.r * 0.012)) % 1;
+        p.x = (p.x + dt * 0.008) % 1;
+      }
+      ctx.beginPath();
+      ctx.arc(p.x * w, p.y * h, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    if (!reduced) snowFrame = requestAnimationFrame(step);
+  }
+  step(performance.now());
+}
+async function applyDocument(document) {
+  await stopAudio();
+  activeDocument =
+    document || publication?.content.authored?.version.document || null;
+  const isDraft =
+    document && document !== publication?.content.authored?.version.document;
+  notice(
+    'version-badge',
+    isDraft
+      ? 'PRIVATE DRAFT PREVIEW'
+      : publication?.content.authored
+        ? 'SHARED CREATION'
+        : 'VERIFIED EDITION',
+  );
+  notice(
+    'byline',
+    isDraft
+      ? 'Your private draft · based on Montréal After Dark'
+      : (publication.content.authored
+          ? 'A Finalverse creation'
+          : 'Created by ' + publication.content.creator.creator) +
+          ' · edition ' +
+          publication.version.slice(0, 8),
+  );
+  notice(
+    'description',
+    activeDocument?.description || publication.content.description,
+  );
+  const d = activeDocument,
+    festival = d?.lighting === 'festival',
+    daylight = d?.lighting === 'daylight';
+  snow(d?.atmosphere === 'snow');
+  notice(
+    'title',
+    d?.package.manifest.experience.presentation.title ||
+      publication?.content.title ||
+      'Montréal After Dark',
+  );
+  notice(
+    'authored-label',
+    d?.atmosphere === 'snow'
+      ? 'Winter festival · authored snow, light & facades'
+      : daylight
+        ? 'Authored daylight · source-backed city'
+        : 'An authored night · source-backed city',
+  );
+  if (!viewer) return;
+  for (const e of authoredMarkers) viewer.entities.remove(e);
+  authoredMarkers = [];
+  viewer.scene.backgroundColor = Cesium.Color.fromCssColorString(
+    festival ? '#263c55' : daylight ? '#768e9f' : '#152536',
+  );
+  viewer.scene.light.color = Cesium.Color.fromCssColorString(
+    daylight ? '#fff3de' : '#ffd1a1',
+  );
+  viewer.scene.light.intensity = daylight ? 2.4 : festival ? 2.0 : 1.2;
+  const canvas = $('viewport').querySelector('canvas');
+  if (canvas)
+    canvas.style.filter =
+      'brightness(' + (d?.exposure_milli || 1600) / 1700 + ') saturate(1.08)';
+  for (const e of scene.entities) {
+    const model = models.get(e.entity.entity_id);
+    if (model) {
+      model.color = baseTint(e);
+      model.lightColor = new Cesium.Cartesian3(
+        daylight ? 1.3 : 1.05,
+        festival ? 1.05 : 0.9,
+        festival ? 0.85 : 1.15,
+      );
+    }
+  }
+  if (selected && models.has(selected.entity.entity_id))
+    models.get(selected.entity.entity_id).color =
+      Cesium.Color.fromCssColorString('#ffd0a0');
+  for (const o of Object.values(d?.objects || {})) {
+    const position = Cesium.Matrix4.multiplyByPoint(
+      eusMatrix(),
+      Cesium.Cartesian3.fromArray(o.transform.position_mm.map((x) => x / 1000)),
+      new Cesium.Cartesian3(),
+    );
+    authoredMarkers.push(
+      viewer.entities.add({
+        position,
+        ellipsoid: {
+          radii: new Cesium.Cartesian3(2.5, 2.5, 2.5),
+          material: Cesium.Color.fromCssColorString('#ffd992').withAlpha(0.9),
+        },
+      }),
+    );
+  }
+  for (const shader of shaders)
+    shader.setUniform('u_festival', festival ? 1 : 0);
+  viewer.scene.requestRender();
+  probeFrames();
+  diagnostics();
+  await new Promise((resolve) => requestAnimationFrame(resolve));
 }
 const on = (id, event, fn) =>
   $(id).addEventListener(event, fn, { signal: lifetime.signal });

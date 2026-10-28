@@ -19,12 +19,12 @@
       <a class="brand" href="/" aria-label="Finalverse experiences"
         ><img src="/logo.svg" alt="Finalverse" width="150" height="28" /></a
       ><span class="header-caption"
-        >EXPERIENCE NETWORK <i>LOCAL PREVIEW</i></span
+        >IMAGINE SOMETHING NEW <i>LOCAL PREVIEW</i></span
       ><button id="share" class="quiet" disabled>Share experience ↗</button>
     </header>
     <main id="landing" hidden>
       <p class="eyebrow">A place to begin</p>
-      <h1>Share an experience.<br /><em>Open a world.</em></h1>
+      <h1>Explore a world.<br /><em>Make it yours.</em></h1>
       <p class="lead">
         Places, music and stories you can step inside. Start with one authored
         night in Montréal.
@@ -56,9 +56,13 @@
           <div id="scene-state" class="scene-state" role="status">
             Loading the verified district…
           </div>
+          <canvas id="snow" aria-hidden="true"></canvas>
+          <div class="atmosphere-depth" aria-hidden="true"></div>
           <div class="scene-label">
-            <span class="live-dot"></span> An authored night · real source
-            geometry
+            <span class="live-dot"></span>
+            <span id="authored-label"
+              >An authored night · real source geometry</span
+            >
           </div>
           <div class="stage-controls">
             <button id="reset" disabled>Reset view</button
@@ -71,13 +75,84 @@
             >
           </div>
         </section>
-        <aside aria-label="Experience details">
+        <aside aria-label="Create your experience">
+          <section class="creator-card">
+            <p class="eyebrow">IMAGINE IT. MAKE IT YOURS.</p>
+            <h2>What would you like<br /><em>to experience here?</em></h2>
+            <div class="ideas" aria-label="Creation ideas">
+              <button id="winter-idea">❄ Winter festival</button
+              ><button id="quiet-idea">Quiet evening</button
+              ><button id="daylight-idea">Daylight</button>
+            </div>
+            <label for="intention" class="sr-only"
+              >Describe your experience</label
+            >
+            <textarea
+              id="intention"
+              maxlength="2048"
+              rows="4"
+              placeholder="Warm lights, gently falling snow, a little music…"
+            >
+Turn this neighborhood into a beautiful winter festival with warm street lighting, falling snow and atmospheric music.</textarea>
+            <details class="creator-access">
+              <summary>Local creator access</summary>
+              <label for="creator-token">Publisher credential</label
+              ><input
+                type="password"
+                id="creator-token"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="Stays in this tab"
+              /><label for="provider">Idea provider</label
+              ><select id="provider">
+                <option value="fixture">Offline deterministic ideas</option>
+                <option value="configured">Host-configured model</option>
+              </select>
+              <p>
+                No credential is saved or shared. Configured models receive your
+                prompt only when selected.
+              </p>
+            </details>
+            <button id="generate" class="primary">
+              Create a plan <span>✦</span>
+            </button>
+            <p id="creator-status" role="status">
+              An idea becomes a preview. You decide what to keep.
+            </p>
+            <section
+              id="proposal-panel"
+              hidden
+              aria-label="Review your proposal"
+            >
+              <h3 id="proposal-title"></h3>
+              <ul id="change-list"></ul>
+              <div class="creator-actions">
+                <button id="preview-draft" class="primary">
+                  Preview changes</button
+                ><button id="compare-draft">Compare original</button
+                ><button id="approve-draft" class="primary">
+                  Approve this plan</button
+                ><button id="save-draft">Save version</button
+                ><button id="publish-draft" class="primary">
+                  Publish &amp; share</button
+                ><button id="reject-draft">Reject draft</button
+                ><button id="revert-draft">Restore original version</button>
+              </div>
+              <details>
+                <summary>Changes, limits &amp; approval</summary>
+                <p id="affected-resources"></p>
+                <p id="creator-limits"></p>
+                <p>Approval is bound to this exact plan:</p>
+                <code id="proposal-hash"></code>
+              </details>
+            </section>
+          </section>
           <section class="sound-card">
             <p class="eyebrow">THE SOUND OF THIS PLACE</p>
             <h2>Make room for the city.</h2>
             <p>
               Original score, airy ambience and chimes. Press play when you’re
-              ready.
+              ready. A preview never starts audio automatically.
             </p>
             <button id="audio" class="audio-button" disabled>
               ▶ Play original score</button
@@ -95,7 +170,8 @@
               Audio starts only with your permission.
             </p>
           </section>
-          <section class="inspect-card">
+          <details class="inspect-card">
+            <summary>Explore places &amp; source details</summary>
             <p class="eyebrow">DISCOVER THE DISTRICT</p>
             <label for="entity">Choose a place</label
             ><select id="entity" disabled>
@@ -108,7 +184,7 @@
                 identity and provenance.
               </p>
             </div>
-          </section>
+          </details>
         </aside>
       </div>
       <section class="below">
@@ -156,7 +232,7 @@
       aria-labelledby="share-title"
       aria-modal="true"
     >
-      <h2 id="share-title">Share the experience.</h2>
+      <h2 id="share-title">Your world. Someone’s next adventure.</h2>
       <p>One immutable edition. No account or installation needed.</p>
       <label for="share-link">Experience link</label
       ><input id="share-link" readonly /><button id="copy" class="primary">

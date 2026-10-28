@@ -630,3 +630,227 @@ footer {
 .stage-foot {
   bottom: 2.2rem;
 }
+/* M4-B: a creative studio with the place itself at the centre. */
+body {
+  background: #0b141b;
+}
+.experience-grid {
+  grid-template-columns: minmax(0, 1fr) 340px;
+  align-items: start;
+}
+.stage {
+  height: 720px;
+  position: sticky;
+  top: 16px;
+  border-color: #52616e;
+  background: radial-gradient(ellipse at 50% 40%, #4b6170, #0f1c2a);
+}
+.stage canvas {
+  filter: none;
+}
+#viewport canvas {
+  transition: filter 0.6s;
+}
+.creator-card {
+  background: linear-gradient(155deg, #253836, #17272e 70%);
+  border: 1px solid #536c68;
+  border-radius: 14px;
+  padding: 1.35rem;
+}
+.creator-card h2 {
+  font-size: 1.65rem;
+  line-height: 1.18;
+}
+.creator-card em {
+  color: #ebc69d;
+}
+.ideas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 1.2rem 0 0.8rem;
+}
+.ideas button {
+  border-radius: 99px;
+  font-size: 0.65rem;
+  padding: 0.45rem 0.65rem;
+  background: #14262d;
+  border-color: #55716b;
+}
+textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 104px;
+  background: #0d1d24;
+  color: #edf1ec;
+  border: 1px solid #5b7676;
+  border-radius: 9px;
+  padding: 0.9rem;
+  font: inherit;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+textarea:focus-visible {
+  outline: 2px solid #a0dac9;
+  outline-offset: 3px;
+}
+.creator-card .primary {
+  width: 100%;
+  margin-top: 0.85rem;
+  font-size: 0.84rem;
+}
+.creator-card p {
+  color: #c0d0cc;
+  font-size: 0.74rem;
+  margin-top: 0.7rem;
+}
+.creator-card details {
+  font-size: 0.72rem;
+  margin-top: 0.85rem;
+}
+.creator-card summary {
+  cursor: pointer;
+  color: #cbd4cc;
+}
+.creator-access label {
+  display: block;
+  margin-top: 0.7rem;
+  font-size: 0.72rem;
+}
+.creator-access input,
+.creator-access select {
+  width: 100%;
+  padding: 0.55rem;
+  margin-top: 0.4rem;
+  background: #102129;
+  color: #ebefec;
+  border: 1px solid #607776;
+  border-radius: 6px;
+  font: inherit;
+}
+.creator-card h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.6rem;
+}
+#proposal-panel {
+  border-top: 1px solid #526760;
+  margin-top: 1.2rem;
+  padding-top: 0.5rem;
+}
+#change-list {
+  padding-left: 1rem;
+  line-height: 1.65;
+  font-size: 0.73rem;
+  color: #d3ded9;
+}
+.creator-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.creator-actions button {
+  font-size: 0.72rem;
+  padding: 0.55rem 0.7rem;
+}
+.creator-actions .primary {
+  margin-top: 0;
+}
+.creator-card code {
+  font-size: 0.6rem;
+  overflow-wrap: anywhere;
+  display: block;
+  margin-top: 0.6rem;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.sound-card {
+  padding: 1rem 1.3rem;
+  background: #15252d;
+}
+.sound-card h2 {
+  font-size: 1.2rem;
+}
+.inspect-card {
+  min-height: 0;
+  flex: initial;
+  padding: 1rem 1.3rem;
+  font-size: 0.75rem;
+}
+.inspect-card summary {
+  cursor: pointer;
+}
+.inspect-card .eyebrow {
+  margin-top: 1rem;
+}
+#snow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.atmosphere-depth {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    transparent 30%,
+    #0c1b3660 100%
+  );
+}
+.scene-label,
+.scene-state,
+.stage-controls,
+.stage-foot {
+  z-index: 2;
+}
+.scene-label {
+  max-width: calc(100% - 2rem);
+}
+.scene-state {
+  font-size: 0.65rem;
+  opacity: 0.85;
+}
+#creator-status {
+  min-height: 2.7rem;
+}
+.below {
+  margin-top: 2.5rem;
+}
+@media (max-width: 1050px) {
+  .experience-grid {
+    grid-template-columns: minmax(0, 1fr) 310px;
+    gap: 1rem;
+  }
+}
+@media (max-width: 760px) {
+  .experience-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  .stage {
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 58vh;
+    min-height: 400px;
+  }
+  aside {
+    display: flex;
+    width: 100%;
+  }
+  .creator-card {
+    order: -1;
+  }
+  .intro h1 {
+    font-size: 2.5rem;
+  }
+}

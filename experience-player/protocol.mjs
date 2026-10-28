@@ -106,6 +106,7 @@ export async function validatePublication(record, entry) {
     'package',
     'assets',
     'fallback',
+    ...(c.authored ? ['authored'] : []),
   ]);
   assert(
     c.schema_version === 'finalverse.publication-content/v1' &&
@@ -187,6 +188,51 @@ export async function validatePublication(record, entry) {
         canonical(c.assets[a.sha256].provenance) == canonical([a.provenance]),
       'Audio provenance differs',
     );
+  if (c.authored) {
+    const a = c.authored,
+      v = a.version;
+    keys(a, ['proposal', 'version']);
+    assert(
+      c.parent &&
+        v.schema_version === 'finalverse.experience-version/v1' &&
+        v.document.schema_version === 'finalverse.authored-experience/v1',
+      'Unsupported authored edition',
+    );
+    assert(
+      (await hashValue(a.proposal)) === v.proposal_hash &&
+        (await hashValue([
+          v.schema_version,
+          v.parent,
+          v.proposal_hash,
+          v.creation_provenance,
+          v.document,
+        ])) === v.version_hash,
+      'Authored proposal or version changed',
+    );
+    assert(
+      canonical(v.document.package) === canonical(c.package) &&
+        v.document.description === c.description,
+      'Authored package differs',
+    );
+    assert(
+      ['after_dark', 'festival', 'daylight'].includes(v.document.lighting) &&
+        v.document.exposure_milli >= 500 &&
+        v.document.exposure_milli <= 2400 &&
+        (!v.document.atmosphere || v.document.atmosphere === 'snow'),
+      'Unsupported authored presentation',
+    );
+    assert(
+      Object.keys(v.document.objects).length <= 2 &&
+        Object.values(v.document.objects).every(
+          (o) =>
+            o.asset === 'finalverse.m2-festival-light/v1' &&
+            o.anchor === c.package.manifest.spatial.root_sha256 &&
+            o.transform.position_mm.length === 3 &&
+            o.transform.position_mm.every(Number.isSafeInteger),
+        ),
+      'Unapproved visual object',
+    );
+  }
   return p;
 }
 export async function readBounded(response, max) {
