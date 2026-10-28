@@ -19,9 +19,36 @@
       <a class="brand" href="/" aria-label="Finalverse experiences"
         ><img src="/logo.svg" alt="Finalverse" width="150" height="28" /></a
       ><span class="header-caption"
-        >THE EXPERIENCE IS YOURS <i>LOCAL STUDIO</i></span
+        >IMAGINE IT. EXPERIENCE IT. <i>LOCAL PREVIEW</i></span
       ><button id="share" class="quiet" disabled>Share experience ↗</button>
     </header>
+    <section
+      id="guest-share-review"
+      class="guest-share-review"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="guest-share-title"
+      hidden
+    >
+      <div>
+        <p class="eyebrow">PASS THE MOMENT ON</p>
+        <h2 id="guest-share-title">Share your experience?</h2>
+        <p>
+          This creates a temporary, unlisted link. Anyone with it can explore
+          and make an attributed remix. It expires within one hour or if this
+          service restarts.
+        </p>
+        <label
+          ><input id="guest-confirm" type="checkbox" /> I approve this exact
+          preview and agree to this temporary sharing.</label
+        >
+        <div class="creator-actions">
+          <button id="guest-share-submit" class="primary" disabled>
+            Save &amp; create temporary link</button
+          ><button id="guest-share-close">Keep it personal</button>
+        </div>
+      </div>
+    </section>
     <main id="landing" hidden>
       <p class="eyebrow">A place to begin</p>
       <h1>Explore a world.<br /><em>Make it yours.</em></h1>
@@ -46,6 +73,31 @@
           Start exploring <span>↗</span>
         </button>
       </section>
+      <section class="discovery" aria-labelledby="discovery-title">
+        <div class="discovery-heading">
+          <div>
+            <p class="eyebrow">SIX WAYS TO FEEL THIS PLACE</p>
+            <h2 id="discovery-title">Your city. Your kind of moment.</h2>
+          </div>
+          <p id="recommendation-note">Finding compatible experiences…</p>
+        </div>
+        <div
+          id="templates"
+          class="template-gallery"
+          aria-label="Recommended experiences"
+        ></div>
+        <p class="gallery-caption">
+          Authored style previews · original source geometry stays unchanged
+        </p>
+        <details class="advanced-discovery">
+          <summary>Or imagine something new…</summary>
+          <p>
+            Optional local publisher tools. Guest AI personalization is
+            available through Make It Mine.
+          </p>
+          <button id="toggle-creator">Open advanced creator</button>
+        </details>
+      </section>
       <div class="experience-grid">
         <section class="stage" aria-label="Interactive Montréal district">
           <div
@@ -69,7 +121,9 @@
             ><button id="view-lantern">Lantern lane</button
             ><button id="view-roofs">Rooftops</button
             ><button id="guide">Start guided views</button
-            ><button id="toggle-creator">Hide creator</button>
+            ><label class="motion-toggle"
+              ><input id="still-views" type="checkbox" />Still views</label
+            >
           </nav>
           <div
             id="waypoint-controls"
@@ -95,7 +149,7 @@
             >
           </div>
         </section>
-        <aside aria-label="Create your experience">
+        <aside hidden aria-label="Advanced creator controls">
           <section class="creator-card">
             <p class="eyebrow">IMAGINE IT. MAKE IT YOURS.</p>
             <h2>What would you like<br /><em>to experience here?</em></h2>
@@ -193,6 +247,79 @@ Make this district feel like a magical winter evening, with warm architectural h
           </section>
         </aside>
       </div>
+      <section class="moment-bar" aria-label="Your experience">
+        <div>
+          <p class="eyebrow">EXPERIENCE IT. MAKE IT YOURS.</p>
+          <h2 id="moment-name">A place to begin</h2>
+          <p id="moment-note">
+            Explore the source-backed city. Choose a moment above to make it
+            yours.
+          </p>
+        </div>
+        <nav aria-label="Personal experience actions">
+          <button id="guest-explore">Explore ↗</button
+          ><button id="make-mine" class="primary" disabled>Make It Mine</button
+          ><button id="guest-share" disabled>Share ↗</button>
+        </nav>
+      </section>
+      <p id="guest-status" class="guest-status" role="status">
+        Choose a moment. No prompt, account or AI setup needed.
+      </p>
+      <section
+        id="personalize"
+        class="personalize"
+        hidden
+        aria-labelledby="personalize-title"
+      >
+        <div>
+          <p class="eyebrow">A LITTLE MORE YOU</p>
+          <h2 id="personalize-title">Change the feeling in a tap.</h2>
+          <p>
+            Instant controls use approved settings. Your city stays intact.
+            Audio waits for Play.
+          </p>
+        </div>
+        <div
+          id="quick-actions"
+          class="quick-actions"
+          aria-label="Quick personalization"
+        ></div>
+        <div class="personal-save">
+          <button id="guest-save" class="primary" disabled>
+            Save personal version
+          </button>
+          <p id="guest-saved">
+            Save authorizes this exact preview for your temporary guest session.
+          </p>
+        </div>
+        <details class="optional-ai">
+          <summary>Or imagine something new with local AI…</summary>
+          <p id="guest-model-status">Checking optional local AI…</p>
+          <label for="guest-intention">What would you change?</label
+          ><textarea
+            id="guest-intention"
+            rows="2"
+            maxlength="2048"
+            placeholder="Turn this into a futuristic night, keeping the buildings unchanged."
+          ></textarea
+          ><label id="guest-ai-consent-label" hidden
+            ><input id="guest-ai-consent" type="checkbox" /> Send my intention,
+            selected template and bounded public context to the local AI shown
+            above.</label
+          ><button id="guest-ai" disabled>Personalize with local AI</button>
+          <p>
+            AI can adjust approved presentation, music mix and city stops.
+            Floating buildings, world commands and new recordings are
+            unavailable.
+          </p>
+        </details>
+        <button id="guest-cancel" hidden>Cancel personal planning</button>
+        <p class="retention-note">
+          No account required. Drafts last 30 minutes. Guest links last at most
+          one hour or until this local service restarts. Anyone with the link
+          may view and make an attributed remix.
+        </p>
+      </section>
       <section class="tools-row">
         <section class="sound-card">
           <p class="eyebrow">THE SOUND OF THIS PLACE</p>
@@ -253,7 +380,8 @@ Make this district feel like a magical winter evening, with warm architectural h
         <details>
           <summary>Privacy & local diagnostics</summary>
           <p>
-            No analytics requests, accounts, cookies or visitor identifiers.
+            No analytics transmission or cookies. A temporary guest credential
+            stays in this tab; service quotas use anonymous session counters.
             Operational counters stay in this tab.
           </p>
           <label
@@ -287,7 +415,7 @@ Make this district feel like a magical winter evening, with warm architectural h
       <p id="share-status" role="status"></p>
     </div>
     <footer>
-      <span>Imagine it. Create it. Experience it. Share it.</span
+      <span>Imagine it. Experience it. Make it yours. Share it.</span
       ><span>Finalverse · a local publishing foundation</span>
     </footer>
   </body>

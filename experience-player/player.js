@@ -6,6 +6,8 @@ import {
   MATERIAL_SHADER,
 } from '/presentation.mjs';
 import { mountCreator } from '/creator.js';
+import { mountGuest } from '/guest.js';
+import { validateEdition } from '/smart-protocol.mjs';
 import {
   assert,
   parseEntry,
@@ -17,14 +19,18 @@ import {
   hashValue,
 } from '/protocol.mjs';
 const $ = (id) => document.getElementById(id);
+const reducedMotion = () =>
+  matchMedia('(prefers-reduced-motion: reduce)').matches ||
+  !!$('still-views')?.checked;
 const lifetime = new AbortController(),
   metrics = new LocalMetrics(() => performance.now(), 0);
+let guest, guestEdition, guestShareToken, guestTemplatePin, activeComposition;
 let renderCounter = 0,
   renderStarted,
   sceneInitializationMs = null,
   guideTimer,
   guideIndex = 0,
-  quality = 'balanced',
+  quality = innerWidth < 700 ? 'low' : 'balanced',
   renderCpuStart,
   renderCpuSamples = [],
   rendererRemovers = [],
@@ -81,6 +87,15 @@ function notice(id, text) {
 function diagnostics() {
   const value = {
     creator: creator?.snapshot() || null,
+    smart_experience: guest?.snapshot() || null,
+    guest_edition: guestEdition
+      ? {
+          version: guestEdition.version,
+          template: guestEdition.content.template.id,
+          expires_at: guestEdition.content.expires_at,
+          lineage: guestEdition.content.lineage,
+        }
+      : null,
     authored: {
       lighting: activeDocument?.lighting || 'after_dark',
       visual: activeDocument?.visual || null,
@@ -153,6 +168,8 @@ async function getJson(url) {
   );
 }
 function api(suffix = '') {
+  if (guestShareToken)
+    return '/api/v1/guest-shares/' + guestShareToken + suffix;
   return (
     '/api/v1/experiences/' +
     encodeURIComponent(publication.content.experience) +
@@ -255,7 +272,7 @@ function reset(view = 'district', animated = false) {
     new Cesium.Cartesian3(),
   );
   const options = { destination: world, orientation: { direction, up } };
-  if (animated && !matchMedia('(prefers-reduced-motion: reduce)').matches)
+  if (animated && !reducedMotion())
     viewer.camera.flyTo({ ...options, duration: 2.3 });
   else viewer.camera.setView(options);
   viewer.scene.requestRender();
@@ -573,6 +590,7 @@ async function dispose(show = true) {
   for (const remove of rendererRemovers) remove();
   rendererRemovers = [];
   await creator?.dispose();
+  guest?.dispose();
   lifetime.abort();
   cancelAnimationFrame(frameProbe);
   frameProbe = null;
@@ -619,10 +637,13 @@ async function dispose(show = true) {
 async function share(path) {
   const result = path
     ? { path }
-    : await getJson(
-        api('/link') + (selected ? '?entity=' + selected.entity.entity_id : ''),
-      );
-  assert(result.path.startsWith('/x/'), 'Invalid share path');
+    : guestShareToken
+      ? { path: '/g/' + guestShareToken }
+      : await getJson(
+          api('/link') +
+            (selected ? '?entity=' + selected.entity.entity_id : ''),
+        );
+  assert(/^\/(x\/|g\/[a-f0-9]{64}$)/.test(result.path), 'Invalid share path');
   $('share-link').value = new URL(result.path, location.origin).href;
   $('share-panel').hidden = false;
   $('share-link').focus();
@@ -651,22 +672,56 @@ function attribution() {
   notice(
     'remix',
     publication.content.remix_permission === 'with_attribution'
-      ? 'Create your own authored version with the plan editor. Original attribution stays attached.'
+      ? 'Choose Make Your Own to create a temporary attributed remix. Publishing does not grant template extraction rights.'
       : 'The publisher has not granted remix permission.',
   );
   const parent = publication.content.parent;
-  if (parent) {
+  if (parent && !guestShareToken) {
     const a = el('a', 'View parent edition');
     a.href =
       '/x/' + encodeURIComponent(parent.experience) + '/' + parent.version;
     $('parent').append(a);
   } else
-    notice('parent', 'Original reference edition · no parent publication.');
+    notice(
+      'parent',
+      guestEdition
+        ? 'Temporary remix lineage: ' +
+            guestEdition.content.lineage
+              .map((p) => p.version.slice(0, 12))
+              .join(' → ')
+        : 'Original reference edition · no parent publication.',
+    );
 }
-async function openExperience() {
-  const entry = parseEntry(location.href);
+async function openExperience(override) {
+  let entry = override;
+  let record;
+  if (location.pathname.startsWith('/g/')) {
+    guestShareToken = location.pathname.slice(3);
+    assert(/^[a-f0-9]{64}$/.test(guestShareToken), 'Invalid temporary link');
+    const opened = await validateEdition(
+      await getJson('/api/v1/guest-shares/' + guestShareToken),
+    );
+    guestEdition = opened.edition;
+    record = guestEdition.content.publication;
+    guestTemplatePin = {
+      id: guestEdition.content.template.id,
+      version: guestEdition.content.template.version,
+      digest: await hashValue(guestEdition.content.template),
+    };
+    activeComposition = {
+      ...guestEdition.content.composition,
+      template_id: guestEdition.content.template.id,
+    };
+    entry = {
+      id: opened.publication.content.experience,
+      version: opened.publication.version,
+    };
+  } else {
+    entry ??= parseEntry(location.href);
+  }
+
   metrics.event('open_from_share');
-  const record = await getJson(
+  record ??= await getJson(
     '/api/v1/experiences/' +
       encodeURIComponent(entry.id) +
       '/versions/' +
@@ -735,6 +790,59 @@ async function openExperience() {
     share,
     diagnostics,
   });
+  guest = mountGuest({
+    edition: guestEdition,
+    templatePin: () => guestTemplatePin,
+    spatial: () => publication.content.package.manifest.spatial,
+    source: () =>
+      guestShareToken
+        ? { kind: 'guest_share', token: guestShareToken }
+        : {
+            kind: 'publication',
+            reference: {
+              experience: publication.content.experience,
+              version: publication.version,
+            },
+          },
+    apply: async (document, composition, frame) => {
+      stopGuide();
+      activeComposition = composition;
+      quality = composition.quality;
+      $('quality').value = quality;
+      await applyDocument(document);
+      if (frame) reset(composition.camera, true);
+    },
+    applySource: async () => {
+      stopGuide();
+      activeComposition = guestEdition
+        ? {
+            ...guestEdition.content.composition,
+            template_id: guestEdition.content.template.id,
+          }
+        : null;
+      await applyDocument(null);
+    },
+    explore: () => {
+      $('viewport').scrollIntoView({
+        block: 'center',
+        behavior: reducedMotion() ? 'instant' : 'smooth',
+      });
+      $('viewport').focus();
+      metrics.event('experience_start');
+    },
+    stopGuide,
+    share,
+    diagnostics,
+  });
+  if (guestEdition) {
+    notice('version-badge', 'TEMPORARY SHARED MOMENT');
+    notice(
+      'byline',
+      'A guest creation · ' +
+        new Date(guestEdition.content.expires_at * 1000).toLocaleTimeString() +
+        ' expiry · source attribution retained',
+    );
+  }
   metrics.event('preview_load_success');
   metrics.meaningful();
   diagnostics();
@@ -748,6 +856,14 @@ async function openExperience() {
 async function landing() {
   $('landing').hidden = false;
   const records = await getJson('/api/v1/publications');
+  const original = records.find((r) => !r.publication.content.parent);
+  if (original) {
+    $('landing').hidden = true;
+    return openExperience({
+      id: original.publication.content.experience,
+      version: original.publication.version,
+    });
+  }
   for (const r of records) {
     const p = await validatePublication(r);
     const a = el('a', '', 'publication-card');
@@ -844,7 +960,7 @@ function guide() {
     stopGuide();
     return;
   }
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (reducedMotion()) {
     notice('scene-state', 'Reduced motion: choose a static viewpoint.');
     return;
   }
@@ -853,7 +969,11 @@ function guide() {
   const step = () => {
     if (closed || !viewer) return;
     reset(views[guideIndex++], true);
-    if (guideIndex < views.length) guideTimer = setTimeout(step, 5000);
+    if (guideIndex < views.length)
+      guideTimer = setTimeout(
+        step,
+        (activeComposition?.guided_interval_seconds || 5) * 1000,
+      );
     else {
       guideTimer = null;
       notice('guide', 'Start guided views');
@@ -863,6 +983,7 @@ function guide() {
   step();
 }
 function setQuality() {
+  $('quality').value = quality;
   if (!viewer) return;
   const q = QUALITY[quality];
   viewer.resolutionScale = q.scale;
@@ -917,7 +1038,7 @@ function snow(enabled) {
     ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if (!snowActive) return;
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduced = reducedMotion();
   const particles = Array.from(
     {
       length: Math.round(
@@ -973,17 +1094,24 @@ async function applyDocument(document, keepAudio = false) {
     'version-badge',
     isDraft
       ? 'PRIVATE DRAFT PREVIEW'
-      : publication?.content.authored
-        ? 'SHARED CREATION'
-        : 'VERIFIED EDITION',
+      : guestEdition
+        ? 'TEMPORARY SHARED MOMENT'
+        : publication?.content.authored
+          ? 'SHARED CREATION'
+          : 'VERIFIED EDITION',
   );
   notice(
     'byline',
     isDraft
       ? 'Your private draft · based on Montréal After Dark'
-      : (publication.content.authored
-          ? 'A Finalverse creation'
-          : 'Created by ' + publication.content.creator.creator) +
+      : (guestEdition
+          ? 'A temporary guest creation · expires ' +
+            new Date(
+              guestEdition.content.expires_at * 1000,
+            ).toLocaleTimeString()
+          : publication.content.authored
+            ? 'A Finalverse creation'
+            : 'Created by ' + publication.content.creator.creator) +
           ' · edition ' +
           publication.version.slice(0, 8),
   );
@@ -1003,11 +1131,14 @@ async function applyDocument(document, keepAudio = false) {
   );
   notice(
     'authored-label',
-    d?.atmosphere === 'snow'
-      ? 'Winter festival · authored snow, light & facades'
-      : daylight
-        ? 'Authored daylight · source-backed city'
-        : 'An authored night · source-backed city',
+    activeComposition?.template_id
+      ? (activeDocument?.package.manifest.experience.presentation.title ||
+          'Shared moment') + ' · authored atmosphere'
+      : d?.atmosphere === 'snow'
+        ? 'Winter festival · authored snow, light & facades'
+        : daylight
+          ? 'Authored daylight · source-backed city'
+          : 'An authored night · source-backed city',
   );
   if (!viewer || closed) {
     if (viewer) for (const e of authoredMarkers) viewer.entities.remove(e);
@@ -1024,10 +1155,22 @@ async function applyDocument(document, keepAudio = false) {
   viewer.scene.light.color = Cesium.Color.fromCssColorString(
     daylight ? '#ffead3' : '#ffe0b0',
   );
-  viewer.scene.light.intensity = daylight ? 2.1 : 1.25;
+  viewer.scene.light.intensity = daylight
+    ? 1.65
+    : activeComposition?.template_id === 'jazz-night'
+      ? 0.85
+      : activeComposition?.template_id === 'quiet-montreal'
+        ? 0.72
+        : 1.25;
+  if (daylight && activeComposition)
+    viewer.scene.light.color = Cesium.Color.fromCssColorString('#ffb969');
   viewer.scene.light.direction = Cesium.Matrix4.multiplyByPointAsVector(
     eusMatrix(),
-    new Cesium.Cartesian3(-0.5, -1, -0.4),
+    new Cesium.Cartesian3(
+      -0.5,
+      daylight && activeComposition ? -0.18 : -1,
+      -0.4,
+    ),
     new Cesium.Cartesian3(),
   );
   viewer.scene.postProcessStages.exposure = (d?.exposure_milli || 1100) / 1000;
@@ -1064,7 +1207,7 @@ async function applyDocument(document, keepAudio = false) {
     );
   }
   const lampPositions = [];
-  if (d?.visual) {
+  if (d?.visual && activeComposition?.street_lights !== false) {
     const roads = scene.entities
       .filter((e) => e.kind === 'road')
       .map((e) => {
@@ -1186,6 +1329,10 @@ for (const [id, key] of [
     reset(key, true);
   });
 on('guide', 'click', guide);
+on('still-views', 'change', () => {
+  stopGuide();
+  void applyDocument(activeDocument, true);
+});
 on('intention', 'input', stopGuide);
 on('refinement', 'input', stopGuide);
 on('toggle-creator', 'click', () => {
@@ -1214,7 +1361,10 @@ on('volume', 'input', () => {
 });
 on('close', 'click', () => void dispose());
 on('share', 'click', () =>
-  share().catch((e) => notice('scene-state', e.message)),
+  (async () => {
+    if (guest?.hasDraft()) guest.requestShare();
+    else await share();
+  })().catch((e) => notice('scene-state', e.message)),
 );
 on('share-close', 'click', () => {
   $('share-panel').hidden = true;

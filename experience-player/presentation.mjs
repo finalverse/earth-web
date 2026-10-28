@@ -49,9 +49,15 @@ void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material) {
  stone*=1.0-.15*courses*wall;
  vec3 roofColor=mix(stone*.52,vec3(.55,.66,.76),u_snow*.8);
  vec3 base=mix(stone,roofColor,roof);
- vec2 cell=fract(vec2(side/3.8,p.y/3.5));
+ float buildingSeed=fract(sin(u_palette.r*133.0+u_palette.g*37.0+u_palette.b*59.0)*43758.5453);
+ float bayWidth=mix(3.1,5.7,buildingSeed);
+ float floorHeight=mix(3.0,4.4,fract(buildingSeed*7.0));
+ vec2 cell=fract(vec2(side/bayWidth,p.y/floorHeight));
  float windowMask=step(.24,cell.x)*step(cell.x,.65)*step(.27,cell.y)*step(cell.y,.7)*wall;
- float occupied=step(.46,fract(sin(floor(side/3.8)*12.9898+floor(p.y/3.5)*78.233)*43758.5453));
+ float blockBand=step(.91,fract(side/(bayWidth*5.0)+buildingSeed));
+ float occupied=step(.48+buildingSeed*.18,fract(sin(floor(side/bayWidth)*12.9898+floor(p.y/floorHeight)*78.233+buildingSeed*31.0)*43758.5453));
+ windowMask*=1.0-blockBand;
+ base*=1.0-.065*blockBand*wall;
  base=mix(base,vec3(.025,.06,.095),windowMask*.78);
  vec3 amber=mix(vec3(.45,.65,1.0),vec3(1.0,.52,.14),u_warmth);
  vec3 glow=amber*windowMask*occupied*u_glow*1.35;

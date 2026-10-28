@@ -1174,3 +1174,560 @@ textarea:focus-visible {
     bottom: 7.5rem;
   }
 }
+/* M5 discovery: authored graphic previews, with the live source city as the canvas. */
+.discovery {
+  margin: 1.2rem 0 1.4rem;
+}
+.discovery-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.discovery-heading h2 {
+  font-size: 1.65rem;
+  margin: 0.3rem 0 0.8rem;
+}
+.discovery-heading > p {
+  max-width: 26rem;
+  font-size: 0.78rem;
+  color: #a1b5bb;
+}
+.template-gallery {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+.smart-card {
+  position: relative;
+  min-width: 0;
+  border: 1px solid #34424e;
+  border-radius: 14px;
+  padding: 0.65rem;
+  background: #121e26;
+  overflow: hidden;
+  transition:
+    border-color 0.16s,
+    transform 0.16s;
+}
+.smart-card:has([aria-pressed='true']) {
+  border-color: #f1bc89;
+  background: #1d2830;
+  box-shadow: 0 0 0 1px #f1bc89;
+}
+.smart-card h3 {
+  font-size: 0.95rem;
+  margin: 0.65rem 0 0.4rem;
+  letter-spacing: -0.02em;
+  min-height: 2.1em;
+}
+.smart-card > p {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #a9b8be;
+  margin: 0 0 0.6rem;
+  min-height: 4.5em;
+}
+.smart-card > button {
+  width: 100%;
+  font-size: 0.75rem;
+  padding: 0.6rem 0.3rem;
+  border-radius: 8px;
+  background: #22313b;
+  color: #fae1c3;
+  border-color: #4d5d66;
+}
+.template-art {
+  height: 64px;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(120deg, #10243a, #665c76);
+  display: flex;
+  align-items: end;
+  gap: 4px;
+  padding: 0 7px;
+}
+.template-art span {
+  position: relative;
+  width: 16%;
+  height: 65%;
+  background: linear-gradient(90deg, #202933, #52606b);
+  border-top: 1px solid #8697a8;
+  box-shadow: 2px 0 0 #141c25;
+}
+.template-art span:nth-child(2n) {
+  height: 40%;
+}
+.template-art span:nth-child(3n) {
+  height: 85%;
+}
+.template-art span:after {
+  content: '';
+  position: absolute;
+  inset: 7px 3px 3px;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 6px,
+    #ffd998 7px 9px
+  );
+  opacity: 0.65;
+}
+.winter-wonderland .template-art {
+  background:
+    radial-gradient(circle at 25% 20%, #fff 0 1px, transparent 2px),
+    radial-gradient(circle at 65% 40%, #fff 0 1px, transparent 2px),
+    linear-gradient(125deg, #263c5c, #63718e);
+  background-size:
+    21px 27px,
+    37px 33px,
+    100% 100%;
+}
+.winter-wonderland .template-art span {
+  border-top: 3px solid #c2d1e1;
+}
+.cyberpunk-montreal .template-art {
+  background: linear-gradient(120deg, #061d38, #431146);
+}
+.cyberpunk-montreal .template-art span {
+  border-left: 2px solid #2ae1ed;
+  border-right: 1px solid #cf55de;
+  box-shadow: 2px 0 7px #951f81;
+}
+.cyberpunk-montreal .template-art span:after {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 5px,
+    #62f1ef 6px 7px
+  );
+}
+.golden-hour .template-art {
+  background:
+    radial-gradient(circle at 72% 30%, #ffefb5, transparent 25%),
+    linear-gradient(125deg, #e3a067, #745e86);
+}
+.golden-hour .template-art span {
+  background: linear-gradient(90deg, #73636a, #c18a64);
+  border-color: #ffd59a;
+}
+.jazz-night .template-art {
+  background:
+    radial-gradient(ellipse at 25% 0, #af7b38, transparent 65%), #15212a;
+}
+.jazz-night .template-art span:after {
+  opacity: 0.35;
+}
+.festival-of-lights .template-art {
+  background:
+    radial-gradient(circle at 35% 20%, #e8b85f, transparent 35%),
+    linear-gradient(120deg, #202944, #5c3e54);
+}
+.festival-of-lights .template-art span:after {
+  opacity: 1;
+  box-shadow: 0 0 8px #f7d482;
+}
+.quiet-montreal .template-art {
+  background: linear-gradient(125deg, #647780, #a2917d);
+}
+.quiet-montreal .template-art span:after {
+  opacity: 0.14;
+}
+.gallery-caption {
+  font-size: 0.7rem;
+  color: #82969f;
+  margin: 0.6rem 0 0;
+}
+.moment-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.25rem 0 0.6rem;
+}
+.moment-bar h2 {
+  font-size: 1.7rem;
+  margin: 0.2rem 0;
+}
+.moment-bar p:not(.eyebrow) {
+  color: #abbac0;
+  font-size: 0.85rem;
+  max-width: 44rem;
+  margin: 0.4rem 0;
+}
+.moment-bar nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+.guest-status {
+  color: #e6bb91;
+  font-size: 0.86rem;
+  margin: 0.5rem 0 1.3rem;
+  min-height: 1.4rem;
+}
+.personalize {
+  padding: 1.5rem;
+  background: linear-gradient(120deg, #1c2a30, #111c25);
+  border: 1px solid #40515b;
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
+}
+.personalize h2 {
+  margin: 0.3rem 0;
+  font-size: 1.6rem;
+}
+.personalize p {
+  color: #b1c0c5;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+.quick-actions button {
+  background: #29383e;
+  border-radius: 30px;
+}
+.personal-save {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.optional-ai {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #40515b;
+}
+.optional-ai textarea {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0;
+  resize: vertical;
+  background: #101b22;
+  color: #edf1f2;
+  border: 1px solid #677b87;
+  border-radius: 10px;
+  padding: 0.8rem;
+  font: inherit;
+}
+.optional-ai label {
+  display: block;
+  font-size: 0.82rem;
+  margin: 0.6rem 0;
+  line-height: 1.6;
+}
+.optional-ai input {
+  width: auto;
+  margin-right: 0.5rem;
+}
+.retention-note {
+  font-size: 0.75rem !important;
+  color: #90a5af !important;
+}
+.guest-share-review {
+  position: fixed;
+  inset: 0;
+  background: #050b13cf;
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+.guest-share-review > div {
+  max-width: 34rem;
+  border: 1px solid #68767b;
+  background: #15232b;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 25px 100px #0009;
+}
+.guest-share-review h2 {
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+}
+.guest-share-review p,
+.guest-share-review label {
+  line-height: 1.7;
+  color: #c9d4d7;
+}
+.guest-share-review label {
+  display: block;
+  margin: 1rem 0;
+}
+.guest-share-review input {
+  width: auto;
+  margin-right: 0.5rem;
+}
+.experience-grid > .stage {
+  height: 64vh;
+  min-height: 470px;
+}
+.intro {
+  padding-top: 1.2rem;
+  padding-bottom: 0.2rem;
+}
+.intro h1 {
+  font-size: clamp(2rem, 3.2vw, 3.5rem);
+}
+.intro .lead {
+  max-width: 60rem;
+  font-size: 0.94rem;
+}
+.intro #enter {
+  display: none;
+}
+.sound-card > p:not(.eyebrow) {
+  display: block;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #a5b7c1;
+}
+@media (max-width: 1100px) {
+  .template-gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .smart-card h3 {
+    min-height: 0;
+  }
+  .smart-card > p {
+    min-height: 3em;
+  }
+  .template-art {
+    height: 54px;
+  }
+  .moment-bar {
+    align-items: start;
+    gap: 1rem;
+  }
+  .moment-bar nav {
+    flex-wrap: wrap;
+    justify-content: end;
+  }
+}
+@media (max-width: 650px) {
+  .template-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+  .smart-card {
+    padding: 0.6rem;
+  }
+  .smart-card h3 {
+    font-size: 0.87rem;
+    min-height: 2.1em;
+  }
+  .smart-card > p {
+    font-size: 0.72rem;
+    min-height: 4.5em;
+  }
+  .template-art {
+    height: 45px;
+  }
+  .discovery-heading {
+    display: block;
+  }
+  .discovery-heading > p {
+    font-size: 0.72rem;
+  }
+  .discovery-heading h2 {
+    font-size: 1.4rem;
+  }
+  .discovery {
+    margin-top: 0.8rem;
+  }
+  .moment-bar {
+    display: block;
+  }
+  .moment-bar h2 {
+    font-size: 1.6rem;
+  }
+  .moment-bar nav {
+    justify-content: start;
+    margin-top: 1rem;
+  }
+  .moment-bar nav button {
+    font-size: 0.8rem;
+    padding: 0.75rem 0.8rem;
+  }
+  .personalize {
+    padding: 1rem;
+  }
+  .personalize h2 {
+    font-size: 1.4rem;
+  }
+  .quick-actions button {
+    font-size: 0.8rem;
+  }
+  .personal-save {
+    display: block;
+  }
+  .experience-grid > .stage {
+    height: 64vh;
+    min-height: 490px;
+  }
+  .intro h1 {
+    font-size: 2rem;
+  }
+  .intro .lead {
+    font-size: 0.87rem;
+  }
+  .guest-share-review > div {
+    padding: 1.2rem;
+  }
+  .guest-share-review h2 {
+    font-size: 1.6rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .smart-card {
+    transition: none;
+  }
+  .atmosphere-depth {
+    animation: none;
+  }
+}
+@media (min-width: 1051px) {
+  #experience {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 350px;
+    column-gap: 1.2rem;
+    align-items: start;
+  }
+  #experience > * {
+    grid-column: 1/-1;
+  }
+  #experience > .experience-grid {
+    grid-column: 1;
+    grid-row: 2;
+    min-width: 0;
+  }
+  #experience > .discovery {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0;
+    min-width: 0;
+  }
+  .discovery-heading {
+    display: block;
+  }
+  .discovery-heading h2 {
+    font-size: 1.3rem;
+    margin: 0.3rem 0 0.5rem;
+  }
+  .discovery-heading > p {
+    font-size: 0.68rem;
+    margin: 0.3rem 0 0.8rem;
+    line-height: 1.5;
+  }
+  .discovery .template-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+  .discovery .template-art {
+    height: 30px;
+  }
+  .discovery .smart-card {
+    padding: 0.55rem;
+  }
+  .discovery .smart-card h3 {
+    font-size: 0.8rem;
+    min-height: 0;
+    margin: 0.45rem 0 0.3rem;
+  }
+  .discovery .smart-card > p {
+    font-size: 0.69rem;
+    line-height: 1.4;
+    min-height: 0;
+    margin: 0 0 0.4rem;
+  }
+  .discovery .smart-card > button {
+    font-size: 0.69rem;
+    padding: 0.45rem 0.2rem;
+  }
+  .experience-grid > .stage {
+    height: 64vh;
+    min-height: 510px;
+  }
+}
+@media (max-width: 650px) {
+  .template-gallery {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    grid-auto-columns: 160px;
+    overflow-x: auto;
+    padding: 0.15rem 0.1rem 0.6rem;
+    scroll-snap-type: x proximity;
+    max-width: 100%;
+  }
+  .smart-card {
+    scroll-snap-align: start;
+  }
+  .smart-card h3 {
+    min-height: 0;
+  }
+  .smart-card > p {
+    min-height: 4.2em;
+  }
+  .template-art {
+    height: 38px;
+  }
+}
+.motion-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  pointer-events: auto;
+  font-size: 0.72rem;
+  background: #14212ae8;
+  border: 1px solid #5b6a73;
+  border-radius: 24px;
+  padding: 0.4rem 0.7rem;
+  color: #d4dfe2;
+}
+.motion-toggle input {
+  width: auto;
+  margin: 0;
+}
+/* M5 keeps the advanced editor below the scene; controls use the full stage. */
+.experience-grid > aside {
+  position: relative;
+  right: auto;
+  top: auto;
+  width: auto;
+  max-height: none;
+  margin-top: 1rem;
+}
+.viewpoints,
+.waypoint-controls {
+  max-width: calc(100% - 2.4rem);
+}
+.waypoint-controls {
+  top: 4.5rem;
+}
+@media (max-width: 760px) {
+  .viewpoints,
+  .waypoint-controls {
+    max-width: calc(100% - 2rem);
+  }
+  .waypoint-controls {
+    top: 6.3rem;
+  }
+}
+.advanced-discovery {
+  margin-top: 0.6rem;
+  font-size: 0.72rem;
+  color: #9bb0b9;
+}
+.advanced-discovery p {
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.advanced-discovery button {
+  font-size: 0.72rem;
+}

@@ -19,6 +19,8 @@ for (const file of [
   'index.html',
   'player.js',
   'creator.js',
+  'guest.js',
+  'smart-protocol.mjs',
   'presentation.mjs',
   'protocol.mjs',
   'styles.css',
