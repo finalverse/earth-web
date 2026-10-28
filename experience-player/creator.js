@@ -6,15 +6,21 @@ export function mountCreator(host) {
     busy = false,
     comparison = false,
     disposed = false,
-    generation = 0;
+    currentRequest = null,
+    providerStatus;
   const timing = {},
     events = [],
     controller = new AbortController();
   const snapshot = () => ({
     state: draft?.state || 'idle',
+    draft_active: !!draft,
     proposal_hash: draft?.proposal_hash || null,
-    draft_active: Boolean(draft),
     saved_version: draft?.saved_version || null,
+    revision_index: draft?.revision_index || 0,
+    revision_count: draft?.draft_revisions?.length || 0,
+    steps: draft?.proposal.steps?.length || 0,
+    provider: draft?.provider || null,
+    pending_request: currentRequest !== null,
     timing_ms: { ...timing },
     events: [...events],
   });
@@ -22,59 +28,73 @@ export function mountCreator(host) {
     $('creator-status').textContent = text;
     host.diagnostics();
   };
-  async function post(path, data, keepalive = false) {
-    const response = await fetch('/api/v1/creator/' + path, {
-      method: 'POST',
+  async function request(path, data, method = 'POST', keepalive = false) {
+    const r = await fetch('/api/v1/creator/' + path, {
+      method,
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + token,
       },
-      body: JSON.stringify(data),
+      ...(data === undefined ? {} : { body: JSON.stringify(data) }),
       credentials: 'omit',
       cache: 'no-store',
       ...(keepalive ? { keepalive: true } : { signal: controller.signal }),
     });
     const value = JSON.parse(
       new TextDecoder().decode(
-        await readBounded(response, MAX_DOCUMENT).catch(async (e) => {
-          if (!response.ok)
-            throw new Error(
-              'Creation was refused. Check local access and the proposal.',
-            );
-          throw e;
-        }),
+        await readBounded({ ok: true, body: r.body }, MAX_DOCUMENT),
       ),
     );
-    assert(!value.code, value.message || 'Creation refused');
+    assert(
+      r.ok && !value.code,
+      (value.code ? value.code.replaceAll('_', ' ') + ': ' : '') +
+        (value.message || 'Creation request failed'),
+    );
     return value;
   }
+  const action = (name, extra = {}) => {
+    assert(draft, 'Create a plan first');
+    return request(draft.draft_id + '/' + name, {
+      proposal_hash: draft.proposal_hash,
+      ...extra,
+    });
+  };
   function controls() {
-    const saved = Boolean(draft?.saved_version),
-      active = Boolean(draft);
     for (const id of [
       'generate',
-      'provider',
       'intention',
+      'provider',
       'winter-idea',
       'quiet-idea',
       'daylight-idea',
+      'check-provider',
     ])
       $(id).disabled = busy || disposed;
-    $('proposal-panel').hidden = !active;
+    $('cancel-generation').hidden = !currentRequest || disposed;
+    $('proposal-panel').hidden = !draft;
+    const saved = !!draft?.saved_version,
+      active = !!draft;
     $('preview-draft').hidden = saved || draft?.state === 'approved';
+    $('preview-draft').disabled = busy || !active;
     $('approve-draft').hidden = draft?.state !== 'preview';
+    $('approve-draft').disabled = busy || comparison;
     $('save-draft').hidden = draft?.state !== 'approved';
+    $('save-draft').disabled = busy;
     $('publish-draft').hidden = !saved;
-    $('compare-draft').hidden = draft?.state === 'ready';
-    $('preview-draft').disabled = busy || !active || saved;
-    $('approve-draft').disabled =
-      busy || draft?.state !== 'preview' || comparison;
-    $('save-draft').disabled = busy || draft?.state !== 'approved';
-    $('publish-draft').disabled = busy || !saved || draft?.state === 'reverted';
-    $('compare-draft').disabled = busy || !active;
+    $('publish-draft').disabled = busy || draft?.state === 'reverted';
+    $('compare-draft').hidden = !active;
+    $('compare-draft').disabled = busy;
     $('reject-draft').disabled = busy || !active;
     $('revert-draft').hidden = !saved;
     $('revert-draft').disabled = busy || draft?.state === 'reverted';
+    $('refine-draft').disabled = busy || !active || saved;
+    $('refinement').disabled = busy || saved;
+    $('undo-draft').hidden = !active || !draft?.revision_index;
+    $('undo-draft').disabled = busy || saved;
+    $('restore-draft').hidden =
+      !active ||
+      draft?.revision_index === (draft?.draft_revisions?.length || 1) - 1;
+    $('restore-draft').disabled = busy || saved;
   }
   async function run(fn) {
     if (busy || disposed) return;
@@ -85,106 +105,221 @@ export function mountCreator(host) {
     } catch (e) {
       if (!disposed) state(e.message);
     } finally {
+      currentRequest = null;
       busy = false;
       controls();
       host.diagnostics();
     }
   }
-  async function action(name, extra = {}) {
-    assert(draft, 'Generate a proposal first');
-    return post(draft.draft_id + '/' + name, {
-      proposal_hash: draft.proposal_hash,
-      ...extra,
-    });
+  function credential() {
+    token = $('creator-token').value.trim();
+    assert(
+      token.length >= 32,
+      'Open Local creator access and enter your publisher credential. It stays in this tab.',
+    );
   }
-  async function closeDraft(name = 'cancel') {
-    if (draft) {
-      await action(name);
-      events.push(name);
+  async function inspect(probe = false) {
+    credential();
+    const v = await request(
+      'providers' + (probe ? '?probe=1' : ''),
+      undefined,
+      'GET',
+    );
+    providerStatus = v.status || v;
+    $('provider-status').textContent = providerStatus.configured
+      ? `${providerStatus.provider} · ${providerStatus.model} · ${providerStatus.destination}\n${providerStatus.context}${v.models ? '\nAvailable: ' + v.models.join(', ') : ''}`
+      : 'No model configured. Offline ideas remain available; no model fallback is implied.';
+    $('remote-confirm-label').hidden =
+      !providerStatus.configured || providerStatus.local;
+    return providerStatus;
+  }
+  async function planning(path, data) {
+    credential();
+    if ($('provider').value === 'model') {
+      const p = await inspect();
+      assert(
+        p.configured,
+        'No model configured. Choose offline ideas explicitly or configure a model.',
+      );
+      assert(
+        p.local || $('remote-confirm').checked,
+        'Review and confirm the displayed remote destination and context.',
+      );
     }
-    draft = null;
-    comparison = false;
-    await host.apply(null);
+    const id = crypto.randomUUID();
+    currentRequest = id;
     controls();
+    state('Understanding your idea · planning permitted changes…');
+    const v = await request(path, {
+      ...data,
+      provider: $('provider').value,
+      request_id: id,
+      allow_remote: $('remote-confirm').checked,
+    });
+    if (disposed || currentRequest !== id) {
+      if (v.draft_id)
+        await request(
+          v.draft_id + '/cancel',
+          { proposal_hash: v.proposal_hash },
+          'POST',
+          true,
+        ).catch(() => {});
+      throw new Error('Planning cancelled.');
+    }
+    assert(
+      (await hashValue(v.proposal)) === v.proposal_hash,
+      'Proposal integrity check failed',
+    );
+    return v;
+  }
+  function display() {
+    $('proposal-title').textContent =
+      draft.candidate.package.manifest.experience.presentation.title;
+    $('proposal-provider').textContent = draft.provider?.real_inference
+      ? `${draft.provider.served_model} · model generated`
+      : 'Offline creative ideas · deterministic';
+    $('change-list').replaceChildren(
+      ...draft.proposal.modifications
+        .filter((m) =>
+          [
+            'lighting',
+            'visual',
+            'atmosphere',
+            'audio_parameters',
+            'waypoint',
+          ].includes(m.operation),
+        )
+        .map((m) => {
+          const li = document.createElement('li');
+          li.textContent = describe(m);
+          return li;
+        }),
+    );
+    $('ordered-plan').replaceChildren(
+      ...(draft.proposal.steps || []).map((step) => {
+        const p = document.createElement('p');
+        p.textContent =
+          step.id +
+          ' · ' +
+          step.operation +
+          ' · ' +
+          step.required_permission +
+          ' · reversible';
+        return p;
+      }),
+    );
+    $('affected-resources').textContent = draft.affected_resources.join(' · ');
+    $('creator-limits').textContent =
+      'Original city forms and attribution stay fixed. Materials, seasonal effects and points of interest are authored. World commands, live weather and new recordings are unavailable.';
+    $('proposal-hash').textContent = draft.proposal_hash;
+  }
+  async function preview() {
+    const start = performance.now();
+    draft = await action('preview');
+    comparison = false;
+    await host.apply(draft.candidate);
+    timing.preview_activation = performance.now() - start;
+    $('compare-draft').textContent = 'Compare original';
+    display();
+    events.push('preview');
+    state(
+      'Ready for review · preview only. Approve this exact plan to keep it.',
+    );
   }
   const on = (id, event, fn) =>
     $(id).addEventListener(event, fn, { signal: controller.signal });
-  const ideas = {
+  for (const [id, prompt] of Object.entries({
     'winter-idea':
-      'Turn this neighborhood into a beautiful winter festival with warm street lighting, falling snow and atmospheric music.',
+      'Make this district feel like a magical winter evening with warm architectural highlights, gentle snow and a quiet original score.',
     'quiet-idea':
-      'Make a quiet, warm evening with softer music and gentle lighting.',
-    'daylight-idea': 'Show this neighborhood in daylight with quiet music.',
-  };
-  for (const [id, prompt] of Object.entries(ideas))
+      'Create a quiet, warm, historical-inspired walking experience with softer music and gentle haze.',
+    'daylight-idea':
+      'Create a cinematic sunrise with warm architectural highlights and no snow.',
+  }))
     on(id, 'click', () => {
       $('intention').value = prompt;
       $('intention').focus();
     });
   on(
+    'check-provider',
+    'click',
+    () =>
+      void run(async () => {
+        await inspect(true);
+        state('Model availability checked. No creative inference was sent.');
+      }),
+  );
+  on('provider', 'change', () => {
+    if ($('provider').value === 'model') void run(() => inspect());
+    else
+      state('Offline creative ideas selected. No model request will be sent.');
+  });
+  on(
     'generate',
     'click',
     () =>
       void run(async () => {
-        token = $('creator-token').value.trim();
-        assert(
-          token.length >= 32,
-          'Open Local creator access and enter your publisher credential. It stays in this tab.',
-        );
-        if (draft) await closeDraft();
-        const start = performance.now(),
-          current = ++generation;
-        state('Turning your idea into a validated plan…');
-        const next = await post('generate', {
+        const start = performance.now();
+        const next = await planning('generate', {
           base: host.base(),
           intention: $('intention').value,
-          provider: $('provider').value,
         });
-        if (disposed || current !== generation) return;
-        assert(
-          (await hashValue(next.proposal)) === next.proposal_hash,
-          'Proposal integrity check failed',
-        );
+        if (draft) await action('cancel');
+        await host.apply(null);
         draft = next;
         timing.proposal_generation = performance.now() - start;
         events.push('generated_validated');
-        $('proposal-title').textContent =
-          next.candidate.package.manifest.experience.presentation.title;
-        $('change-list').replaceChildren(
-          ...next.proposal.modifications
-            .filter(
-              (m) =>
-                !['title', 'description', 'exposure'].includes(m.operation),
-            )
-            .map((m) => {
-              const li = document.createElement('li');
-              li.textContent = describe(m);
-              return li;
-            }),
-        );
-        $('affected-resources').textContent =
-          next.affected_resources.join(' · ');
-        $('creator-limits').textContent =
-          'Authored snow and light markers. City geometry stays fixed. Outdoor stage assets, live weather and world commands are unavailable.';
-        $('proposal-hash').textContent = next.proposal_hash;
-        state('Your plan is ready. Preview it before you approve.');
+        display();
+        state('Plan validated · preview your new atmosphere.');
       }),
   );
+  on('preview-draft', 'click', () => void run(preview));
   on(
-    'preview-draft',
+    'refine-draft',
     'click',
     () =>
       void run(async () => {
+        assert(draft, 'Create a plan first');
         const start = performance.now();
-        draft = await action('preview');
-        comparison = false;
-        await host.apply(draft.candidate);
-        timing.preview_activation = performance.now() - start;
-        events.push('preview');
-        $('compare-draft').textContent = 'Compare original';
-        state('Preview only · your published experience is unchanged.');
+        draft = await planning(draft.draft_id + '/refine', {
+          proposal_hash: draft.proposal_hash,
+          intention: $('refinement').value,
+        });
+        timing.refinement = performance.now() - start;
+        events.push('refined_hash_changed_approval_cleared');
+        await preview();
+        state('Refined preview ready · previous approval cleared.');
       }),
   );
+  on(
+    'cancel-generation',
+    'click',
+    () =>
+      void (async () => {
+        const id = currentRequest;
+        currentRequest = null;
+        if (id)
+          await request('cancel-request', { request_id: id }).catch(() => {});
+        state('Planning cancelled. No model fallback was substituted.');
+        controls();
+      })(),
+  );
+  for (const name of ['undo', 'restore'])
+    on(
+      name + '-draft',
+      'click',
+      () =>
+        void run(async () => {
+          draft = await action(
+            name,
+            name === 'restore'
+              ? { version_hash: draft.draft_revisions.at(-1).proposal_hash }
+              : {},
+          );
+          events.push(name + '_approval_cleared');
+          await preview();
+        }),
+    );
   on(
     'compare-draft',
     'click',
@@ -195,12 +330,12 @@ export function mountCreator(host) {
         $('compare-draft').textContent = comparison
           ? 'Back to my preview'
           : 'Compare original';
+        events.push(comparison ? 'before' : 'after');
         state(
           comparison
-            ? 'Original edition · your draft is waiting.'
+            ? 'Original edition. Your draft is waiting.'
             : 'Your authored preview.',
         );
-        events.push(comparison ? 'before' : 'after');
       }),
   );
   on(
@@ -210,7 +345,7 @@ export function mountCreator(host) {
       void run(async () => {
         draft = await action('approve');
         events.push('approved_exact_hash');
-        state('Approved. Save this exact version when you’re ready.');
+        state('Approved · save this exact version when you’re ready.');
       }),
   );
   on(
@@ -223,7 +358,7 @@ export function mountCreator(host) {
         timing.save = performance.now() - start;
         events.push('saved_private');
         state(
-          'Saved privately. Publish & share makes this version available to visitors of this local service.',
+          'Saved privately with its refinement journal. Publish & share makes this edition available on this local service.',
         );
       }),
   );
@@ -233,14 +368,14 @@ export function mountCreator(host) {
     () =>
       void run(async () => {
         const start = performance.now();
-        const result = await action('publish', {
+        const v = await action('publish', {
           version_hash: draft.saved_version,
           confirm_public: true,
         });
         timing.publication = performance.now() - start;
         events.push('published');
-        state('Your experience is ready to share.');
-        await host.share(result.path);
+        await host.share(v.path);
+        state('Published · a new world to share.');
       }),
   );
   on(
@@ -248,8 +383,11 @@ export function mountCreator(host) {
     'click',
     () =>
       void run(async () => {
-        await closeDraft('reject');
-        state('Draft rejected. Back to the original experience.');
+        await action('reject');
+        draft = null;
+        await host.apply(null);
+        events.push('reject');
+        state('Draft rejected. Original edition restored.');
       }),
   );
   on(
@@ -262,17 +400,8 @@ export function mountCreator(host) {
         });
         await host.apply(null);
         events.push('reverted_original_version');
-        state(
-          'Restored the original version. Saved and published editions keep their history.',
-        );
+        state('Original version restored. Saved editions remain immutable.');
       }),
-  );
-  on('provider', 'change', () =>
-    state(
-      $('provider').value === 'configured'
-        ? 'Configured model: your prompt and approved plan context are sent to the host-selected endpoint.'
-        : 'Offline ideas use deterministic templates. No model request is sent.',
-    ),
   );
   controls();
   return {
@@ -280,18 +409,25 @@ export function mountCreator(host) {
     async dispose() {
       if (disposed) return;
       disposed = true;
-      generation++;
+      const job = currentRequest;
+      currentRequest = null;
+      if (job)
+        await request(
+          'cancel-request',
+          { request_id: job },
+          'POST',
+          true,
+        ).catch(() => {});
       if (draft) {
-        const old = draft;
+        const d = draft;
         draft = null;
-        try {
-          await post(
-            old.draft_id + '/cancel',
-            { proposal_hash: old.proposal_hash },
-            true,
-          );
-          events.push('cancel_on_close');
-        } catch {}
+        await request(
+          d.draft_id + '/cancel',
+          { proposal_hash: d.proposal_hash },
+          'POST',
+          true,
+        ).catch(() => {});
+        events.push('cancel_on_close');
       }
       controller.abort();
       token = '';
@@ -304,26 +440,26 @@ export function mountCreator(host) {
 function describe(m) {
   switch (m.operation) {
     case 'lighting':
-      return 'Lighting · ' + m.preset.replaceAll('_', ' ');
+      return 'Light · ' + m.preset.replaceAll('_', ' ');
+    case 'visual':
+      return (
+        m.treatment.palette.replaceAll('_', ' ') +
+        ' · warm materials and emissive windows'
+      );
     case 'atmosphere':
-      return m.effect === 'snow'
-        ? 'Gently falling snow · simulated'
+      return m.effect
+        ? 'Authored ' + m.effect + ' · simulated'
         : 'Clear atmosphere';
-    case 'exposure':
-      return 'Balanced authored exposure';
-    case 'title':
-      return 'Your title · ' + m.text;
-    case 'description':
-      return 'A description with your creative intention';
     case 'audio_parameters':
-      return 'Approved ambient mix · ' + Math.round(m.gain_milli / 10) + '%';
-    case 'add_audio':
-      return 'Add approved chime ambience · press Play to listen';
-    case 'replace_audio':
-      return 'Replace layer with approved audio';
-    case 'place':
-      return 'Place an authored warm light marker';
+      return (
+        m.layer +
+        ' · ' +
+        Math.round(m.gain_milli / 10) +
+        '% · press Play to listen'
+      );
+    case 'waypoint':
+      return 'Explore · ' + m.point.label;
     default:
-      return 'Approved ' + m.operation.replaceAll('_', ' ');
+      return m.operation.replaceAll('_', ' ');
   }
 }

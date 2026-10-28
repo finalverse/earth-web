@@ -19,6 +19,7 @@ for (const file of [
   'index.html',
   'player.js',
   'creator.js',
+  'presentation.mjs',
   'protocol.mjs',
   'styles.css',
 ])

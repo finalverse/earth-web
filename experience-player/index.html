@@ -19,7 +19,7 @@
       <a class="brand" href="/" aria-label="Finalverse experiences"
         ><img src="/logo.svg" alt="Finalverse" width="150" height="28" /></a
       ><span class="header-caption"
-        >IMAGINE SOMETHING NEW <i>LOCAL PREVIEW</i></span
+        >THE EXPERIENCE IS YOURS <i>LOCAL STUDIO</i></span
       ><button id="share" class="quiet" disabled>Share experience ↗</button>
     </header>
     <main id="landing" hidden>
@@ -64,14 +64,34 @@
               >An authored night · real source geometry</span
             >
           </div>
+          <nav class="viewpoints" aria-label="Guided viewpoints">
+            <button id="view-district">District</button
+            ><button id="view-lantern">Lantern lane</button
+            ><button id="view-roofs">Rooftops</button
+            ><button id="guide">Start guided views</button
+            ><button id="toggle-creator">Hide creator</button>
+          </nav>
+          <div
+            id="waypoint-controls"
+            class="waypoint-controls"
+            aria-label="Authored interaction points"
+          ></div>
           <div class="stage-controls">
-            <button id="reset" disabled>Reset view</button
+            <label class="quality-label"
+              >Quality
+              <select id="quality">
+                <option value="balanced">Balanced · 30 fps target</option>
+                <option value="high">High · 60 fps target</option>
+                <option value="low">Low · 30 fps target</option>
+              </select></label
+            ><button id="reset" disabled>Reset view</button
             ><button id="focus" disabled>Focus selection</button
             ><button id="close" class="quiet">Close preview</button>
           </div>
           <div class="stage-foot">
-            Drag to orbit · scroll to approach<br /><small
-              >Estimated city geometry. Lighting and music are authored.</small
+            Explore at your own pace · drag to orbit<br /><small
+              >Estimated city geometry. Materials, seasonal effects and lighting
+              are authored.</small
             >
           </div>
         </section>
@@ -93,7 +113,7 @@
               rows="4"
               placeholder="Warm lights, gently falling snow, a little music…"
             >
-Turn this neighborhood into a beautiful winter festival with warm street lighting, falling snow and atmospheric music.</textarea>
+Make this district feel like a magical winter evening, with warm architectural highlights, gentle snow and a quiet original score.</textarea>
             <details class="creator-access">
               <summary>Local creator access</summary>
               <label for="creator-token">Publisher credential</label
@@ -105,17 +125,27 @@ Turn this neighborhood into a beautiful winter festival with warm street lightin
                 placeholder="Stays in this tab"
               /><label for="provider">Idea provider</label
               ><select id="provider">
-                <option value="fixture">Offline deterministic ideas</option>
-                <option value="configured">Host-configured model</option>
+                <option value="creative-fixture">Offline creative ideas</option>
+                <option value="model">Configured AI model</option>
               </select>
               <p>
                 No credential is saved or shared. Configured models receive your
                 prompt only when selected.
               </p>
+              <button id="check-provider">Check model availability</button>
+              <p id="provider-status" role="status">
+                Model status is checked after local access is provided.
+              </p>
+              <label id="remote-confirm-label" hidden
+                ><input type="checkbox" id="remote-confirm" /> I agree to send
+                my prompt, current creative settings and the bounded context
+                listed above to this destination.</label
+              >
             </details>
             <button id="generate" class="primary">
               Create a plan <span>✦</span>
             </button>
+            <button id="cancel-generation" hidden>Cancel planning</button>
             <p id="creator-status" role="status">
               An idea becomes a preview. You decide what to keep.
             </p>
@@ -124,9 +154,12 @@ Turn this neighborhood into a beautiful winter festival with warm street lightin
               hidden
               aria-label="Review your proposal"
             >
+              <p id="proposal-provider" class="provider-pill"></p>
               <h3 id="proposal-title"></h3>
               <ul id="change-list"></ul>
               <div class="creator-actions">
+                <button id="undo-draft">Undo refinement</button
+                ><button id="restore-draft">Restore latest draft</button>
                 <button id="preview-draft" class="primary">
                   Preview changes</button
                 ><button id="compare-draft">Compare original</button
@@ -138,8 +171,19 @@ Turn this neighborhood into a beautiful winter festival with warm street lightin
                 ><button id="reject-draft">Reject draft</button
                 ><button id="revert-draft">Restore original version</button>
               </div>
+              <label for="refinement">Refine your idea</label
+              ><textarea
+                id="refinement"
+                rows="2"
+                maxlength="2048"
+                placeholder="Make the lighting warmer. Reduce the snow…"
+              ></textarea
+              ><button id="refine-draft" class="primary">
+                Refine this plan <span>↗</span>
+              </button>
               <details>
-                <summary>Changes, limits &amp; approval</summary>
+                <summary>Plan, context &amp; sources</summary>
+                <div id="ordered-plan"></div>
                 <p id="affected-resources"></p>
                 <p id="creator-limits"></p>
                 <p>Approval is bound to this exact plan:</p>
@@ -147,46 +191,48 @@ Turn this neighborhood into a beautiful winter festival with warm street lightin
               </details>
             </section>
           </section>
-          <section class="sound-card">
-            <p class="eyebrow">THE SOUND OF THIS PLACE</p>
-            <h2>Make room for the city.</h2>
-            <p>
-              Original score, airy ambience and chimes. Press play when you’re
-              ready. A preview never starts audio automatically.
-            </p>
-            <button id="audio" class="audio-button" disabled>
-              ▶ Play original score</button
-            ><label class="volume"
-              >Volume
-              <input
-                id="volume"
-                aria-label="Audio volume"
-                type="range"
-                min="0"
-                max="70"
-                value="32"
-            /></label>
-            <p id="audio-state" class="muted" role="status">
-              Audio starts only with your permission.
-            </p>
-          </section>
-          <details class="inspect-card">
-            <summary>Explore places &amp; source details</summary>
-            <p class="eyebrow">DISCOVER THE DISTRICT</p>
-            <label for="entity">Choose a place</label
-            ><select id="entity" disabled>
-              <option value="">Select a building, road or terrain</option>
-            </select>
-            <div id="selection" aria-live="polite">
-              <h2>A city with a source.</h2>
-              <p>
-                Select geometry in the scene or choose an entity to see its
-                identity and provenance.
-              </p>
-            </div>
-          </details>
         </aside>
       </div>
+      <section class="tools-row">
+        <section class="sound-card">
+          <p class="eyebrow">THE SOUND OF THIS PLACE</p>
+          <h2>Make room for the city.</h2>
+          <p>
+            Original score, airy ambience and chimes. Press play when you’re
+            ready. A preview never starts audio automatically.
+          </p>
+          <button id="audio" class="audio-button" disabled>
+            ▶ Play original score</button
+          ><label class="volume"
+            >Volume
+            <input
+              id="volume"
+              aria-label="Audio volume"
+              type="range"
+              min="0"
+              max="70"
+              value="32"
+          /></label>
+          <p id="audio-state" class="muted" role="status">
+            Audio starts only with your permission.
+          </p>
+        </section>
+        <details class="inspect-card">
+          <summary>Explore places &amp; source details</summary>
+          <p class="eyebrow">DISCOVER THE DISTRICT</p>
+          <label for="entity">Choose a place</label
+          ><select id="entity" disabled>
+            <option value="">Select a building, road or terrain</option>
+          </select>
+          <div id="selection" aria-live="polite">
+            <h2>A city with a source.</h2>
+            <p>
+              Select geometry in the scene or choose an entity to see its
+              identity and provenance.
+            </p>
+          </div>
+        </details>
+      </section>
       <section class="below">
         <div>
           <p class="eyebrow">WHAT YOU’RE EXPERIENCING</p>

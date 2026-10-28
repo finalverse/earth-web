@@ -854,3 +854,323 @@ textarea:focus-visible {
     font-size: 2.5rem;
   }
 }
+/* A visual-first local studio. All city and material overlays are authored. */
+.intro {
+  padding: 1.5rem 0 1.2rem;
+  align-items: center;
+}
+.intro h1 {
+  font-size: clamp(2rem, 3.1vw, 3.1rem);
+}
+.intro .lead {
+  font-size: 0.84rem;
+  max-width: 760px;
+  line-height: 1.5;
+}
+.intro .eyebrow {
+  margin-bottom: 0.5rem;
+}
+.experience-grid {
+  display: block;
+  position: relative;
+}
+.stage {
+  width: 100%;
+  height: 78vh;
+  min-height: 620px;
+  max-height: 950px;
+  position: relative;
+  top: 0;
+  border-radius: 18px;
+  border-color: #39495c;
+  background: radial-gradient(ellipse at 60% 15%, #293e62, #0f192b 75%);
+}
+.experience-grid > aside {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 310px;
+  max-height: calc(78vh - 40px);
+  overflow: auto;
+  scrollbar-width: thin;
+  border-radius: 13px;
+  z-index: 3;
+}
+.creator-card {
+  padding: 1.1rem;
+  background: linear-gradient(150deg, #22312ff2, #102129f5);
+  backdrop-filter: blur(15px);
+  border-color: #6a837555;
+}
+.creator-card h2 {
+  font-size: 1.45rem;
+}
+.creator-card .eyebrow {
+  font-size: 0.55rem;
+}
+.creator-card textarea {
+  min-height: 78px;
+  font-size: 0.75rem;
+  padding: 0.65rem;
+}
+.creator-card .ideas {
+  margin: 0.8rem 0 0.65rem;
+}
+.creator-card .ideas button {
+  font-size: 0.6rem;
+}
+#creator-status {
+  font-size: 0.68rem;
+  min-height: 0;
+}
+#change-list {
+  font-size: 0.67rem;
+  line-height: 1.5;
+}
+#proposal-title {
+  font-size: 1rem;
+}
+.provider-pill {
+  font-size: 0.6rem !important;
+  color: #a8d7bf !important;
+}
+#provider-status {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  font-size: 0.64rem;
+}
+#ordered-plan p {
+  font-size: 0.6rem;
+}
+#refinement {
+  margin-top: 0.4rem;
+}
+.creator-card label {
+  display: block;
+  font-size: 0.7rem;
+  margin-top: 0.6rem;
+}
+.creator-access label:has(input[type='checkbox']) {
+  display: flex;
+  align-items: start;
+  gap: 0.5rem;
+  line-height: 1.5;
+}
+.creator-access input[type='checkbox'] {
+  width: auto;
+}
+.tools-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.sound-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.2rem 1.4rem;
+  padding: 1rem 1.3rem;
+  background: #101d27;
+}
+.sound-card .eyebrow,
+.sound-card > p:not(.eyebrow),
+.sound-card .volume {
+  grid-column: 1/-1;
+}
+.sound-card h2 {
+  font-size: 1.1rem;
+  align-self: center;
+}
+.sound-card .audio-button {
+  width: auto;
+  margin: 0;
+  font-size: 0.72rem;
+  padding: 0.55rem 0.8rem;
+}
+.sound-card > p:not(.eyebrow):not(.muted) {
+  display: none;
+}
+.inspect-card {
+  background: #101d27;
+}
+.scene-label {
+  top: auto;
+  bottom: 6.6rem;
+  left: 1.2rem;
+  border-color: #7e8d9855;
+  background: #10202bb0;
+  font-size: 0.65rem;
+}
+.scene-state {
+  top: auto;
+  bottom: 6.1rem;
+  left: 1.2rem;
+  font-size: 0.55rem;
+  background: none;
+  padding: 0;
+}
+.stage-foot {
+  bottom: 1.8rem;
+  font-size: 0.65rem;
+}
+.stage-foot small {
+  font-size: 0.58rem;
+}
+.stage-controls {
+  bottom: 3.7rem;
+  align-items: center;
+}
+.stage-controls button,
+.stage-controls select {
+  font-size: 0.62rem;
+  min-height: 34px;
+}
+.quality-label {
+  font-size: 0.6rem;
+  background: #13232bdb;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #4e5d63;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.quality-label select {
+  max-width: 125px;
+  background: #192a34;
+  color: #d9e5df;
+  border: 0;
+  font: inherit;
+}
+.viewpoints {
+  position: absolute;
+  left: 1.2rem;
+  top: 1.2rem;
+  display: flex;
+  gap: 0.4rem;
+  z-index: 2;
+  max-width: calc(100% - 360px);
+  flex-wrap: wrap;
+}
+.viewpoints button {
+  border-radius: 99px;
+  padding: 0.55rem 0.8rem;
+  font-size: 0.65rem;
+  background: #0f202ac9;
+  border-color: #76848a70;
+}
+.waypoint-controls {
+  position: absolute;
+  left: 1.2rem;
+  top: 4.2rem;
+  display: flex;
+  gap: 0.35rem;
+  z-index: 2;
+  max-width: calc(100% - 360px);
+  flex-wrap: wrap;
+}
+.waypoint-controls button {
+  font-size: 0.59rem;
+  padding: 0.4rem 0.6rem;
+  border-color: #c8a56f88;
+  background: #14222bd9;
+}
+.atmosphere-depth {
+  background:
+    linear-gradient(180deg, #547ba208, transparent 45%, #0a172944),
+    radial-gradient(ellipse at 48% 40%, transparent 45%, #07152a88);
+}
+@media (max-width: 1000px) {
+  .experience-grid > aside {
+    width: 280px;
+  }
+  .viewpoints,
+  .waypoint-controls {
+    max-width: calc(100% - 325px);
+  }
+}
+@media (max-width: 760px) {
+  .experience-grid {
+    display: block;
+  }
+  .stage {
+    height: 64vh;
+    min-height: 470px;
+  }
+  .experience-grid > aside {
+    position: relative;
+    right: auto;
+    top: auto;
+    width: 100%;
+    max-height: none;
+    margin-top: 1rem;
+  }
+  .viewpoints,
+  .waypoint-controls {
+    max-width: calc(100% - 2rem);
+    left: 1rem;
+  }
+  .viewpoints {
+    top: 1rem;
+  }
+  .viewpoints button {
+    padding: 0.4rem 0.55rem;
+    font-size: 0.6rem;
+  }
+  .waypoint-controls {
+    top: 4.4rem;
+  }
+  .tools-row {
+    grid-template-columns: 1fr;
+  }
+  .intro {
+    padding: 1.5rem 0 1rem;
+  }
+  .intro h1 {
+    font-size: 2.3rem;
+  }
+  .intro .primary {
+    display: none;
+  }
+  .quality-label {
+    position: absolute;
+    bottom: 8.8rem;
+    left: 0;
+  }
+  .stage-controls button {
+    min-height: 36px;
+  }
+  .scene-state {
+    bottom: 6.5rem;
+  }
+  .scene-label {
+    max-width: 90%;
+    bottom: 7rem;
+    font-size: 0.56rem;
+  }
+  .creator-card textarea {
+    min-height: 96px;
+    font-size: 0.85rem;
+  }
+  .creator-card .ideas button {
+    font-size: 0.72rem;
+  }
+}
+@media (max-width: 760px) {
+  .stage-foot {
+    font-size: 0;
+    line-height: 0;
+  }
+  .stage-foot br {
+    display: none;
+  }
+  .stage-foot small {
+    display: block;
+    font-size: 0.55rem;
+    line-height: 1.4;
+    max-width: 95%;
+  }
+  .scene-label {
+    bottom: 7.5rem;
+  }
+}

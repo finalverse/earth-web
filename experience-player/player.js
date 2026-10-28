@@ -1,3 +1,10 @@
+import {
+  DEFAULT_VISUAL,
+  QUALITY,
+  paletteColor,
+  intervals,
+  MATERIAL_SHADER,
+} from '/presentation.mjs';
 import { mountCreator } from '/creator.js';
 import {
   assert,
@@ -12,7 +19,16 @@ import {
 const $ = (id) => document.getElementById(id);
 const lifetime = new AbortController(),
   metrics = new LocalMetrics(() => performance.now(), 0);
-let creator,
+let renderCounter = 0,
+  renderStarted,
+  sceneInitializationMs = null,
+  guideTimer,
+  guideIndex = 0,
+  quality = 'balanced',
+  renderCpuStart,
+  renderCpuSamples = [],
+  rendererRemovers = [],
+  creator,
   activeDocument,
   snowFrame,
   snowActive = false,
@@ -33,12 +49,22 @@ let creator,
   master,
   sources = [],
   audioGeneration = 0;
-const shaders = new Set();
+const shaders = new Set(),
+  shaderSources = new Map();
 const cache = new Map(),
   urls = new Set(),
   models = new Map();
 const resources = {
   active_models: 0,
+  get authored_decorations() {
+    return authoredMarkers.length;
+  },
+  get guide_timers() {
+    return Number(guideTimer != null);
+  },
+  get render_observers() {
+    return rendererRemovers.length;
+  },
   get animation_frames() {
     return Number(snowFrame != null) + Number(frameProbe != null);
   },
@@ -57,11 +83,35 @@ function diagnostics() {
     creator: creator?.snapshot() || null,
     authored: {
       lighting: activeDocument?.lighting || 'after_dark',
+      visual: activeDocument?.visual || null,
+      waypoints: Object.keys(activeDocument?.waypoints || {}).length,
       atmosphere: activeDocument?.atmosphere || null,
       markers: authoredMarkers.length,
       snow_active: snowActive,
     },
     frame_performance: frameSummary(),
+    renderer_performance: {
+      scene_initialization_ms: sceneInitializationMs,
+      scene_cpu_submission_ms: intervals(renderCpuSamples),
+      gpu_timings_ms: null,
+      gpu_note:
+        'GPU elapsed time is not available; CPU submission and rAF are measured separately',
+      estimated_geometry_bytes: [...models.values()].reduce(
+        (n, m) => n + (m.statistics?.geometryByteLength || 0),
+        0,
+      ),
+      estimated_texture_bytes: [...models.values()].reduce(
+        (n, m) => n + (m.statistics?.texturesByteLength || 0),
+        0,
+      ),
+      javascript_heap_bytes: performance.memory?.usedJSHeapSize || null,
+      quality,
+      pixel_ratio: devicePixelRatio,
+      drawing_buffer: viewer
+        ? [viewer.canvas.width, viewer.canvas.height]
+        : null,
+      target_fps: QUALITY[quality].fps,
+    },
     schema: 'finalverse.web-player-review/v1',
     environment: {
       user_agent: navigator.userAgent,
@@ -162,9 +212,17 @@ function eusMatrix() {
     'up',
   )(origin);
 }
-function reset() {
+function reset(view = 'district', animated = false) {
   if (!viewer || closed) return;
-  const e = publication.content.package.manifest.entry;
+  const sourceEntry = publication.content.package.manifest.entry;
+  const e = {
+    ...sourceEntry,
+    target_mm: [0, 6000, 0],
+    distance_mm:
+      view === 'lantern' ? 190000 : view === 'roofs' ? 360000 : 360000,
+    yaw_milliradians: view === 'lantern' ? -650 : view === 'roofs' ? 1600 : 550,
+    pitch_milliradians: view === 'lantern' ? 320 : view === 'roofs' ? 820 : 520,
+  };
   const target = Cesium.Matrix4.multiplyByPoint(
     eusMatrix(),
     Cesium.Cartesian3.fromArray(e.target_mm.map((v) => v / 1000)),
@@ -196,14 +254,20 @@ function reset() {
     Cesium.Cartesian3.UNIT_Y,
     new Cesium.Cartesian3(),
   );
-  viewer.camera.setView({ destination: world, orientation: { direction, up } });
+  const options = { destination: world, orientation: { direction, up } };
+  if (animated && !matchMedia('(prefers-reduced-motion: reduce)').matches)
+    viewer.camera.flyTo({ ...options, duration: 2.3 });
+  else viewer.camera.setView(options);
   viewer.scene.requestRender();
 }
 function selectEntity(id, focus = false) {
   const next = scene.entities.find((e) => e.entity.entity_id === id);
   if (!next) return;
-  if (selected && models.has(selected.entity.entity_id))
-    models.get(selected.entity.entity_id).color = baseTint(selected);
+  if (selected && models.has(selected.entity.entity_id)) {
+    const model = models.get(selected.entity.entity_id);
+    model.color = baseTint(selected);
+    model.customShader?.setUniform('u_selected', 0);
+  }
   selected = next;
   $('entity').value = id;
   const box = $('selection');
@@ -218,8 +282,10 @@ function selectEntity(id, focus = false) {
     dl.append(el('dt', label), el('dd', value));
   }
   box.append(dl);
-  if (models.has(id))
+  if (models.has(id)) {
     models.get(id).color = Cesium.Color.fromCssColorString('#ffd0a0');
+    models.get(id).customShader?.setUniform('u_selected', 1);
+  }
   $('focus').disabled = !viewer;
   metrics.meaningful();
   if (focus && viewer) {
@@ -245,39 +311,18 @@ function selectEntity(id, focus = false) {
   }
   diagnostics();
 }
-function baseTint(entity) {
-  const festival = activeDocument?.lighting === 'festival',
-    daylight = activeDocument?.lighting === 'daylight';
-  if (entity.kind === 'building') {
-    const palettes = festival
-      ? ['#d4b899', '#b6bccb', '#c6ad9e', '#9bbac8', '#e0c8aa']
-      : daylight
-        ? ['#cebdad', '#b8c5c6', '#e0d2c1', '#aabbbd', '#c6aea3']
-        : ['#8996ae', '#a2989d', '#7898a3', '#b1aa9d'];
-    let n = 0;
-    for (const c of entity.entity.entity_id)
-      n = (n * 31 + c.charCodeAt(0)) >>> 0;
-    return Cesium.Color.fromCssColorString(palettes[n % palettes.length]);
-  }
-  return Cesium.Color.fromCssColorString(
-    entity.kind === 'building'
-      ? '#8d9bbd'
-      : entity.kind === 'road'
-        ? festival
-          ? '#54667a'
-          : '#46566b'
-        : festival
-          ? '#b7cad1'
-          : '#68848b',
-  );
+function baseTint() {
+  return Cesium.Color.WHITE;
 }
 async function render() {
+  renderStarted = performance.now();
   assert(
     window.Cesium,
     'The 3D engine is unavailable. Use the entity list below.',
   );
   Cesium.Ion.defaultAccessToken = undefined;
   viewer = new Cesium.Viewer('viewport', {
+    contextOptions: { webgl: { alpha: true } },
     baseLayer: false,
     globe: false,
     skyBox: false,
@@ -299,6 +344,30 @@ async function render() {
     maximumRenderTimeChange: Infinity,
   });
   resources.viewer_active = true;
+  viewer.targetFrameRate = QUALITY[quality].fps;
+  viewer.scene.postProcessStages.tonemapper = Cesium.Tonemapper.ACES;
+  rendererRemovers.push(
+    viewer.scene.preRender.addEventListener(() => {
+      renderCpuStart = performance.now();
+    }),
+  );
+  rendererRemovers.push(
+    viewer.scene.postRender.addEventListener(() => {
+      if (renderCpuStart !== undefined) {
+        renderCpuSamples.push(performance.now() - renderCpuStart);
+        if (renderCpuSamples.length > 240) renderCpuSamples.shift();
+        if (++renderCounter % 30 === 0) diagnostics();
+      }
+    }),
+  );
+  const stop = () => stopGuide();
+  viewer.canvas.addEventListener('pointerdown', stop, {
+    signal: lifetime.signal,
+  });
+  viewer.canvas.addEventListener('wheel', stop, {
+    signal: lifetime.signal,
+    passive: true,
+  });
   viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#152230');
   viewer.scene.highDynamicRange = true;
   viewer.scene.light = new Cesium.DirectionalLight({
@@ -336,10 +405,10 @@ async function render() {
           forwardAxis: Cesium.Axis.X,
           allowPicking: true,
           lightColor: new Cesium.Cartesian3(0.7, 0.85, 1.2),
-          customShader: e.kind === 'building' ? facadeShader() : undefined,
+          customShader: facadeShader(e),
           color: baseTint(e),
           colorBlendMode: Cesium.ColorBlendMode.MIX,
-          colorBlendAmount: 0.5,
+          colorBlendAmount: 0,
           imageBasedLighting: new Cesium.ImageBasedLighting({
             imageBasedLightingFactor: new Cesium.Cartesian2(0.45, 0),
           }),
@@ -364,8 +433,12 @@ async function render() {
             readyModels++;
             if (firstGeometryMs === null)
               firstGeometryMs = Math.round(performance.now() - metrics.started);
-            if (readyModels === scene.entities.length)
+            if (readyModels === scene.entities.length) {
               allGeometryMs = Math.round(performance.now() - metrics.started);
+              sceneInitializationMs = Math.round(
+                performance.now() - renderStarted,
+              );
+            }
             metrics.meaningful();
             diagnostics();
           }
@@ -445,7 +518,11 @@ async function playAudio() {
   const context = audioContext;
   resources.audio_contexts = 1;
   master = context.createGain();
-  master.gain.value = Number($('volume').value) / 100;
+  master.gain.value = 0;
+  master.gain.linearRampToValueAtTime(
+    Number($('volume').value) / 100,
+    context.currentTime + 0.35,
+  );
   master.connect(context.destination);
   notice('audio', '■ Stop audio');
   notice('audio-state', 'Checking approved audio…');
@@ -492,6 +569,9 @@ async function playAudio() {
 async function dispose(show = true) {
   if (closed) return;
   closed = true;
+  stopGuide();
+  for (const remove of rendererRemovers) remove();
+  rendererRemovers = [];
   await creator?.dispose();
   lifetime.abort();
   cancelAnimationFrame(frameProbe);
@@ -504,6 +584,7 @@ async function dispose(show = true) {
   }
   for (const shader of shaders) if (!shader.isDestroyed()) shader.destroy();
   shaders.clear();
+  shaderSources.clear();
   resources.custom_shaders = 0;
   authoredMarkers = [];
   models.clear();
@@ -513,7 +594,20 @@ async function dispose(show = true) {
   urls.clear();
   resources.object_urls = 0;
   cache.clear();
-  for (const id of ['audio', 'reset', 'focus', 'enter', 'share', 'entity'])
+  for (const id of [
+    'audio',
+    'reset',
+    'focus',
+    'enter',
+    'share',
+    'entity',
+    'view-district',
+    'view-lantern',
+    'view-roofs',
+    'guide',
+    'quality',
+    'toggle-creator',
+  ])
     $(id).disabled = true;
   if (show)
     notice(
@@ -673,32 +767,117 @@ async function landing() {
       : 'No public experiences are available yet.',
   );
 }
-// Fixed host-authored material: decorative windows, never surveyed facades.
-function facadeShader() {
+// Authored material categories with bounded, inspectable PBR parameters.
+function facadeShader(entity) {
+  const visual = activeDocument?.visual || DEFAULT_VISUAL;
   const shader = new Cesium.CustomShader({
     uniforms: {
-      u_festival: {
-        type: Cesium.UniformType.FLOAT,
-        value: activeDocument?.lighting === 'festival' ? 1 : 0,
+      u_lamp0: {
+        type: Cesium.UniformType.VEC3,
+        value: new Cesium.Cartesian3(),
       },
+      u_lamp1: {
+        type: Cesium.UniformType.VEC3,
+        value: new Cesium.Cartesian3(),
+      },
+      u_lamp2: {
+        type: Cesium.UniformType.VEC3,
+        value: new Cesium.Cartesian3(),
+      },
+      u_lamp3: {
+        type: Cesium.UniformType.VEC3,
+        value: new Cesium.Cartesian3(),
+      },
+      u_lamps_enabled: { type: Cesium.UniformType.FLOAT, value: 0 },
+      u_palette: {
+        type: Cesium.UniformType.VEC3,
+        value: new Cesium.Cartesian3(0.3, 0.3, 0.4),
+      },
+      u_kind: {
+        type: Cesium.UniformType.FLOAT,
+        value: entity.kind === 'building' ? 0 : entity.kind === 'road' ? 1 : 2,
+      },
+      u_warmth: {
+        type: Cesium.UniformType.FLOAT,
+        value: visual.warmth_milli / 1000,
+      },
+      u_snow: {
+        type: Cesium.UniformType.FLOAT,
+        value: visual.snow_milli / 1000,
+      },
+      u_haze: {
+        type: Cesium.UniformType.FLOAT,
+        value: visual.haze_milli / 1000,
+      },
+      u_glow: {
+        type: Cesium.UniformType.FLOAT,
+        value: visual.window_glow_milli / 1000,
+      },
+      u_roughness: {
+        type: Cesium.UniformType.FLOAT,
+        value: visual.roughness_milli / 1000,
+      },
+      u_metallic: {
+        type: Cesium.UniformType.FLOAT,
+        value: visual.metallic_milli / 1000,
+      },
+      u_selected: { type: Cesium.UniformType.FLOAT, value: 0 },
     },
-    fragmentShaderText: `
-  void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material) {
-    vec3 p = fsInput.attributes.positionMC;
-    vec3 n = normalize(cross(dFdx(p), dFdy(p)));
-    float wall = 1.0 - smoothstep(0.35,0.8,abs(n.y));
-    float horizontal = abs(n.x)>abs(n.z) ? p.z : p.x;
-    vec2 cell = fract(vec2(horizontal / 4.0, p.y / 3.6));
-    float windowMask=step(.28,cell.x)*step(cell.x,.65)*step(.25,cell.y)*step(cell.y,.7)*wall;
-    float occupied=step(.32,fract(sin(floor(horizontal/4.0)*12.9898+floor(p.y/3.6)*78.233)*43758.5453));
-    material.diffuse *= 1.0 - .28*windowMask;
-    material.roughness=.82;
-    material.emissive += vec3(1.0,.56,.22)*windowMask*occupied*(.12+.85*u_festival);
-  }`,
+    fragmentShaderText: MATERIAL_SHADER.replace(
+      'material.emissive=glow',
+      'material.emissive=vec3(.08,.28,.18)*u_selected+glow',
+    ),
   });
   shaders.add(shader);
+  shaderSources.set(shader, entity);
   resources.custom_shaders = shaders.size;
   return shader;
+}
+function stopGuide() {
+  clearTimeout(guideTimer);
+  guideTimer = null;
+  if (viewer && !closed) viewer.camera.cancelFlight();
+  notice('guide', 'Start guided views');
+}
+function guide() {
+  if (guideTimer != null) {
+    stopGuide();
+    return;
+  }
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    notice('scene-state', 'Reduced motion: choose a static viewpoint.');
+    return;
+  }
+  guideIndex = 0;
+  const views = ['district', 'lantern', 'roofs'];
+  const step = () => {
+    if (closed || !viewer) return;
+    reset(views[guideIndex++], true);
+    if (guideIndex < views.length) guideTimer = setTimeout(step, 5000);
+    else {
+      guideTimer = null;
+      notice('guide', 'Start guided views');
+    }
+  };
+  notice('guide', 'Pause guided views');
+  step();
+}
+function setQuality() {
+  if (!viewer) return;
+  const q = QUALITY[quality];
+  viewer.resolutionScale = q.scale;
+  viewer.targetFrameRate = q.fps;
+  viewer.scene.postProcessStages.bloom.enabled = q.bloom;
+  if (q.bloom) {
+    const u = viewer.scene.postProcessStages.bloom.uniforms;
+    u.glowOnly = false;
+    u.contrast = 64;
+    u.brightness = -0.35;
+    u.delta = 1;
+    u.sigma = 1.5;
+    u.stepSize = 0.5;
+  }
+  viewer.scene.requestRender();
 }
 function frameSummary() {
   if (!frameSamples.length) return { samples: 0 };
@@ -707,6 +886,7 @@ function frameSummary() {
   return {
     samples: sorted.length,
     mean_interval_ms: mean,
+    p50_interval_ms: sorted[Math.floor((sorted.length - 1) * 0.5)],
     p95_interval_ms: sorted[Math.floor((sorted.length - 1) * 0.95)],
     approximate_fps: 1000 / mean,
     scope:
@@ -738,14 +918,28 @@ function snow(enabled) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if (!snowActive) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const particles = Array.from({ length: 90 }, (_, i) => ({
-    x: (i * 0.61803398875) % 1,
-    y: (i * 0.381966) % 1,
-    r: 1 + (i % 3) * 0.6,
-  }));
-  let last = performance.now();
+  const particles = Array.from(
+    {
+      length: Math.round(
+        QUALITY[quality].particles *
+          ((activeDocument?.visual?.snow_milli || 500) / 1000),
+      ),
+    },
+    (_, i) => ({
+      x: (i * 0.61803398875) % 1,
+      y: (i * 0.381966) % 1,
+      r: 1 + (i % 3) * 0.6,
+    }),
+  );
+  let last = performance.now(),
+    lastDraw = 0;
   function step(t) {
     if (!snowActive || closed) return;
+    if (t - lastDraw < 1000 / QUALITY[quality].fps - 1) {
+      snowFrame = requestAnimationFrame(step);
+      return;
+    }
+    lastDraw = t;
     const dt = Math.min(50, t - last) / 1000;
     last = t;
     const w = canvas.clientWidth,
@@ -755,7 +949,7 @@ function snow(enabled) {
       canvas.height = h;
     }
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = 'rgba(235,245,255,.78)';
+    ctx.fillStyle = 'rgba(235,245,255,.67)';
     for (const p of particles) {
       if (!reduced) {
         p.y = (p.y + dt * (0.025 + p.r * 0.012)) % 1;
@@ -769,8 +963,8 @@ function snow(enabled) {
   }
   step(performance.now());
 }
-async function applyDocument(document) {
-  await stopAudio();
+async function applyDocument(document, keepAudio = false) {
+  if (!keepAudio) await stopAudio();
   activeDocument =
     document || publication?.content.authored?.version.document || null;
   const isDraft =
@@ -815,52 +1009,152 @@ async function applyDocument(document) {
         ? 'Authored daylight · source-backed city'
         : 'An authored night · source-backed city',
   );
-  if (!viewer) return;
+  if (!viewer || closed) {
+    if (viewer) for (const e of authoredMarkers) viewer.entities.remove(e);
+    authoredMarkers = [];
+    $('waypoint-controls').replaceChildren();
+    return;
+  }
   for (const e of authoredMarkers) viewer.entities.remove(e);
   authoredMarkers = [];
+  const visual = d?.visual || DEFAULT_VISUAL;
   viewer.scene.backgroundColor = Cesium.Color.fromCssColorString(
-    festival ? '#263c55' : daylight ? '#768e9f' : '#152536',
+    daylight ? '#496276' : '#101d34',
   );
   viewer.scene.light.color = Cesium.Color.fromCssColorString(
-    daylight ? '#fff3de' : '#ffd1a1',
+    daylight ? '#ffead3' : '#ffe0b0',
   );
-  viewer.scene.light.intensity = daylight ? 2.4 : festival ? 2.0 : 1.2;
+  viewer.scene.light.intensity = daylight ? 2.1 : 1.25;
+  viewer.scene.light.direction = Cesium.Matrix4.multiplyByPointAsVector(
+    eusMatrix(),
+    new Cesium.Cartesian3(-0.5, -1, -0.4),
+    new Cesium.Cartesian3(),
+  );
+  viewer.scene.postProcessStages.exposure = (d?.exposure_milli || 1100) / 1000;
   const canvas = $('viewport').querySelector('canvas');
-  if (canvas)
-    canvas.style.filter =
-      'brightness(' + (d?.exposure_milli || 1600) / 1700 + ') saturate(1.08)';
-  for (const e of scene.entities) {
-    const model = models.get(e.entity.entity_id);
-    if (model) {
-      model.color = baseTint(e);
-      model.lightColor = new Cesium.Cartesian3(
-        daylight ? 1.3 : 1.05,
-        festival ? 1.05 : 0.9,
-        festival ? 0.85 : 1.15,
+  if (canvas) canvas.style.filter = 'none';
+  for (const [shader, entity] of shaderSources) {
+    const color = Cesium.Color.fromCssColorString(
+      paletteColor(visual.palette, entity.entity.entity_id),
+    );
+    shader.setUniform(
+      'u_palette',
+      new Cesium.Cartesian3(color.red, color.green, color.blue),
+    );
+    for (const [key, value] of Object.entries({
+      u_warmth: visual.warmth_milli,
+      u_snow: visual.snow_milli,
+      u_haze: visual.haze_milli,
+      u_glow: visual.window_glow_milli,
+      u_roughness: visual.roughness_milli,
+      u_metallic: visual.metallic_milli,
+    }))
+      shader.setUniform(key, value / 1000);
+    shader.setUniform(
+      'u_selected',
+      selected?.entity.entity_id === entity.entity.entity_id ? 1 : 0,
+    );
+  }
+  for (const model of models.values()) {
+    model.color = Cesium.Color.WHITE;
+    model.lightColor = new Cesium.Cartesian3(
+      daylight ? 1.3 : 0.9,
+      daylight ? 1.2 : 0.85,
+      daylight ? 1.1 : 1.0,
+    );
+  }
+  const lampPositions = [];
+  if (d?.visual) {
+    const roads = scene.entities
+      .filter((e) => e.kind === 'road')
+      .map((e) => {
+        const p = e.bounds_mm[0].map((x, i) => (x + e.bounds_mm[1][i]) / 2000);
+        return { e, p, d: p[0] * p[0] + p[2] * p[2] };
+      })
+      .sort((a, b) => a.d - b.d)
+      .slice(0, QUALITY[quality].lamps);
+    for (const { p } of roads) {
+      if (lampPositions.length < 4)
+        lampPositions.push(new Cesium.Cartesian3(p[0], p[1] + 5.5, p[2]));
+      const height = 5.5;
+      const pos = Cesium.Matrix4.multiplyByPoint(
+        eusMatrix(),
+        new Cesium.Cartesian3(p[0], p[1] + height / 2, p[2]),
+        new Cesium.Cartesian3(),
+      );
+      authoredMarkers.push(
+        viewer.entities.add({
+          position: pos,
+          cylinder: {
+            length: height,
+            topRadius: 0.1,
+            bottomRadius: 0.16,
+            material: Cesium.Color.fromCssColorString('#283442'),
+          },
+        }),
+      );
+      const light = Cesium.Matrix4.multiplyByPoint(
+        eusMatrix(),
+        new Cesium.Cartesian3(p[0], p[1] + height, p[2]),
+        new Cesium.Cartesian3(),
+      );
+      authoredMarkers.push(
+        viewer.entities.add({
+          position: light,
+          ellipsoid: {
+            radii: new Cesium.Cartesian3(0.65, 0.65, 0.65),
+            material:
+              Cesium.Color.fromCssColorString('#ffd28c').withAlpha(0.92),
+          },
+        }),
       );
     }
   }
-  if (selected && models.has(selected.entity.entity_id))
-    models.get(selected.entity.entity_id).color =
-      Cesium.Color.fromCssColorString('#ffd0a0');
+  for (const shader of shaders) {
+    shader.setUniform('u_lamps_enabled', d?.visual ? 1 : 0);
+    for (let i = 0; i < 4; i++)
+      shader.setUniform(
+        'u_lamp' + i,
+        lampPositions[i] || new Cesium.Cartesian3(),
+      );
+  }
   for (const o of Object.values(d?.objects || {})) {
+    const p = o.transform.position_mm.map((x) => x / 1000),
+      scale = o.transform.scale_milli / 1000;
     const position = Cesium.Matrix4.multiplyByPoint(
       eusMatrix(),
-      Cesium.Cartesian3.fromArray(o.transform.position_mm.map((x) => x / 1000)),
+      Cesium.Cartesian3.fromArray(p),
       new Cesium.Cartesian3(),
     );
     authoredMarkers.push(
       viewer.entities.add({
         position,
         ellipsoid: {
-          radii: new Cesium.Cartesian3(2.5, 2.5, 2.5),
-          material: Cesium.Color.fromCssColorString('#ffd992').withAlpha(0.9),
+          radii: new Cesium.Cartesian3(0.9 * scale, 0.9 * scale, 0.9 * scale),
+          material: Cesium.Color.fromCssColorString('#ffd28c').withAlpha(0.9),
         },
       }),
     );
   }
-  for (const shader of shaders)
-    shader.setUniform('u_festival', festival ? 1 : 0);
+  $('waypoint-controls').replaceChildren();
+  for (const point of Object.values(d?.waypoints || {})) {
+    assert(
+      scene.entities.some((e) => e.entity.entity_id === point.entity_id),
+      'Unapproved interaction anchor',
+    );
+    const b = el('button', point.label);
+    b.addEventListener(
+      'click',
+      () => {
+        stopGuide();
+        selectEntity(point.entity_id, true);
+        notice('scene-state', point.narrative);
+      },
+      { signal: lifetime.signal },
+    );
+    $('waypoint-controls').append(b);
+  }
+  setQuality();
   viewer.scene.requestRender();
   probeFrames();
   diagnostics();
@@ -874,8 +1168,36 @@ on('enter', 'click', () => {
   $('enter').textContent = 'You’re in the experience';
   diagnostics();
 });
-on('entity', 'change', () => selectEntity($('entity').value, true));
-on('reset', 'click', reset);
+on('entity', 'change', () => {
+  stopGuide();
+  selectEntity($('entity').value, true);
+});
+on('reset', 'click', () => {
+  stopGuide();
+  reset('district', true);
+});
+for (const [id, key] of [
+  ['view-district', 'district'],
+  ['view-lantern', 'lantern'],
+  ['view-roofs', 'roofs'],
+])
+  on(id, 'click', () => {
+    stopGuide();
+    reset(key, true);
+  });
+on('guide', 'click', guide);
+on('intention', 'input', stopGuide);
+on('refinement', 'input', stopGuide);
+on('toggle-creator', 'click', () => {
+  const pane = document.querySelector('.experience-grid>aside');
+  pane.hidden = !pane.hidden;
+  notice('toggle-creator', pane.hidden ? 'Open creator' : 'Hide creator');
+});
+on('quality', 'change', () => {
+  quality = $('quality').value;
+  stopGuide();
+  void applyDocument(activeDocument, true);
+});
 on(
   'focus',
   'click',
@@ -883,7 +1205,12 @@ on(
 );
 on('audio', 'click', () => void playAudio());
 on('volume', 'input', () => {
-  if (master) master.gain.value = Number($('volume').value) / 100;
+  if (master && audioContext)
+    master.gain.setTargetAtTime(
+      Number($('volume').value) / 100,
+      audioContext.currentTime,
+      0.05,
+    );
 });
 on('close', 'click', () => void dispose());
 on('share', 'click', () =>
@@ -934,7 +1261,11 @@ on('export', 'click', () => {
 document.addEventListener(
   'visibilitychange',
   () => {
-    if (document.hidden && audioContext) void stopAudio();
+    if (document.hidden) {
+      stopGuide();
+      snow(false);
+      if (audioContext) void stopAudio();
+    } else if (!closed) snow(activeDocument?.atmosphere === 'snow');
   },
   { signal: lifetime.signal },
 );

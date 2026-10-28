@@ -218,9 +218,68 @@ export async function validatePublication(record, entry) {
       ['after_dark', 'festival', 'daylight'].includes(v.document.lighting) &&
         v.document.exposure_milli >= 500 &&
         v.document.exposure_milli <= 2400 &&
-        (!v.document.atmosphere || v.document.atmosphere === 'snow'),
+        (!v.document.atmosphere ||
+          ['snow', 'mist', 'haze'].includes(v.document.atmosphere)),
       'Unsupported authored presentation',
     );
+    if (v.document.visual) {
+      const t = v.document.visual;
+      keys(t, [
+        'palette',
+        'warmth_milli',
+        'snow_milli',
+        'haze_milli',
+        'window_glow_milli',
+        'roughness_milli',
+        'metallic_milli',
+      ]);
+      assert(
+        [
+          'winter_stone',
+          'heritage_stone',
+          'copper_glass',
+          'midnight_neon',
+        ].includes(t.palette) &&
+          Object.entries(t)
+            .filter(([k]) => k !== 'palette')
+            .every(([, n]) => Number.isSafeInteger(n) && n >= 0 && n <= 1000) &&
+          t.metallic_milli <= 300,
+        'Invalid authored material settings',
+      );
+    }
+    if (v.document.waypoints)
+      assert(
+        Object.keys(v.document.waypoints).length <= 4 &&
+          Object.values(v.document.waypoints).every(
+            (p) =>
+              /^[0-9a-f-]{36}$/.test(p.entity_id) &&
+              typeof p.label === 'string' &&
+              p.label.length <= 128 &&
+              typeof p.narrative === 'string' &&
+              p.narrative.length <= 512,
+          ),
+        'Invalid authored interaction points',
+      );
+    if (a.proposal.steps?.length) {
+      assert(
+        a.proposal.steps.length === a.proposal.modifications.length,
+        'Incomplete creative plan',
+      );
+      for (let i = 0; i < a.proposal.steps.length; i++) {
+        const step = a.proposal.steps[i],
+          m = a.proposal.modifications[i];
+        assert(
+          step.id === 'step-' + String(i + 1).padStart(2, '0') &&
+            step.operation === m.operation &&
+            canonical(step.parameters) === canonical(m) &&
+            step.inputs_sha256 === (await hashValue(m)) &&
+            step.reversible === true &&
+            canonical(step.dependencies) ===
+              canonical(i ? ['step-' + String(i).padStart(2, '0')] : []),
+          'Creative step integrity failed',
+        );
+      }
+    }
     assert(
       Object.keys(v.document.objects).length <= 2 &&
         Object.values(v.document.objects).every(
