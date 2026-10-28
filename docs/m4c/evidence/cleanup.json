@@ -1,0 +1,22 @@
+{
+  "schema": "finalverse.m4c-cleanup/v1",
+  "owned_fen_shutdown": "exit 0; in-flight handlers drained",
+  "tcp_listeners_open": {
+    "52136": false,
+    "52643": false,
+    "53647": false,
+    "55926": false,
+    "11434": true
+  },
+  "preexisting_ollama_preserved": true,
+  "owned_browser_tabs_closed": true,
+  "viewport_override_reset": true,
+  "browser_cleanup_receipts": "browser-review.json stages ending cleanup",
+  "deleted_source_files": 0,
+  "deleted_build_caches": 0,
+  "deleted_model_weights": 0,
+  "free_disk_gib": 6.47,
+  "secret_scan_files": 3759,
+  "secret_scan": "exact publisher/admin token bytes absent; values not recorded",
+  "global_remote_credential_guard": "passed"
+}

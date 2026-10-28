@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: real published winter contract opens with approved proposal and authored version intact
+ok 1 - real published winter contract opens with approved proposal and authored version intact
+  ---
+  duration_ms: 10.228625
+  type: 'test'
+  ...
+# Subtest: tampered nested proposal cannot hide behind a resealed publication
+ok 2 - tampered nested proposal cannot hide behind a resealed publication
+  ---
+  duration_ms: 7.995667
+  type: 'test'
+  ...
+# Subtest: unknown environmental effects and unapproved visual references fail closed
+ok 3 - unknown environmental effects and unapproved visual references fail closed
+  ---
+  duration_ms: 15.240417
+  type: 'test'
+  ...
+# Subtest: a rehashed authored package must still match the delivered package
+ok 4 - a rehashed authored package must still match the delivered package
+  ---
+  duration_ms: 5.546833
+  type: 'test'
+  ...
+# Subtest: new visual and ordered-step publication reopens through the existing protocol
+ok 5 - new visual and ordered-step publication reopens through the existing protocol
+  ---
+  duration_ms: 11.22775
+  type: 'test'
+  ...
+# Subtest: changed step inputs cannot hide behind resealed outer hashes
+ok 6 - changed step inputs cannot hide behind resealed outer hashes
+  ---
+  duration_ms: 10.520875
+  type: 'test'
+  ...
+# Subtest: invalid PBR and effect bounds fail closed on a rehashed edition
+ok 7 - invalid PBR and effect bounds fail closed on a rehashed edition
+  ---
+  duration_ms: 7.231958
+  type: 'test'
+  ...
+# Subtest: cyclic or reordered creative dependencies are rejected
+ok 8 - cyclic or reordered creative dependencies are rejected
+  ---
+  duration_ms: 7.068916
+  type: 'test'
+  ...
+# Subtest: frame statistics distinguish median and 95th percentile on known samples
+ok 9 - frame statistics distinguish median and 95th percentile on known samples
+  ---
+  duration_ms: 1.189583
+  type: 'test'
+  ...
+# Subtest: material assignment is stable per original identity and restricted to reviewed palettes
+ok 10 - material assignment is stable per original identity and restricted to reviewed palettes
+  ---
+  duration_ms: 0.153292
+  type: 'test'
+  ...
+# Subtest: lower quality reduces pixel, particle and decoration budgets
+ok 11 - lower quality reduces pixel, particle and decoration budgets
+  ---
+  duration_ms: 0.128
+  type: 'test'
+  ...
+# Subtest: canonical serialization and accepted EL publication integrity
+ok 12 - canonical serialization and accepted EL publication integrity
+  ---
+  duration_ms: 9.213667
+  type: 'test'
+  ...
+# Subtest: unsupported schemas, unknown fields and modified metadata fail closed
+ok 13 - unsupported schemas, unknown fields and modified metadata fail closed
+  ---
+  duration_ms: 4.070917
+  type: 'test'
+  ...
+# Subtest: private and unavailable publications cannot become previews
+ok 14 - private and unavailable publications cannot become previews
+  ---
+  duration_ms: 3.038458
+  type: 'test'
+  ...
+# Subtest: share links require immutable identity, version and bounded entity context
+ok 15 - share links require immutable identity, version and bounded entity context
+  ---
+  duration_ms: 1.07525
+  type: 'test'
+  ...
+# Subtest: link resolution refuses another publication version
+ok 16 - link resolution refuses another publication version
+  ---
+  duration_ms: 1.438
+  type: 'test'
+  ...
+# Subtest: unknown fallback and asset types are refused
+ok 17 - unknown fallback and asset types are refused
+  ---
+  duration_ms: 11.776417
+  type: 'test'
+  ...
+# Subtest: unlicensed or oversized assets are rejected before loading
+ok 18 - unlicensed or oversized assets are rejected before loading
+  ---
+  duration_ms: 8.068417
+  type: 'test'
+  ...
+# Subtest: asset bytes, digest and server media type must agree
+ok 19 - asset bytes, digest and server media type must agree
+  ---
+  duration_ms: 0.50375
+  type: 'test'
+  ...
+# Subtest: bounded streaming aborts oversized content and rejects unavailable assets
+ok 20 - bounded streaming aborts oversized content and rejects unavailable assets
+  ---
+  duration_ms: 17.971792
+  type: 'test'
+  ...
+# Subtest: privacy-conscious counters do not invent return visits or aggregate traction
+ok 21 - privacy-conscious counters do not invent return visits or aggregate traction
+  ---
+  duration_ms: 0.35575
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 112.257125

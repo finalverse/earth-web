@@ -1,0 +1,69 @@
+{
+  "schema": "finalverse.m4c-http-review/v1",
+  "checks": [
+    "provider discovery requires publisher",
+    "configured local model is discoverable",
+    "offline semantic generation validated",
+    "fixture identity is explicit",
+    "ordered operation parameters and declarations present",
+    "preview preserves original source and approved assets",
+    "natural follow-up refines current settings",
+    "previous approval hash invalidated",
+    "new proposal requires fresh approval",
+    "stale refinement refused",
+    "undo restores earlier proposal",
+    "undo never restores approval",
+    "restore selects immutable proposal revision",
+    "unauthorized world modification rejected",
+    "untrusted script field rejected",
+    "exact refined proposal approved and privately saved",
+    "publication consent still required",
+    "refined immutable edition preserves parent and asset map",
+    "anonymous authored edition resolves",
+    "unchanged scene CAS and 139 original identities verified",
+    "share link resolves without credentials",
+    "cancelled revision cannot save",
+    "planning request leases released"
+  ],
+  "offline_workflow_ms": 222.24,
+  "base": {
+    "experience": "montreal-after-dark",
+    "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+  },
+  "proposal_hash": "ecb3ef7419fd6c31749045a487e57b154e25f1da48c138b6884f495eb4085244",
+  "publication_version": "099d02ce28d34536678e3ea1a42cd3105c7a0a6a518f56e5c156707c8a8da1f7",
+  "path": "/x/montreal-after-dark/099d02ce28d34536678e3ea1a42cd3105c7a0a6a518f56e5c156707c8a8da1f7",
+  "source_entities": 139,
+  "entity_digest": "88699acb974ebb351a6862d0a5afd64276b78f1eed59ee6cb1be229edde7567e",
+  "asset_map_count": 143,
+  "asset_map_unchanged": true,
+  "new_cas_downloads_verified": 1,
+  "discovery": {
+    "configured_model_reported": true,
+    "models": [
+      "llama3.2:3b",
+      "granite3.1-moe:3b",
+      "deepseek-r1:8b",
+      "qwen2.5-coder:3b",
+      "gemma4:latest",
+      "qwen3.5:cloud"
+    ],
+    "ownership": {
+      "drafts": 0,
+      "planning_requests": 0
+    },
+    "status": {
+      "authentication": "none",
+      "configured": true,
+      "context": "prompt, current authored settings, up to four approved public anchors, source root and approved audio identifiers; no credentials, raw geometry, audio bytes or private history",
+      "destination": "http://127.0.0.1:11434",
+      "local": true,
+      "max_retries": 1,
+      "model": "qwen2.5-coder:3b",
+      "provider": "ollama",
+      "structured_output": "json_schema",
+      "timeout_ms": 90000
+    }
+  },
+  "model_inference": "not part of offline checks; separately recorded in real-model walkthrough"
+}
