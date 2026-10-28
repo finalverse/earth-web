@@ -1,0 +1,11 @@
+{
+  "schema": "finalverse.m4b-persistence-review/v1",
+  "checks": [
+    "immutable authored publication survives real process restart",
+    "share entry survives restart",
+    "persisted asset hash verified",
+    "private saved history has no public route"
+  ],
+  "publication": "bf2d6e42a5c55518c1a06a143f419b2df21847492f6fd8fc7f4c1af8d1206d72",
+  "authored_version": "06b045316eb88e75e876f9b11725afafe03763a75c5cc23dfaaa45bb6a1e9ab3"
+}

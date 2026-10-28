@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: real published winter contract opens with approved proposal and authored version intact
+ok 1 - real published winter contract opens with approved proposal and authored version intact
+  ---
+  duration_ms: 11.442167
+  type: 'test'
+  ...
+# Subtest: tampered nested proposal cannot hide behind a resealed publication
+ok 2 - tampered nested proposal cannot hide behind a resealed publication
+  ---
+  duration_ms: 10.373375
+  type: 'test'
+  ...
+# Subtest: unknown environmental effects and unapproved visual references fail closed
+ok 3 - unknown environmental effects and unapproved visual references fail closed
+  ---
+  duration_ms: 14.195959
+  type: 'test'
+  ...
+# Subtest: a rehashed authored package must still match the delivered package
+ok 4 - a rehashed authored package must still match the delivered package
+  ---
+  duration_ms: 6.186666
+  type: 'test'
+  ...
+# Subtest: canonical serialization and accepted EL publication integrity
+ok 5 - canonical serialization and accepted EL publication integrity
+  ---
+  duration_ms: 10.67625
+  type: 'test'
+  ...
+# Subtest: unsupported schemas, unknown fields and modified metadata fail closed
+ok 6 - unsupported schemas, unknown fields and modified metadata fail closed
+  ---
+  duration_ms: 4.195416
+  type: 'test'
+  ...
+# Subtest: private and unavailable publications cannot become previews
+ok 7 - private and unavailable publications cannot become previews
+  ---
+  duration_ms: 3.947417
+  type: 'test'
+  ...
+# Subtest: share links require immutable identity, version and bounded entity context
+ok 8 - share links require immutable identity, version and bounded entity context
+  ---
+  duration_ms: 0.63575
+  type: 'test'
+  ...
+# Subtest: link resolution refuses another publication version
+ok 9 - link resolution refuses another publication version
+  ---
+  duration_ms: 0.941375
+  type: 'test'
+  ...
+# Subtest: unknown fallback and asset types are refused
+ok 10 - unknown fallback and asset types are refused
+  ---
+  duration_ms: 11.835084
+  type: 'test'
+  ...
+# Subtest: unlicensed or oversized assets are rejected before loading
+ok 11 - unlicensed or oversized assets are rejected before loading
+  ---
+  duration_ms: 8.325791
+  type: 'test'
+  ...
+# Subtest: asset bytes, digest and server media type must agree
+ok 12 - asset bytes, digest and server media type must agree
+  ---
+  duration_ms: 0.521667
+  type: 'test'
+  ...
+# Subtest: bounded streaming aborts oversized content and rejects unavailable assets
+ok 13 - bounded streaming aborts oversized content and rejects unavailable assets
+  ---
+  duration_ms: 19.839584
+  type: 'test'
+  ...
+# Subtest: privacy-conscious counters do not invent return visits or aggregate traction
+ok 14 - privacy-conscious counters do not invent return visits or aggregate traction
+  ---
+  duration_ms: 0.38675
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 115.930666
