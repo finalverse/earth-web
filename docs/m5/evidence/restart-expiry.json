@@ -1,0 +1,10 @@
+{
+  "schema": "finalverse.m5-restart-expiry/v1",
+  "old_read_capability_status": 410,
+  "error": {
+    "code": "guest_expired",
+    "message": "This temporary edition has expired or the service restarted. Start from Montr\u00e9al to make your own."
+  },
+  "old_share_read_capability_not_recorded": true,
+  "durable_original_retained": true
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "finalverse.m5-performance-summary/v1",
+  "template_activation": {
+    "samples": 12,
+    "p50_ms": 32.10000002384186,
+    "p95_ms": 43.29999995231629,
+    "max_ms": 88,
+    "method": "sorted index floor((n-1)*q)"
+  },
+  "quick_personalization": {
+    "samples": 8,
+    "p50_ms": 42.90000009536743,
+    "p95_ms": 46.300000071525574,
+    "max_ms": 46.70000004768371,
+    "method": "sorted index floor((n-1)*q)"
+  },
+  "desktop_journey_ms": 12545,
+  "mobile_journey_ms": 12016,
+  "open_controls_ms": [
+    6.399999976158142
+  ],
+  "share_creation": {
+    "samples": 4,
+    "p50_ms": 20.299999952316284,
+    "p95_ms": 31.399999976158146,
+    "max_ms": 37.89999997615814,
+    "method": "sorted index floor((n-1)*q)"
+  }
+}

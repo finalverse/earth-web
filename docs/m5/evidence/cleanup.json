@@ -1,0 +1,28 @@
+{
+  "schema": "finalverse.m5-cleanup/v1",
+  "tcp_listeners_open": {
+    "57451": false,
+    "57452": false,
+    "57453": false,
+    "57454": true,
+    "11434": true
+  },
+  "retained_owned_service": "127.0.0.1:57454; intentionally retained as a local user preview",
+  "preexisting_ollama_preserved": true,
+  "source_cache_model_deletions": 0,
+  "free_disk_gib": 4.04,
+  "exact_role_secret_scan_files": 3856,
+  "role_secret_values_recorded": false,
+  "global_remote_credential_guard": "passed",
+  "browser_cleanup": "Recorded per journey and recipient; test tabs closed. One final preview may be retained for the user.",
+  "final_guest_ownership": {
+    "cache_hits": 10,
+    "cache_misses": 17,
+    "compiled_plans": 17,
+    "drafts": 0,
+    "planning_requests": 0,
+    "sessions": 0,
+    "temporary_shares": 9
+  },
+  "retained_preview_pid": 86319
+}
