@@ -186,10 +186,18 @@ export function mountGuest(host) {
       ? 'Personal version saved temporarily.'
       : 'Your preview stays personal until you choose to share.';
     $('make-mine').textContent = 'Make It Mine';
+    const experienceNotes = draft.adaptations.flatMap((note) =>
+      note.startsWith('Audio unavailable')
+        ? ['Exploring without audio']
+        : note.startsWith('Low quality')
+          ? ['Lighter effects for this device']
+          : note.startsWith('Reduced motion')
+            ? ['Still views enabled']
+            : [],
+    );
     status(
       'Ready to explore · ' +
-        (draft.adaptations.join(' · ') ||
-          'Source geometry preserved. Effects are authored.'),
+        (experienceNotes.join(' · ') || 'Your city. Your moment.'),
     );
     controls();
   }
