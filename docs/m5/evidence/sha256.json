@@ -2,11 +2,11 @@
   "schema": "finalverse.m5-evidence-seal/v1",
   "algorithm": "sha256",
   "files": {
-    "artifacts.json": "de15b0b4fcd8cbba58d31d271cb021ea50ced3cbf3383168cd3018bef2afe646",
+    "artifacts.json": "8350848b4eda530a48d0e7350dd5e6db388b2f82ec6ea452404ccbcf9700256a",
     "build.log": "06e2076f293037c0843aa12b034ce6afd806fe14125c37a12a9b481eba618f28",
-    "cleanup.json": "d978ebd1f17695bab827deadd753cb3384c7933d9527d127a089eb9a3a92fe0f",
-    "console-errors.json": "2f683522e71d347436d139cd91ba7e8b4b5d4e77d980bf63d141d7a8aab63d2f",
-    "desktop.png": "d1d484c0ea9421f02811f894c68eb0c8faaf46d220e9fcd67be669678af5b2e5",
+    "cleanup.json": "44fb63a8eea7a96af1ffc068f4617768c6a0d0c0e7a5660d168febe6b7a313a1",
+    "console-errors.json": "e4e45ee9b085a155588821b385f3e67d94091559218f1c6c30066126f69b9704",
+    "desktop.png": "4cdc36675ff4d80efa36baabba63ba342958925c7388f0e9c5eb74ed4e39ba95",
     "evidence-check.json": "9896cb83c75c701e23d92c9cdde331d9bfbd2eb081b533053c3bcf826fab17d0",
     "format.log": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
     "gallery-cyberpunk-montreal.png": "40d6b837da20b7d61cb12bb37008d0ac4a4e1d6aaddf718e83f4ad65a8cdea1a",
@@ -38,6 +38,7 @@
     "recipient-review.json": "8923fe78c2226149fa283f0bc0bbc0ec6588aa0fa1afe35973d0fc000ce7d276",
     "restart-expiry.json": "0a423d81724d24467bdd4481707cd8781c458b3d07653267e0c25f3a4810d599",
     "tests.log": "e4b56b593afd6165a7a76dcc4d224e24fc8b642d3347eb5262969509943a4889",
+    "ui-feedback-review.json": "8f0fc3932debb37d5aeb7c07fd119e62ec640528b0a7ac5cf5c915e2fb6b03fb",
     "visual-review.json": "ab7dfd7043dd12d551d3d364c9aa89f74eefec57fe1dfc04a66b511f491e196d"
   }
 }

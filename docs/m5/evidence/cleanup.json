@@ -16,7 +16,7 @@
   "global_remote_credential_guard": "passed",
   "browser_cleanup": "Recorded per journey and recipient; test tabs closed. One final preview may be retained for the user.",
   "final_guest_ownership": {
-    "cache_hits": 10,
+    "cache_hits": 11,
     "cache_misses": 17,
     "compiled_plans": 17,
     "drafts": 0,

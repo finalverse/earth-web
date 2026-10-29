@@ -3,7 +3,7 @@
   "date": "2026-10-29",
   "implementation_commits": {
     "core": "d56e4a01a25b7c72cb833881e0395d5547b27d54",
-    "earth_web": "ced4a861ddbbba17125818d523b5964603bd3ad6"
+    "earth_web": "0dda24324075715768e8ba7b303867c89cfca7f4"
   },
   "source_files": {
     "core": {
@@ -20,7 +20,7 @@
     },
     "web": {
       "experience-player/build.mjs": "49ab932e123bcdc7b55a8c242e5786f440753ae500f471161776d1a69d33f240",
-      "experience-player/guest.js": "3f394efe3ed692700c270a1e2fb6e3d4e79619af616a6e5686db4fed9e0df999",
+      "experience-player/guest.js": "d9e70e2e3f77f3ce35968ff1f8cd6f58707c2b9ecb2635d092510234e80eac0c",
       "experience-player/index.html": "910adc79d50882098596812586319bd6ed380338783311225270fbacc60a2bd6",
       "experience-player/player.js": "762e91faa9d8d2bf41f9285687edfbead57332084ebff311c0b1a23da87a1053",
       "experience-player/presentation.mjs": "b4f3fd2d795388ab91871a29db1da8bf178662fcc50c5c68d7149be785e0edba",
@@ -435,7 +435,7 @@
       "cesium/index.cjs": "66465b800f3cc4fc1d6730a532c47d114258fb60c69c65ec7a00bb9f28ef2000",
       "cesium/index.js": "78d91c848176a1e11a4ca80d1a78be295f28002a4b7e72404b784de594757c69",
       "creator.js": "28c6b352555c32bef97de1c432383dbc161e45cfc92bf36c48e41e9a46bf6083",
-      "guest.js": "3f394efe3ed692700c270a1e2fb6e3d4e79619af616a6e5686db4fed9e0df999",
+      "guest.js": "d9e70e2e3f77f3ce35968ff1f8cd6f58707c2b9ecb2635d092510234e80eac0c",
       "index.html": "910adc79d50882098596812586319bd6ed380338783311225270fbacc60a2bd6",
       "logo.svg": "f5b81126a33ddfd00fcefe2457e81d6833e772e0ca36fcf12ac0966376d8a866",
       "player.js": "762e91faa9d8d2bf41f9285687edfbead57332084ebff311c0b1a23da87a1053",

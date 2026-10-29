@@ -7,7 +7,7 @@
 | Repository | Tested implementation commit | Worktree / branch |
 | --- | --- | --- |
 | finalverse/finalverse | `d56e4a01a25b7c72cb833881e0395d5547b27d54` | `/Users/wenyan/Finalverse/dev/worktrees/core-m5-20261029` · `feat/m5-smart-experiences` |
-| finalverse/earth-web | `ced4a861ddbbba17125818d523b5964603bd3ad6` | `/Users/wenyan/Finalverse/dev/worktrees/earth-web-m5-20261029` · `feat/m5-instant-creation` |
+| finalverse/earth-web | `0dda24324075715768e8ba7b303867c89cfca7f4` | `/Users/wenyan/Finalverse/dev/worktrees/earth-web-m5-20261029` · `feat/m5-instant-creation` |
 
 A subsequent local documentation/evidence commit completes each branch. The hashes above identify the tested source; `git rev-parse HEAD` identifies the full delivered branch. Accepted M4-C parents remain `b8d85af7fa72cedec823f424d60ac3a3f7247586` and `b7c1ba017722191d17b22b274f61bdd12130046a`. All eleven protected primary/accepted checkouts remain clean at their original heads; see [preservation receipt](evidence/preservation.json). No merge, push, history rewrite or public deployment was performed.
 
