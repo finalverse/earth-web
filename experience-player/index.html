@@ -19,7 +19,7 @@
       <a class="brand" href="/" aria-label="Finalverse experiences"
         ><img src="/logo.svg" alt="Finalverse" width="150" height="28" /></a
       ><span class="header-caption"
-        >IMAGINE IT. EXPERIENCE IT. <i>LOCAL PREVIEW</i></span
+        >IMAGINE IT. CREATE IT. EXPERIENCE IT. <i>LOCAL PREVIEW</i></span
       ><button id="share" class="quiet" disabled>Share experience ↗</button>
     </header>
     <section
@@ -147,6 +147,134 @@
               >Estimated city geometry. Materials, seasonal effects and lighting
               are authored.</small
             >
+          </div>
+        </section>
+        <section class="companion-panel" aria-labelledby="companion-heading">
+          <div class="companion-heading">
+            <span class="companion-symbol" aria-hidden="true">✦</span>
+            <div>
+              <p class="eyebrow">YOUR CITY. YOUR AI COMPANION.</p>
+              <h2 id="companion-heading">Explore with <em>Lumi.</em></h2>
+            </div>
+            <button id="companion-end" class="quiet">End companion</button>
+          </div>
+          <p id="companion-identity">
+            A little curiosity. A new way into the city.
+          </p>
+          <p class="companion-consent">
+            When you ask, Lumi may inspect public source information and prepare
+            private atmosphere previews. You approve changes and sharing.
+          </p>
+          <button id="companion-nearby" class="primary" disabled>
+            Ask Lumi what’s nearby ↗
+          </button>
+          <p id="companion-response" role="status">
+            Explore real source-backed places. Imagine a different atmosphere.
+          </p>
+          <div
+            id="nearby-places"
+            class="nearby-places"
+            aria-label="Source-backed recommendations"
+          ></div>
+          <p id="companion-source" class="companion-source"></p>
+          <div class="companion-intention">
+            <label for="companion-intention"
+              >What should this moment feel like?</label
+            ><textarea id="companion-intention" maxlength="512" rows="2">
+Make the winter lighting warmer and the music quieter.</textarea>
+          </div>
+          <div class="companion-actions">
+            <label class="intelligence-label" for="intelligence-provider"
+              >Intelligence
+              <select id="intelligence-provider" aria-label="Intelligence">
+                <option value="deterministic">Instant · deterministic</option>
+                <option value="configured" disabled>
+                  Configured local model
+                </option>
+                <option value="auto">Configured with explicit fallback</option>
+              </select></label
+            ><button id="companion-propose" disabled>
+              Imagine this atmosphere</button
+            ><button id="companion-cancel" hidden>Cancel reasoning</button>
+          </div>
+          <p id="intelligence-availability" class="companion-source">
+            No model is required for exploration.
+          </p>
+          <p id="companion-status" role="status">Lumi is ready when you are.</p>
+          <section
+            id="companion-review"
+            class="companion-review"
+            hidden
+            aria-label="Private atmosphere review"
+          >
+            <p class="eyebrow">A PRIVATE PROPOSAL · YOUR APPROVAL</p>
+            <p id="companion-provider"></p>
+            <p id="companion-description"></p>
+            <p id="companion-plan"></p>
+            <div class="companion-actions">
+              <button id="companion-preview">Preview atmosphere</button
+              ><button id="companion-apply" class="primary">
+                Approve &amp; apply privately</button
+              ><button id="companion-share">Share approved moment ↗</button
+              ><button id="companion-reset">
+                Return to published atmosphere
+              </button>
+            </div>
+            <details>
+              <summary>Exact proposal</summary>
+              <code id="companion-hash"></code>
+            </details>
+          </section>
+          <details>
+            <summary>Experience layers &amp; capability boundaries</summary>
+            <p>
+              Reuse two immutable editions with independent read-only scopes.
+              Their assets stay in the existing publication system.
+            </p>
+            <button id="companion-compose">
+              Resolve two published experiences
+            </button>
+            <p id="composition-state" role="status"></p>
+            <ul id="composition-layers"></ul>
+            <ul id="capability-list"></ul>
+            <button id="companion-revoke">Revoke Lumi’s planning grant</button
+            ><button id="companion-world-propose">
+              Propose a shared world beacon
+            </button>
+          </details>
+          <div id="companion-world-review" class="companion-review" hidden>
+            <p>
+              This adds an approved persistent festival beacon at the selected
+              place. MutSea must authorize and commit it. Your private
+              atmosphere stays separate.
+            </p>
+            <p id="companion-world-target" class="fine"></p>
+            <button id="companion-world-approve">
+              Approve shared world beacon
+            </button>
+          </div>
+          <div
+            id="companion-share-review"
+            class="companion-review"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Share the approved moment"
+            hidden
+          >
+            <p>
+              Anyone with this temporary link can view and remix the exact
+              approved edition. It expires within one hour or on service
+              restart.
+            </p>
+            <label
+              ><input id="companion-share-consent" type="checkbox" /> I approve
+              this exact temporary sharing.</label
+            >
+            <div class="companion-actions">
+              <button id="companion-share-confirm">
+                Create approved temporary link</button
+              ><button id="companion-share-back">Keep it private</button>
+            </div>
           </div>
         </section>
         <aside hidden aria-label="Advanced creator controls">

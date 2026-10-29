@@ -1847,3 +1847,189 @@ textarea:focus-visible {
     font-size: 0.62rem;
   }
 }
+
+.companion-panel {
+  min-width: 0;
+  padding: 1.4rem 1.5rem;
+  border: 1px solid #50635e;
+  border-radius: 18px;
+  margin-top: 1rem;
+  background: linear-gradient(130deg, #1c332f, #192832 80%);
+}
+.companion-heading {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+.companion-heading h2 {
+  font-size: 1.8rem;
+  margin: 0.1rem 0;
+}
+.companion-heading em {
+  color: #e4bb8c;
+}
+.companion-heading .eyebrow {
+  margin: 0;
+  font-size: 0.65rem;
+}
+.companion-heading > button {
+  margin-left: auto;
+  font-size: 0.7rem;
+  padding: 0.5rem;
+}
+.companion-symbol {
+  color: #f5d09d;
+  font-size: 2rem;
+}
+.companion-panel p {
+  line-height: 1.55;
+}
+.companion-consent,
+.companion-source,
+#companion-plan,
+#intelligence-availability {
+  font-size: 0.76rem;
+  color: #abc6be;
+}
+.companion-source {
+  overflow-wrap: anywhere;
+}
+.companion-panel #companion-response {
+  font-size: 0.92rem;
+  max-width: 75ch;
+}
+.nearby-places {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+.nearby-places button {
+  text-align: left;
+  padding: 0.65rem;
+  min-width: 0;
+  background: #243b3f;
+}
+.nearby-places strong {
+  font-size: 0.76rem;
+  font-weight: 500;
+  display: block;
+  overflow-wrap: anywhere;
+}
+.nearby-places small {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.65rem;
+  color: #bbd4ca;
+  overflow-wrap: anywhere;
+}
+.companion-intention {
+  margin-top: 1rem;
+}
+.companion-intention label {
+  font-size: 0.85rem;
+}
+.companion-intention textarea {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0 0.7rem;
+  padding: 0.7rem;
+  color: #f0eee5;
+  background: #11232a;
+  border: 1px solid #5f7a6c;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+.companion-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.companion-actions button,
+.companion-panel details button {
+  font-size: 0.75rem;
+}
+.intelligence-label {
+  font-size: 0.72rem;
+  color: #bad0c7;
+}
+.intelligence-label select {
+  display: block;
+  background: #1a3035;
+  color: #e8e8db;
+  border: 1px solid #576f68;
+  border-radius: 7px;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  max-width: 100%;
+}
+.companion-review {
+  border-top: 1px solid #64766a;
+  margin-top: 1rem;
+  padding: 1rem 0 0.4rem;
+}
+.companion-panel details {
+  font-size: 0.76rem;
+  margin-top: 0.8rem;
+}
+.companion-panel details li {
+  line-height: 1.6;
+}
+.companion-panel code {
+  display: block;
+  font-size: 0.65rem;
+  overflow-wrap: anywhere;
+  margin: 0.7rem 0;
+}
+.companion-panel [hidden] {
+  display: none !important;
+}
+#companion-status {
+  font-size: 0.8rem;
+  color: #e3c499;
+  min-height: 1.25rem;
+}
+.companion-panel ul {
+  padding-left: 1.2rem;
+}
+@media (min-width: 1051px) {
+  .experience-grid > .companion-panel {
+    grid-column: 1/-1;
+  }
+}
+@media (max-width: 650px) {
+  .companion-panel {
+    padding: 1rem;
+  }
+  .companion-heading h2 {
+    font-size: 1.5rem;
+  }
+  .companion-heading .eyebrow {
+    font-size: 0.54rem;
+  }
+  .companion-heading > button {
+    max-width: 75px;
+    font-size: 0.6rem;
+    padding: 0.45rem;
+  }
+  .nearby-places {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  .nearby-places button {
+    min-width: 150px;
+    scroll-snap-align: start;
+  }
+  .companion-actions > * {
+    flex: 1 1 140px;
+  }
+  .intelligence-label select {
+    width: 100%;
+  }
+  .companion-symbol {
+    font-size: 1.5rem;
+  }
+}

@@ -541,6 +541,10 @@ export function mountLiving(host) {
     );
   });
   return {
+    worldAttachment: () =>
+      connected && attachment
+        ? { token: attachment.token, instance: attachment.instance_id }
+        : null,
     selected: (focus = false) => void run(() => update(focus)),
     leaveEarth,
     snapshot: () => ({

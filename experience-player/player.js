@@ -6,6 +6,7 @@ import {
   MATERIAL_SHADER,
 } from '/presentation.mjs';
 import { mountCreator } from '/creator.js';
+import { mountIntelligence } from '/intelligence.js';
 import { mountLiving } from '/living.js';
 import { mountGuest } from '/guest.js';
 import { validateEdition } from '/smart-protocol.mjs';
@@ -25,7 +26,7 @@ const reducedMotion = () =>
   !!$('still-views')?.checked;
 const lifetime = new AbortController(),
   metrics = new LocalMetrics(() => performance.now(), 0);
-let living;
+let living, intelligence;
 let guest, guestEdition, guestShareToken, guestTemplatePin, activeComposition;
 let renderCounter = 0,
   renderStarted,
@@ -88,6 +89,7 @@ function notice(id, text) {
 }
 function diagnostics() {
   const value = {
+    intelligence: intelligence?.snapshot() || null,
     living: living?.snapshot() || null,
     creator: creator?.snapshot() || null,
     smart_experience: guest?.snapshot() || null,
@@ -592,6 +594,7 @@ async function playAudio() {
   }
 }
 async function dispose(show = true) {
+  await intelligence?.dispose();
   await living?.dispose();
   if (closed) return;
   closed = true;
@@ -872,6 +875,24 @@ async function openExperience(override) {
         for (const m of models.values()) m.show = show;
         for (const m of authoredMarkers) m.show = show;
       },
+    });
+    intelligence = mountIntelligence({
+      source: () =>
+        guestShareToken
+          ? { kind: 'guest_share', token: guestShareToken }
+          : null,
+      publication: () => publication,
+      selected: () => selected,
+      focus: (id) => selectEntity(id, true),
+      world: () => living?.worldAttachment(),
+      apply: async (d, composition) => {
+        stopGuide();
+        activeComposition = composition;
+        await applyDocument(d);
+      },
+      restore: () => applyDocument(null),
+      share,
+      diagnostics,
     });
   } catch (e) {
     notice('scene-state', e.message + ' Use the accessible entity list.');
