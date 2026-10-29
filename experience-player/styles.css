@@ -1731,3 +1731,119 @@ textarea:focus-visible {
 .advanced-discovery button {
   font-size: 0.72rem;
 }
+
+.living-panel {
+  margin: 1.5rem 0;
+  padding: 1.6rem 2rem;
+  border: 1px solid #3c504f;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #1a302e, #17232e 70%);
+}
+.living-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.living-heading h2 {
+  font-size: 2.5rem;
+  margin: 0.25rem 0 1rem;
+}
+.living-heading em {
+  color: #e4bd90;
+}
+.living-panel p {
+  max-width: 78ch;
+  line-height: 1.6;
+}
+.scale-navigation,
+.lumi-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.scale-navigation span {
+  color: #d1b38c;
+}
+#scale-status {
+  font-size: 0.8rem;
+  color: #a3bfc0;
+}
+#live-people {
+  color: #a8e0cb;
+  font-size: 0.85rem;
+}
+.live-consent {
+  display: block;
+  font-size: 0.85rem;
+  margin: 1rem 0;
+}
+.living-panel details {
+  margin-top: 1.1rem;
+}
+.living-panel input[readonly] {
+  width: min(100%, 42rem);
+  display: block;
+  margin: 0.7rem 0;
+  padding: 0.6rem;
+  background: #101e25;
+  color: #cee2dc;
+  border: 1px solid #506962;
+}
+.lumi-heading {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  margin-top: 1.4rem;
+}
+.lumi-heading small {
+  display: block;
+  color: #adc5c7;
+  margin-top: 0.25rem;
+}
+.lumi-orb {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #e2bb8940;
+  color: #ffd7a2;
+  font-size: 1.8rem;
+}
+#lumi-response {
+  padding-left: 3.3rem;
+  color: #e1dfd5;
+  min-height: 3rem;
+}
+.lumi-actions button {
+  font-size: 0.85rem;
+}
+.living-panel [hidden] {
+  display: none !important;
+}
+@media (max-width: 650px) {
+  .living-panel {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  .living-heading {
+    align-items: flex-start;
+  }
+  .living-heading h2 {
+    font-size: 2rem;
+  }
+  #lumi-response {
+    padding-left: 0;
+  }
+  .lumi-actions button {
+    flex-grow: 1;
+  }
+  .scale-navigation button {
+    padding: 0.6rem;
+  }
+  .living-heading .eyebrow {
+    font-size: 0.62rem;
+  }
+}

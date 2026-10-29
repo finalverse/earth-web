@@ -20,12 +20,17 @@ for (const file of [
   'player.js',
   'creator.js',
   'guest.js',
+  'living.js',
   'smart-protocol.mjs',
   'presentation.mjs',
   'protocol.mjs',
   'styles.css',
 ])
   await copyFile(path.join(here, file), path.join(out, file));
+await copyFile(
+  path.join(here, '../src/data/local_data/natural_earth/countries.json'),
+  path.join(out, 'countries.json'),
+);
 await cp(path.join(deps, 'cesium/Build/Cesium'), path.join(out, 'cesium'), {
   recursive: true,
 });

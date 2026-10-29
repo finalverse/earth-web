@@ -6,6 +6,7 @@ import {
   MATERIAL_SHADER,
 } from '/presentation.mjs';
 import { mountCreator } from '/creator.js';
+import { mountLiving } from '/living.js';
 import { mountGuest } from '/guest.js';
 import { validateEdition } from '/smart-protocol.mjs';
 import {
@@ -24,6 +25,7 @@ const reducedMotion = () =>
   !!$('still-views')?.checked;
 const lifetime = new AbortController(),
   metrics = new LocalMetrics(() => performance.now(), 0);
+let living;
 let guest, guestEdition, guestShareToken, guestTemplatePin, activeComposition;
 let renderCounter = 0,
   renderStarted,
@@ -86,6 +88,7 @@ function notice(id, text) {
 }
 function diagnostics() {
   const value = {
+    living: living?.snapshot() || null,
     creator: creator?.snapshot() || null,
     smart_experience: guest?.snapshot() || null,
     guest_edition: guestEdition
@@ -230,6 +233,7 @@ function eusMatrix() {
   )(origin);
 }
 function reset(view = 'district', animated = false) {
+  living?.leaveEarth();
   if (!viewer || closed) return;
   const sourceEntry = publication.content.package.manifest.entry;
   const e = {
@@ -278,6 +282,7 @@ function reset(view = 'district', animated = false) {
   viewer.scene.requestRender();
 }
 function selectEntity(id, focus = false) {
+  living?.leaveEarth();
   const next = scene.entities.find((e) => e.entity.entity_id === id);
   if (!next) return;
   if (selected && models.has(selected.entity.entity_id)) {
@@ -326,6 +331,7 @@ function selectEntity(id, focus = false) {
     );
     viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
   }
+  living?.selected(focus);
   diagnostics();
 }
 function baseTint() {
@@ -341,7 +347,7 @@ async function render() {
   viewer = new Cesium.Viewer('viewport', {
     contextOptions: { webgl: { alpha: true } },
     baseLayer: false,
-    globe: false,
+    globe: new Cesium.Globe(Cesium.Ellipsoid.WGS84),
     skyBox: false,
     skyAtmosphere: false,
     sun: false,
@@ -360,6 +366,8 @@ async function render() {
     requestRenderMode: true,
     maximumRenderTimeChange: Infinity,
   });
+  viewer.scene.globe.show = false;
+  viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#173d50');
   resources.viewer_active = true;
   viewer.targetFrameRate = QUALITY[quality].fps;
   viewer.scene.postProcessStages.tonemapper = Cesium.Tonemapper.ACES;
@@ -584,6 +592,7 @@ async function playAudio() {
   }
 }
 async function dispose(show = true) {
+  await living?.dispose();
   if (closed) return;
   closed = true;
   stopGuide();
@@ -779,7 +788,7 @@ async function openExperience(override) {
   }
   notice(
     'capability-status',
-    'An interactive web edition. Lighting and snow are authored; city forms are source backed and may be estimated. Native world sessions and live weather are unavailable.',
+    'An interactive web edition. Lighting and snow are authored; city forms are source backed and may be estimated. Live world entry is optional below; live weather is unavailable.',
   );
   creator = mountCreator({
     base: () => ({
@@ -848,6 +857,22 @@ async function openExperience(override) {
   diagnostics();
   try {
     await render();
+    living = mountLiving({
+      viewer: () => viewer,
+      scene: () => scene,
+      selected: () => selected,
+      publication: () => publication,
+      frame: eusMatrix,
+      focus: (id) => selectEntity(id, true),
+      district: () => reset('district', true),
+      stopGuide,
+      reducedMotion,
+      diagnostics,
+      showDistrict: (show) => {
+        for (const m of models.values()) m.show = show;
+        for (const m of authoredMarkers) m.show = show;
+      },
+    });
   } catch (e) {
     notice('scene-state', e.message + ' Use the accessible entity list.');
     diagnostics();
@@ -1085,6 +1110,7 @@ function snow(enabled) {
   step(performance.now());
 }
 async function applyDocument(document, keepAudio = false) {
+  living?.leaveEarth();
   if (!keepAudio) await stopAudio();
   activeDocument =
     document || publication?.content.authored?.version.document || null;

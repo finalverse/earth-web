@@ -360,14 +360,93 @@ Make this district feel like a magical winter evening, with warm architectural h
           </div>
         </details>
       </section>
+      <section
+        id="living-panel"
+        class="living-panel"
+        aria-label="Montréal Alive"
+      >
+        <div class="living-heading">
+          <div>
+            <p class="eyebrow">FROM A MOMENT TO A LIVING WORLD</p>
+            <h2>Montréal <em>Alive.</em></h2>
+          </div>
+          <span id="live-people"></span>
+        </div>
+        <nav class="scale-navigation" aria-label="Spatial scales">
+          <button id="scale-earth">Earth</button><span>→</span
+          ><button id="scale-city">Montréal</button><span>→</span
+          ><button id="scale-district">Enter Old Port</button>
+        </nav>
+        <p id="scale-status" role="status">
+          Old Port · source-aligned district
+        </p>
+        <p id="live-status" role="status">
+          Finding this experience’s world placement…
+        </p>
+        <label class="live-consent"
+          ><input type="checkbox" id="live-consent" /> Enter the immutable
+          published edition with others. My private edits stay personal.</label
+        >
+        <button id="live-start" class="primary" disabled>
+          Enter Montréal Alive ↗</button
+        ><button id="live-join" class="primary" hidden>
+          Join invited experience ↗
+        </button>
+        <div id="live-actions" hidden>
+          <p id="live-selection" role="status"></p>
+          <div class="lumi-heading">
+            <span class="lumi-orb" aria-hidden="true">✦</span>
+            <div>
+              <strong>Lumi</strong
+              ><small>Your Montréal guide · offline guidance</small>
+            </div>
+          </div>
+          <p id="lumi-response" role="status">
+            Choose a place and explore together.
+          </p>
+          <div class="lumi-actions">
+            <button id="lumi-talk">Talk to Lumi</button
+            ><button id="lumi-place">What is this place?</button
+            ><button id="lumi-tour">Show me around</button
+            ><button id="lumi-focus">Focus this place</button
+            ><button id="lumi-ai">Ask local AI for an atmosphere idea</button
+            ><button id="lumi-magic">Make it more magical</button
+            ><button id="lumi-approve" class="primary" hidden>
+              Approve shared festival beacon
+            </button>
+          </div>
+          <details>
+            <summary>Invite someone</summary>
+            <p>
+              Anyone with this unlisted link may join this instance until it
+              expires. Private conversations and drafts are excluded.
+            </p>
+            <label for="live-invite">Live invitation</label
+            ><input id="live-invite" readonly /><button id="live-copy">
+              Copy invitation
+            </button>
+          </details>
+          <details>
+            <summary>Connection & permissions</summary>
+            <div class="lumi-actions">
+              <button id="live-disconnect">Disconnect</button
+              ><button id="live-reconnect">Reconnect</button
+              ><button id="live-revoke">
+                Revoke my shared action permission</button
+              ><button id="live-end">End live instance</button>
+            </div>
+          </details>
+        </div>
+      </section>
       <section class="below">
         <div>
           <p class="eyebrow">WHAT YOU’RE EXPERIENCING</p>
           <h2>A night in Montréal.<br /><em>Made to be explored.</em></h2>
           <p>
             This lightweight web edition preserves source identities and
-            attribution. Native world sessions, live environment queries and
-            full spatial audio remain available to capable clients.
+            attribution. Optional local world sessions are available above. Live
+            environment queries and full spatial audio remain available to
+            capable clients.
           </p>
           <p id="capability-status" role="status"></p>
         </div>

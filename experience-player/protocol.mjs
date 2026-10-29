@@ -66,7 +66,7 @@ export function parseEntry(url) {
   assert(
     [...u.searchParams.keys()].every((k) => k === 'entity') &&
       u.searchParams.getAll('entity').length <= 1 &&
-      !u.hash,
+      (!u.hash || /^#live=instance-[a-f0-9]{32}:[a-f0-9]{64}$/.test(u.hash)),
     'Unsupported entry context',
   );
   const parts = u.pathname.split('/');
