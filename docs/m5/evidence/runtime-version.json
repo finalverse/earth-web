@@ -1,0 +1,8 @@
+{
+  "schema": "finalverse.m5-runtime-version-observation/v1",
+  "captured_utc": "2026-10-29T01:17:25.253490+00:00",
+  "ollama": {
+    "version": "0.40.12"
+  },
+  "note": "Observed at delivery; service version was not captured separately for each inference request. The existing service was not updated or restarted by this task."
+}

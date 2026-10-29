@@ -453,7 +453,8 @@
     "node": "v22.18.0",
     "browser": "IAB Chromium 156.0.0.0",
     "cesium": "1.138.0",
-    "ollama": "0.40.11"
+    "ollama": "0.40.12",
+    "ollama_observation": "GET /api/version at delivery; per-request engine version was not captured"
   },
   "dependency_model_downloads": 0,
   "source_cache_model_deletions": 0

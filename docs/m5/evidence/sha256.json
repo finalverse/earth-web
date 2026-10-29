@@ -2,7 +2,7 @@
   "schema": "finalverse.m5-evidence-seal/v1",
   "algorithm": "sha256",
   "files": {
-    "artifacts.json": "8350848b4eda530a48d0e7350dd5e6db388b2f82ec6ea452404ccbcf9700256a",
+    "artifacts.json": "b3e67663f70185df80652870745ec977604f1d2c6641bd5681a5e064730d9a19",
     "build.log": "06e2076f293037c0843aa12b034ce6afd806fe14125c37a12a9b481eba618f28",
     "cleanup.json": "44fb63a8eea7a96af1ffc068f4617768c6a0d0c0e7a5660d168febe6b7a313a1",
     "console-errors.json": "e4e45ee9b085a155588821b385f3e67d94091559218f1c6c30066126f69b9704",
@@ -37,6 +37,7 @@
     "preservation.json": "85d8c1bb31b56f924dadad517e40fa57a1d76872e5f9f33a9a1c0df32a52bc00",
     "recipient-review.json": "8923fe78c2226149fa283f0bc0bbc0ec6588aa0fa1afe35973d0fc000ce7d276",
     "restart-expiry.json": "0a423d81724d24467bdd4481707cd8781c458b3d07653267e0c25f3a4810d599",
+    "runtime-version.json": "73505f9c2bd167dd3b8842b8395e7cd89dc8fdac5b47a4f712aae416950b06f9",
     "tests.log": "e4b56b593afd6165a7a76dcc4d224e24fc8b642d3347eb5262969509943a4889",
     "ui-feedback-review.json": "8f0fc3932debb37d5aeb7c07fd119e62ec640528b0a7ac5cf5c915e2fb6b03fb",
     "visual-review.json": "ab7dfd7043dd12d551d3d364c9aa89f74eefec57fe1dfc04a66b511f491e196d"
