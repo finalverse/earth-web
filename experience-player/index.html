@@ -20,7 +20,8 @@
         ><img src="/logo.svg" alt="Finalverse" width="150" height="28" /></a
       ><span class="header-caption"
         >IMAGINE IT. CREATE IT. EXPERIENCE IT. <i>LOCAL PREVIEW</i></span
-      ><button id="share" class="quiet" disabled>Share experience ↗</button>
+      ><button id="create-something" disabled>Create Something ✦</button>
+      <button id="share" class="quiet" disabled>Share experience ↗</button>
     </header>
     <section
       id="guest-share-review"
@@ -147,6 +148,96 @@
               >Estimated city geometry. Materials, seasonal effects and lighting
               are authored.</small
             >
+          </div>
+        </section>
+        <section
+          id="world-creator"
+          class="world-creator-panel"
+          hidden
+          aria-label="Create a winter market"
+        >
+          <div class="companion-heading">
+            <div>
+              <p class="eyebrow">FROM AN IDEA TO A PLACE</p>
+              <h2>Make room for <em>something new.</em></h2>
+            </div>
+            <button id="world-end">End private creation</button>
+          </div>
+          <p>
+            Build a winter market from original generated geometry. Montréal’s
+            source scene stays intact.
+          </p>
+          <button id="world-template">Winter Market template</button
+          ><button id="world-remix">Remix this market</button>
+          <label for="world-intention">Imagine your market</label
+          ><textarea id="world-intention" rows="2" maxlength="512">
+Create a beautiful winter market with eight wooden stalls, glowing lanterns, decorated trees, a stage, benches and original music.</textarea>
+          <div class="companion-actions">
+            <label for="world-provider"
+              >Creative planner<select id="world-provider">
+                <option value="deterministic">
+                  Instant procedural template
+                </option>
+                <option value="configured">Configured local AI</option>
+                <option value="remix">Remix published market</option>
+              </select></label
+            ><button id="world-generate" class="primary">
+              Generate &amp; preview</button
+            ><button id="world-cancel">Cancel generation</button>
+          </div>
+          <details>
+            <summary>Local publication access</summary>
+            <p>
+              Private generation needs no account. Immutable publication uses
+              the existing local publisher role.
+            </p>
+            <label for="world-publisher"
+              >Publisher credential · used only when opening a creation
+              scope</label
+            ><input
+              id="world-publisher"
+              type="password"
+              autocomplete="off"
+              placeholder="Existing local publisher credential"
+            />
+          </details>
+          <p id="world-creator-status" role="status">
+            Deterministic templates need no model. Generated objects are
+            artistic content, not surveyed geography.
+          </p>
+          <p id="world-generated-count" class="fine"></p>
+          <div id="generated-controls" hidden>
+            <button id="world-focus">Focus market</button>
+            <div
+              id="generated-objects"
+              class="generated-objects"
+              aria-label="Generated market objects"
+            ></div>
+            <p id="world-object-info">
+              Select an original generated object to inspect it.
+            </p>
+            <p id="world-object-help" class="fine"></p>
+            <div class="companion-actions">
+              <select id="world-palette" aria-label="Object material">
+                <option value="holly">Holly red</option>
+                <option value="cedar">Warm cedar</option>
+                <option value="midnight">Midnight blue</option></select
+              ><button id="world-modify" disabled>
+                Change selected appearance</button
+              ><button id="world-toggle" disabled>Toggle lantern</button
+              ><button id="world-export">Export selected GLB</button
+              ><button id="world-export-manifest">
+                Export interchange manifest
+              </button>
+            </div>
+            <button id="world-save" class="primary">
+              Approve &amp; save privately</button
+            ><label
+              ><input id="world-publish-consent" type="checkbox" /> Publish this
+              exact saved market with its attribution and remix
+              permission.</label
+            ><button id="world-publish">Publish immutable edition</button
+            ><button id="world-share">Share market ↗</button>
           </div>
         </section>
         <section class="companion-panel" aria-labelledby="companion-heading">

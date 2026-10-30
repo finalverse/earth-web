@@ -6,6 +6,7 @@ import {
   MATERIAL_SHADER,
 } from '/presentation.mjs';
 import { mountCreator } from '/creator.js';
+import { mountWorldCreator } from '/world-creator.js';
 import { mountIntelligence } from '/intelligence.js';
 import { mountLiving } from '/living.js';
 import { mountGuest } from '/guest.js';
@@ -26,7 +27,7 @@ const reducedMotion = () =>
   !!$('still-views')?.checked;
 const lifetime = new AbortController(),
   metrics = new LocalMetrics(() => performance.now(), 0);
-let living, intelligence;
+let living, intelligence, worldCreator, generatedAudio;
 let guest, guestEdition, guestShareToken, guestTemplatePin, activeComposition;
 let renderCounter = 0,
   renderStarted,
@@ -89,6 +90,7 @@ function notice(id, text) {
 }
 function diagnostics() {
   const value = {
+    generation: worldCreator?.snapshot() || null,
     intelligence: intelligence?.snapshot() || null,
     living: living?.snapshot() || null,
     creator: creator?.snapshot() || null,
@@ -408,7 +410,10 @@ async function render() {
   handler.setInputAction((pos) => {
     const picked = viewer.scene.pick(pos.position);
     const id = picked?.id;
-    if (typeof id === 'string') selectEntity(id);
+    if (typeof id === 'string') {
+      if (id.startsWith('generated:')) worldCreator?.pick(id.slice(10));
+      else selectEntity(id);
+    }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
   viewer._fenPickHandler = handler;
   let cursor = 0;
@@ -572,7 +577,10 @@ async function playAudio() {
         gain = context.createGain();
       node.buffer = decoded;
       node.loop = layer.looping;
-      gain.gain.value = layer.gain_milli / 1000;
+      gain.gain.value =
+        (generatedAudio?.asset_sha256 === ref.sha256
+          ? Math.min(500, Math.max(0, generatedAudio.gain_milli))
+          : layer.gain_milli) / 1000;
       node.connect(gain);
       gain.connect(master);
       sources.push(node, gain);
@@ -594,6 +602,7 @@ async function playAudio() {
   }
 }
 async function dispose(show = true) {
+  await worldCreator?.dispose();
   await intelligence?.dispose();
   await living?.dispose();
   if (closed) return;
@@ -875,6 +884,25 @@ async function openExperience(override) {
         for (const m of models.values()) m.show = show;
         for (const m of authoredMarkers) m.show = show;
       },
+    });
+    worldCreator = mountWorldCreator({
+      audioEmitter: (emitter) => {
+        void stopAudio();
+        generatedAudio = emitter;
+      },
+      probeFrames: () => {
+        renderCpuSamples.length = 0;
+        probeFrames();
+      },
+      Cesium,
+      viewer: () => viewer,
+      frame: eusMatrix,
+      publication: () => publication,
+      sourceIds: () => scene.entities.map((e) => e.entity.entity_id),
+      asset,
+      share,
+      path: () => location.pathname,
+      diagnostics,
     });
     intelligence = mountIntelligence({
       source: () =>

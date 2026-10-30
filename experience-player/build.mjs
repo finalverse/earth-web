@@ -22,6 +22,7 @@ for (const file of [
   'guest.js',
   'living.js',
   'intelligence.js',
+  'world-creator.js',
   'smart-protocol.mjs',
   'presentation.mjs',
   'protocol.mjs',

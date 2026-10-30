@@ -107,6 +107,7 @@ export async function validatePublication(record, entry) {
     'assets',
     'fallback',
     ...(c.authored ? ['authored'] : []),
+    ...(c.generated ? ['generated'] : []),
   ]);
   assert(
     c.schema_version === 'finalverse.publication-content/v1' &&
@@ -155,7 +156,10 @@ export async function validatePublication(record, entry) {
       c.fallback.accessible_alternative === 'entity-list-v1',
     'Unsupported preview; use a compatible client',
   );
-  assert(Object.keys(c.assets).length <= 150, 'Asset budget exceeded');
+  assert(
+    Object.keys(c.assets).length <= (c.generated ? 200 : 150),
+    'Asset budget exceeded',
+  );
   let total = 0;
   for (const [id, a] of Object.entries(c.assets)) {
     keys(a, ['sha256', 'byte_length', 'media_type', 'provenance']);
