@@ -1,0 +1,3253 @@
+{
+  "publication": {
+    "schema_version": "finalverse.network-publication/v1",
+    "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea",
+    "content": {
+      "schema_version": "finalverse.publication-content/v1",
+      "experience": "montreal-after-dark",
+      "title": "Montréal After Dark",
+      "description": "An authored night in Montréal’s Old Port. Explore source-backed city geometry and original synthesized music.",
+      "creator": {
+        "creator": "Finalverse",
+        "attribution": "Montréal After Dark reference composition. Individual city and audio source attributions remain attached.",
+        "license": "CC0-1.0",
+        "modified": false
+      },
+      "parent": null,
+      "remix_permission": "with_attribution",
+      "visibility": "public",
+      "package": {
+        "schema_version": "finalverse.experience-package/v1",
+        "manifest": {
+          "schema_version": "finalverse.el-composition/v1",
+          "experience": {
+            "schema_version": "finalverse.el/v1",
+            "id": "montreal-after-dark",
+            "revision": 1,
+            "resources": {
+              "environment": {
+                "entity": {
+                  "authority": "infinity",
+                  "entity_id": "terra-query-binding",
+                  "entity_kind": "dataset",
+                  "address": null
+                },
+                "revision": "native-adapter-v1",
+                "media_type": "application/vnd.finalverse.environment-query+json"
+              },
+              "native-selection": {
+                "entity": {
+                  "authority": "infinity",
+                  "entity_id": "native-render-selection",
+                  "entity_kind": "dataset",
+                  "address": null
+                },
+                "revision": "native-adapter-v1",
+                "media_type": "application/vnd.finalverse.local-selection+json"
+              },
+              "scene": {
+                "entity": {
+                  "authority": "spatialdb",
+                  "entity_id": "a310bb7e-8570-5a48-b91a-93898fa989d9",
+                  "entity_kind": "geographic",
+                  "address": "usap://spatialdb/entity/a310bb7e-8570-5a48-b91a-93898fa989d9"
+                },
+                "revision": "09946919b5bf53526eea44ad7938323785094f48a5aac48529aa628b544823fc",
+                "media_type": "application/vnd.spatialdb.scene-graph+json"
+              },
+              "world-session": {
+                "entity": {
+                  "authority": "infinity",
+                  "entity_id": "mutsea-session-binding",
+                  "entity_kind": "dataset",
+                  "address": null
+                },
+                "revision": "native-adapter-v1",
+                "media_type": "application/vnd.finalverse.world-session-reference+json"
+              }
+            },
+            "contexts": {
+              "earth": {
+                "resources": [
+                  "environment",
+                  "native-selection",
+                  "scene",
+                  "world-session"
+                ]
+              },
+              "engineering": {
+                "resources": [
+                  "environment",
+                  "native-selection",
+                  "scene",
+                  "world-session"
+                ]
+              },
+              "science": {
+                "resources": [
+                  "environment",
+                  "native-selection",
+                  "scene",
+                  "world-session"
+                ]
+              },
+              "world": {
+                "resources": [
+                  "environment",
+                  "native-selection",
+                  "scene",
+                  "world-session"
+                ]
+              }
+            },
+            "interactions": {
+              "context-earth": {
+                "operation": "transition",
+                "target": {
+                  "kind": "context",
+                  "context_id": "earth"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "local.presentation"
+                ],
+                "preconditions": []
+              },
+              "context-engineering": {
+                "operation": "transition",
+                "target": {
+                  "kind": "context",
+                  "context_id": "engineering"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "local.presentation"
+                ],
+                "preconditions": []
+              },
+              "context-science": {
+                "operation": "transition",
+                "target": {
+                  "kind": "context",
+                  "context_id": "science"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "local.presentation"
+                ],
+                "preconditions": []
+              },
+              "context-world": {
+                "operation": "transition",
+                "target": {
+                  "kind": "context",
+                  "context_id": "world"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "world.enter"
+                ],
+                "preconditions": []
+              },
+              "discover-world": {
+                "operation": "explore",
+                "target": {
+                  "kind": "resource",
+                  "resource_id": "world-session"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "world.discover"
+                ],
+                "preconditions": []
+              },
+              "explore": {
+                "operation": "explore",
+                "target": {
+                  "kind": "resource",
+                  "resource_id": "scene"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "source.read"
+                ],
+                "preconditions": []
+              },
+              "explore-world": {
+                "operation": "explore",
+                "target": {
+                  "kind": "resource",
+                  "resource_id": "world-session"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "world.interact"
+                ],
+                "preconditions": []
+              },
+              "focus-world": {
+                "operation": "focus",
+                "target": {
+                  "kind": "resource",
+                  "resource_id": "world-session"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "world.interact"
+                ],
+                "preconditions": []
+              },
+              "inspect-environment": {
+                "operation": "inspect",
+                "target": {
+                  "kind": "resource",
+                  "resource_id": "environment"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "source.read"
+                ],
+                "preconditions": []
+              },
+              "inspect-scene": {
+                "operation": "inspect",
+                "target": {
+                  "kind": "resource",
+                  "resource_id": "scene"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "source.read"
+                ],
+                "preconditions": []
+              },
+              "inspect-world": {
+                "operation": "inspect",
+                "target": {
+                  "kind": "resource",
+                  "resource_id": "world-session"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "world.interact"
+                ],
+                "preconditions": []
+              },
+              "reset-selection-earth": {
+                "operation": "transition",
+                "target": {
+                  "kind": "context",
+                  "context_id": "earth"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "source.read"
+                ],
+                "preconditions": [
+                  {
+                    "kind": "context_is",
+                    "context_id": "earth"
+                  }
+                ]
+              },
+              "reset-selection-engineering": {
+                "operation": "transition",
+                "target": {
+                  "kind": "context",
+                  "context_id": "engineering"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "source.read"
+                ],
+                "preconditions": [
+                  {
+                    "kind": "context_is",
+                    "context_id": "engineering"
+                  }
+                ]
+              },
+              "reset-selection-science": {
+                "operation": "transition",
+                "target": {
+                  "kind": "context",
+                  "context_id": "science"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "source.read"
+                ],
+                "preconditions": [
+                  {
+                    "kind": "context_is",
+                    "context_id": "science"
+                  }
+                ]
+              },
+              "reset-selection-world": {
+                "operation": "transition",
+                "target": {
+                  "kind": "context",
+                  "context_id": "world"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "source.read"
+                ],
+                "preconditions": [
+                  {
+                    "kind": "context_is",
+                    "context_id": "world"
+                  }
+                ]
+              },
+              "select-aggregate": {
+                "operation": "select",
+                "target": {
+                  "kind": "resource",
+                  "resource_id": "native-selection"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "source.read"
+                ],
+                "preconditions": []
+              },
+              "select-world": {
+                "operation": "select",
+                "target": {
+                  "kind": "resource",
+                  "resource_id": "world-session"
+                },
+                "capability": {
+                  "id": "infinity.native",
+                  "version": 1
+                },
+                "permissions": [
+                  "world.interact"
+                ],
+                "preconditions": []
+              }
+            },
+            "presentation": {
+              "title": "Montréal After Dark",
+              "style": "earth",
+              "initial_context": "earth"
+            },
+            "capabilities": {
+              "infinity.native": 1,
+              "sonic.playback": 1
+            },
+            "permissions": [
+              "audio.play",
+              "local.presentation",
+              "source.read",
+              "world.discover",
+              "world.enter",
+              "world.interact"
+            ]
+          },
+          "audio": {
+            "schema_version": "finalverse.el-audio/v1",
+            "capability": {
+              "id": "sonic.playback",
+              "version": 1
+            },
+            "permission": "audio.play",
+            "transition_ms": 350,
+            "layers": {
+              "ambient": {
+                "asset": "ambient",
+                "role": "ambient",
+                "looping": true,
+                "gain_milli": 550,
+                "contexts": [
+                  "earth"
+                ],
+                "emitter": null
+              },
+              "chime": {
+                "asset": "chime",
+                "role": "spatial",
+                "looping": true,
+                "gain_milli": 700,
+                "contexts": [
+                  "earth"
+                ],
+                "emitter": {
+                  "position_mm": [
+                    18000,
+                    3000,
+                    32000
+                  ],
+                  "reference_distance_mm": 60000
+                }
+              },
+              "music": {
+                "asset": "music",
+                "role": "music",
+                "looping": true,
+                "gain_milli": 700,
+                "contexts": [
+                  "earth",
+                  "world"
+                ],
+                "emitter": null
+              }
+            }
+          },
+          "spatial": {
+            "authority": "spatialdb",
+            "graph_id": "a2cbf7d5-4fff-5219-86a5-85e8fcde2752",
+            "version": "09946919b5bf53526eea44ad7938323785094f48a5aac48529aa628b544823fc",
+            "root_sha256": "95f9780b1106c47f4bea87c2609396d425743b0ba0faa72d9d84ebfc2a980caf",
+            "source_package_sha256": "3ff219c10ba57491e3584a438c700c1a4bc7c1cd1dc252ea79eac92130ef7be8",
+            "provenance": [
+              {
+                "creator": "Natural Resources Canada",
+                "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+                "license": "OGL-Canada-2.0",
+                "modified": true
+              },
+              {
+                "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+                "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+                "license": "CC-BY-4.0",
+                "modified": true
+              }
+            ]
+          },
+          "presentation": "montreal_after_dark",
+          "entry": {
+            "target_mm": [
+              0,
+              0,
+              0
+            ],
+            "distance_mm": 330000,
+            "yaw_milliradians": 550,
+            "pitch_milliradians": 650,
+            "selected": null
+          }
+        },
+        "assets": {
+          "ambient": {
+            "sha256": "c70f4e782deb15ba9931cbf678864e61d82f9505e348163d0feb9d2b6f5d153f",
+            "byte_length": 384044,
+            "media_type": "audio/wav",
+            "provenance": {
+              "creator": "Finalverse M2 reference synthesis",
+              "attribution": "Original algorithmically authored ambient; no sampled recording; generated by scripts/m2_author_assets.py. CC0 dedication.",
+              "license": "CC0-1.0",
+              "modified": false
+            }
+          },
+          "chime": {
+            "sha256": "bcc10e82b7db3474a157b03797ddb2f392d13416dc60b6011aa83660cc65bbae",
+            "byte_length": 384044,
+            "media_type": "audio/wav",
+            "provenance": {
+              "creator": "Finalverse M2 reference synthesis",
+              "attribution": "Original algorithmically authored chime; no sampled recording; generated by scripts/m2_author_assets.py. CC0 dedication.",
+              "license": "CC0-1.0",
+              "modified": false
+            }
+          },
+          "music": {
+            "sha256": "cfc7380a088b8fd5c66731577ed02b5823c5964d33c788a3459bd09fd042d6b6",
+            "byte_length": 384044,
+            "media_type": "audio/wav",
+            "provenance": {
+              "creator": "Finalverse M2 reference synthesis",
+              "attribution": "Original algorithmically authored music; no sampled recording; generated by scripts/m2_author_assets.py. CC0 dedication.",
+              "license": "CC0-1.0",
+              "modified": false
+            }
+          }
+        },
+        "manifest_sha256": "17f932a1e23a5641fd5791fde0bc73ab210e0e387d834f8e7b55058d574c3a11",
+        "package_sha256": "bbe4ec765c59c99fc2417fe857050e3d5a3ca51e839d6efb11ff395d8d9b9122"
+      },
+      "assets": {
+        "072424d4058e073f685719b5db867290443112e0e83d3b6f3c7a68f4d4f3eb55": {
+          "sha256": "072424d4058e073f685719b5db867290443112e0e83d3b6f3c7a68f4d4f3eb55",
+          "byte_length": 20988,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "088c7808c29125b5aa62b58f1a4fa28f2e93d9fa991447c3ae674fef6cdb7608": {
+          "sha256": "088c7808c29125b5aa62b58f1a4fa28f2e93d9fa991447c3ae674fef6cdb7608",
+          "byte_length": 3052,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "08ae546d0d7f788731eec46dcd5e384c2683a3ab46bda0e448bf304f069f932c": {
+          "sha256": "08ae546d0d7f788731eec46dcd5e384c2683a3ab46bda0e448bf304f069f932c",
+          "byte_length": 18832,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "08ec207c6b7780dcb8d8076793f73c6d780c45bfbace4b048c888c1e8bc0286c": {
+          "sha256": "08ec207c6b7780dcb8d8076793f73c6d780c45bfbace4b048c888c1e8bc0286c",
+          "byte_length": 9216,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "09bbe55fb58d450ffd104b482c568d50844d0150d3018a8047980d8c35caefa4": {
+          "sha256": "09bbe55fb58d450ffd104b482c568d50844d0150d3018a8047980d8c35caefa4",
+          "byte_length": 6300,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "0a7feaeda1a3f4f2174cea8321d6f37658e81586261172fb517f9f566da714db": {
+          "sha256": "0a7feaeda1a3f4f2174cea8321d6f37658e81586261172fb517f9f566da714db",
+          "byte_length": 112692,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "0c511c081d79e725eefbde702169cf1a63eb8b539295d0b8b5a79310ef673f12": {
+          "sha256": "0c511c081d79e725eefbde702169cf1a63eb8b539295d0b8b5a79310ef673f12",
+          "byte_length": 102976,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "0f8f7620c43c6809c3cbaac4f6e6c71f837e22f8c837ee143adb0f07b1102122": {
+          "sha256": "0f8f7620c43c6809c3cbaac4f6e6c71f837e22f8c837ee143adb0f07b1102122",
+          "byte_length": 63548,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "0fd595e2d8f577e82df3f15c04dbcb0266acdc641c985862a3f121d3f8dd1e3e": {
+          "sha256": "0fd595e2d8f577e82df3f15c04dbcb0266acdc641c985862a3f121d3f8dd1e3e",
+          "byte_length": 7812,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "15eeb348458bb4188cd5a66bd9e1c8462f28c3b7e374de51b421d65e6f3ab10b": {
+          "sha256": "15eeb348458bb4188cd5a66bd9e1c8462f28c3b7e374de51b421d65e6f3ab10b",
+          "byte_length": 69924,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "192b7d3b3e893b9d4fab1931ad50fc16376dd30548585cd06f7c7daa96b64e81": {
+          "sha256": "192b7d3b3e893b9d4fab1931ad50fc16376dd30548585cd06f7c7daa96b64e81",
+          "byte_length": 7704,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "1a7bb36353d572c1dacfbfb3cd1d9e02f2e473ee3b88bc72967023d70fb331f8": {
+          "sha256": "1a7bb36353d572c1dacfbfb3cd1d9e02f2e473ee3b88bc72967023d70fb331f8",
+          "byte_length": 60852,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "1ab75afdef6eaf288a82b954a62f10be00eba3b1fb26ffd74d26a64e7542825c": {
+          "sha256": "1ab75afdef6eaf288a82b954a62f10be00eba3b1fb26ffd74d26a64e7542825c",
+          "byte_length": 3048,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "1b9ead7f4c0c0b5ad3848f386e3796279f0275483c20493f0b6012c539961545": {
+          "sha256": "1b9ead7f4c0c0b5ad3848f386e3796279f0275483c20493f0b6012c539961545",
+          "byte_length": 17860,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "1ef426e1c4d9d1de3820b32bfb03e09c107ce276013602023858dbd6ccf3e7f8": {
+          "sha256": "1ef426e1c4d9d1de3820b32bfb03e09c107ce276013602023858dbd6ccf3e7f8",
+          "byte_length": 6196,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "2054c0b6095df170d98dbe6a58c3cf4dede2948d3ef9c14a6ecd4936099753c4": {
+          "sha256": "2054c0b6095df170d98dbe6a58c3cf4dede2948d3ef9c14a6ecd4936099753c4",
+          "byte_length": 11916,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "21270465553d44115f6d5de34fb38db189a37cb98e7e880b79e6de19632a3aa3": {
+          "sha256": "21270465553d44115f6d5de34fb38db189a37cb98e7e880b79e6de19632a3aa3",
+          "byte_length": 5980,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "2260db527d3435f6ed385579569c5a63f11e572823283ef03b69e063fed7144e": {
+          "sha256": "2260db527d3435f6ed385579569c5a63f11e572823283ef03b69e063fed7144e",
+          "byte_length": 7704,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "24e8721a1db69b217fc8918cb4a340209caa332cf23f36b94d1a1288c646334e": {
+          "sha256": "24e8721a1db69b217fc8918cb4a340209caa332cf23f36b94d1a1288c646334e",
+          "byte_length": 216912,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "26f0305d54642be38714a5f6ba7adab88ebf0ed3805bec4822874c9c1b869d02": {
+          "sha256": "26f0305d54642be38714a5f6ba7adab88ebf0ed3805bec4822874c9c1b869d02",
+          "byte_length": 16672,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "280c9cde6424b11f27eafce8da692ad9c608ffb8c6813c49e17e7c90d340e9a2": {
+          "sha256": "280c9cde6424b11f27eafce8da692ad9c608ffb8c6813c49e17e7c90d340e9a2",
+          "byte_length": 7380,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "291a39998162650c796f8c748c73d0c669182b36f1e15e3c37f71ff5310275d8": {
+          "sha256": "291a39998162650c796f8c748c73d0c669182b36f1e15e3c37f71ff5310275d8",
+          "byte_length": 17856,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "2b59b80f6aa681a86fe82aa2430819ef0b2ad57fc7de2463339dcd609dc1f67c": {
+          "sha256": "2b59b80f6aa681a86fe82aa2430819ef0b2ad57fc7de2463339dcd609dc1f67c",
+          "byte_length": 9644,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "32dde804c197e36171e766f7b7b2b121163ab3735ae04c6f6c96b1c6aa0f9a2a": {
+          "sha256": "32dde804c197e36171e766f7b7b2b121163ab3735ae04c6f6c96b1c6aa0f9a2a",
+          "byte_length": 16780,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "34ff27293632150d80e9d053f237f521f31c402887babb8cc611ac08fafc3021": {
+          "sha256": "34ff27293632150d80e9d053f237f521f31c402887babb8cc611ac08fafc3021",
+          "byte_length": 4352,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "3588e257a95b7bcdc9f653df6977c08152548c2a1f53241cdf24d2c7d4eb7745": {
+          "sha256": "3588e257a95b7bcdc9f653df6977c08152548c2a1f53241cdf24d2c7d4eb7745",
+          "byte_length": 101120,
+          "media_type": "application/vnd.finalverse.web-scene+json",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "36ce1ea4296242a09c02984d48891d4669ba27b47cf6aa38152cd855bfbee551": {
+          "sha256": "36ce1ea4296242a09c02984d48891d4669ba27b47cf6aa38152cd855bfbee551",
+          "byte_length": 9216,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "36fe8ae1f01c32968b6a2a3cee90486572c65f182df39f6d12d1544f3db100db": {
+          "sha256": "36fe8ae1f01c32968b6a2a3cee90486572c65f182df39f6d12d1544f3db100db",
+          "byte_length": 16236,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "376b86d04f2fcdc07b82e9ffd7c33babaa438dac8d53c4b7eb51db32e73de77c": {
+          "sha256": "376b86d04f2fcdc07b82e9ffd7c33babaa438dac8d53c4b7eb51db32e73de77c",
+          "byte_length": 7920,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "3a4dda2a566f6f307bdafa6e9d1e9bd40a3790a247a9f3ff77e431d537716f67": {
+          "sha256": "3a4dda2a566f6f307bdafa6e9d1e9bd40a3790a247a9f3ff77e431d537716f67",
+          "byte_length": 7164,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "3b83a770eae8e48a18912b41bf7c0effafcdec2c1e461c6d79f30fda5ede057a": {
+          "sha256": "3b83a770eae8e48a18912b41bf7c0effafcdec2c1e461c6d79f30fda5ede057a",
+          "byte_length": 234644,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "3da4edc2c1e0e4ba55919b5d7d9eb02756f3d820860603184230fc9e1b7b737e": {
+          "sha256": "3da4edc2c1e0e4ba55919b5d7d9eb02756f3d820860603184230fc9e1b7b737e",
+          "byte_length": 8348,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "41047d1f8e4e031569286f01708455c9b2a52e8d4a1cbdbe7f3f624224e9bf76": {
+          "sha256": "41047d1f8e4e031569286f01708455c9b2a52e8d4a1cbdbe7f3f624224e9bf76",
+          "byte_length": 19480,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "41b9c9e14c2ca0200a7aa6cb5d05faf4f326e4cdb1832240c9f41f70dee0412e": {
+          "sha256": "41b9c9e14c2ca0200a7aa6cb5d05faf4f326e4cdb1832240c9f41f70dee0412e",
+          "byte_length": 44756,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "44d239d1765dbbd1dedd2b83d48e0923639ab74cb052fd3fe26c44c555198cfc": {
+          "sha256": "44d239d1765dbbd1dedd2b83d48e0923639ab74cb052fd3fe26c44c555198cfc",
+          "byte_length": 8568,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "45da251910faab64813e6cb2ab8bb114cc393c0400e7971e8c4c338d1b0d53eb": {
+          "sha256": "45da251910faab64813e6cb2ab8bb114cc393c0400e7971e8c4c338d1b0d53eb",
+          "byte_length": 15588,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "47392782c5e13da3777fed4fc124ba86189fc7b2b82c7cbb96f4db17cf9a4201": {
+          "sha256": "47392782c5e13da3777fed4fc124ba86189fc7b2b82c7cbb96f4db17cf9a4201",
+          "byte_length": 22284,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "49bcda2164c63c5a28d61d34403b3084277ae33ff7121c46602947251b79c286": {
+          "sha256": "49bcda2164c63c5a28d61d34403b3084277ae33ff7121c46602947251b79c286",
+          "byte_length": 13864,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "4a6232d16044a97b14036ae991754bd2fb767e35cb7a083a1fdbf1e85987b5de": {
+          "sha256": "4a6232d16044a97b14036ae991754bd2fb767e35cb7a083a1fdbf1e85987b5de",
+          "byte_length": 317140,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "4aa2ae65b39cea4260e7a9ac583021ba80325ae12f05978cb0fb5e3d5756b007": {
+          "sha256": "4aa2ae65b39cea4260e7a9ac583021ba80325ae12f05978cb0fb5e3d5756b007",
+          "byte_length": 5760,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "4c172b0a99aa10bb9b1b3291bd18b85f2f448b76948ecd36a0f0437a2a20e587": {
+          "sha256": "4c172b0a99aa10bb9b1b3291bd18b85f2f448b76948ecd36a0f0437a2a20e587",
+          "byte_length": 2832,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "4e8e62cb0e7bed2af2bda8d6b9bc9d210f758955d6437eb13111e06c98a6d540": {
+          "sha256": "4e8e62cb0e7bed2af2bda8d6b9bc9d210f758955d6437eb13111e06c98a6d540",
+          "byte_length": 6300,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "50e16cef60674f799fb52f8c9ee06df8fc967a990249967e33a312a1895c3e0e": {
+          "sha256": "50e16cef60674f799fb52f8c9ee06df8fc967a990249967e33a312a1895c3e0e",
+          "byte_length": 13540,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "5241ebd3faa98245b8e856c05472bfc19864017bb4cf913059ec3af90804f8ac": {
+          "sha256": "5241ebd3faa98245b8e856c05472bfc19864017bb4cf913059ec3af90804f8ac",
+          "byte_length": 14080,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "52977741ec0984265c70a80f513da2914ebd234bda77f1e6a7527cfc7f847b9c": {
+          "sha256": "52977741ec0984265c70a80f513da2914ebd234bda77f1e6a7527cfc7f847b9c",
+          "byte_length": 234644,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "54fd3842cddece22782ac34c86f3dbcaae321ed601b9bf96a580c93f63495650": {
+          "sha256": "54fd3842cddece22782ac34c86f3dbcaae321ed601b9bf96a580c93f63495650",
+          "byte_length": 8568,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "59d6289e3a541c88717039f3453a02ba265cb3f9c0b517d82e92cfc3ba5fa39a": {
+          "sha256": "59d6289e3a541c88717039f3453a02ba265cb3f9c0b517d82e92cfc3ba5fa39a",
+          "byte_length": 18504,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "5a388e689f2cd7172ad4339f2bc28efbf29cf9abcb02894f2e0822077613036a": {
+          "sha256": "5a388e689f2cd7172ad4339f2bc28efbf29cf9abcb02894f2e0822077613036a",
+          "byte_length": 6084,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "5a7d593bd829c1224c948c2e467b612c90bda4c0585b66d93da65814f4418afb": {
+          "sha256": "5a7d593bd829c1224c948c2e467b612c90bda4c0585b66d93da65814f4418afb",
+          "byte_length": 32004,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "5b61fcd850af8351b0ca6ace83cc96480c2f22dd314e0c11c526fe67f37594d4": {
+          "sha256": "5b61fcd850af8351b0ca6ace83cc96480c2f22dd314e0c11c526fe67f37594d4",
+          "byte_length": 234640,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "5eb2662c06fe22530fef5df7374b8fe500bb4329c18e5e9e468e661ac632ebf0": {
+          "sha256": "5eb2662c06fe22530fef5df7374b8fe500bb4329c18e5e9e468e661ac632ebf0",
+          "byte_length": 10408,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "6255d3ae9023fe0add938bd01aefdf8c7bd2cb99c152f1e5ace3a6d4096889cd": {
+          "sha256": "6255d3ae9023fe0add938bd01aefdf8c7bd2cb99c152f1e5ace3a6d4096889cd",
+          "byte_length": 9644,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "66009f3e8a3f2cd3ff86259caa4bf32fe376601d5a38707891a1cfbdc7c01aba": {
+          "sha256": "66009f3e8a3f2cd3ff86259caa4bf32fe376601d5a38707891a1cfbdc7c01aba",
+          "byte_length": 17428,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "66a117299375a445776cae270687ea4cc9619d81c8145595cf2f92c3ebd73b60": {
+          "sha256": "66a117299375a445776cae270687ea4cc9619d81c8145595cf2f92c3ebd73b60",
+          "byte_length": 8788,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "67b6ffff10b680b949a5dc9fbb496772edf26b116f19ff6bc86cc10523d2d390": {
+          "sha256": "67b6ffff10b680b949a5dc9fbb496772edf26b116f19ff6bc86cc10523d2d390",
+          "byte_length": 8464,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "6805e4401dc2aaeaf1aa6fe54d8946898e06a8a47c34b1cce576ee4840544c53": {
+          "sha256": "6805e4401dc2aaeaf1aa6fe54d8946898e06a8a47c34b1cce576ee4840544c53",
+          "byte_length": 53072,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "69a5263f05197e80110f4fb3a8722e9fd7a7027b8d514d159fdb331f5ed09cd3": {
+          "sha256": "69a5263f05197e80110f4fb3a8722e9fd7a7027b8d514d159fdb331f5ed09cd3",
+          "byte_length": 19048,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "6b001f0e451357fe56801ff733ff8a05b4d67ccf53643f056418961bbc742b95": {
+          "sha256": "6b001f0e451357fe56801ff733ff8a05b4d67ccf53643f056418961bbc742b95",
+          "byte_length": 4460,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "6c16dabf55c1c7305e9c38d7a871ba92196ec680feac99655a8766b5ad9a4972": {
+          "sha256": "6c16dabf55c1c7305e9c38d7a871ba92196ec680feac99655a8766b5ad9a4972",
+          "byte_length": 10084,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "6c3010ddafedfc6657f4148e726a5e07f3e83a1d7e36a8a1cf05ff2fc9c4d330": {
+          "sha256": "6c3010ddafedfc6657f4148e726a5e07f3e83a1d7e36a8a1cf05ff2fc9c4d330",
+          "byte_length": 17536,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "6c465017d7d92ea7a581a00949c00e28aa355e8424c078fe2e8177b134c0ea7a": {
+          "sha256": "6c465017d7d92ea7a581a00949c00e28aa355e8424c078fe2e8177b134c0ea7a",
+          "byte_length": 12780,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "7013bb73cb0aaebc3de0cb8383526cedbeb87fcdb2da5760b3048fb30e20bcc8": {
+          "sha256": "7013bb73cb0aaebc3de0cb8383526cedbeb87fcdb2da5760b3048fb30e20bcc8",
+          "byte_length": 249316,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "70e57ac08e84de85fbeecbddd7bff36805558027ef905f1bf2642b90061f7e88": {
+          "sha256": "70e57ac08e84de85fbeecbddd7bff36805558027ef905f1bf2642b90061f7e88",
+          "byte_length": 12672,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "72b2f948b556ded228d2de9072a5eee02fc26efcd6c6a164880a865f21c9be94": {
+          "sha256": "72b2f948b556ded228d2de9072a5eee02fc26efcd6c6a164880a865f21c9be94",
+          "byte_length": 8892,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "74387fb6da4b17579d0d33f3530548a8caf847818fafe4ae6d625b910cbcadc6": {
+          "sha256": "74387fb6da4b17579d0d33f3530548a8caf847818fafe4ae6d625b910cbcadc6",
+          "byte_length": 42816,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "775be337b114804d0890f63feb7dadbaad3e7a236b5026fe20683d9281739e06": {
+          "sha256": "775be337b114804d0890f63feb7dadbaad3e7a236b5026fe20683d9281739e06",
+          "byte_length": 4028,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "787da057b07b52ca1b845ef4f7b6a4e4fb7cbe5ebccf7498e94e7ee4c53e0e40": {
+          "sha256": "787da057b07b52ca1b845ef4f7b6a4e4fb7cbe5ebccf7498e94e7ee4c53e0e40",
+          "byte_length": 4136,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "88e2f416d97b8a9eb859c5d44730ab30b72655ef5a712c609769311318ec6171": {
+          "sha256": "88e2f416d97b8a9eb859c5d44730ab30b72655ef5a712c609769311318ec6171",
+          "byte_length": 5436,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "89e67057688a003afb28da967c8a20375ff9a9bc6578e90a13453d9710855273": {
+          "sha256": "89e67057688a003afb28da967c8a20375ff9a9bc6578e90a13453d9710855273",
+          "byte_length": 14940,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "8cf98c5818962514c3abad2bfb056ac15dd69eb6801f73be046daa53a0f57ce8": {
+          "sha256": "8cf98c5818962514c3abad2bfb056ac15dd69eb6801f73be046daa53a0f57ce8",
+          "byte_length": 18724,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "90a3b85b824bdba3692b849d642be2ae3d493d9a787783494f8763292ac95454": {
+          "sha256": "90a3b85b824bdba3692b849d642be2ae3d493d9a787783494f8763292ac95454",
+          "byte_length": 334532,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "90aea54e0660b413b07dfb0f04d025efabcf75d0f96e866a6d982d430b26ba79": {
+          "sha256": "90aea54e0660b413b07dfb0f04d025efabcf75d0f96e866a6d982d430b26ba79",
+          "byte_length": 19800,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "910b9ac0be095ac3d9cec45b95ffe5b8dbe9fca683fd15a3d9bad4e0d848410b": {
+          "sha256": "910b9ac0be095ac3d9cec45b95ffe5b8dbe9fca683fd15a3d9bad4e0d848410b",
+          "byte_length": 207524,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "92614abe3efb4afc9692297c9b35c3704a7111324dc3cf6be1043539f9923c89": {
+          "sha256": "92614abe3efb4afc9692297c9b35c3704a7111324dc3cf6be1043539f9923c89",
+          "byte_length": 4896,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "95ecf2608c4b604bd058e1d0b7c310c92039c08360db46d813d614b971904e67": {
+          "sha256": "95ecf2608c4b604bd058e1d0b7c310c92039c08360db46d813d614b971904e67",
+          "byte_length": 119712,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "9623266b05126be15ec418633fc6f4a4f6b2e929f4eff6b93d8ddfa169ac270d": {
+          "sha256": "9623266b05126be15ec418633fc6f4a4f6b2e929f4eff6b93d8ddfa169ac270d",
+          "byte_length": 11596,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "978586298b4eb90316e87da8b0be21a6d9ac61e5e624e2a65095b61cea90b0c5": {
+          "sha256": "978586298b4eb90316e87da8b0be21a6d9ac61e5e624e2a65095b61cea90b0c5",
+          "byte_length": 17320,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "981086a530e22cd8cd058a6be33921deba53313b0cca1b79a79c873d3748c870": {
+          "sha256": "981086a530e22cd8cd058a6be33921deba53313b0cca1b79a79c873d3748c870",
+          "byte_length": 13432,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "9bbc80b27c7f33051d4f26248cfba2c1929f1114822ccd6cb6920061e283d0e2": {
+          "sha256": "9bbc80b27c7f33051d4f26248cfba2c1929f1114822ccd6cb6920061e283d0e2",
+          "byte_length": 30604,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "9c294c9625720b3094b10dc9368004c72066d09a4e3fd979cee461855ee9454d": {
+          "sha256": "9c294c9625720b3094b10dc9368004c72066d09a4e3fd979cee461855ee9454d",
+          "byte_length": 11808,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "9cb63823a373618405fb88038725d458596de4981abf91adb8051e4ec16f8523": {
+          "sha256": "9cb63823a373618405fb88038725d458596de4981abf91adb8051e4ec16f8523",
+          "byte_length": 195312,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "9d2b8fd31f02d6a91fbfbac534a76968a34ded6beacfdd8cf78618ca955b6b97": {
+          "sha256": "9d2b8fd31f02d6a91fbfbac534a76968a34ded6beacfdd8cf78618ca955b6b97",
+          "byte_length": 14620,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "9d4a80648fb9258e6c643831594b53fd2168e47206d15347f1a8101d990a5f85": {
+          "sha256": "9d4a80648fb9258e6c643831594b53fd2168e47206d15347f1a8101d990a5f85",
+          "byte_length": 20344,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "9d6cb0811aed35d3c9827201f3e0279bc8c789e161ebf4ed6aebcbc66c1b7ad4": {
+          "sha256": "9d6cb0811aed35d3c9827201f3e0279bc8c789e161ebf4ed6aebcbc66c1b7ad4",
+          "byte_length": 6840,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "9d799cc2c294180c814c000b943356942838275f45c33c79c3b2964033729a87": {
+          "sha256": "9d799cc2c294180c814c000b943356942838275f45c33c79c3b2964033729a87",
+          "byte_length": 8140,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "a1941d79084d9b367ec72547dbf3e3da4c832d5591d89a8ebc577bb01eb80318": {
+          "sha256": "a1941d79084d9b367ec72547dbf3e3da4c832d5591d89a8ebc577bb01eb80318",
+          "byte_length": 10732,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "a42f48551981e9b9b1b7d529b0d65375eb1c0e491c969644044425b270bedb0a": {
+          "sha256": "a42f48551981e9b9b1b7d529b0d65375eb1c0e491c969644044425b270bedb0a",
+          "byte_length": 11812,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "a549f961e1b63218e9d9d806505a6aacd8fc32a929ec50c437757b8a3fbf8429": {
+          "sha256": "a549f961e1b63218e9d9d806505a6aacd8fc32a929ec50c437757b8a3fbf8429",
+          "byte_length": 14188,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "a5f7f07f4cb41c0f71c6c3705d1f641beed4efa9d1c6c67a4a1a6b4e9d34ca1f": {
+          "sha256": "a5f7f07f4cb41c0f71c6c3705d1f641beed4efa9d1c6c67a4a1a6b4e9d34ca1f",
+          "byte_length": 80396,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "a678aff4e6a2eef39b654ff3506312247d594da20cb42964ae8c878063e8729b": {
+          "sha256": "a678aff4e6a2eef39b654ff3506312247d594da20cb42964ae8c878063e8729b",
+          "byte_length": 8352,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "a78d6175cd08d24f3f56196593a1a57a305be87fc36e52808c234b251dca03b1": {
+          "sha256": "a78d6175cd08d24f3f56196593a1a57a305be87fc36e52808c234b251dca03b1",
+          "byte_length": 41300,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "a7f4b951a91adb894ba6433de02fb06a3e3d0812ec3b2dc84a8fa955b094aa48": {
+          "sha256": "a7f4b951a91adb894ba6433de02fb06a3e3d0812ec3b2dc84a8fa955b094aa48",
+          "byte_length": 9864,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "a8b5435eb002cf574cf5cf58e9b3dd89abea5665b705b8dd59592d22c581488e": {
+          "sha256": "a8b5435eb002cf574cf5cf58e9b3dd89abea5665b705b8dd59592d22c581488e",
+          "byte_length": 6948,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "ab963d4d60c8eee4e8f3eccbbfa5134a34f0b99adbca6e347f3d1a275ede76ff": {
+          "sha256": "ab963d4d60c8eee4e8f3eccbbfa5134a34f0b99adbca6e347f3d1a275ede76ff",
+          "byte_length": 8028,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "ac51d6486a701bb31eaf2ed813271ab2733644b10ef82493582f49f417dee7a8": {
+          "sha256": "ac51d6486a701bb31eaf2ed813271ab2733644b10ef82493582f49f417dee7a8",
+          "byte_length": 92716,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "ad87260a482223343df03457540f6f2f7ee767fb3cef069d895f2868a48c9200": {
+          "sha256": "ad87260a482223343df03457540f6f2f7ee767fb3cef069d895f2868a48c9200",
+          "byte_length": 11704,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "adfe51f809ea3a771341727a5c2321292795f099a9753e1243d3c3fbbc9170da": {
+          "sha256": "adfe51f809ea3a771341727a5c2321292795f099a9753e1243d3c3fbbc9170da",
+          "byte_length": 10192,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "b03706a5a0a8284235afe5a54bd036c7aeb17b084c0164fd9bffdda94aaf62e5": {
+          "sha256": "b03706a5a0a8284235afe5a54bd036c7aeb17b084c0164fd9bffdda94aaf62e5",
+          "byte_length": 8244,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "b7b28c6ebad6abcc2ffeee92fc3ce2c4e3fc30e4d88d04001da4be8bbc9447c7": {
+          "sha256": "b7b28c6ebad6abcc2ffeee92fc3ce2c4e3fc30e4d88d04001da4be8bbc9447c7",
+          "byte_length": 79316,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "ba1a4ddddfe6c0950869bfeb925e2070281d282e209f3484b930e948d58e76db": {
+          "sha256": "ba1a4ddddfe6c0950869bfeb925e2070281d282e209f3484b930e948d58e76db",
+          "byte_length": 10732,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "bcc10e82b7db3474a157b03797ddb2f392d13416dc60b6011aa83660cc65bbae": {
+          "sha256": "bcc10e82b7db3474a157b03797ddb2f392d13416dc60b6011aa83660cc65bbae",
+          "byte_length": 384044,
+          "media_type": "audio/wav",
+          "provenance": [
+            {
+              "creator": "Finalverse M2 reference synthesis",
+              "attribution": "Original algorithmically authored chime; no sampled recording; generated by scripts/m2_author_assets.py. CC0 dedication.",
+              "license": "CC0-1.0",
+              "modified": false
+            }
+          ]
+        },
+        "c20bb6576a8752be381061748b33198b2c21340e0f6002d8b8c970a84fa449c0": {
+          "sha256": "c20bb6576a8752be381061748b33198b2c21340e0f6002d8b8c970a84fa449c0",
+          "byte_length": 7164,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "c4bf6ce046429e183fa0b6d592df84f2f72dc4900700fc13849e33940b977a1c": {
+          "sha256": "c4bf6ce046429e183fa0b6d592df84f2f72dc4900700fc13849e33940b977a1c",
+          "byte_length": 47028,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "c6058a686eb358dd5df4919a44dd780940fecc4601a4ed411a26289796023104": {
+          "sha256": "c6058a686eb358dd5df4919a44dd780940fecc4601a4ed411a26289796023104",
+          "byte_length": 6408,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "c70f4e782deb15ba9931cbf678864e61d82f9505e348163d0feb9d2b6f5d153f": {
+          "sha256": "c70f4e782deb15ba9931cbf678864e61d82f9505e348163d0feb9d2b6f5d153f",
+          "byte_length": 384044,
+          "media_type": "audio/wav",
+          "provenance": [
+            {
+              "creator": "Finalverse M2 reference synthesis",
+              "attribution": "Original algorithmically authored ambient; no sampled recording; generated by scripts/m2_author_assets.py. CC0 dedication.",
+              "license": "CC0-1.0",
+              "modified": false
+            }
+          ]
+        },
+        "c7deefc0e90d7f8d3293e0c932fc906b14fddfdcd138416357ed2cdeda5304b4": {
+          "sha256": "c7deefc0e90d7f8d3293e0c932fc906b14fddfdcd138416357ed2cdeda5304b4",
+          "byte_length": 7168,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "cf0263d0623531562c5bfb3e0895697b149a2d072982e8792ec47f27dc004e65": {
+          "sha256": "cf0263d0623531562c5bfb3e0895697b149a2d072982e8792ec47f27dc004e65",
+          "byte_length": 9760,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "cf3dba9aaf8046525ccc4d8a6a4bba8534d86832f7b84983d8c8ef01bd367d3f": {
+          "sha256": "cf3dba9aaf8046525ccc4d8a6a4bba8534d86832f7b84983d8c8ef01bd367d3f",
+          "byte_length": 9432,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "cf83edba2cb21eb84f05d03fda23341b6c6c1498830f988cf2446851dfb0f590": {
+          "sha256": "cf83edba2cb21eb84f05d03fda23341b6c6c1498830f988cf2446851dfb0f590",
+          "byte_length": 12780,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "cfb90a5352ded6d14a2ed4a6d7423caf3419c932d7b17a5e3790268356c26915": {
+          "sha256": "cfb90a5352ded6d14a2ed4a6d7423caf3419c932d7b17a5e3790268356c26915",
+          "byte_length": 138616,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "cfc7380a088b8fd5c66731577ed02b5823c5964d33c788a3459bd09fd042d6b6": {
+          "sha256": "cfc7380a088b8fd5c66731577ed02b5823c5964d33c788a3459bd09fd042d6b6",
+          "byte_length": 384044,
+          "media_type": "audio/wav",
+          "provenance": [
+            {
+              "creator": "Finalverse M2 reference synthesis",
+              "attribution": "Original algorithmically authored music; no sampled recording; generated by scripts/m2_author_assets.py. CC0 dedication.",
+              "license": "CC0-1.0",
+              "modified": false
+            }
+          ]
+        },
+        "d04fa942d99a2ef0ca79e84d6a1f6860e81b7074bb42ea834658977745f2935e": {
+          "sha256": "d04fa942d99a2ef0ca79e84d6a1f6860e81b7074bb42ea834658977745f2935e",
+          "byte_length": 2832,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "d05e4377aff27a338d2a84d56d66adc0dd68ae96597f6b6806ce5dbf0327c964": {
+          "sha256": "d05e4377aff27a338d2a84d56d66adc0dd68ae96597f6b6806ce5dbf0327c964",
+          "byte_length": 27364,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "d3278d7b8cdbe993a320d9c0218b17c955e296a90f1b73c1aa7ed86db2fe13c4": {
+          "sha256": "d3278d7b8cdbe993a320d9c0218b17c955e296a90f1b73c1aa7ed86db2fe13c4",
+          "byte_length": 10296,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "d535f3394145c4988390c8aec09e88f8ff04dfb9196675a2ba66ab9349e5c53e": {
+          "sha256": "d535f3394145c4988390c8aec09e88f8ff04dfb9196675a2ba66ab9349e5c53e",
+          "byte_length": 30704,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "d59b850853c301a6378f048b051a224a0c94adbb22baf02abbb6c5899959243d": {
+          "sha256": "d59b850853c301a6378f048b051a224a0c94adbb22baf02abbb6c5899959243d",
+          "byte_length": 7704,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "d5f0903518781cb672efa448dffb74aa41a052cc2dfeb864bd174b95f27922c8": {
+          "sha256": "d5f0903518781cb672efa448dffb74aa41a052cc2dfeb864bd174b95f27922c8",
+          "byte_length": 18724,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "d6f2bd034ab71a3eda5e7cc0a2f4a7e297cddaa8bf45cb29e83c6ed09e2e2b04": {
+          "sha256": "d6f2bd034ab71a3eda5e7cc0a2f4a7e297cddaa8bf45cb29e83c6ed09e2e2b04",
+          "byte_length": 288196,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "d95f436a2c3c00f0df19f1e6ac26578e681fb1f0cb69348517e094e48d3840fc": {
+          "sha256": "d95f436a2c3c00f0df19f1e6ac26578e681fb1f0cb69348517e094e48d3840fc",
+          "byte_length": 6516,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "d9647437c9548e06df22023e74bd4c6379a72c13d3dca12b8e0dca540e702419": {
+          "sha256": "d9647437c9548e06df22023e74bd4c6379a72c13d3dca12b8e0dca540e702419",
+          "byte_length": 20556,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "dd7bffe625d52b1a07747e03e608bf2b6b7544decccec33d3cb05222c23603cd": {
+          "sha256": "dd7bffe625d52b1a07747e03e608bf2b6b7544decccec33d3cb05222c23603cd",
+          "byte_length": 9220,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "de9d424797a51b71c19f201d6a29201335c606962bcccd344214ba400772a634": {
+          "sha256": "de9d424797a51b71c19f201d6a29201335c606962bcccd344214ba400772a634",
+          "byte_length": 6624,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "dec781d0ff2964bda89c32f7b95e4f691c6ecbb4629f0eef1b40d3bdc7e26943": {
+          "sha256": "dec781d0ff2964bda89c32f7b95e4f691c6ecbb4629f0eef1b40d3bdc7e26943",
+          "byte_length": 37844,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "e1a42bf18c42749cdfa4bdedf3b6bc7c008582bb9eb3d22d126e39f88b54d4c4": {
+          "sha256": "e1a42bf18c42749cdfa4bdedf3b6bc7c008582bb9eb3d22d126e39f88b54d4c4",
+          "byte_length": 9328,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "e44cbf40a5b4d591c828e4c357745151f57847468db9dc4aa84ef539c31f9329": {
+          "sha256": "e44cbf40a5b4d591c828e4c357745151f57847468db9dc4aa84ef539c31f9329",
+          "byte_length": 6192,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "e566c5a86747e814a84519a1e915aaa7e751531719b43307cf4715a8fe4b1684": {
+          "sha256": "e566c5a86747e814a84519a1e915aaa7e751531719b43307cf4715a8fe4b1684",
+          "byte_length": 14944,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "e70c3cd4388cd6552bbba891fdae16362211a1f9045e6f0f76e867205ba87e1c": {
+          "sha256": "e70c3cd4388cd6552bbba891fdae16362211a1f9045e6f0f76e867205ba87e1c",
+          "byte_length": 7700,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "eae4c3261a28528fe43a82f9627fc2992d23117938de58242baadced72099bb8": {
+          "sha256": "eae4c3261a28528fe43a82f9627fc2992d23117938de58242baadced72099bb8",
+          "byte_length": 5980,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "eba26eb114114ee1f6f1e3dc326de6de946ce1ecf11d22e4d64511a6ea2725de": {
+          "sha256": "eba26eb114114ee1f6f1e3dc326de6de946ce1ecf11d22e4d64511a6ea2725de",
+          "byte_length": 234644,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "ef0f0f83017a2ce39ba074148f63346b856de28c3b8bb04fb78eb963e15dc690": {
+          "sha256": "ef0f0f83017a2ce39ba074148f63346b856de28c3b8bb04fb78eb963e15dc690",
+          "byte_length": 10512,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "f5e7db8af5e3f678bbd496b19dd7c109cf6ebfb0ce5146abda9c2aa6c50f7996": {
+          "sha256": "f5e7db8af5e3f678bbd496b19dd7c109cf6ebfb0ce5146abda9c2aa6c50f7996",
+          "byte_length": 75428,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "f83a5eba201eadbc2b76aa46677bd3b63d0b53a3821deaa029b757cceff503d3": {
+          "sha256": "f83a5eba201eadbc2b76aa46677bd3b63d0b53a3821deaa029b757cceff503d3",
+          "byte_length": 20344,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "fa35655aac1fccc64d18488e3b805d27e5042f7a7c6e658ea2352b1ba2f13dc8": {
+          "sha256": "fa35655aac1fccc64d18488e3b805d27e5042f7a7c6e658ea2352b1ba2f13dc8",
+          "byte_length": 13748,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "fafce832a4065cb2d4653fb6e0e9eee8596a489551b415bd02c810503abe7417": {
+          "sha256": "fafce832a4065cb2d4653fb6e0e9eee8596a489551b415bd02c810503abe7417",
+          "byte_length": 10728,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "fbc5aaefe05804553005c3eda00d84ecc080c45d0b535d2b13eaec46d7c03407": {
+          "sha256": "fbc5aaefe05804553005c3eda00d84ecc080c45d0b535d2b13eaec46d7c03407",
+          "byte_length": 6512,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "fccf6b8ccb20e77d5a4cf6ff1530c10756c53ad58ff35b0765a69f742765bef5": {
+          "sha256": "fccf6b8ccb20e77d5a4cf6ff1530c10756c53ad58ff35b0765a69f742765bef5",
+          "byte_length": 12672,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "fcdddb5ef0a5637c368f65d4be0bb41d58fe91267ff0443af32330e56fd4a9af": {
+          "sha256": "fcdddb5ef0a5637c368f65d4be0bb41d58fe91267ff0443af32330e56fd4a9af",
+          "byte_length": 9536,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "fd4d1ab1d7c7cf487ccc923319ce52f3876e2e26522bad922b8a2d74e4789026": {
+          "sha256": "fd4d1ab1d7c7cf487ccc923319ce52f3876e2e26522bad922b8a2d74e4789026",
+          "byte_length": 10832,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "fd9ff0ac005147458840296fb583853dd4e64c3dba466fb1972f8421b87aa24b": {
+          "sha256": "fd9ff0ac005147458840296fb583853dd4e64c3dba466fb1972f8421b87aa24b",
+          "byte_length": 32228,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "fe53f7f474b30f6ac6cf17c847fa675805da009a0ff1c42f1a89184360af44bb": {
+          "sha256": "fe53f7f474b30f6ac6cf17c847fa675805da009a0ff1c42f1a89184360af44bb",
+          "byte_length": 5004,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "ff2ec02a85f150046309ba54bfb489b3578f594f8ab0fa951e090ad59102e33a": {
+          "sha256": "ff2ec02a85f150046309ba54bfb489b3578f594f8ab0fa951e090ad59102e33a",
+          "byte_length": 69384,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "ff898772dec6d724ff053f050347fe12a19c738c08e62e1ad2b368df30c13e86": {
+          "sha256": "ff898772dec6d724ff053f050347fe12a19c738c08e62e1ad2b368df30c13e86",
+          "byte_length": 53076,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "ffe3c0e1861d037799fc23491048537a220f0d37aa92d3831cdcb8a6147a53ec": {
+          "sha256": "ffe3c0e1861d037799fc23491048537a220f0d37aa92d3831cdcb8a6147a53ec",
+          "byte_length": 11052,
+          "media_type": "model/gltf-binary",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        }
+      },
+      "fallback": {
+        "schema_version": "finalverse.web-fallback/v1",
+        "scene": {
+          "sha256": "3588e257a95b7bcdc9f653df6977c08152548c2a1f53241cdf24d2c7d4eb7745",
+          "byte_length": 101120,
+          "media_type": "application/vnd.finalverse.web-scene+json",
+          "provenance": [
+            {
+              "creator": "Natural Resources Canada",
+              "attribution": "NRCan terrain, surface and geoid; extracted, resampled and reconstructed.",
+              "license": "OGL-Canada-2.0",
+              "modified": true
+            },
+            {
+              "creator": "Ville de Montréal / Communauté métropolitaine de Montréal",
+              "attribution": "Montréal roof outlines and roads; clipped, estimated heights and procedural appearance. Geometry quality remains estimated/unknown as reported by the source.",
+              "license": "CC-BY-4.0",
+              "modified": true
+            }
+          ]
+        },
+        "renderer": "cesium-district-v1",
+        "accessible_alternative": "entity-list-v1",
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ]
+      }
+    }
+  },
+  "status": "published"
+}

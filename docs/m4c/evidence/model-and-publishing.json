@@ -1,0 +1,84 @@
+{
+  "schema": "finalverse.m4c-model-publication-review/v1",
+  "results": {
+    "fixture": {
+      "path": "/x/montreal-after-dark/18c91c65962d51dbae56a6e830d108270438045b81c55aeff56b658e7e6906b3",
+      "proposal_hash": "4281d731423451b8abdb54ffaa742f91969e9ebccff4c875ac0160733dcacf2e",
+      "version": "18c91c65962d51dbae56a6e830d108270438045b81c55aeff56b658e7e6906b3",
+      "authored_version": "9f3f48ce5f815617f85dd910cd70042a758ed9b77a3f47dce14233dd80efbb3f",
+      "intention": {
+        "title": "Montréal — Winter Festival 2.0",
+        "description": "A lantern-lit winter evening: heritage stone, amber windows, gently falling snow and an original quiet score. All seasonal effects are authored.",
+        "lighting": "festival",
+        "visual": {
+          "palette": "winter_stone",
+          "warmth_milli": 1000,
+          "snow_milli": 260,
+          "haze_milli": 260,
+          "window_glow_milli": 760,
+          "roughness_milli": 820,
+          "metallic_milli": 60
+        },
+        "ambient_gain_milli": 240,
+        "music_gain_milli": 140,
+        "waypoint_ids": [
+          "0091d810-0a82-5d71-a85a-d76bfa906644",
+          "0448039a-cd33-5938-a8d1-ff09b01a7b0c"
+        ]
+      },
+      "provider_receipt": {
+        "attempts": 1,
+        "input_tokens": null,
+        "intention_sha256": "3b65f48478e6e5f81831e2d410f5df1a680f8a57e5eea6a811b3155f7d3f5933",
+        "latency_ms": 0,
+        "output_tokens": null,
+        "provider": "fixture",
+        "real_inference": false,
+        "requested_model": "finalverse-creative-fixture-v2",
+        "served_model": "finalverse-creative-fixture-v2"
+      },
+      "published_intention_hash_verified": true
+    },
+    "model": {
+      "path": "/x/montreal-after-dark/0f6cb2bd4f09444f684fb2566abae18051c22a58d62e67a632a47eee05111bd4",
+      "proposal_hash": "99f4ca9e0504884dab9de9fd73caba4f1a195ed2c5cd3bca53e24b753578f891",
+      "version": "0f6cb2bd4f09444f684fb2566abae18051c22a58d62e67a632a47eee05111bd4",
+      "authored_version": "2a591b8943fd112917fab06fa1e13be7190cbca33be3e28bacc98bbee8760b36",
+      "intention": {
+        "title": "Winter's Whisper",
+        "description": "An enchanted winter festival in Montréal’s Old Port. Explore source-backed city geometry and original synthesized music.",
+        "lighting": "after_dark",
+        "visual": {
+          "palette": "winter_stone",
+          "warmth_milli": 700,
+          "snow_milli": 150,
+          "haze_milli": 180,
+          "window_glow_milli": 700,
+          "roughness_milli": 780,
+          "metallic_milli": 80
+        },
+        "ambient_gain_milli": 80,
+        "music_gain_milli": 400,
+        "waypoint_ids": []
+      },
+      "provider_receipt": {
+        "attempts": 1,
+        "input_tokens": 956,
+        "intention_sha256": "426dc9a440a3668fec0a3d24f3c29149160447307bfdcbedafeb91b8daba0a66",
+        "latency_ms": 12460,
+        "output_tokens": 164,
+        "provider": "ollama",
+        "real_inference": true,
+        "requested_model": "qwen2.5-coder:3b",
+        "served_model": "qwen2.5-coder:3b"
+      },
+      "published_intention_hash_verified": true
+    }
+  },
+  "final_server_ownership": {
+    "drafts": 0,
+    "planning_requests": 0
+  },
+  "live_model_endpoint": "http://127.0.0.1:11434",
+  "cloud_model_tested": false
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "finalverse.m4b-http-review/v1",
+  "checks": [
+    "generation requires publisher",
+    "direct publish cannot bypass approval and private save",
+    "approval requires preview",
+    "save without approval refused",
+    "preview isolated and snow typed",
+    "modified approval hash refused",
+    "unauthorized modification rejected",
+    "save stays private",
+    "public publication needs explicit consent",
+    "new version retains parent assets provenance",
+    "publication preserves exact approved plan",
+    "anonymous authored publication resolves",
+    "all authored edition assets hash verified",
+    "versioned share link resolves without credential",
+    "version based revert",
+    "closed draft authority released",
+    "fixture request deterministic",
+    "explicit rejection"
+  ],
+  "timing_ms": {
+    "proposal_generation_ms": 39.495166000000026,
+    "private_save_ms": 15.967207999999955,
+    "publication_ms": 84.01779099999996
+  },
+  "base": {
+    "experience": "montreal-after-dark",
+    "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+  },
+  "publication_version": "bf2d6e42a5c55518c1a06a143f419b2df21847492f6fd8fc7f4c1af8d1206d72",
+  "authored_version": "06b045316eb88e75e876f9b11725afafe03763a75c5cc23dfaaa45bb6a1e9ab3",
+  "proposal_hash": "7f33489810c3c3ba0dc5a3be0ddf633594bedb344021fe5669b932df52bfdc4d",
+  "path": "/x/montreal-after-dark/bf2d6e42a5c55518c1a06a143f419b2df21847492f6fd8fc7f4c1af8d1206d72",
+  "verified_assets": 143,
+  "verified_bytes": 6660068,
+  "no_world_commands": true,
+  "real_model": "unverified; no configured model endpoint used"
+}

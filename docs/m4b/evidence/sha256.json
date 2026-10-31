@@ -1,0 +1,18 @@
+{
+  "artifact-provenance.json": "8eede01752105d2ce7424e244f52cfb0640c8d1f88de616b0a080e99a3a7ed38",
+  "browser-review.json": "4fcd44906695e7cb164e4b4773f5cbdd1e7db24305adda140b3b5a904450468c",
+  "build.log": "19e362e799d85739c465d79f075b2c51d685cf809c185716b2201fa427cf561c",
+  "cleanup.json": "754b98c27cbb139e7406b24ca9c07b31a1cb6307facd8c9957c4c0eac7176256",
+  "credential-scan.json": "2f0799d6680eec33a97cad07e343159a05292f1c3be577a8ab9f27b7a36d0f27",
+  "evidence-check.log": "3cf732e987308c41a1eff3cbacc3d67f99f33984f008d1cbe89962fb9e310cc4",
+  "format.log": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+  "http-review.json": "9a544e0e568c8d7ed01029fdb56d6ddf982a225df679d78be387ddc5e744506c",
+  "persistence.json": "c7b93b2de3bdaadb61c97176add46447f307f78d96fb23807374eea5a35e99c5",
+  "preserved-worktrees.json": "8da32c9d48d26a26a783db44a0c0f810913a4339b145a5fa392abb6543304fbf",
+  "proposal.json": "52e6c5ab0bde96489bee2c9b502f09001855669481263a5d315aeaeddeec26a8",
+  "publication.json": "9d39059f0f50888bb285e84afeb24bf047aeaa42a2eac43fad7debdcc86fa4e2",
+  "tests.log": "081e97dad2215a995564e4a60e29ce7041b9d6e56a5eb8ace0ada74c7f6e670d",
+  "web-build-sha256.json": "b4a16dbe37692380fdc3ff1a2efe2d6a7ab8ca03e5912d80c2b44ce4cfb01ade",
+  "winter-desktop.png": "fbce32e056402677a020dc6dfe2c2e2a8f5393db358938f6202d380920c4cb68",
+  "winter-mobile.png": "8d863539c72e1e5ee3f21066d15883ec9449b2de0c1545815d87e14759f706c5"
+}

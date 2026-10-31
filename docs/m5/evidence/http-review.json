@@ -1,0 +1,158 @@
+{
+  "schema": "finalverse.m5-http-review/v1",
+  "checks": [
+    "six compatible, explainable recommendations",
+    "actual source count, authored weather and no fabricated observations",
+    "winter-wonderland plan and source integrity",
+    "cyberpunk-montreal plan and source integrity",
+    "golden-hour plan and source integrity",
+    "jazz-night plan and source integrity",
+    "festival-of-lights plan and source integrity",
+    "quiet-montreal plan and source integrity",
+    "six meaningful compositions",
+    "compiled warm plan reused",
+    "more_magical changes bounded presentation",
+    "warmer changes bounded presentation",
+    "more_peaceful changes bounded presentation",
+    "more_festive changes bounded presentation",
+    "guest has no publisher rights",
+    "guest has no privileged creator access",
+    "unapproved scripts and world operations rejected",
+    "old approval hash cannot save",
+    "explicit approval required",
+    "unsaved personal version cannot share",
+    "EK applies exact saved proposal",
+    "explicit temporary sharing consent required",
+    "anonymous immutable share reopens",
+    "published template, source assets and parent remain pinned",
+    "temporary retention and no extraction rights",
+    "unchanged scene CAS bytes",
+    "share capability is not guest authorization",
+    "recipient owns a new isolated draft with inherited composition",
+    "recipient derivative keeps immutable lineage and expiry bound",
+    "guest share quota is enforced",
+    "guest close releases personal drafts",
+    "temporary shares do not enter durable publisher catalog",
+    "affected M4-C authoring boundary remains functional"
+  ],
+  "timings": [
+    {
+      "operation": "apply",
+      "duration_ms": 20.431,
+      "expected_status": 200
+    },
+    {
+      "operation": "apply",
+      "duration_ms": 20.359,
+      "expected_status": 200
+    },
+    {
+      "operation": "apply",
+      "duration_ms": 20.18,
+      "expected_status": 200
+    },
+    {
+      "operation": "apply",
+      "duration_ms": 20.175,
+      "expected_status": 200
+    },
+    {
+      "operation": "apply",
+      "duration_ms": 20.361,
+      "expected_status": 200
+    },
+    {
+      "operation": "apply",
+      "duration_ms": 20.489,
+      "expected_status": 200
+    },
+    {
+      "operation": "apply",
+      "duration_ms": 7.871,
+      "expected_status": 200
+    },
+    {
+      "operation": "quick",
+      "duration_ms": 18.806,
+      "expected_status": 200
+    },
+    {
+      "operation": "quick",
+      "duration_ms": 18.751,
+      "expected_status": 200
+    },
+    {
+      "operation": "quick",
+      "duration_ms": 18.717,
+      "expected_status": 200
+    },
+    {
+      "operation": "quick",
+      "duration_ms": 18.612,
+      "expected_status": 200
+    },
+    {
+      "operation": "save",
+      "duration_ms": 0.511,
+      "expected_status": 409
+    },
+    {
+      "operation": "save",
+      "duration_ms": 0.502,
+      "expected_status": 422
+    },
+    {
+      "operation": "share",
+      "duration_ms": 0.945,
+      "expected_status": 422
+    },
+    {
+      "operation": "save",
+      "duration_ms": 10.176,
+      "expected_status": 200
+    },
+    {
+      "operation": "share",
+      "duration_ms": 0.588,
+      "expected_status": 422
+    },
+    {
+      "operation": "share",
+      "duration_ms": 8.911,
+      "expected_status": 200
+    },
+    {
+      "operation": "share",
+      "duration_ms": 9.616,
+      "expected_status": 200
+    },
+    {
+      "operation": "share",
+      "duration_ms": 9.232,
+      "expected_status": 200
+    },
+    {
+      "operation": "share",
+      "duration_ms": 0.575,
+      "expected_status": 429
+    }
+  ],
+  "source": {
+    "experience": "montreal-after-dark",
+    "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+  },
+  "source_entity_digest": "88699acb974ebb351a6862d0a5afd64276b78f1eed59ee6cb1be229edde7567e",
+  "asset_count": 143,
+  "edition_version": "474e57ee8ecf542e1ad615ddcb4b5d0dcaec2a2cd35c270074e2c042b7ba6670",
+  "publication_version": "3dee034b064c318912fb7252bda03ba55ac0f8ec5ac0ef9396d3598a5091af91",
+  "no_model_inference": true,
+  "guest_ownership": {
+    "cache_hits": 1,
+    "cache_misses": 7,
+    "compiled_plans": 7,
+    "drafts": 0,
+    "planning_requests": 0,
+    "sessions": 0,
+    "temporary_shares": 4
+  }
+}

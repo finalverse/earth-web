@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="Step into Montréal After Dark. A source-backed interactive experience, shared through Finalverse."
+    />
+    <title>Finalverse · Montréal After Dark</title>
+    <link rel="stylesheet" href="/cesium/Widgets/widgets.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/cesium/Cesium.js" defer></script>
+    <script type="module" src="/player.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/" aria-label="Finalverse experiences"
+        ><img src="/logo.svg" alt="Finalverse" width="150" height="28" /></a
+      ><span class="header-caption"
+        >IMAGINE IT. CREATE IT. EXPERIENCE IT. <i>LOCAL PREVIEW</i></span
+      ><button id="create-something" disabled>Create Something ✦</button>
+      <button id="share" class="quiet" disabled>Share experience ↗</button>
+    </header>
+    <section
+      id="guest-share-review"
+      class="guest-share-review"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="guest-share-title"
+      hidden
+    >
+      <div>
+        <p class="eyebrow">PASS THE MOMENT ON</p>
+        <h2 id="guest-share-title">Share your experience?</h2>
+        <p>
+          This creates a temporary, unlisted link. Anyone with it can explore
+          and make an attributed remix. It expires within one hour or if this
+          service restarts.
+        </p>
+        <label
+          ><input id="guest-confirm" type="checkbox" /> I approve this exact
+          preview and agree to this temporary sharing.</label
+        >
+        <div class="creator-actions">
+          <button id="guest-share-submit" class="primary" disabled>
+            Save &amp; create temporary link</button
+          ><button id="guest-share-close">Keep it personal</button>
+        </div>
+      </div>
+    </section>
+    <main id="landing" hidden>
+      <p class="eyebrow">A place to begin</p>
+      <h1>Explore a world.<br /><em>Make it yours.</em></h1>
+      <p class="lead">
+        Places, music and stories you can step inside. Start with one authored
+        night in Montréal.
+      </p>
+      <section id="publications" aria-label="Published experiences"></section>
+      <p id="landing-status" role="status">Finding available experiences…</p>
+    </main>
+    <main id="experience" hidden>
+      <section class="intro" aria-labelledby="title">
+        <div>
+          <p class="eyebrow">
+            MONTRÉAL · OLD PORT <span id="version-badge">VERIFIED EDITION</span>
+          </p>
+          <h1 id="title">Opening an experience…</h1>
+          <p id="description" class="lead"></p>
+          <p id="byline"></p>
+        </div>
+        <button id="enter" class="primary" disabled>
+          Start exploring <span>↗</span>
+        </button>
+      </section>
+      <section class="discovery" aria-labelledby="discovery-title">
+        <div class="discovery-heading">
+          <div>
+            <p class="eyebrow">SIX WAYS TO FEEL THIS PLACE</p>
+            <h2 id="discovery-title">Your city. Your kind of moment.</h2>
+          </div>
+          <p id="recommendation-note">Finding compatible experiences…</p>
+        </div>
+        <div
+          id="templates"
+          class="template-gallery"
+          aria-label="Recommended experiences"
+        ></div>
+        <p class="gallery-caption">
+          Authored style previews · original source geometry stays unchanged
+        </p>
+        <details class="advanced-discovery">
+          <summary>Or imagine something new…</summary>
+          <p>
+            Optional local publisher tools. Guest AI personalization is
+            available through Make It Mine.
+          </p>
+          <button id="toggle-creator">Open advanced creator</button>
+        </details>
+      </section>
+      <div class="experience-grid">
+        <section class="stage" aria-label="Interactive Montréal district">
+          <div
+            id="viewport"
+            tabindex="0"
+            aria-label="3D district. Drag to orbit, scroll to zoom. Use the entity list for accessible selection."
+          ></div>
+          <div id="scene-state" class="scene-state" role="status">
+            Loading the verified district…
+          </div>
+          <canvas id="snow" aria-hidden="true"></canvas>
+          <div class="atmosphere-depth" aria-hidden="true"></div>
+          <div class="scene-label">
+            <span class="live-dot"></span>
+            <span id="authored-label"
+              >An authored night · real source geometry</span
+            >
+          </div>
+          <nav class="viewpoints" aria-label="Guided viewpoints">
+            <button id="view-district">District</button
+            ><button id="view-lantern">Lantern lane</button
+            ><button id="view-roofs">Rooftops</button
+            ><button id="guide">Start guided views</button
+            ><label class="motion-toggle"
+              ><input id="still-views" type="checkbox" />Still views</label
+            >
+          </nav>
+          <div
+            id="waypoint-controls"
+            class="waypoint-controls"
+            aria-label="Authored interaction points"
+          ></div>
+          <div class="stage-controls">
+            <label class="quality-label"
+              >Quality
+              <select id="quality">
+                <option value="balanced">Balanced · 30 fps target</option>
+                <option value="high">High · 60 fps target</option>
+                <option value="low">Low · 30 fps target</option>
+              </select></label
+            ><button id="reset" disabled>Reset view</button
+            ><button id="focus" disabled>Focus selection</button
+            ><button id="close" class="quiet">Close preview</button>
+          </div>
+          <div class="stage-foot">
+            Explore at your own pace · drag to orbit<br /><small
+              >Estimated city geometry. Materials, seasonal effects and lighting
+              are authored.</small
+            >
+          </div>
+        </section>
+        <section
+          id="world-creator"
+          class="world-creator-panel"
+          hidden
+          aria-label="Create a winter market"
+        >
+          <div class="companion-heading">
+            <div>
+              <p class="eyebrow">FROM AN IDEA TO A PLACE</p>
+              <h2>Make room for <em>something new.</em></h2>
+            </div>
+            <button id="world-end">End private creation</button>
+          </div>
+          <p>
+            Build a winter market from original generated geometry. Montréal’s
+            source scene stays intact.
+          </p>
+          <button id="world-template">Winter Market template</button
+          ><button id="world-remix">Remix this market</button>
+          <label for="world-intention">Imagine your market</label
+          ><textarea id="world-intention" rows="2" maxlength="512">
+Create a beautiful winter market with eight wooden stalls, glowing lanterns, decorated trees, a stage, benches and original music.</textarea>
+          <div class="companion-actions">
+            <label for="world-provider"
+              >Creative planner<select id="world-provider">
+                <option value="deterministic">
+                  Instant procedural template
+                </option>
+                <option value="configured">Configured local AI</option>
+                <option value="remix">Remix published market</option>
+              </select></label
+            ><button id="world-generate" class="primary">
+              Generate &amp; preview</button
+            ><button id="world-cancel">Cancel generation</button>
+          </div>
+          <details>
+            <summary>Local publication access</summary>
+            <p>
+              Private generation needs no account. Immutable publication uses
+              your signed-in creator identity. Operators may use their existing
+              publisher credential.
+            </p>
+            <label for="world-publisher"
+              >Publisher credential · used only when opening a creation
+              scope</label
+            ><input
+              id="world-publisher"
+              type="password"
+              autocomplete="off"
+              placeholder="Existing local publisher credential"
+            />
+          </details>
+          <p id="world-creator-status" role="status">
+            Deterministic templates need no model. Generated objects are
+            artistic content, not surveyed geography.
+          </p>
+          <p id="world-generated-count" class="fine"></p>
+          <label for="world-title">Your edition title</label
+          ><input
+            id="world-title"
+            maxlength="120"
+            value="Montréal Winter Market · My variation"
+          />
+          <div id="generated-controls" hidden>
+            <button id="world-focus">Focus market</button>
+            <div
+              id="generated-objects"
+              class="generated-objects"
+              aria-label="Generated market objects"
+            ></div>
+            <p id="world-object-info">
+              Select an original generated object to inspect it.
+            </p>
+            <p id="world-object-help" class="fine"></p>
+            <div class="companion-actions">
+              <select id="world-palette" aria-label="Object material">
+                <option value="holly">Holly red</option>
+                <option value="cedar">Warm cedar</option>
+                <option value="midnight">Midnight blue</option></select
+              ><button id="world-modify" disabled>
+                Change selected appearance</button
+              ><button id="world-toggle" disabled>Toggle lantern</button
+              ><button id="world-export">Export selected GLB</button
+              ><button id="world-export-manifest">
+                Export interchange manifest
+              </button>
+            </div>
+            <button id="world-save" class="primary">
+              Approve &amp; save privately</button
+            ><label
+              ><input id="world-publish-consent" type="checkbox" /> Publish this
+              exact saved market with its attribution and remix
+              permission.</label
+            ><button id="world-publish">Publish immutable edition</button
+            ><button id="world-share">Share market ↗</button>
+          </div>
+        </section>
+        <section class="companion-panel" aria-labelledby="companion-heading">
+          <div class="companion-heading">
+            <span class="companion-symbol" aria-hidden="true">✦</span>
+            <div>
+              <p class="eyebrow">YOUR CITY. YOUR AI COMPANION.</p>
+              <h2 id="companion-heading">Explore with <em>Lumi.</em></h2>
+            </div>
+            <button id="companion-end" class="quiet">End companion</button>
+          </div>
+          <p id="companion-identity">
+            A little curiosity. A new way into the city.
+          </p>
+          <p class="companion-consent">
+            When you ask, Lumi may inspect public source information and prepare
+            private atmosphere previews. You approve changes and sharing.
+          </p>
+          <button id="companion-nearby" class="primary" disabled>
+            Ask Lumi what’s nearby ↗
+          </button>
+          <p id="companion-response" role="status">
+            Explore real source-backed places. Imagine a different atmosphere.
+          </p>
+          <div
+            id="nearby-places"
+            class="nearby-places"
+            aria-label="Source-backed recommendations"
+          ></div>
+          <p id="companion-source" class="companion-source"></p>
+          <div class="companion-intention">
+            <label for="companion-intention"
+              >What should this moment feel like?</label
+            ><textarea id="companion-intention" maxlength="512" rows="2">
+Make the winter lighting warmer and the music quieter.</textarea>
+          </div>
+          <div class="companion-actions">
+            <label class="intelligence-label" for="intelligence-provider"
+              >Intelligence
+              <select id="intelligence-provider" aria-label="Intelligence">
+                <option value="deterministic">Instant · deterministic</option>
+                <option value="configured" disabled>
+                  Configured local model
+                </option>
+                <option value="auto">Configured with explicit fallback</option>
+              </select></label
+            ><button id="companion-propose" disabled>
+              Imagine this atmosphere</button
+            ><button id="companion-cancel" hidden>Cancel reasoning</button>
+          </div>
+          <p id="intelligence-availability" class="companion-source">
+            No model is required for exploration.
+          </p>
+          <p id="companion-status" role="status">Lumi is ready when you are.</p>
+          <section
+            id="companion-review"
+            class="companion-review"
+            hidden
+            aria-label="Private atmosphere review"
+          >
+            <p class="eyebrow">A PRIVATE PROPOSAL · YOUR APPROVAL</p>
+            <p id="companion-provider"></p>
+            <p id="companion-description"></p>
+            <p id="companion-plan"></p>
+            <div class="companion-actions">
+              <button id="companion-preview">Preview atmosphere</button
+              ><button id="companion-apply" class="primary">
+                Approve &amp; apply privately</button
+              ><button id="companion-share">Share approved moment ↗</button
+              ><button id="companion-reset">
+                Return to published atmosphere
+              </button>
+            </div>
+            <details>
+              <summary>Exact proposal</summary>
+              <code id="companion-hash"></code>
+            </details>
+          </section>
+          <details>
+            <summary>Experience layers &amp; capability boundaries</summary>
+            <p>
+              Reuse two immutable editions with independent read-only scopes.
+              Their assets stay in the existing publication system.
+            </p>
+            <button id="companion-compose">
+              Resolve two published experiences
+            </button>
+            <p id="composition-state" role="status"></p>
+            <ul id="composition-layers"></ul>
+            <ul id="capability-list"></ul>
+            <button id="companion-revoke">Revoke Lumi’s planning grant</button
+            ><button id="companion-world-propose">
+              Propose a shared world beacon
+            </button>
+          </details>
+          <div id="companion-world-review" class="companion-review" hidden>
+            <p>
+              This adds an approved persistent festival beacon at the selected
+              place. MutSea must authorize and commit it. Your private
+              atmosphere stays separate.
+            </p>
+            <p id="companion-world-target" class="fine"></p>
+            <button id="companion-world-approve">
+              Approve shared world beacon
+            </button>
+          </div>
+          <div
+            id="companion-share-review"
+            class="companion-review"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Share the approved moment"
+            hidden
+          >
+            <p>
+              Anyone with this temporary link can view and remix the exact
+              approved edition. It expires within one hour or on service
+              restart.
+            </p>
+            <label
+              ><input id="companion-share-consent" type="checkbox" /> I approve
+              this exact temporary sharing.</label
+            >
+            <div class="companion-actions">
+              <button id="companion-share-confirm">
+                Create approved temporary link</button
+              ><button id="companion-share-back">Keep it private</button>
+            </div>
+          </div>
+        </section>
+        <aside hidden aria-label="Advanced creator controls">
+          <section class="creator-card">
+            <p class="eyebrow">IMAGINE IT. MAKE IT YOURS.</p>
+            <h2>What would you like<br /><em>to experience here?</em></h2>
+            <div class="ideas" aria-label="Creation ideas">
+              <button id="winter-idea">❄ Winter festival</button
+              ><button id="quiet-idea">Quiet evening</button
+              ><button id="daylight-idea">Daylight</button>
+            </div>
+            <label for="intention" class="sr-only"
+              >Describe your experience</label
+            >
+            <textarea
+              id="intention"
+              maxlength="2048"
+              rows="4"
+              placeholder="Warm lights, gently falling snow, a little music…"
+            >
+Make this district feel like a magical winter evening, with warm architectural highlights, gentle snow and a quiet original score.</textarea>
+            <details class="creator-access">
+              <summary>Local creator access</summary>
+              <label for="creator-token">Publisher credential</label
+              ><input
+                type="password"
+                id="creator-token"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="Stays in this tab"
+              /><label for="provider">Idea provider</label
+              ><select id="provider">
+                <option value="creative-fixture">Offline creative ideas</option>
+                <option value="model">Configured AI model</option>
+              </select>
+              <p>
+                No credential is saved or shared. Configured models receive your
+                prompt only when selected.
+              </p>
+              <button id="check-provider">Check model availability</button>
+              <p id="provider-status" role="status">
+                Model status is checked after local access is provided.
+              </p>
+              <label id="remote-confirm-label" hidden
+                ><input type="checkbox" id="remote-confirm" /> I agree to send
+                my prompt, current creative settings and the bounded context
+                listed above to this destination.</label
+              >
+            </details>
+            <button id="generate" class="primary">
+              Create a plan <span>✦</span>
+            </button>
+            <button id="cancel-generation" hidden>Cancel planning</button>
+            <p id="creator-status" role="status">
+              An idea becomes a preview. You decide what to keep.
+            </p>
+            <section
+              id="proposal-panel"
+              hidden
+              aria-label="Review your proposal"
+            >
+              <p id="proposal-provider" class="provider-pill"></p>
+              <h3 id="proposal-title"></h3>
+              <ul id="change-list"></ul>
+              <div class="creator-actions">
+                <button id="undo-draft">Undo refinement</button
+                ><button id="restore-draft">Restore latest draft</button>
+                <button id="preview-draft" class="primary">
+                  Preview changes</button
+                ><button id="compare-draft">Compare original</button
+                ><button id="approve-draft" class="primary">
+                  Approve this plan</button
+                ><button id="save-draft">Save version</button
+                ><button id="publish-draft" class="primary">
+                  Publish &amp; share</button
+                ><button id="reject-draft">Reject draft</button
+                ><button id="revert-draft">Restore original version</button>
+              </div>
+              <label for="refinement">Refine your idea</label
+              ><textarea
+                id="refinement"
+                rows="2"
+                maxlength="2048"
+                placeholder="Make the lighting warmer. Reduce the snow…"
+              ></textarea
+              ><button id="refine-draft" class="primary">
+                Refine this plan <span>↗</span>
+              </button>
+              <details>
+                <summary>Plan, context &amp; sources</summary>
+                <div id="ordered-plan"></div>
+                <p id="affected-resources"></p>
+                <p id="creator-limits"></p>
+                <p>Approval is bound to this exact plan:</p>
+                <code id="proposal-hash"></code>
+              </details>
+            </section>
+          </section>
+        </aside>
+      </div>
+      <section class="moment-bar" aria-label="Your experience">
+        <div>
+          <p class="eyebrow">EXPERIENCE IT. MAKE IT YOURS.</p>
+          <h2 id="moment-name">A place to begin</h2>
+          <p id="moment-note">
+            Explore the source-backed city. Choose a moment above to make it
+            yours.
+          </p>
+        </div>
+        <nav aria-label="Personal experience actions">
+          <button id="guest-explore">Explore ↗</button
+          ><button id="make-mine" class="primary" disabled>Make It Mine</button
+          ><button id="guest-share" disabled>Share ↗</button>
+        </nav>
+      </section>
+      <p id="guest-status" class="guest-status" role="status">
+        Choose a moment. No prompt, account or AI setup needed.
+      </p>
+      <section
+        id="personalize"
+        class="personalize"
+        hidden
+        aria-labelledby="personalize-title"
+      >
+        <div>
+          <p class="eyebrow">A LITTLE MORE YOU</p>
+          <h2 id="personalize-title">Change the feeling in a tap.</h2>
+          <p>
+            Instant controls use approved settings. Your city stays intact.
+            Audio waits for Play.
+          </p>
+        </div>
+        <div
+          id="quick-actions"
+          class="quick-actions"
+          aria-label="Quick personalization"
+        ></div>
+        <div class="personal-save">
+          <button id="guest-save" class="primary" disabled>
+            Save personal version
+          </button>
+          <p id="guest-saved">
+            Save authorizes this exact preview for your temporary guest session.
+          </p>
+        </div>
+        <details class="optional-ai">
+          <summary>Or imagine something new with local AI…</summary>
+          <p id="guest-model-status">Checking optional local AI…</p>
+          <label for="guest-intention">What would you change?</label
+          ><textarea
+            id="guest-intention"
+            rows="2"
+            maxlength="2048"
+            placeholder="Turn this into a futuristic night, keeping the buildings unchanged."
+          ></textarea
+          ><label id="guest-ai-consent-label" hidden
+            ><input id="guest-ai-consent" type="checkbox" /> Send my intention,
+            selected template and bounded public context to the local AI shown
+            above.</label
+          ><button id="guest-ai" disabled>Personalize with local AI</button>
+          <p>
+            AI can adjust approved presentation, music mix and city stops.
+            Floating buildings, world commands and new recordings are
+            unavailable.
+          </p>
+        </details>
+        <button id="guest-cancel" hidden>Cancel personal planning</button>
+        <p class="retention-note">
+          No account required. Drafts last 30 minutes. Guest links last at most
+          one hour or until this local service restarts. Anyone with the link
+          may view and make an attributed remix.
+        </p>
+      </section>
+      <section class="tools-row">
+        <section class="sound-card">
+          <p class="eyebrow">THE SOUND OF THIS PLACE</p>
+          <h2>Make room for the city.</h2>
+          <p>
+            Original score, airy ambience and chimes. Press play when you’re
+            ready. A preview never starts audio automatically.
+          </p>
+          <button id="audio" class="audio-button" disabled>
+            ▶ Play original score</button
+          ><label class="volume"
+            >Volume
+            <input
+              id="volume"
+              aria-label="Audio volume"
+              type="range"
+              min="0"
+              max="70"
+              value="32"
+          /></label>
+          <p id="audio-state" class="muted" role="status">
+            Audio starts only with your permission.
+          </p>
+        </section>
+        <details class="inspect-card">
+          <summary>Explore places &amp; source details</summary>
+          <p class="eyebrow">DISCOVER THE DISTRICT</p>
+          <label for="entity">Choose a place</label
+          ><select id="entity" disabled>
+            <option value="">Select a building, road or terrain</option>
+          </select>
+          <div id="selection" aria-live="polite">
+            <h2>A city with a source.</h2>
+            <p>
+              Select geometry in the scene or choose an entity to see its
+              identity and provenance.
+            </p>
+          </div>
+        </details>
+      </section>
+      <section
+        id="living-panel"
+        class="living-panel"
+        aria-label="Montréal Alive"
+      >
+        <div class="living-heading">
+          <div>
+            <p class="eyebrow">FROM A MOMENT TO A LIVING WORLD</p>
+            <h2>Montréal <em>Alive.</em></h2>
+          </div>
+          <span id="live-people"></span>
+        </div>
+        <nav class="scale-navigation" aria-label="Spatial scales">
+          <button id="scale-earth">Earth</button><span>→</span
+          ><button id="scale-city">Montréal</button><span>→</span
+          ><button id="scale-district">Enter Old Port</button>
+        </nav>
+        <p id="scale-status" role="status">
+          Old Port · source-aligned district
+        </p>
+        <p id="live-status" role="status">
+          Finding this experience’s world placement…
+        </p>
+        <label class="live-consent"
+          ><input type="checkbox" id="live-consent" /> Enter the immutable
+          published edition with others. My private edits stay personal.</label
+        >
+        <button id="live-start" class="primary" disabled>
+          Enter Montréal Alive ↗</button
+        ><button id="live-join" class="primary" hidden>
+          Join invited experience ↗
+        </button>
+        <div id="live-actions" hidden>
+          <p id="live-selection" role="status"></p>
+          <div class="lumi-heading">
+            <span class="lumi-orb" aria-hidden="true">✦</span>
+            <div>
+              <strong>Lumi</strong
+              ><small>Your Montréal guide · offline guidance</small>
+            </div>
+          </div>
+          <p id="lumi-response" role="status">
+            Choose a place and explore together.
+          </p>
+          <div class="lumi-actions">
+            <button id="lumi-talk">Talk to Lumi</button
+            ><button id="lumi-place">What is this place?</button
+            ><button id="lumi-tour">Show me around</button
+            ><button id="lumi-focus">Focus this place</button
+            ><button id="lumi-ai">Ask local AI for an atmosphere idea</button
+            ><button id="lumi-magic">Make it more magical</button
+            ><button id="lumi-approve" class="primary" hidden>
+              Approve shared festival beacon
+            </button>
+          </div>
+          <details>
+            <summary>Invite someone</summary>
+            <p>
+              Anyone with this unlisted link may join this instance until it
+              expires. Private conversations and drafts are excluded.
+            </p>
+            <label for="live-invite">Live invitation</label
+            ><input id="live-invite" readonly /><button id="live-copy">
+              Copy invitation
+            </button>
+          </details>
+          <details>
+            <summary>Connection & permissions</summary>
+            <div class="lumi-actions">
+              <button id="live-disconnect">Disconnect</button
+              ><button id="live-reconnect">Reconnect</button
+              ><button id="live-revoke">
+                Revoke my shared action permission</button
+              ><button id="live-end">End live instance</button>
+            </div>
+          </details>
+        </div>
+      </section>
+      <section class="below">
+        <div>
+          <p class="eyebrow">WHAT YOU’RE EXPERIENCING</p>
+          <h2>A night in Montréal.<br /><em>Made to be explored.</em></h2>
+          <p>
+            This lightweight web edition preserves source identities and
+            attribution. Optional local world sessions are available above. Live
+            environment queries and full spatial audio remain available to
+            capable clients.
+          </p>
+          <p id="capability-status" role="status"></p>
+        </div>
+        <section
+          id="network-panel"
+          class="network-panel"
+          aria-labelledby="network-heading"
+        >
+          <div class="network-heading">
+            <div>
+              <p class="eyebrow">LIVING CREATOR NETWORK</p>
+              <h2 id="network-heading">Every experience has a story.</h2>
+            </div>
+            <a id="network-creator" href="/">Creator profile ↗</a>
+          </div>
+          <p id="network-provenance" class="fine"></p>
+          <div class="network-links">
+            <a id="network-lineage">Explore remix lineage ↗</a
+            ><a id="network-embed" target="_blank" rel="noopener"
+              >Read-only embed ↗</a
+            ><button id="network-export">Export experience package ↓</button>
+          </div>
+          <div id="network-destinations" class="network-links"></div>
+          <details>
+            <summary>Make it yours with Lumi</summary>
+            <label for="network-remix-intent"
+              >What would you like to create?</label
+            ><textarea id="network-remix-intent" maxlength="2000">
+Make this winter market more festive with lanterns and a music stage.</textarea
+            ><button id="network-remix">Prepare private remix ✧</button>
+            <p class="fine">
+              Lumi uses the existing validated graph and authorization pipeline.
+              Review the preview before saving; publication needs separate
+              approval.
+            </p>
+          </details>
+          <details>
+            <summary>Creator identity &amp; permanent publication</summary>
+            <p id="network-identity">Guest · private creation is open</p>
+            <p class="fine">
+              Use your administrator-provisioned creator key. It can be
+              recovered by credential rotation; no passwords or keys are sent to
+              a model.
+            </p>
+            <label for="network-key">Creator key</label
+            ><input
+              id="network-key"
+              type="password"
+              autocomplete="off"
+              placeholder="Your recoverable creator credential"
+            /><button id="network-login">Sign in as creator</button
+            ><button id="network-logout" hidden>Revoke this session</button>
+            <p class="fine">
+              Sign in before preparing a new remix. Your key and session stay in
+              this document and are never included in a share link.
+            </p>
+          </details>
+          <details>
+            <summary>Import a portable experience</summary>
+            <label for="network-package"
+              >Finalverse experience package · JSON</label
+            ><input
+              id="network-package"
+              type="file"
+              accept="application/json,.json"
+            /><label
+              ><input id="network-import-consent" type="checkbox" /> I approve
+              import after integrity, geometry, rights and capability
+              validation.</label
+            ><button id="network-import">Validate &amp; import</button>
+          </details>
+          <details>
+            <summary>Visibility &amp; platform trust</summary>
+            <label for="network-visibility">Owner visibility policy</label
+            ><select id="network-visibility">
+              <option value="public">Public · listed in discovery</option>
+              <option value="unlisted">Unlisted · link access</option>
+              <option value="private">
+                Private · owner/operator access only
+              </option></select
+            ><button id="network-policy">Apply owner policy</button
+            ><label for="network-reason"
+              >Report a concern with this edition</label
+            ><textarea id="network-reason" maxlength="400"></textarea
+            ><button id="network-report">Send report for review</button>
+          </details>
+          <p id="network-status" role="status">
+            Loading permanent edition metadata…
+          </p>
+        </section>
+        <details>
+          <summary>Attribution, rights & remix</summary>
+          <div id="attribution"></div>
+          <p id="remix"></p>
+          <p id="parent"></p>
+        </details>
+        <details>
+          <summary>Privacy & local diagnostics</summary>
+          <p>
+            No analytics transmission or cookies. A temporary guest credential
+            stays in this tab; service quotas use anonymous session counters.
+            Operational counters stay in this tab.
+          </p>
+          <label
+            ><input id="metrics-consent" type="checkbox" /> Remember one visit
+            bit on this device to measure a return visit.</label
+          ><button id="export">Export this tab’s review</button>
+          <pre id="diagnostics" tabindex="0"></pre>
+        </details>
+      </section>
+    </main>
+    <section id="error" class="error" role="alert" hidden>
+      <p class="eyebrow">THIS EXPERIENCE IS UNAVAILABLE</p>
+      <h1>Let’s find another way in.</h1>
+      <p id="error-message"></p>
+      <a href="/">Return to available experiences</a>
+    </section>
+    <div
+      id="share-panel"
+      class="share-panel"
+      hidden
+      role="dialog"
+      aria-labelledby="share-title"
+      aria-modal="true"
+    >
+      <h2 id="share-title">Your world. Someone’s next adventure.</h2>
+      <p>One immutable edition. No account or installation needed.</p>
+      <label for="share-link">Experience link</label
+      ><input id="share-link" readonly /><button id="copy" class="primary">
+        Copy link</button
+      ><button id="share-close">Done</button>
+      <p id="share-status" role="status"></p>
+    </div>
+    <footer>
+      <span>Imagine it. Experience it. Make it yours. Share it.</span
+      ><span>Finalverse · a local publishing foundation</span>
+    </footer>
+  </body>
+</html>

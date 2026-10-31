@@ -1,0 +1,2143 @@
+{
+  "schema": "finalverse.m5-visual-review/v1",
+  "records": [
+    {
+      "stage": "gallery_winter-wonderland",
+      "pass": 0,
+      "layout": {
+        "scroll_width": 1280,
+        "viewpoints_bottom": 338.59375,
+        "waypoints_top": 359.8046875,
+        "width": 1280
+      },
+      "diagnostics": {
+        "all_geometry_ms": 1077,
+        "authored": {
+          "atmosphere": "snow",
+          "lighting": "festival",
+          "markers": 29,
+          "snow_active": true,
+          "visual": {
+            "haze_milli": 260,
+            "metallic_milli": 60,
+            "palette": "winter_stone",
+            "roughness_milli": 820,
+            "snow_milli": 520,
+            "warmth_milli": 880,
+            "window_glow_milli": 760
+          },
+          "waypoints": 2
+        },
+        "creator": {
+          "draft_active": false,
+          "events": [],
+          "pending_request": false,
+          "proposal_hash": null,
+          "provider": null,
+          "revision_count": 0,
+          "revision_index": 0,
+          "saved_version": null,
+          "state": "idle",
+          "steps": 0,
+          "timing_ms": {}
+        },
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        },
+        "experience": "montreal-after-dark",
+        "first_geometry_ms": 447,
+        "frame_performance": {
+          "samples": 0
+        },
+        "geometry_ready": 139,
+        "guest_edition": null,
+        "manifest_schema": "finalverse.el/v1",
+        "metrics": {
+          "counts": {
+            "audio_activation": 0,
+            "experience_start": 0,
+            "open_from_share": 1,
+            "preview_load_success": 1,
+            "return_visit": 0,
+            "share_action": 0
+          },
+          "first_meaningful_interaction_ms": 342,
+          "return_visit_measured": false,
+          "scope": "this tab only; no analytics transmission"
+        },
+        "renderer": "Cesium 1.138.0",
+        "renderer_performance": {
+          "drawing_buffer": [
+            725,
+            457
+          ],
+          "estimated_geometry_bytes": 5251208,
+          "estimated_texture_bytes": 0,
+          "gpu_note": "GPU elapsed time is not available; CPU submission and rAF are measured separately",
+          "gpu_timings_ms": null,
+          "javascript_heap_bytes": 65152717,
+          "pixel_ratio": 1,
+          "quality": "balanced",
+          "scene_cpu_submission_ms": {
+            "mean_ms": 7.611111097865635,
+            "p50_ms": 5.399999976158142,
+            "p95_ms": 20.899999976158146,
+            "samples": 27
+          },
+          "scene_initialization_ms": 735,
+          "target_fps": 30
+        },
+        "resources": {
+          "active_models": 139,
+          "animation_frames": 1,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "authored_decorations": 29,
+          "custom_shaders": 139,
+          "guide_timers": 0,
+          "inflight_assets": 0,
+          "object_urls": 139,
+          "render_observers": 2,
+          "viewer_active": true
+        },
+        "schema": "finalverse.web-player-review/v1",
+        "selected_entity": null,
+        "smart_experience": {
+          "credentials_scope": "temporary guest token in this document memory only; no cookies or localStorage",
+          "draft_active": true,
+          "events": [
+            "temporary_guest_started",
+            "template_selected"
+          ],
+          "operations": [
+            {
+              "duration_ms": 88,
+              "operation": "template_activation",
+              "status": "complete"
+            }
+          ],
+          "pending": false,
+          "proposal_hash": "16c8b76b18312fd3d559a018d7940eadd6fb6a919bef400cc6db3779d61b5aef",
+          "provider": null,
+          "retention": "30-minute draft; share at most one hour or service restart",
+          "saved_version": null,
+          "selected_template": "winter-wonderland",
+          "session_active": true,
+          "template_pin": {
+            "digest": "069859654757fc35885afc7cf1eb5fc4ed60ea4a404e175a92d3556153c84eb4",
+            "id": "winter-wonderland",
+            "version": 1
+          }
+        },
+        "source_entities": 139,
+        "status": "ready",
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ],
+        "verified_asset_bytes": 5507936,
+        "verified_assets": 140,
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+      }
+    },
+    {
+      "stage": "gallery_cyberpunk-montreal",
+      "pass": 0,
+      "layout": {
+        "scroll_width": 1280,
+        "viewpoints_bottom": 338.59375,
+        "waypoints_top": 359.8046875,
+        "width": 1280
+      },
+      "diagnostics": {
+        "all_geometry_ms": 1077,
+        "authored": {
+          "atmosphere": "haze",
+          "lighting": "after_dark",
+          "markers": 29,
+          "snow_active": false,
+          "visual": {
+            "haze_milli": 430,
+            "metallic_milli": 270,
+            "palette": "midnight_neon",
+            "roughness_milli": 460,
+            "snow_milli": 0,
+            "warmth_milli": 180,
+            "window_glow_milli": 980
+          },
+          "waypoints": 3
+        },
+        "creator": {
+          "draft_active": false,
+          "events": [],
+          "pending_request": false,
+          "proposal_hash": null,
+          "provider": null,
+          "revision_count": 0,
+          "revision_index": 0,
+          "saved_version": null,
+          "state": "idle",
+          "steps": 0,
+          "timing_ms": {}
+        },
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        },
+        "experience": "montreal-after-dark",
+        "first_geometry_ms": 447,
+        "frame_performance": {
+          "samples": 0
+        },
+        "geometry_ready": 139,
+        "guest_edition": null,
+        "manifest_schema": "finalverse.el/v1",
+        "metrics": {
+          "counts": {
+            "audio_activation": 0,
+            "experience_start": 0,
+            "open_from_share": 1,
+            "preview_load_success": 1,
+            "return_visit": 0,
+            "share_action": 0
+          },
+          "first_meaningful_interaction_ms": 342,
+          "return_visit_measured": false,
+          "scope": "this tab only; no analytics transmission"
+        },
+        "renderer": "Cesium 1.138.0",
+        "renderer_performance": {
+          "drawing_buffer": [
+            725,
+            457
+          ],
+          "estimated_geometry_bytes": 5251208,
+          "estimated_texture_bytes": 0,
+          "gpu_note": "GPU elapsed time is not available; CPU submission and rAF are measured separately",
+          "gpu_timings_ms": null,
+          "javascript_heap_bytes": 49375038,
+          "pixel_ratio": 1,
+          "quality": "balanced",
+          "scene_cpu_submission_ms": {
+            "mean_ms": 7.486666655540466,
+            "p50_ms": 5.200000047683716,
+            "p95_ms": 20.899999976158146,
+            "samples": 30
+          },
+          "scene_initialization_ms": 735,
+          "target_fps": 30
+        },
+        "resources": {
+          "active_models": 139,
+          "animation_frames": 1,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "authored_decorations": 29,
+          "custom_shaders": 139,
+          "guide_timers": 0,
+          "inflight_assets": 0,
+          "object_urls": 139,
+          "render_observers": 2,
+          "viewer_active": true
+        },
+        "schema": "finalverse.web-player-review/v1",
+        "selected_entity": null,
+        "smart_experience": {
+          "credentials_scope": "temporary guest token in this document memory only; no cookies or localStorage",
+          "draft_active": true,
+          "events": [
+            "temporary_guest_started",
+            "template_selected",
+            "template_selected"
+          ],
+          "operations": [
+            {
+              "duration_ms": 88,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.199999928474426,
+              "operation": "template_activation",
+              "status": "complete"
+            }
+          ],
+          "pending": false,
+          "proposal_hash": "2e782b646b9e91b8d5f39246f4ef601a2d09c202f73e48241701f7778981d859",
+          "provider": null,
+          "retention": "30-minute draft; share at most one hour or service restart",
+          "saved_version": null,
+          "selected_template": "cyberpunk-montreal",
+          "session_active": true,
+          "template_pin": {
+            "digest": "73817fdb1303a74b3f7726863ca0c1dfab78bfd5ac757b85d079da4684dd9461",
+            "id": "cyberpunk-montreal",
+            "version": 1
+          }
+        },
+        "source_entities": 139,
+        "status": "ready",
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ],
+        "verified_asset_bytes": 5507936,
+        "verified_assets": 140,
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+      }
+    },
+    {
+      "stage": "gallery_golden-hour",
+      "pass": 0,
+      "layout": {
+        "scroll_width": 1280,
+        "viewpoints_bottom": 338.59375,
+        "waypoints_top": 359.8046875,
+        "width": 1280
+      },
+      "diagnostics": {
+        "all_geometry_ms": 1077,
+        "authored": {
+          "atmosphere": "haze",
+          "lighting": "daylight",
+          "markers": 1,
+          "snow_active": false,
+          "visual": {
+            "haze_milli": 130,
+            "metallic_milli": 90,
+            "palette": "copper_glass",
+            "roughness_milli": 860,
+            "snow_milli": 0,
+            "warmth_milli": 980,
+            "window_glow_milli": 120
+          },
+          "waypoints": 1
+        },
+        "creator": {
+          "draft_active": false,
+          "events": [],
+          "pending_request": false,
+          "proposal_hash": null,
+          "provider": null,
+          "revision_count": 0,
+          "revision_index": 0,
+          "saved_version": null,
+          "state": "idle",
+          "steps": 0,
+          "timing_ms": {}
+        },
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        },
+        "experience": "montreal-after-dark",
+        "first_geometry_ms": 447,
+        "frame_performance": {
+          "samples": 0
+        },
+        "geometry_ready": 139,
+        "guest_edition": null,
+        "manifest_schema": "finalverse.el/v1",
+        "metrics": {
+          "counts": {
+            "audio_activation": 0,
+            "experience_start": 0,
+            "open_from_share": 1,
+            "preview_load_success": 1,
+            "return_visit": 0,
+            "share_action": 0
+          },
+          "first_meaningful_interaction_ms": 342,
+          "return_visit_measured": false,
+          "scope": "this tab only; no analytics transmission"
+        },
+        "renderer": "Cesium 1.138.0",
+        "renderer_performance": {
+          "drawing_buffer": [
+            725,
+            457
+          ],
+          "estimated_geometry_bytes": 5251208,
+          "estimated_texture_bytes": 0,
+          "gpu_note": "GPU elapsed time is not available; CPU submission and rAF are measured separately",
+          "gpu_timings_ms": null,
+          "javascript_heap_bytes": 50545094,
+          "pixel_ratio": 1,
+          "quality": "balanced",
+          "scene_cpu_submission_ms": {
+            "mean_ms": 7.196874987334013,
+            "p50_ms": 5.200000047683716,
+            "p95_ms": 20.899999976158146,
+            "samples": 32
+          },
+          "scene_initialization_ms": 735,
+          "target_fps": 30
+        },
+        "resources": {
+          "active_models": 139,
+          "animation_frames": 1,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "authored_decorations": 1,
+          "custom_shaders": 139,
+          "guide_timers": 0,
+          "inflight_assets": 0,
+          "object_urls": 139,
+          "render_observers": 2,
+          "viewer_active": true
+        },
+        "schema": "finalverse.web-player-review/v1",
+        "selected_entity": null,
+        "smart_experience": {
+          "credentials_scope": "temporary guest token in this document memory only; no cookies or localStorage",
+          "draft_active": true,
+          "events": [
+            "temporary_guest_started",
+            "template_selected",
+            "template_selected",
+            "template_selected"
+          ],
+          "operations": [
+            {
+              "duration_ms": 88,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.199999928474426,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.29999995231629,
+              "operation": "template_activation",
+              "status": "complete"
+            }
+          ],
+          "pending": false,
+          "proposal_hash": "5e0e19568343bcc2269c8dedde4fd9c41e119f7eda5c1a3d88151a5ae0dbd6a6",
+          "provider": null,
+          "retention": "30-minute draft; share at most one hour or service restart",
+          "saved_version": null,
+          "selected_template": "golden-hour",
+          "session_active": true,
+          "template_pin": {
+            "digest": "b19aab8287f3a996086c132ebd27702f2d4a28e0aa014ab932ee4556a8f0f1f7",
+            "id": "golden-hour",
+            "version": 1
+          }
+        },
+        "source_entities": 139,
+        "status": "ready",
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ],
+        "verified_asset_bytes": 5507936,
+        "verified_assets": 140,
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+      }
+    },
+    {
+      "stage": "gallery_jazz-night",
+      "pass": 0,
+      "layout": {
+        "scroll_width": 1280,
+        "viewpoints_bottom": 316.0390625,
+        "waypoints_top": 337.25,
+        "width": 1280
+      },
+      "diagnostics": {
+        "all_geometry_ms": 1077,
+        "authored": {
+          "atmosphere": "haze",
+          "lighting": "after_dark",
+          "markers": 29,
+          "snow_active": false,
+          "visual": {
+            "haze_milli": 110,
+            "metallic_milli": 40,
+            "palette": "heritage_stone",
+            "roughness_milli": 920,
+            "snow_milli": 0,
+            "warmth_milli": 800,
+            "window_glow_milli": 480
+          },
+          "waypoints": 2
+        },
+        "creator": {
+          "draft_active": false,
+          "events": [],
+          "pending_request": false,
+          "proposal_hash": null,
+          "provider": null,
+          "revision_count": 0,
+          "revision_index": 0,
+          "saved_version": null,
+          "state": "idle",
+          "steps": 0,
+          "timing_ms": {}
+        },
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        },
+        "experience": "montreal-after-dark",
+        "first_geometry_ms": 447,
+        "frame_performance": {
+          "samples": 0
+        },
+        "geometry_ready": 139,
+        "guest_edition": null,
+        "manifest_schema": "finalverse.el/v1",
+        "metrics": {
+          "counts": {
+            "audio_activation": 0,
+            "experience_start": 0,
+            "open_from_share": 1,
+            "preview_load_success": 1,
+            "return_visit": 0,
+            "share_action": 0
+          },
+          "first_meaningful_interaction_ms": 342,
+          "return_visit_measured": false,
+          "scope": "this tab only; no analytics transmission"
+        },
+        "renderer": "Cesium 1.138.0",
+        "renderer_performance": {
+          "drawing_buffer": [
+            725,
+            457
+          ],
+          "estimated_geometry_bytes": 5251208,
+          "estimated_texture_bytes": 0,
+          "gpu_note": "GPU elapsed time is not available; CPU submission and rAF are measured separately",
+          "gpu_timings_ms": null,
+          "javascript_heap_bytes": 53894140,
+          "pixel_ratio": 1,
+          "quality": "balanced",
+          "scene_cpu_submission_ms": {
+            "mean_ms": 6.947058810907252,
+            "p50_ms": 5.100000023841858,
+            "p95_ms": 20.899999976158146,
+            "samples": 34
+          },
+          "scene_initialization_ms": 735,
+          "target_fps": 30
+        },
+        "resources": {
+          "active_models": 139,
+          "animation_frames": 1,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "authored_decorations": 29,
+          "custom_shaders": 139,
+          "guide_timers": 0,
+          "inflight_assets": 0,
+          "object_urls": 139,
+          "render_observers": 2,
+          "viewer_active": true
+        },
+        "schema": "finalverse.web-player-review/v1",
+        "selected_entity": null,
+        "smart_experience": {
+          "credentials_scope": "temporary guest token in this document memory only; no cookies or localStorage",
+          "draft_active": true,
+          "events": [
+            "temporary_guest_started",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected"
+          ],
+          "operations": [
+            {
+              "duration_ms": 88,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.199999928474426,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.29999995231629,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.09999990463257,
+              "operation": "template_activation",
+              "status": "complete"
+            }
+          ],
+          "pending": false,
+          "proposal_hash": "112894835fb1a656dd72cd55726e9c5c7edd3decf29c04ca59a0399e3b4b7635",
+          "provider": null,
+          "retention": "30-minute draft; share at most one hour or service restart",
+          "saved_version": null,
+          "selected_template": "jazz-night",
+          "session_active": true,
+          "template_pin": {
+            "digest": "1f23459f5a084b9851f05345be103210e3a778a9027e5fb01174ff95470bc034",
+            "id": "jazz-night",
+            "version": 1
+          }
+        },
+        "source_entities": 139,
+        "status": "ready",
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ],
+        "verified_asset_bytes": 5507936,
+        "verified_assets": 140,
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+      }
+    },
+    {
+      "stage": "gallery_festival-of-lights",
+      "pass": 0,
+      "layout": {
+        "scroll_width": 1280,
+        "viewpoints_bottom": 338.59375,
+        "waypoints_top": 359.8046875,
+        "width": 1280
+      },
+      "diagnostics": {
+        "all_geometry_ms": 1077,
+        "authored": {
+          "atmosphere": "haze",
+          "lighting": "festival",
+          "markers": 29,
+          "snow_active": false,
+          "visual": {
+            "haze_milli": 200,
+            "metallic_milli": 150,
+            "palette": "copper_glass",
+            "roughness_milli": 680,
+            "snow_milli": 0,
+            "warmth_milli": 920,
+            "window_glow_milli": 1000
+          },
+          "waypoints": 3
+        },
+        "creator": {
+          "draft_active": false,
+          "events": [],
+          "pending_request": false,
+          "proposal_hash": null,
+          "provider": null,
+          "revision_count": 0,
+          "revision_index": 0,
+          "saved_version": null,
+          "state": "idle",
+          "steps": 0,
+          "timing_ms": {}
+        },
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        },
+        "experience": "montreal-after-dark",
+        "first_geometry_ms": 447,
+        "frame_performance": {
+          "samples": 0
+        },
+        "geometry_ready": 139,
+        "guest_edition": null,
+        "manifest_schema": "finalverse.el/v1",
+        "metrics": {
+          "counts": {
+            "audio_activation": 0,
+            "experience_start": 0,
+            "open_from_share": 1,
+            "preview_load_success": 1,
+            "return_visit": 0,
+            "share_action": 0
+          },
+          "first_meaningful_interaction_ms": 342,
+          "return_visit_measured": false,
+          "scope": "this tab only; no analytics transmission"
+        },
+        "renderer": "Cesium 1.138.0",
+        "renderer_performance": {
+          "drawing_buffer": [
+            725,
+            457
+          ],
+          "estimated_geometry_bytes": 5251208,
+          "estimated_texture_bytes": 0,
+          "gpu_note": "GPU elapsed time is not available; CPU submission and rAF are measured separately",
+          "gpu_timings_ms": null,
+          "javascript_heap_bytes": 57784096,
+          "pixel_ratio": 1,
+          "quality": "balanced",
+          "scene_cpu_submission_ms": {
+            "mean_ms": 6.7702702606046525,
+            "p50_ms": 5.100000023841858,
+            "p95_ms": 20.899999976158146,
+            "samples": 37
+          },
+          "scene_initialization_ms": 735,
+          "target_fps": 30
+        },
+        "resources": {
+          "active_models": 139,
+          "animation_frames": 1,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "authored_decorations": 29,
+          "custom_shaders": 139,
+          "guide_timers": 0,
+          "inflight_assets": 0,
+          "object_urls": 139,
+          "render_observers": 2,
+          "viewer_active": true
+        },
+        "schema": "finalverse.web-player-review/v1",
+        "selected_entity": null,
+        "smart_experience": {
+          "credentials_scope": "temporary guest token in this document memory only; no cookies or localStorage",
+          "draft_active": true,
+          "events": [
+            "temporary_guest_started",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected"
+          ],
+          "operations": [
+            {
+              "duration_ms": 88,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.199999928474426,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.29999995231629,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.09999990463257,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 42.89999997615814,
+              "operation": "template_activation",
+              "status": "complete"
+            }
+          ],
+          "pending": false,
+          "proposal_hash": "76e4c3715b00b0981731b5c4c3729c1191252976740305abee4a148ce5724a35",
+          "provider": null,
+          "retention": "30-minute draft; share at most one hour or service restart",
+          "saved_version": null,
+          "selected_template": "festival-of-lights",
+          "session_active": true,
+          "template_pin": {
+            "digest": "33a48a7c2c96149eec1bc8f71944c3f6591b29a4c96fdef5eb73d7f8445bac03",
+            "id": "festival-of-lights",
+            "version": 1
+          }
+        },
+        "source_entities": 139,
+        "status": "ready",
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ],
+        "verified_asset_bytes": 5507936,
+        "verified_assets": 140,
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+      }
+    },
+    {
+      "stage": "gallery_quiet-montreal",
+      "pass": 0,
+      "layout": {
+        "scroll_width": 1280,
+        "viewpoints_bottom": 316.0390625,
+        "waypoints_top": 337.25,
+        "width": 1280
+      },
+      "diagnostics": {
+        "all_geometry_ms": 1077,
+        "authored": {
+          "atmosphere": "haze",
+          "lighting": "after_dark",
+          "markers": 1,
+          "snow_active": false,
+          "visual": {
+            "haze_milli": 40,
+            "metallic_milli": 0,
+            "palette": "heritage_stone",
+            "roughness_milli": 960,
+            "snow_milli": 0,
+            "warmth_milli": 620,
+            "window_glow_milli": 220
+          },
+          "waypoints": 1
+        },
+        "creator": {
+          "draft_active": false,
+          "events": [],
+          "pending_request": false,
+          "proposal_hash": null,
+          "provider": null,
+          "revision_count": 0,
+          "revision_index": 0,
+          "saved_version": null,
+          "state": "idle",
+          "steps": 0,
+          "timing_ms": {}
+        },
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        },
+        "experience": "montreal-after-dark",
+        "first_geometry_ms": 447,
+        "frame_performance": {
+          "samples": 0
+        },
+        "geometry_ready": 139,
+        "guest_edition": null,
+        "manifest_schema": "finalverse.el/v1",
+        "metrics": {
+          "counts": {
+            "audio_activation": 0,
+            "experience_start": 0,
+            "open_from_share": 1,
+            "preview_load_success": 1,
+            "return_visit": 0,
+            "share_action": 0
+          },
+          "first_meaningful_interaction_ms": 342,
+          "return_visit_measured": false,
+          "scope": "this tab only; no analytics transmission"
+        },
+        "renderer": "Cesium 1.138.0",
+        "renderer_performance": {
+          "drawing_buffer": [
+            725,
+            457
+          ],
+          "estimated_geometry_bytes": 5251208,
+          "estimated_texture_bytes": 0,
+          "gpu_note": "GPU elapsed time is not available; CPU submission and rAF are measured separately",
+          "gpu_timings_ms": null,
+          "javascript_heap_bytes": 61828413,
+          "pixel_ratio": 1,
+          "quality": "balanced",
+          "scene_cpu_submission_ms": {
+            "mean_ms": 6.472499993443489,
+            "p50_ms": 5,
+            "p95_ms": 20.899999976158146,
+            "samples": 40
+          },
+          "scene_initialization_ms": 735,
+          "target_fps": 30
+        },
+        "resources": {
+          "active_models": 139,
+          "animation_frames": 1,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "authored_decorations": 1,
+          "custom_shaders": 139,
+          "guide_timers": 0,
+          "inflight_assets": 0,
+          "object_urls": 139,
+          "render_observers": 2,
+          "viewer_active": true
+        },
+        "schema": "finalverse.web-player-review/v1",
+        "selected_entity": null,
+        "smart_experience": {
+          "credentials_scope": "temporary guest token in this document memory only; no cookies or localStorage",
+          "draft_active": true,
+          "events": [
+            "temporary_guest_started",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected"
+          ],
+          "operations": [
+            {
+              "duration_ms": 88,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.199999928474426,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.29999995231629,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.09999990463257,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 42.89999997615814,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 33.10000002384186,
+              "operation": "template_activation",
+              "status": "complete"
+            }
+          ],
+          "pending": false,
+          "proposal_hash": "73546a267a5e51a399f610ad45138964cc861e4190ed268cc3bf422e61f55edc",
+          "provider": null,
+          "retention": "30-minute draft; share at most one hour or service restart",
+          "saved_version": null,
+          "selected_template": "quiet-montreal",
+          "session_active": true,
+          "template_pin": {
+            "digest": "51259cf981c6d59af897faae44cefc22a9b51c0aff0d69b63c0317585147af09",
+            "id": "quiet-montreal",
+            "version": 1
+          }
+        },
+        "source_entities": 139,
+        "status": "ready",
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ],
+        "verified_asset_bytes": 5507936,
+        "verified_assets": 140,
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+      }
+    },
+    {
+      "stage": "gallery_winter-wonderland",
+      "pass": 1,
+      "layout": {
+        "scroll_width": 1280,
+        "viewpoints_bottom": 338.59375,
+        "waypoints_top": 359.8046875,
+        "width": 1280
+      },
+      "diagnostics": {
+        "all_geometry_ms": 1077,
+        "authored": {
+          "atmosphere": "snow",
+          "lighting": "festival",
+          "markers": 29,
+          "snow_active": true,
+          "visual": {
+            "haze_milli": 260,
+            "metallic_milli": 60,
+            "palette": "winter_stone",
+            "roughness_milli": 820,
+            "snow_milli": 520,
+            "warmth_milli": 880,
+            "window_glow_milli": 760
+          },
+          "waypoints": 2
+        },
+        "creator": {
+          "draft_active": false,
+          "events": [],
+          "pending_request": false,
+          "proposal_hash": null,
+          "provider": null,
+          "revision_count": 0,
+          "revision_index": 0,
+          "saved_version": null,
+          "state": "idle",
+          "steps": 0,
+          "timing_ms": {}
+        },
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        },
+        "experience": "montreal-after-dark",
+        "first_geometry_ms": 447,
+        "frame_performance": {
+          "samples": 0
+        },
+        "geometry_ready": 139,
+        "guest_edition": null,
+        "manifest_schema": "finalverse.el/v1",
+        "metrics": {
+          "counts": {
+            "audio_activation": 0,
+            "experience_start": 0,
+            "open_from_share": 1,
+            "preview_load_success": 1,
+            "return_visit": 0,
+            "share_action": 0
+          },
+          "first_meaningful_interaction_ms": 342,
+          "return_visit_measured": false,
+          "scope": "this tab only; no analytics transmission"
+        },
+        "renderer": "Cesium 1.138.0",
+        "renderer_performance": {
+          "drawing_buffer": [
+            725,
+            457
+          ],
+          "estimated_geometry_bytes": 5251208,
+          "estimated_texture_bytes": 0,
+          "gpu_note": "GPU elapsed time is not available; CPU submission and rAF are measured separately",
+          "gpu_timings_ms": null,
+          "javascript_heap_bytes": 64757807,
+          "pixel_ratio": 1,
+          "quality": "balanced",
+          "scene_cpu_submission_ms": {
+            "mean_ms": 6.153488367102867,
+            "p50_ms": 5,
+            "p95_ms": 14.799999952316284,
+            "samples": 43
+          },
+          "scene_initialization_ms": 735,
+          "target_fps": 30
+        },
+        "resources": {
+          "active_models": 139,
+          "animation_frames": 1,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "authored_decorations": 29,
+          "custom_shaders": 139,
+          "guide_timers": 0,
+          "inflight_assets": 0,
+          "object_urls": 139,
+          "render_observers": 2,
+          "viewer_active": true
+        },
+        "schema": "finalverse.web-player-review/v1",
+        "selected_entity": null,
+        "smart_experience": {
+          "credentials_scope": "temporary guest token in this document memory only; no cookies or localStorage",
+          "draft_active": true,
+          "events": [
+            "temporary_guest_started",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected"
+          ],
+          "operations": [
+            {
+              "duration_ms": 88,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.199999928474426,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.29999995231629,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.09999990463257,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 42.89999997615814,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 33.10000002384186,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 30.100000023841854,
+              "operation": "template_activation",
+              "status": "complete"
+            }
+          ],
+          "pending": false,
+          "proposal_hash": "16c8b76b18312fd3d559a018d7940eadd6fb6a919bef400cc6db3779d61b5aef",
+          "provider": null,
+          "retention": "30-minute draft; share at most one hour or service restart",
+          "saved_version": null,
+          "selected_template": "winter-wonderland",
+          "session_active": true,
+          "template_pin": {
+            "digest": "069859654757fc35885afc7cf1eb5fc4ed60ea4a404e175a92d3556153c84eb4",
+            "id": "winter-wonderland",
+            "version": 1
+          }
+        },
+        "source_entities": 139,
+        "status": "ready",
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ],
+        "verified_asset_bytes": 5507936,
+        "verified_assets": 140,
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+      }
+    },
+    {
+      "stage": "gallery_cyberpunk-montreal",
+      "pass": 1,
+      "layout": {
+        "scroll_width": 1280,
+        "viewpoints_bottom": 338.59375,
+        "waypoints_top": 359.8046875,
+        "width": 1280
+      },
+      "diagnostics": {
+        "all_geometry_ms": 1077,
+        "authored": {
+          "atmosphere": "haze",
+          "lighting": "after_dark",
+          "markers": 29,
+          "snow_active": false,
+          "visual": {
+            "haze_milli": 430,
+            "metallic_milli": 270,
+            "palette": "midnight_neon",
+            "roughness_milli": 460,
+            "snow_milli": 0,
+            "warmth_milli": 180,
+            "window_glow_milli": 980
+          },
+          "waypoints": 3
+        },
+        "creator": {
+          "draft_active": false,
+          "events": [],
+          "pending_request": false,
+          "proposal_hash": null,
+          "provider": null,
+          "revision_count": 0,
+          "revision_index": 0,
+          "saved_version": null,
+          "state": "idle",
+          "steps": 0,
+          "timing_ms": {}
+        },
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        },
+        "experience": "montreal-after-dark",
+        "first_geometry_ms": 447,
+        "frame_performance": {
+          "samples": 0
+        },
+        "geometry_ready": 139,
+        "guest_edition": null,
+        "manifest_schema": "finalverse.el/v1",
+        "metrics": {
+          "counts": {
+            "audio_activation": 0,
+            "experience_start": 0,
+            "open_from_share": 1,
+            "preview_load_success": 1,
+            "return_visit": 0,
+            "share_action": 0
+          },
+          "first_meaningful_interaction_ms": 342,
+          "return_visit_measured": false,
+          "scope": "this tab only; no analytics transmission"
+        },
+        "renderer": "Cesium 1.138.0",
+        "renderer_performance": {
+          "drawing_buffer": [
+            725,
+            457
+          ],
+          "estimated_geometry_bytes": 5251208,
+          "estimated_texture_bytes": 0,
+          "gpu_note": "GPU elapsed time is not available; CPU submission and rAF are measured separately",
+          "gpu_timings_ms": null,
+          "javascript_heap_bytes": 68041003,
+          "pixel_ratio": 1,
+          "quality": "balanced",
+          "scene_cpu_submission_ms": {
+            "mean_ms": 5.995555549197727,
+            "p50_ms": 4.799999952316284,
+            "p95_ms": 14.799999952316284,
+            "samples": 45
+          },
+          "scene_initialization_ms": 735,
+          "target_fps": 30
+        },
+        "resources": {
+          "active_models": 139,
+          "animation_frames": 1,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "authored_decorations": 29,
+          "custom_shaders": 139,
+          "guide_timers": 0,
+          "inflight_assets": 0,
+          "object_urls": 139,
+          "render_observers": 2,
+          "viewer_active": true
+        },
+        "schema": "finalverse.web-player-review/v1",
+        "selected_entity": null,
+        "smart_experience": {
+          "credentials_scope": "temporary guest token in this document memory only; no cookies or localStorage",
+          "draft_active": true,
+          "events": [
+            "temporary_guest_started",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected"
+          ],
+          "operations": [
+            {
+              "duration_ms": 88,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.199999928474426,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.29999995231629,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.09999990463257,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 42.89999997615814,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 33.10000002384186,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 30.100000023841854,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 28,
+              "operation": "template_activation",
+              "status": "complete"
+            }
+          ],
+          "pending": false,
+          "proposal_hash": "2e782b646b9e91b8d5f39246f4ef601a2d09c202f73e48241701f7778981d859",
+          "provider": null,
+          "retention": "30-minute draft; share at most one hour or service restart",
+          "saved_version": null,
+          "selected_template": "cyberpunk-montreal",
+          "session_active": true,
+          "template_pin": {
+            "digest": "73817fdb1303a74b3f7726863ca0c1dfab78bfd5ac757b85d079da4684dd9461",
+            "id": "cyberpunk-montreal",
+            "version": 1
+          }
+        },
+        "source_entities": 139,
+        "status": "ready",
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ],
+        "verified_asset_bytes": 5507936,
+        "verified_assets": 140,
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+      }
+    },
+    {
+      "stage": "gallery_golden-hour",
+      "pass": 1,
+      "layout": {
+        "scroll_width": 1280,
+        "viewpoints_bottom": 338.59375,
+        "waypoints_top": 359.8046875,
+        "width": 1280
+      },
+      "diagnostics": {
+        "all_geometry_ms": 1077,
+        "authored": {
+          "atmosphere": "haze",
+          "lighting": "daylight",
+          "markers": 1,
+          "snow_active": false,
+          "visual": {
+            "haze_milli": 130,
+            "metallic_milli": 90,
+            "palette": "copper_glass",
+            "roughness_milli": 860,
+            "snow_milli": 0,
+            "warmth_milli": 980,
+            "window_glow_milli": 120
+          },
+          "waypoints": 1
+        },
+        "creator": {
+          "draft_active": false,
+          "events": [],
+          "pending_request": false,
+          "proposal_hash": null,
+          "provider": null,
+          "revision_count": 0,
+          "revision_index": 0,
+          "saved_version": null,
+          "state": "idle",
+          "steps": 0,
+          "timing_ms": {}
+        },
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        },
+        "experience": "montreal-after-dark",
+        "first_geometry_ms": 447,
+        "frame_performance": {
+          "samples": 0
+        },
+        "geometry_ready": 139,
+        "guest_edition": null,
+        "manifest_schema": "finalverse.el/v1",
+        "metrics": {
+          "counts": {
+            "audio_activation": 0,
+            "experience_start": 0,
+            "open_from_share": 1,
+            "preview_load_success": 1,
+            "return_visit": 0,
+            "share_action": 0
+          },
+          "first_meaningful_interaction_ms": 342,
+          "return_visit_measured": false,
+          "scope": "this tab only; no analytics transmission"
+        },
+        "renderer": "Cesium 1.138.0",
+        "renderer_performance": {
+          "drawing_buffer": [
+            725,
+            457
+          ],
+          "estimated_geometry_bytes": 5251208,
+          "estimated_texture_bytes": 0,
+          "gpu_note": "GPU elapsed time is not available; CPU submission and rAF are measured separately",
+          "gpu_timings_ms": null,
+          "javascript_heap_bytes": 72002079,
+          "pixel_ratio": 1,
+          "quality": "balanced",
+          "scene_cpu_submission_ms": {
+            "mean_ms": 5.758333330353101,
+            "p50_ms": 4.399999976158142,
+            "p95_ms": 14.799999952316284,
+            "samples": 48
+          },
+          "scene_initialization_ms": 735,
+          "target_fps": 30
+        },
+        "resources": {
+          "active_models": 139,
+          "animation_frames": 1,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "authored_decorations": 1,
+          "custom_shaders": 139,
+          "guide_timers": 0,
+          "inflight_assets": 0,
+          "object_urls": 139,
+          "render_observers": 2,
+          "viewer_active": true
+        },
+        "schema": "finalverse.web-player-review/v1",
+        "selected_entity": null,
+        "smart_experience": {
+          "credentials_scope": "temporary guest token in this document memory only; no cookies or localStorage",
+          "draft_active": true,
+          "events": [
+            "temporary_guest_started",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected"
+          ],
+          "operations": [
+            {
+              "duration_ms": 88,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.199999928474426,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.29999995231629,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.09999990463257,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 42.89999997615814,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 33.10000002384186,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 30.100000023841854,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 28,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 27.600000023841854,
+              "operation": "template_activation",
+              "status": "complete"
+            }
+          ],
+          "pending": false,
+          "proposal_hash": "5e0e19568343bcc2269c8dedde4fd9c41e119f7eda5c1a3d88151a5ae0dbd6a6",
+          "provider": null,
+          "retention": "30-minute draft; share at most one hour or service restart",
+          "saved_version": null,
+          "selected_template": "golden-hour",
+          "session_active": true,
+          "template_pin": {
+            "digest": "b19aab8287f3a996086c132ebd27702f2d4a28e0aa014ab932ee4556a8f0f1f7",
+            "id": "golden-hour",
+            "version": 1
+          }
+        },
+        "source_entities": 139,
+        "status": "ready",
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ],
+        "verified_asset_bytes": 5507936,
+        "verified_assets": 140,
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+      }
+    },
+    {
+      "stage": "gallery_jazz-night",
+      "pass": 1,
+      "layout": {
+        "scroll_width": 1280,
+        "viewpoints_bottom": 316.0390625,
+        "waypoints_top": 337.25,
+        "width": 1280
+      },
+      "diagnostics": {
+        "all_geometry_ms": 1077,
+        "authored": {
+          "atmosphere": "haze",
+          "lighting": "after_dark",
+          "markers": 29,
+          "snow_active": false,
+          "visual": {
+            "haze_milli": 110,
+            "metallic_milli": 40,
+            "palette": "heritage_stone",
+            "roughness_milli": 920,
+            "snow_milli": 0,
+            "warmth_milli": 800,
+            "window_glow_milli": 480
+          },
+          "waypoints": 2
+        },
+        "creator": {
+          "draft_active": false,
+          "events": [],
+          "pending_request": false,
+          "proposal_hash": null,
+          "provider": null,
+          "revision_count": 0,
+          "revision_index": 0,
+          "saved_version": null,
+          "state": "idle",
+          "steps": 0,
+          "timing_ms": {}
+        },
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        },
+        "experience": "montreal-after-dark",
+        "first_geometry_ms": 447,
+        "frame_performance": {
+          "samples": 0
+        },
+        "geometry_ready": 139,
+        "guest_edition": null,
+        "manifest_schema": "finalverse.el/v1",
+        "metrics": {
+          "counts": {
+            "audio_activation": 0,
+            "experience_start": 0,
+            "open_from_share": 1,
+            "preview_load_success": 1,
+            "return_visit": 0,
+            "share_action": 0
+          },
+          "first_meaningful_interaction_ms": 342,
+          "return_visit_measured": false,
+          "scope": "this tab only; no analytics transmission"
+        },
+        "renderer": "Cesium 1.138.0",
+        "renderer_performance": {
+          "drawing_buffer": [
+            725,
+            457
+          ],
+          "estimated_geometry_bytes": 5251208,
+          "estimated_texture_bytes": 0,
+          "gpu_note": "GPU elapsed time is not available; CPU submission and rAF are measured separately",
+          "gpu_timings_ms": null,
+          "javascript_heap_bytes": 74289110,
+          "pixel_ratio": 1,
+          "quality": "balanced",
+          "scene_cpu_submission_ms": {
+            "mean_ms": 5.593999998569489,
+            "p50_ms": 3.600000023841858,
+            "p95_ms": 14.799999952316284,
+            "samples": 50
+          },
+          "scene_initialization_ms": 735,
+          "target_fps": 30
+        },
+        "resources": {
+          "active_models": 139,
+          "animation_frames": 1,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "authored_decorations": 29,
+          "custom_shaders": 139,
+          "guide_timers": 0,
+          "inflight_assets": 0,
+          "object_urls": 139,
+          "render_observers": 2,
+          "viewer_active": true
+        },
+        "schema": "finalverse.web-player-review/v1",
+        "selected_entity": null,
+        "smart_experience": {
+          "credentials_scope": "temporary guest token in this document memory only; no cookies or localStorage",
+          "draft_active": true,
+          "events": [
+            "temporary_guest_started",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected"
+          ],
+          "operations": [
+            {
+              "duration_ms": 88,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.199999928474426,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.29999995231629,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.09999990463257,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 42.89999997615814,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 33.10000002384186,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 30.100000023841854,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 28,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 27.600000023841854,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 26.899999976158146,
+              "operation": "template_activation",
+              "status": "complete"
+            }
+          ],
+          "pending": false,
+          "proposal_hash": "112894835fb1a656dd72cd55726e9c5c7edd3decf29c04ca59a0399e3b4b7635",
+          "provider": null,
+          "retention": "30-minute draft; share at most one hour or service restart",
+          "saved_version": null,
+          "selected_template": "jazz-night",
+          "session_active": true,
+          "template_pin": {
+            "digest": "1f23459f5a084b9851f05345be103210e3a778a9027e5fb01174ff95470bc034",
+            "id": "jazz-night",
+            "version": 1
+          }
+        },
+        "source_entities": 139,
+        "status": "ready",
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ],
+        "verified_asset_bytes": 5507936,
+        "verified_assets": 140,
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+      }
+    },
+    {
+      "stage": "gallery_festival-of-lights",
+      "pass": 1,
+      "layout": {
+        "scroll_width": 1280,
+        "viewpoints_bottom": 338.59375,
+        "waypoints_top": 359.8046875,
+        "width": 1280
+      },
+      "diagnostics": {
+        "all_geometry_ms": 1077,
+        "authored": {
+          "atmosphere": "haze",
+          "lighting": "festival",
+          "markers": 29,
+          "snow_active": false,
+          "visual": {
+            "haze_milli": 200,
+            "metallic_milli": 150,
+            "palette": "copper_glass",
+            "roughness_milli": 680,
+            "snow_milli": 0,
+            "warmth_milli": 920,
+            "window_glow_milli": 1000
+          },
+          "waypoints": 3
+        },
+        "creator": {
+          "draft_active": false,
+          "events": [],
+          "pending_request": false,
+          "proposal_hash": null,
+          "provider": null,
+          "revision_count": 0,
+          "revision_index": 0,
+          "saved_version": null,
+          "state": "idle",
+          "steps": 0,
+          "timing_ms": {}
+        },
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        },
+        "experience": "montreal-after-dark",
+        "first_geometry_ms": 447,
+        "frame_performance": {
+          "samples": 0
+        },
+        "geometry_ready": 139,
+        "guest_edition": null,
+        "manifest_schema": "finalverse.el/v1",
+        "metrics": {
+          "counts": {
+            "audio_activation": 0,
+            "experience_start": 0,
+            "open_from_share": 1,
+            "preview_load_success": 1,
+            "return_visit": 0,
+            "share_action": 0
+          },
+          "first_meaningful_interaction_ms": 342,
+          "return_visit_measured": false,
+          "scope": "this tab only; no analytics transmission"
+        },
+        "renderer": "Cesium 1.138.0",
+        "renderer_performance": {
+          "drawing_buffer": [
+            725,
+            457
+          ],
+          "estimated_geometry_bytes": 5251208,
+          "estimated_texture_bytes": 0,
+          "gpu_note": "GPU elapsed time is not available; CPU submission and rAF are measured separately",
+          "gpu_timings_ms": null,
+          "javascript_heap_bytes": 49167858,
+          "pixel_ratio": 1,
+          "quality": "balanced",
+          "scene_cpu_submission_ms": {
+            "mean_ms": 5.56415094294638,
+            "p50_ms": 3.600000023841858,
+            "p95_ms": 14.799999952316284,
+            "samples": 53
+          },
+          "scene_initialization_ms": 735,
+          "target_fps": 30
+        },
+        "resources": {
+          "active_models": 139,
+          "animation_frames": 1,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "authored_decorations": 29,
+          "custom_shaders": 139,
+          "guide_timers": 0,
+          "inflight_assets": 0,
+          "object_urls": 139,
+          "render_observers": 2,
+          "viewer_active": true
+        },
+        "schema": "finalverse.web-player-review/v1",
+        "selected_entity": null,
+        "smart_experience": {
+          "credentials_scope": "temporary guest token in this document memory only; no cookies or localStorage",
+          "draft_active": true,
+          "events": [
+            "temporary_guest_started",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected"
+          ],
+          "operations": [
+            {
+              "duration_ms": 88,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.199999928474426,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.29999995231629,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.09999990463257,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 42.89999997615814,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 33.10000002384186,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 30.100000023841854,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 28,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 27.600000023841854,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 26.899999976158146,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 26.299999952316284,
+              "operation": "template_activation",
+              "status": "complete"
+            }
+          ],
+          "pending": false,
+          "proposal_hash": "76e4c3715b00b0981731b5c4c3729c1191252976740305abee4a148ce5724a35",
+          "provider": null,
+          "retention": "30-minute draft; share at most one hour or service restart",
+          "saved_version": null,
+          "selected_template": "festival-of-lights",
+          "session_active": true,
+          "template_pin": {
+            "digest": "33a48a7c2c96149eec1bc8f71944c3f6591b29a4c96fdef5eb73d7f8445bac03",
+            "id": "festival-of-lights",
+            "version": 1
+          }
+        },
+        "source_entities": 139,
+        "status": "ready",
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ],
+        "verified_asset_bytes": 5507936,
+        "verified_assets": 140,
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+      }
+    },
+    {
+      "stage": "gallery_quiet-montreal",
+      "pass": 1,
+      "layout": {
+        "scroll_width": 1280,
+        "viewpoints_bottom": 316.0390625,
+        "waypoints_top": 337.25,
+        "width": 1280
+      },
+      "diagnostics": {
+        "all_geometry_ms": 1077,
+        "authored": {
+          "atmosphere": "haze",
+          "lighting": "after_dark",
+          "markers": 1,
+          "snow_active": false,
+          "visual": {
+            "haze_milli": 40,
+            "metallic_milli": 0,
+            "palette": "heritage_stone",
+            "roughness_milli": 960,
+            "snow_milli": 0,
+            "warmth_milli": 620,
+            "window_glow_milli": 220
+          },
+          "waypoints": 1
+        },
+        "creator": {
+          "draft_active": false,
+          "events": [],
+          "pending_request": false,
+          "proposal_hash": null,
+          "provider": null,
+          "revision_count": 0,
+          "revision_index": 0,
+          "saved_version": null,
+          "state": "idle",
+          "steps": 0,
+          "timing_ms": {}
+        },
+        "environment": {
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+          "viewport": {
+            "height": 720,
+            "width": 1280
+          }
+        },
+        "experience": "montreal-after-dark",
+        "first_geometry_ms": 447,
+        "frame_performance": {
+          "samples": 0
+        },
+        "geometry_ready": 139,
+        "guest_edition": null,
+        "manifest_schema": "finalverse.el/v1",
+        "metrics": {
+          "counts": {
+            "audio_activation": 0,
+            "experience_start": 0,
+            "open_from_share": 1,
+            "preview_load_success": 1,
+            "return_visit": 0,
+            "share_action": 0
+          },
+          "first_meaningful_interaction_ms": 342,
+          "return_visit_measured": false,
+          "scope": "this tab only; no analytics transmission"
+        },
+        "renderer": "Cesium 1.138.0",
+        "renderer_performance": {
+          "drawing_buffer": [
+            725,
+            457
+          ],
+          "estimated_geometry_bytes": 5251208,
+          "estimated_texture_bytes": 0,
+          "gpu_note": "GPU elapsed time is not available; CPU submission and rAF are measured separately",
+          "gpu_timings_ms": null,
+          "javascript_heap_bytes": 52356315,
+          "pixel_ratio": 1,
+          "quality": "balanced",
+          "scene_cpu_submission_ms": {
+            "mean_ms": 5.374999997871263,
+            "p50_ms": 3.5,
+            "p95_ms": 14.799999952316284,
+            "samples": 56
+          },
+          "scene_initialization_ms": 735,
+          "target_fps": 30
+        },
+        "resources": {
+          "active_models": 139,
+          "animation_frames": 1,
+          "audio_contexts": 0,
+          "audio_sources": 0,
+          "authored_decorations": 1,
+          "custom_shaders": 139,
+          "guide_timers": 0,
+          "inflight_assets": 0,
+          "object_urls": 139,
+          "render_observers": 2,
+          "viewer_active": true
+        },
+        "schema": "finalverse.web-player-review/v1",
+        "selected_entity": null,
+        "smart_experience": {
+          "credentials_scope": "temporary guest token in this document memory only; no cookies or localStorage",
+          "draft_active": true,
+          "events": [
+            "temporary_guest_started",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected",
+            "template_selected"
+          ],
+          "operations": [
+            {
+              "duration_ms": 88,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.199999928474426,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.29999995231629,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 43.09999990463257,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 42.89999997615814,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 33.10000002384186,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 30.100000023841854,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 28,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 27.600000023841854,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 26.899999976158146,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 26.299999952316284,
+              "operation": "template_activation",
+              "status": "complete"
+            },
+            {
+              "duration_ms": 32.10000002384186,
+              "operation": "template_activation",
+              "status": "complete"
+            }
+          ],
+          "pending": false,
+          "proposal_hash": "73546a267a5e51a399f610ad45138964cc861e4190ed268cc3bf422e61f55edc",
+          "provider": null,
+          "retention": "30-minute draft; share at most one hour or service restart",
+          "saved_version": null,
+          "selected_template": "quiet-montreal",
+          "session_active": true,
+          "template_pin": {
+            "digest": "51259cf981c6d59af897faae44cefc22a9b51c0aff0d69b63c0317585147af09",
+            "id": "quiet-montreal",
+            "version": 1
+          }
+        },
+        "source_entities": 139,
+        "status": "ready",
+        "unsupported_capabilities": [
+          "mutsea.world-session",
+          "terra.live-query",
+          "infinity.native-full-renderer",
+          "sonic.spatial-device"
+        ],
+        "verified_asset_bytes": 5507936,
+        "verified_assets": 140,
+        "version": "16f19110720a52c4a0a02567c2f070286b88e022de90a3ad66470287eb63ebea"
+      }
+    }
+  ],
+  "same_view": "District; Still views checked; static camera and snow",
+  "quality": "balanced"
+}

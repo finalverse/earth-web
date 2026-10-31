@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Finalverse — A world worth making your own</title>
+    <meta
+      name="description"
+      content="Discover living experiences. Step into a winter market, follow a creator, and make something your own."
+    />
+    <link rel="stylesheet" href="/discovery.css" />
+    <script type="module" src="/discovery.js"></script>
+  </head>
+  <body>
+    <header class="nav">
+      <a class="brand" href="/" aria-label="Finalverse home"
+        ><img src="/logo.svg" alt="Finalverse Earth"
+      /></a>
+      <nav aria-label="Main">
+        <a href="/#explore">Explore</a><a href="/#lumi">Meet Lumi</a
+        ><a href="/#creators">For creators</a>
+      </nav>
+      <span class="preview">LOCAL EXPERIENCE NETWORK</span>
+    </header>
+    <main>
+      <section class="hero" id="hero">
+        <div class="hero-copy">
+          <span class="eyebrow"
+            >IMAGINE IT. CREATE IT. EXPERIENCE IT. SHARE IT.</span
+          >
+          <h1>A world worth<br />making <em>your own.</em></h1>
+          <p>
+            Step into someone's imagination.<br />Leave a little of yours
+            behind.
+          </p>
+          <div class="hero-actions">
+            <a id="featured-enter" class="button primary" href="#explore"
+              >Explore the winter market ↗</a
+            ><a class="text-link" href="#explore"
+              >Find your next experience ↓</a
+            >
+          </div>
+          <div class="hero-foot">
+            <span class="dot"></span> Real creations. Open invitations. Endless
+            possibilities.
+          </div>
+        </div>
+        <a id="featured-art" class="hero-art" href="#explore"
+          ><img
+            src="/network-assets/winter-market.jpg"
+            alt="Actual 28-object Montréal Winter Market: striped stalls, decorated trees, warm lanterns and a stage"
+          /><span class="art-label"
+            ><small>FEATURED EXPERIENCE · MONTRÉAL</small
+            ><strong>Meet me at the winter market <span>↗</span></strong
+            ><span>28 original objects · Made to be remixed</span></span
+          ></a
+        >
+      </section>
+      <section class="discovery" id="explore">
+        <div class="section-title">
+          <div>
+            <span class="eyebrow">THE EXPERIENCE NETWORK</span>
+            <h2>Where will you go next?</h2>
+          </div>
+          <p id="result-count" aria-live="polite">
+            Loading published experiences…
+          </p>
+        </div>
+        <form id="search-form" class="search">
+          <label for="search">Search experiences</label
+          ><input
+            id="search"
+            type="search"
+            maxlength="200"
+            placeholder="A winter place, a city after dark, something new…"
+          /><button class="button primary" type="submit">Explore ↗</button>
+        </form>
+        <div class="filters" role="group" aria-label="Filter experiences">
+          <button data-filter="all" aria-pressed="true">All experiences</button
+          ><button data-filter="winter">Winter worlds</button
+          ><button data-filter="city">Earth & cities</button
+          ><button data-filter="generated">AI &amp; procedural</button
+          ><button data-filter="ai">AI-planned</button
+          ><button data-filter="remixable">Make it your own</button>
+        </div>
+        <div id="results" class="cards"></div>
+        <p id="empty" class="empty" hidden>
+          No published experiences match yet. Try a broader search.
+        </p>
+      </section>
+      <section id="lumi" class="lumi">
+        <div class="lumi-mark" aria-hidden="true">✧</div>
+        <div>
+          <span class="eyebrow">A LITTLE HELP FROM LUMI</span>
+          <h2>Follow your curiosity.</h2>
+          <p>
+            Tell Lumi what you feel like exploring. Every recommendation leads
+            to a real published experience.
+          </p>
+          <form id="lumi-form">
+            <label for="lumi-query">What would you like to find?</label>
+            <div class="lumi-input">
+              <input
+                id="lumi-query"
+                maxlength="200"
+                value="Find a beautiful winter place where I can change the lighting"
+              /><button class="button primary">Ask Lumi ↗</button>
+            </div>
+          </form>
+          <p id="lumi-status" role="status">
+            Grounded discovery · You choose where to go
+          </p>
+          <div id="lumi-results"></div>
+        </div>
+      </section>
+      <section id="creators" class="creator-invite">
+        <span class="eyebrow">YOUR IMAGINATION BELONGS HERE</span>
+        <h2>Enter as a visitor.<br />Leave as a creator.</h2>
+        <p>
+          Make a private variation in seconds. Keep the attribution, add your
+          perspective, and publish an edition that stays yours.
+        </p>
+        <a href="#explore" class="button primary">Find something to remix ↗</a
+        ><small
+          >Permanent publication uses a recoverable creator identity. Private
+          experimentation stays open to everyone.</small
+        >
+      </section>
+      <section id="detail" class="detail" hidden></section>
+      <p id="error" role="alert"></p>
+    </main>
+    <footer>
+      <a href="/">Finalverse</a
+      ><span>Imagine it. Create it. Experience it. Share it.</span
+      ><small
+        >Local preview · Artistic atmosphere and generated objects are labelled
+        separately from source-backed geography.</small
+      >
+    </footer>
+  </body>
+</html>

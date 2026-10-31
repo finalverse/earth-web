@@ -1,0 +1,72 @@
+{
+  "core_primary": {
+    "path": "/Users/wenyan/Finalverse/finalverse",
+    "commit": "1d798fb3a08d1d1b89c09f25f50049e485d5e687",
+    "dirty_entries": 0
+  },
+  "earth_primary": {
+    "path": "/Users/wenyan/Finalverse/earth-web",
+    "commit": "d40593d10c67b92610bc6d58ab9f6a61aa243317",
+    "dirty_entries": 0
+  },
+  "infinity_primary": {
+    "path": "/Users/wenyan/Finalverse/infinity",
+    "commit": "7a775971ad9dd0541057c20c7f49e8bf1192d4bb",
+    "dirty_entries": 0
+  },
+  "core_m3a": {
+    "path": "/Users/wenyan/Finalverse/dev/worktrees/core-m3a-20261028",
+    "commit": "d476e2876e4329811227668f7ff5be83d109840e",
+    "dirty_entries": 0
+  },
+  "infinity_m3a": {
+    "path": "/Users/wenyan/Finalverse/dev/worktrees/infinity-m3a-20261028",
+    "commit": "e0bb10a9e2e48e470066990fe5a899a34f84f297",
+    "dirty_entries": 0
+  },
+  "core_m2": {
+    "path": "/Users/wenyan/Finalverse/dev/worktrees/core-m2-20261027",
+    "commit": "ebe4a289e88e77e5f24165b534d059ca6767d67b",
+    "dirty_entries": 0
+  },
+  "infinity_m2": {
+    "path": "/Users/wenyan/Finalverse/dev/worktrees/infinity-m2-20261027",
+    "commit": "784a42cac4fec9ed0d21461f3bc7e6789b7b894d",
+    "dirty_entries": 0
+  },
+  "ios_m1c": {
+    "path": "/Users/wenyan/Finalverse/dev/worktrees/finalverse-ios-m1c-20261027",
+    "commit": "75694056aa4b0b627431320153d87e016a73a12c",
+    "dirty_entries": 0
+  },
+  "android_m1c": {
+    "path": "/Users/wenyan/Finalverse/dev/worktrees/finalverse-android-m1c-20261027",
+    "commit": "be01f0a2a1983ab1c9a72d632d5d0fd913a8fe21",
+    "dirty_entries": 0
+  },
+  "spatialdb": {
+    "path": "/Users/wenyan/Finalverse/spatialdb",
+    "commit": "2cd92aed2da317757e877f6d0954d308ca9796cf",
+    "dirty_entries": 0
+  },
+  "terra": {
+    "path": "/Users/wenyan/Finalverse/terra",
+    "commit": "0f90387bdc894ead8ec1bc0b3b8b49d870cfd287",
+    "dirty_entries": 0
+  },
+  "mutsea": {
+    "path": "/Users/wenyan/Finalverse/mutsea",
+    "commit": "dbec5934b7673f92afe0e0fd508c18958ccb6e7d",
+    "dirty_entries": 0
+  },
+  "studio": {
+    "path": "/Users/wenyan/Finalverse/studio",
+    "commit": "d73be6a8b84509aeb2fd2f44b44856a7a6d62195",
+    "dirty_entries": 0
+  },
+  "song": {
+    "path": "/Users/wenyan/ClaudeProjects/song",
+    "commit": "3f40bc8b74a49988a0e5dd453a39db008284014d",
+    "dirty_entries": 2
+  }
+}

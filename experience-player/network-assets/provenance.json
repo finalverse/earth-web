@@ -1,0 +1,62 @@
+{
+  "blender_version": "5.2.2 LTS",
+  "source_mesh_count": 28,
+  "engine": "CYCLES",
+  "samples": 48,
+  "renders": [
+    {
+      "image": "winter-market.jpg",
+      "seconds": 12.946211583912373,
+      "camera_position": [
+        164,
+        39,
+        28
+      ],
+      "camera_target": [
+        130,
+        -2,
+        -1.4
+      ],
+      "orthographic": true,
+      "ortho_scale": 54,
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "image": "market-detail.jpg",
+      "seconds": 23.411774625070393,
+      "camera_position": [
+        137,
+        19,
+        5.0
+      ],
+      "camera_target": [
+        129,
+        4,
+        -0.8
+      ],
+      "orthographic": false,
+      "ortho_scale": null,
+      "width": 1200,
+      "height": 800
+    }
+  ],
+  "scope": "Exact accepted M8 mesh geometry, materials and transforms. New preview camera/world/lighting rigs only. No source save, source-backed district, new objects, or synthetic image generation.",
+  "source": {
+    "kind": "accepted_m8_blender_interchange",
+    "filename": "market.blend",
+    "sha256": "1ea6c620cc3705fd5794018e79e8f2e31a86b0d4fb6db467dd5cdff46680874e",
+    "source_graph_hash": "1fa9b22ecb6c89e80820a46c30bd6f05a7f91848434ddf0257aeb778c2e7a010"
+  },
+  "trusted_render_script_sha256": "1014158648d9fe5eaae3f6220d936f6c835b57e38ea09626b90bb04690718eed",
+  "image_hashes": {
+    "winter-market.jpg": {
+      "sha256": "cf7cd379b2847b39c519ed23e0ac838ffc87b93fa95007b071c3fe9ffb19a1c4",
+      "byte_length": 69120
+    },
+    "market-detail.jpg": {
+      "sha256": "5333ab1b5f484070f8463809a97d56390e27598bad309014f950c2f797f659e6",
+      "byte_length": 94699
+    }
+  }
+}

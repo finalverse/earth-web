@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: frame statistics distinguish median and 95th percentile on known samples
+ok 1 - frame statistics distinguish median and 95th percentile on known samples
+  ---
+  duration_ms: 1.059459
+  type: 'test'
+  ...
+# Subtest: material assignment is stable per original identity and restricted to reviewed palettes
+ok 2 - material assignment is stable per original identity and restricted to reviewed palettes
+  ---
+  duration_ms: 0.143375
+  type: 'test'
+  ...
+# Subtest: lower quality reduces pixel, particle and decoration budgets
+ok 3 - lower quality reduces pixel, particle and decoration budgets
+  ---
+  duration_ms: 0.109458
+  type: 'test'
+  ...
+# Subtest: actual M5 guest edition reopens through the existing immutable publication contract
+ok 4 - actual M5 guest edition reopens through the existing immutable publication contract
+  ---
+  duration_ms: 13.703833
+  type: 'test'
+  ...
+# Subtest: tampered template and content cannot hide behind an old edition hash
+ok 5 - tampered template and content cannot hide behind an old edition hash
+  ---
+  duration_ms: 2.334875
+  type: 'test'
+  ...
+# Subtest: expired temporary links fail closed
+ok 6 - expired temporary links fail closed
+  ---
+  duration_ms: 2.263791
+  type: 'test'
+  ...
+# Subtest: guest template extraction and durable policy escalation are rejected
+ok 7 - guest template extraction and durable policy escalation are rejected
+  ---
+  duration_ms: 3.643458
+  type: 'test'
+  ...
+# Subtest: simulated context cannot masquerade as observed environmental data
+ok 8 - simulated context cannot masquerade as observed environmental data
+  ---
+  duration_ms: 3.775375
+  type: 'test'
+  ...
+# Subtest: recipient lineage must match the immutable publication parent
+ok 9 - recipient lineage must match the immutable publication parent
+  ---
+  duration_ms: 9.85225
+  type: 'test'
+  ...
+# Subtest: untrusted camera programs and out-of-budget guide timing are rejected
+ok 10 - untrusted camera programs and out-of-budget guide timing are rejected
+  ---
+  duration_ms: 3.409209
+  type: 'test'
+  ...
+# Subtest: mobile/reduced-motion hints only reduce presentation budgets
+ok 11 - mobile/reduced-motion hints only reduce presentation budgets
+  ---
+  duration_ms: 0.557542
+  type: 'test'
+  ...
+# Subtest: draft integrity preserves source spatial bindings
+ok 12 - draft integrity preserves source spatial bindings
+  ---
+  duration_ms: 1.514292
+  type: 'test'
+  ...
+# Subtest: template assets keep their approved provenance even with a resealed envelope
+ok 13 - template assets keep their approved provenance even with a resealed envelope
+  ---
+  duration_ms: 5.298084
+  type: 'test'
+  ...
+# Subtest: declarative templates reject script fields and expanded parameter authority
+ok 14 - declarative templates reject script fields and expanded parameter authority
+  ---
+  duration_ms: 5.572959
+  type: 'test'
+  ...
+# Subtest: a real recipient derivative reopens with an inherited approved light and no new placement
+ok 15 - a real recipient derivative reopens with an inherited approved light and no new placement
+  ---
+  duration_ms: 5.55075
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 107.615792

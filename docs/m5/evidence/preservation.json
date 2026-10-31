@@ -1,0 +1,60 @@
+{
+  "schema": "finalverse.m5-preservation/v1",
+  "repositories": [
+    {
+      "path": "/Users/wenyan/Finalverse/finalverse",
+      "head": "1d798fb3a08d1d1b89c09f25f50049e485d5e687",
+      "clean": true
+    },
+    {
+      "path": "/Users/wenyan/Finalverse/earth-web",
+      "head": "d40593d10c67b92610bc6d58ab9f6a61aa243317",
+      "clean": true
+    },
+    {
+      "path": "/Users/wenyan/Finalverse/dev/worktrees/core-m4b-20261028",
+      "head": "33b2e48d2b5c42e38f3baf868599c042b9269832",
+      "clean": true
+    },
+    {
+      "path": "/Users/wenyan/Finalverse/dev/worktrees/earth-web-m4b-20261028",
+      "head": "eed34a6ed0dc04725e4c4225d105ce206055a3c7",
+      "clean": true
+    },
+    {
+      "path": "/Users/wenyan/Finalverse/dev/worktrees/core-m3a-20261028",
+      "head": "d476e2876e4329811227668f7ff5be83d109840e",
+      "clean": true
+    },
+    {
+      "path": "/Users/wenyan/Finalverse/dev/worktrees/infinity-m3a-20261028",
+      "head": "e0bb10a9e2e48e470066990fe5a899a34f84f297",
+      "clean": true
+    },
+    {
+      "path": "/Users/wenyan/Finalverse/dev/worktrees/core-m1c-20261027",
+      "head": "ada5e2bafcf363c226409c0d712d43e367025989",
+      "clean": true
+    },
+    {
+      "path": "/Users/wenyan/Finalverse/dev/worktrees/finalverse-ios-m1c-20261027",
+      "head": "75694056aa4b0b627431320153d87e016a73a12c",
+      "clean": true
+    },
+    {
+      "path": "/Users/wenyan/Finalverse/dev/worktrees/finalverse-android-m1c-20261027",
+      "head": "be01f0a2a1983ab1c9a72d632d5d0fd913a8fe21",
+      "clean": true
+    },
+    {
+      "path": "/Users/wenyan/Finalverse/dev/worktrees/core-m4c-20261029",
+      "head": "b8d85af7fa72cedec823f424d60ac3a3f7247586",
+      "clean": true
+    },
+    {
+      "path": "/Users/wenyan/Finalverse/dev/worktrees/earth-web-m4c-20261029",
+      "head": "b7c1ba017722191d17b22b274f61bdd12130046a",
+      "clean": true
+    }
+  ]
+}

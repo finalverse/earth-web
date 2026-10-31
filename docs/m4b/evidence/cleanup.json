@@ -1,0 +1,12 @@
+{
+  "owned_ports_closed": {
+    "57055": true,
+    "58288": true,
+    "64634": true
+  },
+  "owned_tabs_closed": true,
+  "viewport_override_reset": true,
+  "containers_or_world_services_started": 0,
+  "source_or_cache_deletions": 0,
+  "registries_and_evidence_retained": true
+}

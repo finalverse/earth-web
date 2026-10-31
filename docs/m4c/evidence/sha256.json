@@ -1,0 +1,26 @@
+{
+  "schema": "finalverse.m4c-evidence-seal/v1",
+  "algorithm": "sha256",
+  "files": {
+    "after-desktop.png": "1e96cf951ccd9fd7b39fe5fbffc4c2efe8f349bd2f48dee8772a76f579e7411a",
+    "artifacts.json": "977d4e31c95bf93006352f646eea90e02fda1a2c621ad6f0f2cca7478ca7f582",
+    "before-desktop.png": "ff89a45042c0ad8820c64e43dbc61fb296801e2ce0f62a0fa1081dab7316cfc8",
+    "browser-review.json": "5b2da9d440b693d1efa96cf2200f06ab750cf597ad0f49a35a9f3a7aa0f50a00",
+    "build.log": "ebde15c97649a89693e1e34234dc1f619b8aed6e5799ce95e0b0bc7f2952715a",
+    "cleanup.json": "13cd0bd64288cb391afb11c5ee3084e7406cfa12f3a9ff138ca5e670f76e2a55",
+    "evidence-check.json": "75d426bb394fba9627a5b0ed85ed87abdbc6911645df942a2296489dbdb5935b",
+    "fixture-publication.json": "02ac0b8a6390af1c27a09004956bc6653446dad65d9aca6389b29a0cc578bcb9",
+    "format.log": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+    "http-proposal.json": "97f832367caa53843c49f68a43cc54cda12197cc9806bc0c9d140de511e4391e",
+    "http-publication.json": "2d8c931a0fa6ec38fcb5be7d2913fef1cc19e94a4f3e52e520b615470a7f97a1",
+    "http-review.json": "0d491740f598174b59256cb5aa35eb915c3822fb9fa9347a531d5605baef82c2",
+    "mobile.png": "387d0ca54cd982c8cd077d0141a927557b32bc51d66b937be96be97c55fa96d9",
+    "model-and-publishing.json": "42fd124d2fb8dd6e603e2ffb069c03008fa4ed8671aff1370d44dbba97533cca",
+    "model-publication.json": "796ff60a3ddebd438a50564f334b9ee14ecc4b7aabb9e7dcc4dcbf245647e149",
+    "original-publication.json": "2a9b73ab63491e0f9c52db49910db30794d2dea5c8b490f2f97d07e40ae41c1b",
+    "preservation.json": "18a5371053ae176b4d627b9d0cd86b56a1fa8f977925aac6f67e5943f5f64592",
+    "real-model-desktop.png": "b9a333d12be74a44fc7c15253bc6d6b5a65624d4138f065f0e93f64931d8bfab",
+    "real-model-recipient.png": "b19c547b802fa0a17ee1d0168b0c8c14ca85a482ea6305aa17675c914ff65008",
+    "tests.log": "ec0cfb5837b5d6c4303c745efb813eed53abc49c3e8f27d845d6ecfe5f34baa1"
+  }
+}

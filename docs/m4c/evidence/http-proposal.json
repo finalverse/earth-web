@@ -1,0 +1,514 @@
+{
+  "asset_references": {
+    "finalverse.m2-festival-light/v1": {
+      "provenance": {
+        "attribution": "Reusable specification of M2's original warm festival light; no surveyed geometry or third-party artwork. CC0 dedication.",
+        "creator": "Finalverse M2 authored lighting",
+        "license": "CC0-1.0",
+        "modified": false
+      },
+      "sha256": "d738123e3327ad434c4b14bc746015748c18949f2d8c78ac28da9e3ab9acac99"
+    }
+  },
+  "base_experience_identity": "montreal-after-dark",
+  "base_experience_version": "bd96b0ffb288358c82b844c3221cc5b6901cf09545998b870d95c869c709cba7",
+  "expected_effects": [
+    "Authored visual and audio presentation only. City identities, geometry and world authority stay fixed."
+  ],
+  "id": "creative-6684188239463caeb0457f16",
+  "modifications": [
+    {
+      "operation": "lighting",
+      "preset": "festival"
+    },
+    {
+      "operation": "visual",
+      "treatment": {
+        "haze_milli": 260,
+        "metallic_milli": 60,
+        "palette": "winter_stone",
+        "roughness_milli": 820,
+        "snow_milli": 260,
+        "warmth_milli": 1000,
+        "window_glow_milli": 760
+      }
+    },
+    {
+      "effect": "snow",
+      "operation": "atmosphere"
+    },
+    {
+      "milli": 1050,
+      "operation": "exposure"
+    },
+    {
+      "operation": "title",
+      "text": "Montréal — Winter Festival 2.0"
+    },
+    {
+      "operation": "description",
+      "text": "A lantern-lit winter evening: heritage stone, amber windows, gently falling snow and an original quiet score. All seasonal effects are authored."
+    },
+    {
+      "gain_milli": 240,
+      "layer": "ambient",
+      "looping": true,
+      "operation": "audio_parameters"
+    },
+    {
+      "gain_milli": 140,
+      "layer": "music",
+      "looping": true,
+      "operation": "audio_parameters"
+    },
+    {
+      "gain_milli": 70,
+      "layer": "chime",
+      "looping": true,
+      "operation": "audio_parameters"
+    },
+    {
+      "id": "festival-lantern",
+      "object": {
+        "anchor": "95f9780b1106c47f4bea87c2609396d425743b0ba0faa72d9d84ebfc2a980caf",
+        "asset": "finalverse.m2-festival-light/v1",
+        "transform": {
+          "position_mm": [
+            0,
+            6000,
+            0
+          ],
+          "scale_milli": 1000
+        }
+      },
+      "operation": "place"
+    },
+    {
+      "id": "stop-1",
+      "operation": "waypoint",
+      "point": {
+        "entity_id": "0091d810-0a82-5d71-a85a-d76bfa906644",
+        "label": "1 · City stop 1",
+        "narrative": "Pause here and explore the city forms. Materials, lighting and seasonal atmosphere are authored; source geometry may be estimated."
+      }
+    },
+    {
+      "id": "stop-2",
+      "operation": "waypoint",
+      "point": {
+        "entity_id": "0448039a-cd33-5938-a8d1-ff09b01a7b0c",
+        "label": "2 · City stop 2",
+        "narrative": "Pause here and explore the city forms. Materials, lighting and seasonal atmosphere are authored; source geometry may be estimated."
+      }
+    }
+  ],
+  "permission_requirements": [
+    "audio.play",
+    "creator.modify",
+    "source.read"
+  ],
+  "preconditions": {
+    "document_hash": "e110410142c21f6a59a676966fafbb34f8cb7b659733719492472165cca9145c",
+    "publication_root": "95f9780b1106c47f4bea87c2609396d425743b0ba0faa72d9d84ebfc2a980caf"
+  },
+  "preview": {
+    "compare_original": true,
+    "label": "Review your creative plan"
+  },
+  "provenance": {
+    "attribution": "Original authored presentation plan, lowered from a bounded semantic intention. Source geometry and approved asset attribution remain attached. CC0 dedication.",
+    "creator": "Finalverse EI · fixture · finalverse-creative-fixture-v2",
+    "license": "CC0-1.0",
+    "modified": true
+  },
+  "required_capabilities": {
+    "infinity.native": 1,
+    "sonic.playback": 1
+  },
+  "schema_version": "finalverse.creation-proposal/v1",
+  "steps": [
+    {
+      "affected_resources": [
+        "authored/lighting"
+      ],
+      "dependencies": [],
+      "id": "step-01",
+      "inputs_sha256": "58b8a31971a3fa948b109c1f3184e2463c7d734484118e04d0b6107a011ecfb3",
+      "operation": "lighting",
+      "parameters": {
+        "operation": "lighting",
+        "preset": "festival"
+      },
+      "provenance": {
+        "attribution": "Original authored presentation plan, lowered from a bounded semantic intention. Source geometry and approved asset attribution remain attached. CC0 dedication.",
+        "creator": "Finalverse EI · fixture · finalverse-creative-fixture-v2",
+        "license": "CC0-1.0",
+        "modified": true
+      },
+      "required_permission": "creator.modify",
+      "reversible": true,
+      "target_capability": "infinity.native",
+      "validation_requirements": [
+        "exact-base-and-source",
+        "host-policy-and-bounds",
+        "approved-provenance"
+      ]
+    },
+    {
+      "affected_resources": [
+        "authored/visual"
+      ],
+      "dependencies": [
+        "step-01"
+      ],
+      "id": "step-02",
+      "inputs_sha256": "1f4a0ca029c1dbac97464f60152b2df49639604747ef5664dc46f0a90152f452",
+      "operation": "visual",
+      "parameters": {
+        "operation": "visual",
+        "treatment": {
+          "haze_milli": 260,
+          "metallic_milli": 60,
+          "palette": "winter_stone",
+          "roughness_milli": 820,
+          "snow_milli": 260,
+          "warmth_milli": 1000,
+          "window_glow_milli": 760
+        }
+      },
+      "provenance": {
+        "attribution": "Original authored presentation plan, lowered from a bounded semantic intention. Source geometry and approved asset attribution remain attached. CC0 dedication.",
+        "creator": "Finalverse EI · fixture · finalverse-creative-fixture-v2",
+        "license": "CC0-1.0",
+        "modified": true
+      },
+      "required_permission": "creator.modify",
+      "reversible": true,
+      "target_capability": "infinity.native",
+      "validation_requirements": [
+        "exact-base-and-source",
+        "host-policy-and-bounds",
+        "approved-provenance"
+      ]
+    },
+    {
+      "affected_resources": [
+        "authored/atmosphere"
+      ],
+      "dependencies": [
+        "step-02"
+      ],
+      "id": "step-03",
+      "inputs_sha256": "bb1d6c98231a022fd2fefbd0d6344e3a6cccd9df74bb28e36fbabefc4d71814c",
+      "operation": "atmosphere",
+      "parameters": {
+        "effect": "snow",
+        "operation": "atmosphere"
+      },
+      "provenance": {
+        "attribution": "Original authored presentation plan, lowered from a bounded semantic intention. Source geometry and approved asset attribution remain attached. CC0 dedication.",
+        "creator": "Finalverse EI · fixture · finalverse-creative-fixture-v2",
+        "license": "CC0-1.0",
+        "modified": true
+      },
+      "required_permission": "creator.modify",
+      "reversible": true,
+      "target_capability": "infinity.native",
+      "validation_requirements": [
+        "exact-base-and-source",
+        "host-policy-and-bounds",
+        "approved-provenance"
+      ]
+    },
+    {
+      "affected_resources": [
+        "authored/exposure"
+      ],
+      "dependencies": [
+        "step-03"
+      ],
+      "id": "step-04",
+      "inputs_sha256": "f8e138801574f91f60efa6f8cbaf5b93a3d29150e625374dc05e366c54caa6ae",
+      "operation": "exposure",
+      "parameters": {
+        "milli": 1050,
+        "operation": "exposure"
+      },
+      "provenance": {
+        "attribution": "Original authored presentation plan, lowered from a bounded semantic intention. Source geometry and approved asset attribution remain attached. CC0 dedication.",
+        "creator": "Finalverse EI · fixture · finalverse-creative-fixture-v2",
+        "license": "CC0-1.0",
+        "modified": true
+      },
+      "required_permission": "creator.modify",
+      "reversible": true,
+      "target_capability": "infinity.native",
+      "validation_requirements": [
+        "exact-base-and-source",
+        "host-policy-and-bounds",
+        "approved-provenance"
+      ]
+    },
+    {
+      "affected_resources": [
+        "authored/title"
+      ],
+      "dependencies": [
+        "step-04"
+      ],
+      "id": "step-05",
+      "inputs_sha256": "05b22c9f437141df1813fbd6cd1b6d448cf81144142deb852b620c82f04e00a9",
+      "operation": "title",
+      "parameters": {
+        "operation": "title",
+        "text": "Montréal — Winter Festival 2.0"
+      },
+      "provenance": {
+        "attribution": "Original authored presentation plan, lowered from a bounded semantic intention. Source geometry and approved asset attribution remain attached. CC0 dedication.",
+        "creator": "Finalverse EI · fixture · finalverse-creative-fixture-v2",
+        "license": "CC0-1.0",
+        "modified": true
+      },
+      "required_permission": "creator.modify",
+      "reversible": true,
+      "target_capability": "infinity.native",
+      "validation_requirements": [
+        "exact-base-and-source",
+        "host-policy-and-bounds",
+        "approved-provenance"
+      ]
+    },
+    {
+      "affected_resources": [
+        "authored/description"
+      ],
+      "dependencies": [
+        "step-05"
+      ],
+      "id": "step-06",
+      "inputs_sha256": "d519d7c6525e95bb952f7c84b635f8548d338a462109bcdc7bff889c71e9dede",
+      "operation": "description",
+      "parameters": {
+        "operation": "description",
+        "text": "A lantern-lit winter evening: heritage stone, amber windows, gently falling snow and an original quiet score. All seasonal effects are authored."
+      },
+      "provenance": {
+        "attribution": "Original authored presentation plan, lowered from a bounded semantic intention. Source geometry and approved asset attribution remain attached. CC0 dedication.",
+        "creator": "Finalverse EI · fixture · finalverse-creative-fixture-v2",
+        "license": "CC0-1.0",
+        "modified": true
+      },
+      "required_permission": "creator.modify",
+      "reversible": true,
+      "target_capability": "infinity.native",
+      "validation_requirements": [
+        "exact-base-and-source",
+        "host-policy-and-bounds",
+        "approved-provenance"
+      ]
+    },
+    {
+      "affected_resources": [
+        "approved-audio"
+      ],
+      "dependencies": [
+        "step-06"
+      ],
+      "id": "step-07",
+      "inputs_sha256": "feaffc14cf1453347c3c235c2a38e650c79adca183f7c25864ae12190f6157d0",
+      "operation": "audio_parameters",
+      "parameters": {
+        "gain_milli": 240,
+        "layer": "ambient",
+        "looping": true,
+        "operation": "audio_parameters"
+      },
+      "provenance": {
+        "attribution": "Original authored presentation plan, lowered from a bounded semantic intention. Source geometry and approved asset attribution remain attached. CC0 dedication.",
+        "creator": "Finalverse EI · fixture · finalverse-creative-fixture-v2",
+        "license": "CC0-1.0",
+        "modified": true
+      },
+      "required_permission": "audio.play",
+      "reversible": true,
+      "target_capability": "sonic.playback",
+      "validation_requirements": [
+        "exact-base-and-source",
+        "host-policy-and-bounds",
+        "approved-provenance"
+      ]
+    },
+    {
+      "affected_resources": [
+        "approved-audio"
+      ],
+      "dependencies": [
+        "step-07"
+      ],
+      "id": "step-08",
+      "inputs_sha256": "e2bc7da0d7c244466f17b5ae65e7d7503e60342098d746de1f383f2378ff765f",
+      "operation": "audio_parameters",
+      "parameters": {
+        "gain_milli": 140,
+        "layer": "music",
+        "looping": true,
+        "operation": "audio_parameters"
+      },
+      "provenance": {
+        "attribution": "Original authored presentation plan, lowered from a bounded semantic intention. Source geometry and approved asset attribution remain attached. CC0 dedication.",
+        "creator": "Finalverse EI · fixture · finalverse-creative-fixture-v2",
+        "license": "CC0-1.0",
+        "modified": true
+      },
+      "required_permission": "audio.play",
+      "reversible": true,
+      "target_capability": "sonic.playback",
+      "validation_requirements": [
+        "exact-base-and-source",
+        "host-policy-and-bounds",
+        "approved-provenance"
+      ]
+    },
+    {
+      "affected_resources": [
+        "approved-audio"
+      ],
+      "dependencies": [
+        "step-08"
+      ],
+      "id": "step-09",
+      "inputs_sha256": "dfca1b582bf9d240382dffca6a283d879e780a1b31c88d0cdfd65ff753873a88",
+      "operation": "audio_parameters",
+      "parameters": {
+        "gain_milli": 70,
+        "layer": "chime",
+        "looping": true,
+        "operation": "audio_parameters"
+      },
+      "provenance": {
+        "attribution": "Original authored presentation plan, lowered from a bounded semantic intention. Source geometry and approved asset attribution remain attached. CC0 dedication.",
+        "creator": "Finalverse EI · fixture · finalverse-creative-fixture-v2",
+        "license": "CC0-1.0",
+        "modified": true
+      },
+      "required_permission": "audio.play",
+      "reversible": true,
+      "target_capability": "sonic.playback",
+      "validation_requirements": [
+        "exact-base-and-source",
+        "host-policy-and-bounds",
+        "approved-provenance"
+      ]
+    },
+    {
+      "affected_resources": [
+        "authored/place"
+      ],
+      "dependencies": [
+        "step-09"
+      ],
+      "id": "step-10",
+      "inputs_sha256": "fbce926a41ea88a23d4bfc77b108eb357d028a8837346d56171a8126d03add3a",
+      "operation": "place",
+      "parameters": {
+        "id": "festival-lantern",
+        "object": {
+          "anchor": "95f9780b1106c47f4bea87c2609396d425743b0ba0faa72d9d84ebfc2a980caf",
+          "asset": "finalverse.m2-festival-light/v1",
+          "transform": {
+            "position_mm": [
+              0,
+              6000,
+              0
+            ],
+            "scale_milli": 1000
+          }
+        },
+        "operation": "place"
+      },
+      "provenance": {
+        "attribution": "Original authored presentation plan, lowered from a bounded semantic intention. Source geometry and approved asset attribution remain attached. CC0 dedication.",
+        "creator": "Finalverse EI · fixture · finalverse-creative-fixture-v2",
+        "license": "CC0-1.0",
+        "modified": true
+      },
+      "required_permission": "creator.modify",
+      "reversible": true,
+      "target_capability": "infinity.native",
+      "validation_requirements": [
+        "exact-base-and-source",
+        "host-policy-and-bounds",
+        "approved-provenance"
+      ]
+    },
+    {
+      "affected_resources": [
+        "authored/waypoint"
+      ],
+      "dependencies": [
+        "step-10"
+      ],
+      "id": "step-11",
+      "inputs_sha256": "82a17e44fd09afb2f4668f16f76a3bb1b3fe526774073eadbe5f00b56b58af74",
+      "operation": "waypoint",
+      "parameters": {
+        "id": "stop-1",
+        "operation": "waypoint",
+        "point": {
+          "entity_id": "0091d810-0a82-5d71-a85a-d76bfa906644",
+          "label": "1 · City stop 1",
+          "narrative": "Pause here and explore the city forms. Materials, lighting and seasonal atmosphere are authored; source geometry may be estimated."
+        }
+      },
+      "provenance": {
+        "attribution": "Original authored presentation plan, lowered from a bounded semantic intention. Source geometry and approved asset attribution remain attached. CC0 dedication.",
+        "creator": "Finalverse EI · fixture · finalverse-creative-fixture-v2",
+        "license": "CC0-1.0",
+        "modified": true
+      },
+      "required_permission": "creator.modify",
+      "reversible": true,
+      "target_capability": "infinity.native",
+      "validation_requirements": [
+        "exact-base-and-source",
+        "host-policy-and-bounds",
+        "approved-provenance"
+      ]
+    },
+    {
+      "affected_resources": [
+        "authored/waypoint"
+      ],
+      "dependencies": [
+        "step-11"
+      ],
+      "id": "step-12",
+      "inputs_sha256": "68ca9a3dc145433c1b730ce48ea8a02a581a53f08dc531421b93d7d8a51195da",
+      "operation": "waypoint",
+      "parameters": {
+        "id": "stop-2",
+        "operation": "waypoint",
+        "point": {
+          "entity_id": "0448039a-cd33-5938-a8d1-ff09b01a7b0c",
+          "label": "2 · City stop 2",
+          "narrative": "Pause here and explore the city forms. Materials, lighting and seasonal atmosphere are authored; source geometry may be estimated."
+        }
+      },
+      "provenance": {
+        "attribution": "Original authored presentation plan, lowered from a bounded semantic intention. Source geometry and approved asset attribution remain attached. CC0 dedication.",
+        "creator": "Finalverse EI · fixture · finalverse-creative-fixture-v2",
+        "license": "CC0-1.0",
+        "modified": true
+      },
+      "required_permission": "creator.modify",
+      "reversible": true,
+      "target_capability": "infinity.native",
+      "validation_requirements": [
+        "exact-base-and-source",
+        "host-policy-and-bounds",
+        "approved-provenance"
+      ]
+    }
+  ],
+  "validation_diagnostics": []
+}

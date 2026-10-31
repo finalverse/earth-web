@@ -1,0 +1,17 @@
+{
+  "schema": "finalverse.network-web-artifact/v1",
+  "web_implementation": "022e58305d51f00f30913a3c9822de7ba5ba37cf",
+  "source_inputs_verified_against_commit": true,
+  "source_inputs": {
+    "experience-player/build.mjs": "bd11e618df49a6d1038d49ae7761cb6adc54ec5d3a5fc24f748573cbb883ee50",
+    "experience-player/index.html": "beacf7839ed9741751a62ca5b6978922e7d7094d5941bfa090e4ea089f6c70dc",
+    "experience-player/player.js": "5ec2695a41df06dc8bf1ac47ec8a8293ceaf5f13aa6af5c4772452b58771fb01",
+    "experience-player/protocol.mjs": "2ec557e7e037966cbb282c9375aafb4c523e68d75b70f908e0fd24441bbe0f95",
+    "experience-player/styles.css": "698c81c36e21e2ab61fd0089a63afd49ec09ba6e58a098ce3c1a610048ad8d8c",
+    "experience-player/test/fixtures/publication.json": "d3871cd52626cbecec3dcde4d28b4d0d547af2d8f854a495f32a297a37b8a4d1",
+    "experience-player/test/protocol.test.mjs": "7b8a185b55a23bc014dd79b550eca5a922a805df74cb2656e3982e3d558410a3"
+  },
+  "cesium_version": "1.138.0",
+  "static_file_count": 399,
+  "standalone_node_version": "v22.18.0"
+}

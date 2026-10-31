@@ -1,0 +1,17 @@
+{
+  "browser-desktop.png": "138c9d83e349d6e490596d3c4cfe594981493c6e66eafea0d0e7b8f03ff5db36",
+  "browser-mobile.png": "b20ccc60283b413cc0a39fb80ba21ba6fdfb69d3483f6426122bdb66c9a2df52",
+  "browser-review.json": "42c65673330810ff22936911cb3a12892d6b20628339afca7697215ededb2a97",
+  "build-sha256.json": "29eff2fe6c6a02853e0e8b146e8f2e68c8f01df49136b1ce7c458918391dafbf",
+  "build.log": "f908ee94691d13c9d1c217ac5f5eb68e30d299bb583d8d572d6e740f8662b96a",
+  "catalog-preparation.json": "e45008404126876554a0801eb9a9a471c942076a28bd87fbea08a7df49bf0dab",
+  "cleanup.json": "329579ef9bfe3d91eddd00805d590ff77e1f77103ed9c087ca4f0a3e1ef5d254",
+  "credential-scan.json": "aa7e7dbac6869cbc207fe74f562e171dbb089d07a6eeb2dfe38c8e7bf6d7a0ae",
+  "evidence-check.log": "10c130a57d22c10faaf1db8b6437da3315721fb77b3ca58b47166ed676738215",
+  "format.log": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+  "http-review.json": "154d6077951d7c3732c03e35e213d1c805f710a9ae5fb5017e6511ff4c0d02db",
+  "preserved-repositories.json": "409b1989ed967f796565c3c613e5542cdea130db0bca197f623c7782389f3559",
+  "publication.json": "d3871cd52626cbecec3dcde4d28b4d0d547af2d8f854a495f32a297a37b8a4d1",
+  "tests.log": "6ade0673d187011bb9f16dc62d9e670cfdb276c17d6c7425920e318f559a19d6",
+  "web-artifact-provenance.json": "c6f3fa392cc0281ddf93a4ec3ee5de7ff4f24e5040592f7dc44ada6664927e33"
+}
