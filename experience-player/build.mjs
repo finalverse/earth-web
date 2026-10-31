@@ -23,6 +23,13 @@ for (const file of [
   'living.js',
   'intelligence.js',
   'world-creator.js',
+  'network.js',
+  'discovery.html',
+  'discovery.js',
+  'discovery.css',
+  'embed.html',
+  'embed.js',
+  'embed.css',
   'smart-protocol.mjs',
   'presentation.mjs',
   'protocol.mjs',
@@ -55,3 +62,5 @@ console.log(
     network_dependencies: false,
   }),
 );
+
+await cp(path.join(here, 'network-assets'), path.join(out, 'network-assets'), {recursive:true});

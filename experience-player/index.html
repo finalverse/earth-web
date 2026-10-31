@@ -189,7 +189,8 @@ Create a beautiful winter market with eight wooden stalls, glowing lanterns, dec
             <summary>Local publication access</summary>
             <p>
               Private generation needs no account. Immutable publication uses
-              the existing local publisher role.
+              your signed-in creator identity. Operators may use their existing
+              publisher credential.
             </p>
             <label for="world-publisher"
               >Publisher credential · used only when opening a creation
@@ -206,6 +207,12 @@ Create a beautiful winter market with eight wooden stalls, glowing lanterns, dec
             artistic content, not surveyed geography.
           </p>
           <p id="world-generated-count" class="fine"></p>
+          <label for="world-title">Your edition title</label
+          ><input
+            id="world-title"
+            maxlength="120"
+            value="Montréal Winter Market · My variation"
+          />
           <div id="generated-controls" hidden>
             <button id="world-focus">Focus market</button>
             <div
@@ -669,6 +676,93 @@ Make this district feel like a magical winter evening, with warm architectural h
           </p>
           <p id="capability-status" role="status"></p>
         </div>
+        <section
+          id="network-panel"
+          class="network-panel"
+          aria-labelledby="network-heading"
+        >
+          <div class="network-heading">
+            <div>
+              <p class="eyebrow">LIVING CREATOR NETWORK</p>
+              <h2 id="network-heading">Every experience has a story.</h2>
+            </div>
+            <a id="network-creator" href="/">Creator profile ↗</a>
+          </div>
+          <p id="network-provenance" class="fine"></p>
+          <div class="network-links">
+            <a id="network-lineage">Explore remix lineage ↗</a
+            ><a id="network-embed" target="_blank" rel="noopener"
+              >Read-only embed ↗</a
+            ><button id="network-export">Export experience package ↓</button>
+          </div>
+          <div id="network-destinations" class="network-links"></div>
+          <details>
+            <summary>Make it yours with Lumi</summary>
+            <label for="network-remix-intent"
+              >What would you like to create?</label
+            ><textarea id="network-remix-intent" maxlength="2000">
+Make this winter market more festive with lanterns and a music stage.</textarea
+            ><button id="network-remix">Prepare private remix ✧</button>
+            <p class="fine">
+              Lumi uses the existing validated graph and authorization pipeline.
+              Review the preview before saving; publication needs separate
+              approval.
+            </p>
+          </details>
+          <details>
+            <summary>Creator identity &amp; permanent publication</summary>
+            <p id="network-identity">Guest · private creation is open</p>
+            <p class="fine">
+              Use your administrator-provisioned creator key. It can be
+              recovered by credential rotation; no passwords or keys are sent to
+              a model.
+            </p>
+            <label for="network-key">Creator key</label
+            ><input
+              id="network-key"
+              type="password"
+              autocomplete="off"
+              placeholder="Your recoverable creator credential"
+            /><button id="network-login">Sign in as creator</button
+            ><button id="network-logout" hidden>Revoke this session</button>
+            <p class="fine">
+              Sign in before preparing a new remix. Your key and session stay in
+              this document and are never included in a share link.
+            </p>
+          </details>
+          <details>
+            <summary>Import a portable experience</summary>
+            <label for="network-package"
+              >Finalverse experience package · JSON</label
+            ><input
+              id="network-package"
+              type="file"
+              accept="application/json,.json"
+            /><label
+              ><input id="network-import-consent" type="checkbox" /> I approve
+              import after integrity, geometry, rights and capability
+              validation.</label
+            ><button id="network-import">Validate &amp; import</button>
+          </details>
+          <details>
+            <summary>Visibility &amp; platform trust</summary>
+            <label for="network-visibility">Owner visibility policy</label
+            ><select id="network-visibility">
+              <option value="public">Public · listed in discovery</option>
+              <option value="unlisted">Unlisted · link access</option>
+              <option value="private">
+                Private · owner/operator access only
+              </option></select
+            ><button id="network-policy">Apply owner policy</button
+            ><label for="network-reason"
+              >Report a concern with this edition</label
+            ><textarea id="network-reason" maxlength="400"></textarea
+            ><button id="network-report">Send report for review</button>
+          </details>
+          <p id="network-status" role="status">
+            Loading permanent edition metadata…
+          </p>
+        </section>
         <details>
           <summary>Attribution, rights & remix</summary>
           <div id="attribution"></div>

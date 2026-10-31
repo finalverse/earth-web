@@ -541,6 +541,7 @@ export function mountLiving(host) {
     );
   });
   return {
+    navigate,
     worldAttachment: () =>
       connected && attachment
         ? { token: attachment.token, instance: attachment.instance_id }

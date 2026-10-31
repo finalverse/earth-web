@@ -93,7 +93,8 @@ export function mountWorldCreator(host) {
     const startingEpoch = epoch;
     opening = (async () => {
       const p = host.publication();
-      const credential = $('world-publisher').value.trim();
+      if (host.readOnly) throw Error('This embedded player is read-only.');
+      const credential = host.credential?.() || $('world-publisher').value.trim();
       const r = await fetch('/api/v1/fabric/session', {
         method: 'POST',
         headers: {
@@ -430,6 +431,7 @@ export function mountWorldCreator(host) {
     const r = await invoke('creative.publish', {
       graph_hash: edition.graph_hash,
       confirm_public: true,
+      title: $('world-title').value.trim(),
     });
     published = r.path;
     status(
@@ -527,6 +529,7 @@ export function mountWorldCreator(host) {
     generationStart = performance.now();
     void run(async () => {
       await render(initial, false);
+      await host.onPublishedRendered?.();
       published = host.path();
       status(
         'Immutable generated edition · original source and generated identities stay distinct. Remix to edit privately.',
@@ -535,6 +538,15 @@ export function mountWorldCreator(host) {
   }
   $('create-something').disabled = false;
   return {
+    resetIdentity: end,
+    remix: async (intention) => {
+      await end();
+      $('world-intention').value = intention;
+      $('world-provider').value = 'remix';
+      $('world-creator').hidden = false;
+      await generate();
+      $('world-creator').scrollIntoView({ block: 'start' });
+    },
     pick: (id) => void run(() => inspect(id)),
     snapshot: () => ({
       models: models.size,

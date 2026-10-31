@@ -64,10 +64,23 @@ export function licensed(p) {
 export function parseEntry(url) {
   const u = new URL(url);
   assert(
-    [...u.searchParams.keys()].every((k) => k === 'entity') &&
+    [...u.searchParams.keys()].every((k) =>
+      ['entity', 'destination', 'placement'].includes(k),
+    ) &&
+      ['destination', 'placement'].every(
+        (k) => u.searchParams.getAll(k).length <= 1,
+      ) &&
       u.searchParams.getAll('entity').length <= 1 &&
       (!u.hash || /^#live=instance-[a-f0-9]{32}:[a-f0-9]{64}$/.test(u.hash)),
     'Unsupported entry context',
+  );
+  const destination = u.searchParams.get('destination'),
+    placement = u.searchParams.get('placement');
+  assert(
+    (!destination && !placement) ||
+      (['standalone', 'earth', 'mutsea'].includes(destination) &&
+        new RegExp('^' + destination + '-[a-f0-9]{24}$').test(placement || '')),
+    'Invalid typed destination context',
   );
   const parts = u.pathname.split('/');
   assert(

@@ -5,6 +5,7 @@ import {
   intervals,
   MATERIAL_SHADER,
 } from '/presentation.mjs';
+import { mountNetwork } from '/network.js';
 import { mountCreator } from '/creator.js';
 import { mountWorldCreator } from '/world-creator.js';
 import { mountIntelligence } from '/intelligence.js';
@@ -27,6 +28,8 @@ const reducedMotion = () =>
   !!$('still-views')?.checked;
 const lifetime = new AbortController(),
   metrics = new LocalMetrics(() => performance.now(), 0);
+const embedded = location.pathname.startsWith('/embed/');
+let network;
 let living, intelligence, worldCreator, generatedAudio;
 let guest, guestEdition, guestShareToken, guestTemplatePin, activeComposition;
 let renderCounter = 0,
@@ -90,6 +93,7 @@ function notice(id, text) {
 }
 function diagnostics() {
   const value = {
+    network: network?.snapshot() || null,
     generation: worldCreator?.snapshot() || null,
     intelligence: intelligence?.snapshot() || null,
     living: living?.snapshot() || null,
@@ -602,6 +606,7 @@ async function playAudio() {
   }
 }
 async function dispose(show = true) {
+  network?.dispose();
   await worldCreator?.dispose();
   await intelligence?.dispose();
   await living?.dispose();
@@ -738,7 +743,9 @@ async function openExperience(override) {
       version: opened.publication.version,
     };
   } else {
-    entry ??= parseEntry(location.href);
+    entry ??= parseEntry(
+      embedded ? location.href.replace('/embed/', '/x/') : location.href,
+    );
   }
 
   metrics.event('open_from_share');
@@ -886,6 +893,12 @@ async function openExperience(override) {
       },
     });
     worldCreator = mountWorldCreator({
+      onPublishedRendered: async () => {
+        if (new URLSearchParams(location.search).get('destination') === 'earth')
+          await living.navigate('city');
+      },
+      credential: () => network?.credential() || '',
+      readOnly: embedded,
       audioEmitter: (emitter) => {
         void stopAudio();
         generatedAudio = emitter;
@@ -904,6 +917,16 @@ async function openExperience(override) {
       path: () => location.pathname,
       diagnostics,
     });
+    if (!embedded)
+      network = mountNetwork({
+        publication: () => publication,
+        identityChanged: () => worldCreator.resetIdentity(),
+        remix: (intention) => worldCreator.remix(intention),
+      });
+    if (embedded) {
+      document.body.classList.add('embedded');
+      $('create-something').disabled = true;
+    }
     intelligence = mountIntelligence({
       source: () =>
         guestShareToken
