@@ -4,6 +4,7 @@ export function mountNetwork(host) {
   const life = new AbortController();
   let token = '',
     creator = null,
+    identityEpoch = 0,
     urls = new Set();
   const revokeTimers = new Set();
   const publication = host.publication();
@@ -24,6 +25,8 @@ export function mountNetwork(host) {
       signal: life.signal,
     });
     const value = await r.json();
+    if (life.signal.aborted)
+      throw new DOMException('Network panel closed', 'AbortError');
     if (!r.ok) throw Error(value.message || 'Network operation refused');
     return value;
   };
@@ -34,8 +37,10 @@ export function mountNetwork(host) {
       if (e.name !== 'AbortError') status(e.message);
     }
   };
-  const on = (id, f) =>
+  const on = (id, f) => {
     $(id).addEventListener('click', () => void run(f), { signal: life.signal });
+    $(id).disabled = false;
+  };
   $('network-lineage').href = '/lineage/' + id + '/' + v;
   $('network-embed').href = '/embed-demo/' + id + '/' + v;
   api(base)
@@ -57,8 +62,11 @@ export function mountNetwork(host) {
       }
       status('Immutable edition · permanent link · attribution preserved');
     })
-    .catch((e) => status(e.message));
+    .catch((e) => {
+      if (e.name !== 'AbortError') status(e.message);
+    });
   on('network-login', async () => {
+    const epoch = ++identityEpoch;
     const key = $('network-key').value.trim();
     $('network-key').value = '';
     const r = await fetch('/api/v1/network/login', {
@@ -71,8 +79,10 @@ export function mountNetwork(host) {
       signal: life.signal,
     });
     const s = await r.json();
+    if (life.signal.aborted || epoch !== identityEpoch) return;
     if (!r.ok) throw Error(s.message);
     await host.identityChanged();
+    if (life.signal.aborted || epoch !== identityEpoch) return;
     token = s.token;
     creator = s.creator;
     $('network-identity').textContent = 'Signed in as ' + creator;
@@ -82,7 +92,9 @@ export function mountNetwork(host) {
     );
   });
   on('network-logout', async () => {
+    const epoch = ++identityEpoch;
     await api('/api/v1/network/logout', {});
+    if (life.signal.aborted || epoch !== identityEpoch) return;
     token = '';
     creator = null;
     await host.identityChanged();
@@ -107,6 +119,7 @@ export function mountNetwork(host) {
     const r = await fetch(base + '/export', { signal: life.signal });
     if (!r.ok) throw Error('Package export unavailable');
     const blob = await r.blob();
+    if (life.signal.aborted) return;
     const u = URL.createObjectURL(blob);
     urls.add(u);
     const a = document.createElement('a');
@@ -178,6 +191,7 @@ export function mountNetwork(host) {
       timers: revokeTimers.size,
     }),
     dispose: () => {
+      identityEpoch++;
       life.abort();
       token = '';
       creator = null;
@@ -185,6 +199,20 @@ export function mountNetwork(host) {
       urls.clear();
       for (const timer of revokeTimers) clearTimeout(timer);
       revokeTimers.clear();
+      $('network-key').value = '';
+      $('network-identity').textContent =
+        'Creator session closed · reload to continue';
+      $('network-logout').hidden = true;
+      for (const id of [
+        'export',
+        'remix',
+        'login',
+        'logout',
+        'import',
+        'policy',
+        'report',
+      ])
+        $('network-' + id).disabled = true;
     },
   };
 }

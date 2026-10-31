@@ -693,7 +693,7 @@ Make this district feel like a magical winter evening, with warm architectural h
             <a id="network-lineage">Explore remix lineage ↗</a
             ><a id="network-embed" target="_blank" rel="noopener"
               >Read-only embed ↗</a
-            ><button id="network-export">Export experience package ↓</button>
+            ><button id="network-export" disabled>Export experience package ↓</button>
           </div>
           <div id="network-destinations" class="network-links"></div>
           <details>
@@ -702,7 +702,7 @@ Make this district feel like a magical winter evening, with warm architectural h
               >What would you like to create?</label
             ><textarea id="network-remix-intent" maxlength="2000">
 Make this winter market more festive with lanterns and a music stage.</textarea
-            ><button id="network-remix">Prepare private remix ✧</button>
+            ><button id="network-remix" disabled>Prepare private remix ✧</button>
             <p class="fine">
               Lumi uses the existing validated graph and authorization pipeline.
               Review the preview before saving; publication needs separate
@@ -723,8 +723,8 @@ Make this winter market more festive with lanterns and a music stage.</textarea
               type="password"
               autocomplete="off"
               placeholder="Your recoverable creator credential"
-            /><button id="network-login">Sign in as creator</button
-            ><button id="network-logout" hidden>Revoke this session</button>
+            /><button id="network-login" disabled>Sign in as creator</button
+            ><button id="network-logout" disabled hidden>Revoke this session</button>
             <p class="fine">
               Sign in before preparing a new remix. Your key and session stay in
               this document and are never included in a share link.
@@ -742,7 +742,7 @@ Make this winter market more festive with lanterns and a music stage.</textarea
               ><input id="network-import-consent" type="checkbox" /> I approve
               import after integrity, geometry, rights and capability
               validation.</label
-            ><button id="network-import">Validate &amp; import</button>
+            ><button id="network-import" disabled>Validate &amp; import</button>
           </details>
           <details>
             <summary>Visibility &amp; platform trust</summary>
@@ -753,11 +753,11 @@ Make this winter market more festive with lanterns and a music stage.</textarea
               <option value="private">
                 Private · owner/operator access only
               </option></select
-            ><button id="network-policy">Apply owner policy</button
+            ><button id="network-policy" disabled>Apply owner policy</button
             ><label for="network-reason"
               >Report a concern with this edition</label
             ><textarea id="network-reason" maxlength="400"></textarea
-            ><button id="network-report">Send report for review</button>
+            ><button id="network-report" disabled>Send report for review</button>
           </details>
           <p id="network-status" role="status">
             Loading permanent edition metadata…

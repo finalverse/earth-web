@@ -10,9 +10,16 @@ import { poolFor, migrate, PostGISStore, connectionFile } from './store.js';
 import { defaultDataset } from '../server/main.js';
 import { temporalCatalogs } from '../data/providers.js';
 import { pointCatalogs } from '../data/catalogs.js';
+const namespace = process.env.EARTH_DEV_NAMESPACE;
+if (namespace !== undefined && !/^[a-z0-9][a-z0-9-]{0,39}$/.test(namespace))
+  throw new Error('Invalid development fixture namespace.');
 const execFile = promisify(exec),
-  name = 'finalverse-earth-postgis-dev',
-  volume = 'finalverse-earth-postgis-v02',
+  name = namespace
+    ? `finalverse-earth-${namespace}`
+    : 'finalverse-earth-postgis-dev',
+  volume = namespace
+    ? `finalverse-earth-${namespace}-data`
+    : 'finalverse-earth-postgis-v02',
   label = 'com.finalverse.earth';
 const images = [
   'postgis/postgis@sha256:01a6a70e41e6c4467c8f55f6063555ed72db2d6662cd0d571040d42eadaeb6f6',
@@ -31,7 +38,11 @@ if (!image)
   throw new Error(
     'Pull the pinned postgis/postgis image first; see docs/earth/database.md.',
   );
-const directory = join(homedir(), '.local/share/finalverse-earth/postgis-dev');
+const directory = join(
+  homedir(),
+  '.local/share/finalverse-earth',
+  namespace ? `postgis-${namespace}` : 'postgis-dev',
+);
 async function docker(...args) {
   return (
     await execFile('docker', args, { maxBuffer: 1024 * 1024 })
