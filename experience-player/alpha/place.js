@@ -22,7 +22,7 @@ function describe(v) {
   creatorName = v.creator_name ?? creatorName;
   document.title = `${place.title} · Finalverse`;
   $('#title').textContent = place.title;
-  $('#byline').textContent = [creatorName ? `by ${creatorName}` : null, place.published_at ? when(place.published_at) : null, v.visitors_7d ? `${v.visitors_7d} visits this week` : null]
+  $('#byline').textContent = [creatorName ? `by ${creatorName}` : null, place.published_at ? when(place.published_at) : null, v.visitors_7d ? `${v.visitors_7d} ${v.visitors_7d === 1 ? 'visit' : 'visits'} this week` : null]
     .filter(Boolean)
     .join(' · ');
   $('#story').textContent = place.story;
