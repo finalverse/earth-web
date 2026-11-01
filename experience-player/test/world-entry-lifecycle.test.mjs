@@ -5,6 +5,13 @@ import { mountWorldEntry } from '../world-entry.js';
 const entry = JSON.parse(
   await readFile(new URL('./fixtures/runtime-entry.json', import.meta.url)),
 );
+const waitFor = async (predicate, message) => {
+  const deadline = Date.now() + 5000;
+  while (!predicate()) {
+    assert.ok(Date.now() < deadline, message);
+    await new Promise((resolve) => setTimeout(resolve, 5));
+  }
+};
 const turn = () => new Promise((resolve) => setImmediate(resolve));
 const settle = async () => {
   for (let i = 0; i < 8; i++) await turn();
@@ -104,6 +111,8 @@ function setup({ deferOpen = false, deferGuide = false } = {}) {
     node,
     calls,
     applied,
+    openPending: () => typeof resolveOpen === 'function',
+    guidePending: () => typeof resolveGuide === 'function',
     identity: (v) => {
       identity = v;
     },
@@ -123,17 +132,29 @@ test('a shared proposal cannot write before current creator authorization and ex
   const h = setup();
   try {
     await h.click('persistent-join');
+    await waitFor(
+      () => h.panel.snapshot().polls > 0,
+      'entry validation and initial projection complete',
+    );
     await h.click('persistent-guide');
     assert.equal(h.node('persistent-approve').disabled, true);
     assert.equal(
       h.calls.some((c) => c.action === 'move-object'),
       false,
     );
+    await waitFor(
+      () => h.panel.snapshot().proposal_pending,
+      'proposal received',
+    );
     h.identity('creator-fixture');
     h.node('persistent-consent').checked = true;
     h.node('persistent-consent').dispatchEvent(new Event('change'));
     assert.equal(h.node('persistent-approve').disabled, false);
     await h.click('persistent-approve');
+    await waitFor(
+      () => h.calls.some((c) => c.action === 'move-object'),
+      'approved command submitted',
+    );
     const move = h.calls.find((c) => c.action === 'move-object');
     assert.equal(move.body.approve, true);
     assert.equal(move.body.expected_revision, 1);
@@ -154,6 +175,7 @@ test('closing during entry releases a late attachment without restoring shared r
   const h = setup({ deferOpen: true });
   try {
     await h.click('persistent-join');
+    await waitFor(h.openPending, 'entry reached the deferred open');
     const closing = h.panel.dispose();
     h.open();
     await closing;
@@ -168,7 +190,12 @@ test('a proposal finishing after object selection changes cannot restore stale a
   const h = setup({ deferGuide: true });
   try {
     await h.click('persistent-join');
+    await waitFor(
+      () => h.panel.snapshot().polls > 0,
+      'entry validation and initial projection complete',
+    );
     await h.click('persistent-guide');
+    await waitFor(h.guidePending, 'deferred guide request started');
     h.node('persistent-object').value = 'different-object';
     h.node('persistent-object').dispatchEvent(new Event('change'));
     h.guide();
