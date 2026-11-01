@@ -63,7 +63,7 @@ async function create() {
 }
 
 function consentText(s) {
-  return `I agree that my description is sent to World Labs${s.lumi ? ' (and to Ollama’s cloud when Lumi helps)' : ''}, who may keep it and use it to improve their models; that this uses one world from the alpha allowance; and that the result is AI-generated and labelled as made with World Labs.`;
+  return `I agree that my description is sent to World Labs${s.lumi_remote ? ' (and to Ollama’s cloud when Lumi helps)' : ''}, who may keep it and use it to improve their models; that this uses one world from the alpha allowance; and that the result is AI-generated and labelled as made with World Labs.`;
 }
 
 async function mine() {
@@ -134,11 +134,12 @@ $('#lumi').addEventListener('click', async () => {
   const idea = f.idea.value.trim();
   $('.error', f).textContent = '';
   if (!idea) return ($('.error', f).textContent = 'Write a few words about your place first.');
-  if (!f.consent.checked) return ($('.error', f).textContent = 'Lumi runs in Ollama’s cloud; tick the agreement first.');
+  if (status.lumi_remote && !f.consent.checked)
+    return ($('.error', f).textContent = 'Lumi runs in Ollama’s cloud; tick the agreement first.');
   $('#lumi').disabled = true;
-  $('#lumi-note').textContent = 'Lumi is imagining it…';
+  $('#lumi-note').textContent = 'Lumi is imagining it… (this takes a few seconds)';
   try {
-    const v = await api('/api/v1/alpha/draft', { method: 'POST', body: { idea, consent: true } });
+    const v = await api('/api/v1/alpha/draft', { method: 'POST', body: { idea, consent: f.consent.checked } });
     f.title.value = v.title;
     f.prompt.value = v.prompt;
     $('#lumi-note').textContent = 'Edit anything you like.';
