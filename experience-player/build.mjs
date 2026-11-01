@@ -24,6 +24,8 @@ for (const file of [
   'intelligence.js',
   'world-creator.js',
   'network.js',
+  'world-entry.js',
+  'runtime-protocol.mjs',
   'discovery.html',
   'discovery.js',
   'discovery.css',
@@ -63,4 +65,6 @@ console.log(
   }),
 );
 
-await cp(path.join(here, 'network-assets'), path.join(out, 'network-assets'), {recursive:true});
+await cp(path.join(here, 'network-assets'), path.join(out, 'network-assets'), {
+  recursive: true,
+});

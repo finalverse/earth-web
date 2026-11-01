@@ -21,7 +21,9 @@
       ><span class="header-caption"
         >IMAGINE IT. CREATE IT. EXPERIENCE IT. <i>LOCAL PREVIEW</i></span
       ><button id="create-something" disabled>Create Something ✦</button>
-      <button id="share" class="quiet" disabled>Share experience ↗</button>
+      <a class="together-shortcut" href="#persistent-world"
+        >Explore together ↓</a
+      ><button id="share" class="quiet" disabled>Share experience ↗</button>
     </header>
     <section
       id="guest-share-review"
@@ -149,6 +151,62 @@
               are authored.</small
             >
           </div>
+        </section>
+        <section
+          id="persistent-world"
+          class="network-panel persistent-panel"
+          aria-labelledby="persistent-heading"
+        >
+          <div class="network-heading">
+            <div>
+              <p class="eyebrow">ONE WORLD, EVERY DEVICE</p>
+              <h2 id="persistent-heading">A place we can return to.</h2>
+            </div>
+            <p id="persistent-participants">Your current view is private.</p>
+          </div>
+          <p>
+            Join the same market. Approved shared changes stay when you return.
+          </p>
+          <div class="persistent-actions">
+            <button id="persistent-join" class="primary" disabled>
+              Join friends</button
+            ><button id="persistent-disconnect" hidden disabled>
+              Disconnect</button
+            ><button id="persistent-reconnect" hidden disabled>Reconnect</button
+            ><button id="persistent-leave" hidden disabled>Leave world</button>
+          </div>
+          <p id="persistent-status" role="status">
+            Join to explore together. You can look around without signing in.
+          </p>
+          <div class="persistent-compose">
+            <label for="persistent-object"
+              >Choose a market lantern<select
+                id="persistent-object"
+                disabled
+              ></select></label
+            ><button id="persistent-guide" disabled>
+              Lumi, what can we change?
+            </button>
+          </div>
+          <p id="persistent-lumi" role="status"></p>
+          <div id="persistent-review" class="persistent-review" hidden>
+            <p class="eyebrow">REVIEW YOUR SHARED CHANGE</p>
+            <p id="persistent-proposal"></p>
+            <button id="persistent-signin" hidden>Sign in to approve</button
+            ><label
+              ><input id="persistent-consent" type="checkbox" /> I approve this
+              shared change.</label
+            ><button id="persistent-approve" class="primary" disabled>
+              Approve shared move
+            </button>
+          </div>
+          <details>
+            <summary>Explore with a local AI</summary>
+            <p>Optional model suggestions are ideas for you to review.</p>
+            <button id="persistent-ai" disabled>
+              Ask the local AI for an idea
+            </button>
+          </details>
         </section>
         <section
           id="world-creator"
@@ -693,7 +751,9 @@ Make this district feel like a magical winter evening, with warm architectural h
             <a id="network-lineage">Explore remix lineage ↗</a
             ><a id="network-embed" target="_blank" rel="noopener"
               >Read-only embed ↗</a
-            ><button id="network-export" disabled>Export experience package ↓</button>
+            ><button id="network-export" disabled>
+              Export experience package ↓
+            </button>
           </div>
           <div id="network-destinations" class="network-links"></div>
           <details>
@@ -702,7 +762,9 @@ Make this district feel like a magical winter evening, with warm architectural h
               >What would you like to create?</label
             ><textarea id="network-remix-intent" maxlength="2000">
 Make this winter market more festive with lanterns and a music stage.</textarea
-            ><button id="network-remix" disabled>Prepare private remix ✧</button>
+            ><button id="network-remix" disabled>
+              Prepare private remix ✧
+            </button>
             <p class="fine">
               Lumi uses the existing validated graph and authorization pipeline.
               Review the preview before saving; publication needs separate
@@ -724,7 +786,9 @@ Make this winter market more festive with lanterns and a music stage.</textarea
               autocomplete="off"
               placeholder="Your recoverable creator credential"
             /><button id="network-login" disabled>Sign in as creator</button
-            ><button id="network-logout" disabled hidden>Revoke this session</button>
+            ><button id="network-logout" disabled hidden>
+              Revoke this session
+            </button>
             <p class="fine">
               Sign in before preparing a new remix. Your key and session stay in
               this document and are never included in a share link.
@@ -757,7 +821,9 @@ Make this winter market more festive with lanterns and a music stage.</textarea
             ><label for="network-reason"
               >Report a concern with this edition</label
             ><textarea id="network-reason" maxlength="400"></textarea
-            ><button id="network-report" disabled>Send report for review</button>
+            ><button id="network-report" disabled>
+              Send report for review
+            </button>
           </details>
           <p id="network-status" role="status">
             Loading permanent edition metadata…

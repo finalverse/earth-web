@@ -94,7 +94,8 @@ export function mountWorldCreator(host) {
     opening = (async () => {
       const p = host.publication();
       if (host.readOnly) throw Error('This embedded player is read-only.');
-      const credential = host.credential?.() || $('world-publisher').value.trim();
+      const credential =
+        host.credential?.() || $('world-publisher').value.trim();
       const r = await fetch('/api/v1/fabric/session', {
         method: 'POST',
         headers: {
@@ -538,7 +539,36 @@ export function mountWorldCreator(host) {
   }
   $('create-something').disabled = false;
   return {
-    resetIdentity: end,
+    resetIdentity: async () => {
+      await end();
+      if (initial && !disposed) await render(initial, false);
+    },
+    applyWorldObjects: (objects) => {
+      if (disposed || token || edition?.graph_hash !== initial?.graph_hash)
+        return false;
+      const C = host.Cesium;
+      for (const o of edition.objects) {
+        const p =
+          objects?.find((x) => x.object_id === o.id)?.translation_mm ||
+          o.translation_mm;
+        const model = models.get(o.id);
+        if (!model) continue;
+        const rotation = C.Matrix3.fromRotationY(
+          (o.yaw_mdeg * Math.PI) / 180000,
+        );
+        const local = C.Matrix4.fromRotationTranslation(
+          rotation,
+          new C.Cartesian3(...p.map((v) => v / 1000)),
+        );
+        model.modelMatrix = C.Matrix4.multiply(
+          host.frame(),
+          local,
+          new C.Matrix4(),
+        );
+      }
+      host.viewer()?.scene.requestRender();
+      return true;
+    },
     remix: async (intention) => {
       await end();
       $('world-intention').value = intention;

@@ -6,6 +6,7 @@ import {
   MATERIAL_SHADER,
 } from '/presentation.mjs';
 import { mountNetwork } from '/network.js';
+import { mountWorldEntry } from '/world-entry.js';
 import { mountCreator } from '/creator.js';
 import { mountWorldCreator } from '/world-creator.js';
 import { mountIntelligence } from '/intelligence.js';
@@ -30,7 +31,7 @@ const lifetime = new AbortController(),
   metrics = new LocalMetrics(() => performance.now(), 0);
 const embedded = location.pathname.startsWith('/embed/');
 let network;
-let living, intelligence, worldCreator, generatedAudio;
+let living, intelligence, worldCreator, generatedAudio, worldEntry;
 let guest, guestEdition, guestShareToken, guestTemplatePin, activeComposition;
 let renderCounter = 0,
   renderStarted,
@@ -95,6 +96,7 @@ function diagnostics() {
   const value = {
     network: network?.snapshot() || null,
     generation: worldCreator?.snapshot() || null,
+    shared_world: worldEntry?.snapshot() || null,
     intelligence: intelligence?.snapshot() || null,
     living: living?.snapshot() || null,
     creator: creator?.snapshot() || null,
@@ -607,6 +609,7 @@ async function playAudio() {
 }
 async function dispose(show = true) {
   network?.dispose();
+  await worldEntry?.dispose();
   await worldCreator?.dispose();
   await intelligence?.dispose();
   await living?.dispose();
@@ -923,6 +926,14 @@ async function openExperience(override) {
         identityChanged: () => worldCreator.resetIdentity(),
         remix: (intention) => worldCreator.remix(intention),
       });
+    if (!embedded)
+      worldEntry = mountWorldEntry({
+        publication: () => publication,
+        credential: () => network?.credential() || '',
+        applyObjects: (objects) => worldCreator?.applyWorldObjects(objects),
+        diagnostics,
+      });
+    if (embedded) $('persistent-world').hidden = true;
     if (embedded) {
       document.body.classList.add('embedded');
       $('create-something').disabled = true;
