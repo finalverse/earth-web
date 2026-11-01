@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>A place on Finalverse</title>
+    <link rel="stylesheet" href="/alpha/alpha.css" />
+    <script type="module" src="/alpha/place.js"></script>
+  </head>
+  <body class="place">
+    <canvas id="view" tabindex="0" aria-label="The place. Drag to look around; use W A S D or the arrow keys to move."></canvas>
+    <div id="loading" class="loading">
+      <p data-message>Opening the place…</p>
+      <div class="progress"><span></span></div>
+    </div>
+
+    <header class="bar overlay">
+      <a class="brand" href="/alpha#explore">Finalverse <span class="chip">alpha</span></a>
+      <nav>
+        <button class="button ghost" type="button" id="share">Share</button>
+        <button class="button ghost" type="button" id="info-toggle" aria-expanded="true">About</button>
+      </nav>
+    </header>
+
+    <aside id="info" class="panel">
+      <p class="chip draft" id="draft-chip" hidden>Draft — only you can see it</p>
+      <h1 id="title"></h1>
+      <p class="muted" id="byline"></p>
+      <p id="story"></p>
+      <div id="mini" class="map-frame mini"></div>
+      <p class="muted" id="where"></p>
+      <p class="attribution">Made with <a href="https://www.worldlabs.ai" rel="noopener">World Labs</a> Marble · AI-generated</p>
+      <details>
+        <summary>How it was made</summary>
+        <dl id="provenance"></dl>
+      </details>
+      <p class="row"><button class="button ghost small" type="button" id="report-open">Report this place</button></p>
+
+      <form id="editor" class="editor" hidden>
+        <h2>Put it on Earth</h2>
+        <p class="muted">Click the map where this place belongs. Others will find it there.</p>
+        <div id="picker" class="map-frame"></div>
+        <label>Title <input name="title" maxlength="64" required /></label>
+        <label>A line for visitors <textarea name="story" rows="2" maxlength="600"></textarea></label>
+        <p class="row">
+          <button class="button primary" type="submit" name="publish" value="1">Publish</button>
+          <button class="button" type="submit" name="save" value="1">Save draft</button>
+        </p>
+        <p class="error" role="alert"></p>
+      </form>
+    </aside>
+
+    <p id="hint" class="hint">Drag to look · W A S D or arrows to move · E/Q up and down</p>
+
+    <dialog id="report">
+      <form method="dialog" id="report-form">
+        <h2>Report this place</h2>
+        <label>What is wrong? <textarea name="reason" rows="3" maxlength="500" required></textarea></label>
+        <p class="row">
+          <button class="button primary" type="submit" value="send">Send report</button>
+          <button class="button" type="submit" value="cancel" formnovalidate>Cancel</button>
+        </p>
+      </form>
+    </dialog>
+  </body>
+</html>

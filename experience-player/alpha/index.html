@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Finalverse — places on Earth, made from a sentence</title>
+    <meta name="description" content="Describe a place. Finalverse makes it a world you can walk through, puts it on Earth, and lets anyone visit." />
+    <link rel="stylesheet" href="/alpha/alpha.css" />
+    <script type="module" src="/alpha/app.js"></script>
+  </head>
+  <body>
+    <header class="bar">
+      <a class="brand" href="/alpha#explore">Finalverse <span class="chip">alpha</span></a>
+      <nav>
+        <a href="/alpha#explore" data-nav="explore">Explore</a>
+        <a href="/alpha#create" data-nav="create">Create</a>
+        <a href="/alpha#mine" data-nav="mine" hidden>My places</a>
+        <a href="/alpha#join" data-nav="join" id="account">Join</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="explore" class="view">
+        <div class="hero">
+          <h1>Describe a place.<br />Walk through it with anyone.</h1>
+          <p class="lede">
+            Finalverse turns a sentence into a world you can explore, puts it somewhere on Earth, and keeps it there
+            for others to visit.
+          </p>
+          <p class="actions">
+            <a class="button primary" href="/alpha#create">Make a place</a>
+            <a class="button" href="#world">See the map</a>
+          </p>
+        </div>
+        <div id="world" class="map-frame"></div>
+        <h2 class="section-title">New places</h2>
+        <div id="gallery" class="gallery"></div>
+        <p id="empty" class="muted" hidden>No places yet. The first one could be yours.</p>
+      </section>
+
+      <section id="join" class="view" hidden>
+        <div class="cards">
+          <form id="redeem" class="card">
+            <h2>I have an invite</h2>
+            <label>Invite code <input name="code" autocomplete="off" spellcheck="false" placeholder="FV-XXXXX-XXXXX-XXXXX-XXXXX" required /></label>
+            <label>Display name <input name="name" maxlength="40" minlength="2" autocomplete="nickname" required /></label>
+            <label class="check"><input type="checkbox" name="persist" checked /> Keep me signed in on this device</label>
+            <button class="button primary" type="submit">Join the alpha</button>
+            <p class="error" role="alert"></p>
+          </form>
+          <form id="signin" class="card">
+            <h2>I have my key</h2>
+            <label>Your key <input name="key" autocomplete="off" spellcheck="false" placeholder="64 characters" required /></label>
+            <label class="check"><input type="checkbox" name="persist" checked /> Keep me signed in on this device</label>
+            <button class="button" type="submit">Sign in</button>
+            <p class="error" role="alert"></p>
+          </form>
+        </div>
+        <div id="key-once" class="card notice" hidden>
+          <h2>Welcome, <span data-name></span>. Save your key.</h2>
+          <p>This key is how you sign back in on another device. Finalverse only keeps a hash of it, so it cannot be shown again.</p>
+          <p class="key"><code data-key></code> <button class="button" type="button" data-copy>Copy</button></p>
+          <a class="button primary" href="/alpha#create">I saved it — make my first place</a>
+        </div>
+      </section>
+
+      <section id="create" class="view" hidden>
+        <div id="create-signin" class="card notice" hidden>
+          <h2>The alpha is invite-only</h2>
+          <p>Anyone can explore. To make places, <a href="/alpha#join">join with an invite</a>.</p>
+        </div>
+        <form id="compose" class="card wide" hidden>
+          <h2>What place should exist?</h2>
+          <label class="sr" for="idea">Your idea</label>
+          <textarea id="idea" name="idea" rows="3" maxlength="600" placeholder="A tiny night market under a highway bridge in the rain, steam from food stalls, paper lanterns…"></textarea>
+          <p class="row">
+            <button class="button" type="button" id="lumi" hidden>Let Lumi describe it</button>
+            <span class="muted" id="lumi-note"></span>
+          </p>
+          <label>Title <input name="title" maxlength="64" required placeholder="Lantern Market" /></label>
+          <label>What the world generator will build
+            <textarea name="prompt" rows="6" maxlength="2000" required placeholder="Describe the setting, materials, light, weather and mood."></textarea>
+          </label>
+          <label class="check consent"><input type="checkbox" name="consent" required /> <span id="consent-text"></span></label>
+          <p class="row">
+            <button class="button primary" type="submit" id="make">Make this world</button>
+            <span class="muted" id="budget"></span>
+          </p>
+          <p class="error" role="alert"></p>
+        </form>
+        <div id="making" class="card wide notice" hidden>
+          <h2>Making <span data-title></span></h2>
+          <div class="progress"><span></span></div>
+          <p class="muted" data-status>Sending your description to World Labs…</p>
+          <p class="error" role="alert"></p>
+        </div>
+      </section>
+
+      <section id="mine" class="view" hidden>
+        <h2 class="section-title">My places</h2>
+        <div id="working" class="list"></div>
+        <div id="my-gallery" class="gallery"></div>
+        <p class="row"><button class="button" type="button" id="signout">Sign out</button></p>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>Worlds are generated by <a href="https://www.worldlabs.ai" rel="noopener">World Labs</a> Marble and labelled as AI-generated.</span>
+      <span>Earth imagery: Natural Earth II.</span>
+    </footer>
+  </body>
+</html>
