@@ -68,3 +68,12 @@ console.log(
 await cp(path.join(here, 'network-assets'), path.join(out, 'network-assets'), {
   recursive: true,
 });
+
+// The public alpha: its pages, the vendored renderer (see alpha/vendor/VENDOR.md) and a flat
+// Earth from Cesium's bundled Natural Earth II tiles (public domain), level 2 as 8 x 4 tiles.
+await cp(path.join(here, 'alpha'), path.join(out, 'alpha'), { recursive: true });
+await mkdir(path.join(out, 'alpha/earth'), { recursive: true });
+const naturalEarth = path.join(deps, 'cesium/Build/Cesium/Assets/Textures/NaturalEarthII/2');
+for (let x = 0; x < 8; x++)
+  for (let y = 0; y < 4; y++)
+    await copyFile(path.join(naturalEarth, String(x), `${y}.jpg`), path.join(out, 'alpha/earth', `${x}-${y}.jpg`));
