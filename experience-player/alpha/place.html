@@ -34,10 +34,13 @@
         <select id="object"></select>
         <p class="muted small" id="object-hint">Click something in the world, or choose it here.</p>
         <div id="object-controls" hidden>
+          <div id="placement-controls">
           <label>Across <input type="range" id="x" min="-6" max="6" step="0.05" /></label>
           <label>Depth <input type="range" id="z" min="-6" max="6" step="0.05" /></label>
           <label>Turn <input type="range" id="yaw" min="-180" max="180" step="1" /></label>
           <label>Surface <span class="scale"><span>glossy</span><span>matte</span></span><input type="range" id="rough" min="250" max="1500" step="10" /></label>
+          </div>
+          <label id="door-control" class="check" hidden><input type="checkbox" id="door-open" /> Door open</label>
           <div id="light-controls" hidden>
             <label class="check"><input type="checkbox" id="light-on" /> Light on</label>
             <label>Brightness <input type="range" id="bright" min="0" max="3000" step="25" /></label>
@@ -46,6 +49,11 @@
       </section>
       <section>
         <h3>World</h3>
+        <div id="ambience-controls" hidden>
+          <label class="check"><input type="checkbox" id="ambience-on" /> Soft piano in this edition</label>
+          <button class="button small" type="button" id="sound-play">Play sound on this device</button>
+          <p class="muted small" id="sound-status" role="status">Sound starts only when you choose to play it.</p>
+        </div>
         <label>Time of day <span class="muted small" id="sun-label"></span><input type="range" id="sun" min="-12" max="60" step="1" /></label>
         <label>Sun direction <input type="range" id="azimuth" min="0" max="359" step="1" /></label>
         <label>Snow <input type="range" id="snow" min="0" max="1024" step="16" /></label>
@@ -66,7 +74,7 @@
         </div>
       </section>
       <p class="row" id="owner-actions">
-        <button class="button primary" type="button" id="save">Save</button>
+        <button class="button primary" type="button" id="save">Approve &amp; save</button>
         <button class="button" type="button" id="publish">Publish</button>
         <button class="button ghost small" type="button" id="revert">Undo changes</button>
       </p>

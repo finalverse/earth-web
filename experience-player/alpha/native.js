@@ -1,7 +1,7 @@
 // Finalverse native world renderer for browsers: editable mesh geometry with physically based
 // materials, a physical sky that also lights the scene, sun shadows, object lights that move with
 // their objects, contact ambient occlusion, bloom, AgX tone mapping and snowfall.
-// It renders a finalverse.native-world/v1 document; FinalStorm renders the same document natively.
+// It renders the bounded browser projection; FinalStorm renders the canonical source natively.
 import * as THREE from './vendor/three.module.min.js';
 import { GLTFLoader } from './vendor/addons/loaders/GLTFLoader.js';
 import { EffectComposer } from './vendor/addons/postprocessing/EffectComposer.js';
@@ -9,6 +9,8 @@ import { RenderPass } from './vendor/addons/postprocessing/RenderPass.js';
 import { GTAOPass } from './vendor/addons/postprocessing/GTAOPass.js';
 import { UnrealBloomPass } from './vendor/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from './vendor/addons/postprocessing/OutputPass.js';
+
+import { objectPose, lightLevel, fillLevel, canSelect } from './native-state.js';
 
 const RAD = Math.PI / 180;
 const asset = (sha) => `/api/v1/alpha/assets/${sha}`;
@@ -139,9 +141,10 @@ export async function openWorld({ canvas, world, onProgress = () => {}, onSelect
   const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
   const textures = new Map();
   const texture = (sha, color) => {
-    if (!textures.has(sha))
+    const key = `${sha}|${color}`;
+    if (!textures.has(key))
       textures.set(
-        sha,
+        key,
         new THREE.TextureLoader().loadAsync(asset(sha)).then((t) => {
           t.flipY = false; // glTF texture convention
           t.wrapS = t.wrapT = THREE.RepeatWrapping;
@@ -150,7 +153,7 @@ export async function openWorld({ canvas, world, onProgress = () => {}, onSelect
           return t;
         }),
       );
-    return textures.get(sha);
+    return textures.get(key);
   };
   const models = new Map();
   const model = (sha) => {
@@ -191,6 +194,19 @@ export async function openWorld({ canvas, world, onProgress = () => {}, onSelect
               m.material.needsUpdate = true;
             }),
           );
+        if (maps?.metallic_roughness)
+          work.push(texture(maps.metallic_roughness, false).then((t) => {
+            m.material.roughnessMap = t;
+            m.material.metalnessMap = t;
+            m.material.needsUpdate = true;
+          }));
+        if (maps?.occlusion)
+          work.push(texture(maps.occlusion, false).then((t) => {
+            // Approved GLBs use their primary UV set for every material channel.
+            t.channel = 0;
+            m.material.aoMap = t;
+            m.material.needsUpdate = true;
+          }));
         if (/flame|fire|ember/i.test(m.material.name)) {
           m.material.emissive = new THREE.Color(1, 0.45, 0.15);
           m.material.emissiveIntensity = 2.2;
@@ -282,17 +298,25 @@ export async function openWorld({ canvas, world, onProgress = () => {}, onSelect
     for (const o of doc.objects) {
       const g = groups.get(o.id);
       if (!g) continue;
-      g.position.set(...o.translation);
-      g.rotation.set(0, o.yaw_degrees * RAD, 0);
-      g.scale.setScalar(o.scale);
+      const pose = objectPose(doc, o);
+      g.position.set(...pose.position);
+      g.rotation.set(0, pose.yaw * RAD, 0);
+      g.scale.setScalar(pose.scale);
       const k = o.roughness_milli / 1000;
       g.traverse((m) => {
-        if (m.isMesh) m.material.roughness = Math.min(1, Math.max(0.04, m.material.userData.baseRoughness * k));
+        if (m.isMesh) {
+          m.material.roughness = Math.min(1, Math.max(0.04, m.material.userData.baseRoughness * k));
+          if (doc.retreat && /flame|fire|ember/i.test(m.material.name)) {
+            const fire = doc.lights.find((l) => l.object === o.id);
+            m.visible = fire ? lightLevel(fire) > 0 : true;
+            m.material.emissiveIntensity = fire ? 2.2 * lightLevel(fire) : 2.2;
+          }
+        }
       });
     }
     for (const l of doc.lights) {
       const entry = lights.get(l.id);
-      if (entry) entry.target = l.enabled ? (l.intensity_candela * l.brightness_milli) / 1000 : 0;
+      if (entry) entry.target = l.intensity_candela * lightLevel(l) * (doc.retreat?.coupled_fill === l.id ? fillLevel(doc) : 1);
     }
     const e = doc.environment;
     renderer.toneMappingExposure = e.exposure * EXPOSURE_SCALE;
@@ -344,7 +368,7 @@ export async function openWorld({ canvas, world, onProgress = () => {}, onSelect
   function pick(x, y) {
     const r = canvas.getBoundingClientRect();
     ray.setFromCamera(new THREE.Vector2(((x - r.left) / r.width) * 2 - 1, -((y - r.top) / r.height) * 2 + 1), camera);
-    const hit = ray.intersectObjects(pickable, false).find((h) => current.objects.find((o) => o.id === h.object.userData.objectId)?.editable);
+    const hit = ray.intersectObjects(pickable, false).find((h) => current.objects.some((o) => o.id === h.object.userData.objectId && canSelect(current, o)));
     select(hit ? hit.object.userData.objectId : null);
   }
 

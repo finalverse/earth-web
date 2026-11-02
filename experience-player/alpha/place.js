@@ -3,6 +3,7 @@
 // and share. Legacy Gaussian-splat places still open in their own viewer (splat.js).
 import { api, h, me, visitor, when, where } from './api.js';
 import { earth } from './earth.js';
+import { canSelect } from './native-state.js';
 
 const $ = (s) => document.querySelector(s);
 const id = decodeURIComponent(location.pathname.split('/').pop());
@@ -42,6 +43,8 @@ function describe(v) {
       ['Layout', p.world?.planner ? `Planned by ${p.world.planner} from one sentence, fitted by the engine` : 'Arranged by Finalverse'],
       ['Geometry and materials', p.world?.license ? `Original, ${p.world.license}` : null],
       ['Made from', from ? h('a', { href: `/place/${encodeURIComponent(from.place)}` }, 'the original world') : null],
+      ['Playback', p.world?.source_package ? 'R2 browser projection · original editable meshes; private editions, save and share' : null],
+      ['Source package', p.world?.source_package ? p.world.source_package.slice(0, 12) : null],
       ['Version', place.edition ? place.edition.slice(0, 12) : null],
     ];
     $('#provenance').replaceChildren(...rows.filter(([, d]) => d).flatMap(([t, d]) => [h('dt', {}, t), h('dd', {}, d)]));
@@ -87,6 +90,8 @@ function details(native) {
 let viewer = null;
 let saved = null; // the last saved edition
 let draft = null; // the creator's working copy
+let audio = null;
+let audioAllowed = false;
 let proposal = null; // Lumi's previewed idea
 const clone = (v) => JSON.parse(JSON.stringify(v));
 const dirty = () => JSON.stringify(draft) !== JSON.stringify(saved);
@@ -116,12 +121,23 @@ function show(doc) {
     $('#z').value = o.translation[2];
     $('#yaw').value = o.yaw_degrees;
     $('#rough').value = o.roughness_milli;
+    $('#placement-controls').hidden = !o.editable;
+    const door = doc.retreat?.doors.find((d) => d.object === oid);
+    $('#door-control').hidden = !door;
+    if (door) $('#door-open').checked = door.open;
     const l = lightOf(doc, oid);
     $('#light-controls').hidden = !l;
     if (l) {
       $('#light-on').checked = l.enabled;
       $('#bright').value = l.brightness_milli;
     }
+  }
+  const ambience = doc.retreat?.ambience;
+  $('#ambience-controls').hidden = !ambience;
+  if (ambience) {
+    $('#ambience-on').checked = ambience.enabled;
+    if (audioAllowed && ambience.enabled && audio?.paused) audio.play().catch(() => {});
+    if (!ambience.enabled) audio?.pause();
   }
   const e = doc.environment;
   $('#sun').value = e.sun_elevation_degrees;
@@ -145,9 +161,30 @@ function edit(fn) {
 
 function wireStudio() {
   const select = $('#object');
-  select.replaceChildren(h('option', { value: '' }, 'Choose an object…'), ...draft.objects.filter((o) => o.editable).map((o) => h('option', { value: o.id }, o.name)));
+  select.replaceChildren(h('option', { value: '' }, 'Choose an object…'), ...draft.objects.filter((o) => canSelect(draft, o)).map((o) => h('option', { value: o.id }, o.name)));
   select.addEventListener('change', () => (viewer.select(select.value || null), show(proposal ?? draft)));
   const obj = () => objectOf(draft, select.value);
+  $('#door-open').addEventListener('change', (e) => edit((d) => (d.retreat.doors.find((door) => door.object === select.value).open = e.target.checked)));
+  $('#ambience-on').addEventListener('change', (e) => edit((d) => (d.retreat.ambience.enabled = e.target.checked)));
+  $('#sound-play').addEventListener('click', async () => {
+    try {
+      if (audioAllowed) {
+        audioAllowed = false; audio?.pause();
+        $('#sound-play').textContent = 'Play sound on this device';
+        $('#sound-status').textContent = 'Sound paused on this device.';
+        return;
+      }
+      const ambience = draft.retreat?.ambience;
+      if (!ambience) return;
+      audio ??= new Audio(`/api/v1/alpha/assets/${ambience.audio}`);
+      audio.loop = true; audio.volume = 0.35;
+      if (!ambience.enabled) edit((d) => (d.retreat.ambience.enabled = true));
+      await audio.play(); audioAllowed = true;
+      $('#sound-play').textContent = 'Pause sound on this device';
+      $('#sound-status').textContent = 'Original synthesized piano-like miniature · CC0.';
+    } catch (e) { $('#sound-status').textContent = `Sound could not start: ${e.message}`; }
+  });
+  addEventListener('pagehide', () => audio?.pause());
   $('#x').addEventListener('input', (e) => edit(() => (obj().translation[0] = Number(e.target.value))));
   $('#z').addEventListener('input', (e) => edit(() => (obj().translation[2] = Number(e.target.value))));
   $('#yaw').addEventListener('input', (e) => edit(() => (obj().yaw_degrees = Number(e.target.value))));
@@ -231,7 +268,7 @@ function dropProposal() {
 async function askLumi() {
   const oid = $('#object').value;
   const request = $('#lumi-ask').value.trim();
-  if (!oid) return studioStatus('Select an object first, then ask Lumi.');
+  if (!objectOf(draft, oid)?.editable) return studioStatus('Choose a movable object or lamp for Lumi’s suggestion.');
   if (!request) return studioStatus('Tell Lumi what you would like.');
   $('#lumi-go').disabled = true;
   $('#lumi-wait').textContent = 'Lumi is thinking…';
