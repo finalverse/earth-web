@@ -23,3 +23,14 @@ sed "s#from 'three'#from './three.module.min.js'#" Pass.js
 ```
 
 Spark 2.3.1 documents three 0.180.0, so upgrade the two together.
+
+## three.js add-ons (`addons/`)
+
+The native-world viewer uses these files from `three@0.180.0` `examples/jsm/`, with the same
+licence and the same single change: `from 'three'` becomes a relative path to `three.module.min.js`.
+- Roots: `loaders/GLTFLoader.js` and `postprocessing/{EffectComposer,RenderPass,GTAOPass,UnrealBloomPass,OutputPass}.js`.
+- Their relative imports were vendored with them: `postprocessing/{Pass,MaskPass,ShaderPass}.js`,
+  `shaders/{CopyShader,GTAOShader,PoissonDenoiseShader,LuminosityHighPassShader,OutputShader}.js`,
+  `math/SimplexNoise.js` and `utils/BufferGeometryUtils.js`.
+
+`three/addons/...` strings that remain appear only in documentation comments (`@three_import`).

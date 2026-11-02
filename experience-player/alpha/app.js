@@ -26,30 +26,74 @@ function account() {
 function card(p, thumb) {
   const img = h('div', { class: 'thumb' });
   if (p.thumbnail) thumb(p.id).then((src) => img.append(h('img', { src, alt: '', loading: 'lazy' }))).catch(() => {});
+  const line = [p.creator_name ? `by ${p.creator_name}` : null, p.lat != null ? where(p.lat, p.lon) : null].filter(Boolean).join(' · ');
   return h(
     'a',
     { class: 'tile', href: `/place/${encodeURIComponent(p.id)}` },
     img,
     h('strong', {}, p.title),
-    h('span', { class: 'muted' }, [p.creator_name ? `by ${p.creator_name} · ` : '', where(p.lat, p.lon)]),
+    line ? h('span', { class: 'muted' }, line) : null,
+    p.featured ? h('span', { class: 'chip' }, 'featured') : null,
     p.state && p.state !== 'published' ? h('span', { class: 'chip' }, p.state) : null,
   );
 }
-const publicThumb = async (id) => `/api/v1/alpha/places/${encodeURIComponent(id)}/assets/thumbnail`;
+
+/** Make it mine: a signed-in creator gets their own copy; anyone else tries it in place first. */
+async function makeItMine(p, button) {
+  if (!me.signedIn()) return location.assign(`/place/${encodeURIComponent(p.id)}`);
+  button.disabled = true;
+  try {
+    const r = await api(`/api/v1/alpha/places/${encodeURIComponent(p.id)}/remix`, { method: 'POST', body: {} });
+    location.assign(`/place/${encodeURIComponent(r.place)}?studio=1`);
+  } catch (e) {
+    button.disabled = false;
+    button.textContent = e.message;
+  }
+}
+
+function flagship(p) {
+  const box = $('#flagship');
+  box.hidden = false;
+  const img = h('img', { src: publicThumb(p.id), alt: '' });
+  const make = h('button', { class: 'button', type: 'button', onclick: (e) => makeItMine(p, e.target) }, 'Make it mine');
+  box.replaceChildren(
+    h('a', { class: 'flagship-image', href: `/place/${encodeURIComponent(p.id)}`, 'aria-label': `Enter ${p.title}` }, img),
+    h('div', { class: 'flagship-text' }, h('p', { class: 'chip' }, 'Featured world'), h('h2', {}, p.title), p.story ? h('p', { class: 'muted' }, p.story) : null,
+      h('p', { class: 'actions' }, h('a', { class: 'button primary', href: `/place/${encodeURIComponent(p.id)}` }, `Enter ${p.title}`), make)),
+  );
+}
+const publicThumb = (id) => `/api/v1/alpha/places/${encodeURIComponent(id)}/assets/thumbnail`;
+let discovered = null;
+const discover = async () => (discovered ??= (await api('/api/v1/alpha/places', { retry: false })).places);
 
 async function explore() {
-  const { places } = await api('/api/v1/alpha/places', { retry: false });
-  earth($('#world'), { pins: places.map((p) => ({ ...p, href: `/place/${encodeURIComponent(p.id)}` })) });
-  $('#gallery').replaceChildren(...places.slice(0, 24).map((p) => card(p, publicThumb)));
+  const places = await discover();
+  const lead = places.find((p) => p.featured);
+  if (lead) flagship(lead);
+  $('#gallery').replaceChildren(...places.filter((p) => p !== lead).slice(0, 48).map((p) => card(p, async (id) => publicThumb(id))));
   $('#empty').hidden = places.length > 0;
+  const pinned = places.filter((p) => p.lat != null);
+  $('#world').hidden = $('#map-title').hidden = pinned.length === 0;
+  if (pinned.length) earth($('#world'), { pins: pinned.map((p) => ({ ...p, href: `/place/${encodeURIComponent(p.id)}` })) });
 }
 
 async function create() {
   const signedIn = me.signedIn();
   $('#create-signin').hidden = signedIn;
-  $('#compose').hidden = !signedIn || !$('#making').hidden;
-  if (!signedIn) return;
+  const templates = (await discover()).filter((p) => p.featured);
+  $('#templates').replaceChildren(
+    ...templates.map((p) => {
+      const tile = card(p, async (id) => publicThumb(id));
+      const make = h('button', { class: 'button primary small', type: 'button', onclick: (e) => (e.preventDefault(), makeItMine(p, e.target)) }, signedIn ? 'Make it mine' : 'Try it');
+      tile.append(make);
+      return tile;
+    }),
+  );
   status ??= await api('/api/v1/alpha/status', { retry: false });
+  // Describing a brand-new world from a sentence is the next step; the legacy World Labs path
+  // stays hidden unless that generator is explicitly enabled.
+  $('#compose').hidden = !signedIn || !status.generation || !$('#making').hidden;
+  if (!signedIn || !status.generation) return;
   $('#consent-text').textContent = consentText(status);
   $('#lumi').hidden = !status.lumi;
   const { mine } = await api('/api/v1/alpha/me');
@@ -82,7 +126,7 @@ async function mine() {
   const thumb = (id) => assetUrl(id, 'thumbnail');
   $('#my-gallery').replaceChildren(...m.places.map((p) => card(p, thumb)));
   if (!m.places.length && !m.generations.length)
-    $('#my-gallery').append(h('p', { class: 'muted' }, 'Nothing yet. ', h('a', { href: '/alpha#create' }, 'Make your first place.')));
+    $('#my-gallery').append(h('p', { class: 'muted' }, 'Nothing yet. ', h('a', { href: '/alpha#create' }, 'Make your first world.')));
 }
 
 function errorTo(form) {

@@ -3,24 +3,79 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>A place on Finalverse</title>
+    <title>A world on Finalverse</title>
+    <meta name="description" content="An editable 3D world on Finalverse. Walk through it, change it, make it yours." />
     <link rel="stylesheet" href="/alpha/alpha.css" />
     <script type="module" src="/alpha/place.js"></script>
   </head>
   <body class="place">
-    <canvas id="view" tabindex="0" aria-label="The place. Drag to look around; use W A S D or the arrow keys to move."></canvas>
+    <canvas id="view" tabindex="0" aria-label="The world. Drag to look around; use W A S D or the arrow keys to walk; click an object to select it."></canvas>
     <div id="loading" class="loading">
-      <p data-message>Opening the place…</p>
+      <p data-message>Opening the world…</p>
       <div class="progress"><span></span></div>
     </div>
 
     <header class="bar overlay">
       <a class="brand" href="/alpha#explore">Finalverse <span class="chip">alpha</span></a>
       <nav>
+        <button class="button primary" type="button" id="remix" hidden>Make it mine</button>
+        <button class="button ghost" type="button" id="studio-toggle" hidden aria-expanded="false">Studio</button>
         <button class="button ghost" type="button" id="share">Share</button>
         <button class="button ghost" type="button" id="info-toggle" aria-expanded="true">About</button>
       </nav>
     </header>
+
+    <aside id="studio" class="panel left closed" aria-label="Make it yours">
+      <h2>Make it yours</h2>
+      <p class="muted small" id="studio-note"></p>
+      <section>
+        <h3>Object</h3>
+        <label class="sr" for="object">Object</label>
+        <select id="object"></select>
+        <p class="muted small" id="object-hint">Click something in the world, or choose it here.</p>
+        <div id="object-controls" hidden>
+          <label>Across <input type="range" id="x" min="-6" max="6" step="0.05" /></label>
+          <label>Depth <input type="range" id="z" min="-6" max="6" step="0.05" /></label>
+          <label>Turn <input type="range" id="yaw" min="-180" max="180" step="1" /></label>
+          <label>Surface <span class="scale"><span>glossy</span><span>matte</span></span><input type="range" id="rough" min="250" max="1500" step="10" /></label>
+          <div id="light-controls" hidden>
+            <label class="check"><input type="checkbox" id="light-on" /> Light on</label>
+            <label>Brightness <input type="range" id="bright" min="0" max="3000" step="25" /></label>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>World</h3>
+        <label>Time of day <span class="muted small" id="sun-label"></span><input type="range" id="sun" min="-12" max="60" step="1" /></label>
+        <label>Sun direction <input type="range" id="azimuth" min="0" max="359" step="1" /></label>
+        <label>Snow <input type="range" id="snow" min="0" max="1024" step="16" /></label>
+        <label>Exposure <input type="range" id="exposure" min="0.5" max="2.5" step="0.05" /></label>
+      </section>
+      <section id="lumi-section" hidden>
+        <h3>Ask Lumi</h3>
+        <label class="sr" for="lumi-ask">What should change?</label>
+        <textarea id="lumi-ask" rows="2" maxlength="300" placeholder="Make the sofa feel cosier"></textarea>
+        <p class="row"><button class="button small" type="button" id="lumi-go">Suggest a change</button> <span class="muted small" id="lumi-wait"></span></p>
+        <div id="lumi-proposal" class="proposal" hidden>
+          <p><strong>Lumi's idea</strong> <span class="chip">preview</span></p>
+          <p id="lumi-text"></p>
+          <p class="row">
+            <button class="button primary small" type="button" id="lumi-keep">Keep it</button>
+            <button class="button small" type="button" id="lumi-drop">Discard</button>
+          </p>
+        </div>
+      </section>
+      <p class="row" id="owner-actions">
+        <button class="button primary" type="button" id="save">Save</button>
+        <button class="button" type="button" id="publish">Publish</button>
+        <button class="button ghost small" type="button" id="revert">Undo changes</button>
+      </p>
+      <p class="row" id="guest-actions" hidden>
+        <a class="button primary" href="/alpha#join">Join to save it</a>
+        <button class="button ghost small" type="button" id="revert-guest">Undo changes</button>
+      </p>
+      <p id="studio-status" class="muted small" role="status"></p>
+    </aside>
 
     <aside id="info" class="panel">
       <p class="chip draft" id="draft-chip" hidden>Draft — only you can see it</p>
@@ -29,32 +84,32 @@
       <p id="story"></p>
       <div id="mini" class="map-frame mini"></div>
       <p class="muted" id="where"></p>
-      <p class="attribution">Made with <a href="https://www.worldlabs.ai" rel="noopener">World Labs</a> Marble · AI-generated</p>
+      <p class="attribution" id="attribution"></p>
       <details>
         <summary>How it was made</summary>
         <dl id="provenance"></dl>
       </details>
-      <p class="row"><button class="button ghost small" type="button" id="report-open">Report this place</button></p>
+      <p class="row"><button class="button ghost small" type="button" id="report-open">Report this world</button></p>
 
       <form id="editor" class="editor" hidden>
-        <h2>Put it on Earth</h2>
-        <p class="muted">Click the map where this place belongs. Others will find it there.</p>
-        <div id="picker" class="map-frame"></div>
+        <h2>Details</h2>
         <label>Title <input name="title" maxlength="64" required /></label>
         <label>A line for visitors <textarea name="story" rows="2" maxlength="600"></textarea></label>
+        <p class="muted small" id="picker-note">Put it on Earth: click the map where it belongs.</p>
+        <div id="picker" class="map-frame"></div>
         <p class="row">
-          <button class="button primary" type="submit" name="publish" value="1">Publish</button>
-          <button class="button" type="submit" name="save" value="1">Save draft</button>
+          <button class="button primary" type="submit" name="publish" value="1" id="details-publish">Publish</button>
+          <button class="button" type="submit" name="save" value="1">Save details</button>
         </p>
         <p class="error" role="alert"></p>
       </form>
     </aside>
 
-    <p id="hint" class="hint">Drag to look · W A S D or arrows to move · E/Q up and down</p>
+    <p id="hint" class="hint">Drag to look · W A S D to walk · click an object to select it</p>
 
     <dialog id="report">
       <form method="dialog" id="report-form">
-        <h2>Report this place</h2>
+        <h2>Report this world</h2>
         <label>What is wrong? <textarea name="reason" rows="3" maxlength="500" required></textarea></label>
         <p class="row">
           <button class="button primary" type="submit" value="send">Send report</button>

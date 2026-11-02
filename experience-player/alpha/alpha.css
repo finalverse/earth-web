@@ -524,3 +524,135 @@ dialog::backdrop {
     display: none;
   }
 }
+
+/* studio: the left-hand panel for making a native world yours */
+.panel.left {
+  right: auto;
+  left: 16px;
+  width: min(330px, calc(100vw - 32px));
+}
+.panel.left.closed {
+  transform: translateX(calc(-100% - 24px));
+}
+.panel h2 {
+  margin: 0 0 4px;
+  font-size: 1.2rem;
+}
+.panel h3 {
+  margin: 16px 0 8px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.panel section {
+  display: grid;
+  gap: 8px;
+}
+.panel label {
+  font-size: 0.85rem;
+}
+.small {
+  font-size: 0.82rem;
+}
+select {
+  font: inherit;
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  width: 100%;
+}
+input[type='range'] {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  accent-color: var(--amber);
+  width: 100%;
+}
+.scale {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.proposal {
+  border: 1px solid rgba(245, 177, 76, 0.45);
+  background: rgba(245, 177, 76, 0.08);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+.proposal p {
+  margin: 4px 0;
+}
+.button.pulse {
+  animation: pulse 1.6s ease-in-out 3;
+}
+@keyframes pulse {
+  50% {
+    box-shadow: 0 0 0 8px rgba(245, 177, 76, 0.25);
+  }
+}
+@media (max-width: 720px) {
+  .panel.left {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    top: auto;
+    bottom: 12px;
+    max-height: 60vh;
+  }
+  .panel.left.closed {
+    transform: translateY(calc(100% + 24px));
+  }
+}
+
+/* the featured world on the home page */
+.flagship {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+}
+.flagship-image img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  transition: transform 0.25s ease;
+}
+.flagship-image:hover img {
+  transform: scale(1.01);
+}
+.flagship-text h2 {
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  margin: 8px 0;
+}
+.templates .tile .button {
+  justify-self: start;
+  margin-top: 6px;
+}
+@media (max-width: 720px) {
+  .flagship {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 720px) {
+  .bar.overlay {
+    padding: 10px 12px;
+  }
+  .bar.overlay nav .button {
+    padding: 7px 12px;
+    font-size: 0.85rem;
+  }
+  .bar.overlay .brand .chip {
+    display: none;
+  }
+}

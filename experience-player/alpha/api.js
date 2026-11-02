@@ -74,12 +74,14 @@ export async function api(path, { method = 'GET', body, raw = false, retry = tru
     if (!token && attempt === 0 && retry && credential() && (await renew()))
       token = read(SESSION, sessionStorage);
     const headers = {};
-    if (body !== undefined) headers['content-type'] = 'application/json';
+    // A Blob (a preview image) is sent as-is; anything else as JSON.
+    const blob = body instanceof Blob;
+    if (body !== undefined) headers['content-type'] = blob ? body.type : 'application/json';
     if (token) headers.authorization = `Bearer ${token}`;
     const r = await fetch(path, {
       method,
       headers,
-      body: body === undefined ? undefined : JSON.stringify(body),
+      body: body === undefined || blob ? body : JSON.stringify(body),
     });
     if (r.status === 401 && token && attempt === 0 && retry) {
       write(SESSION, null, sessionStorage);
