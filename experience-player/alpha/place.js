@@ -176,7 +176,7 @@ function wireStudio() {
       }
       const ambience = draft.retreat?.ambience;
       if (!ambience) return;
-      audio ??= new Audio(`/api/v1/alpha/assets/${ambience.audio}`);
+      if (!audio) throw new Error('Audio is still loading; try again shortly.');
       audio.loop = true; audio.volume = 0.35;
       if (!ambience.enabled) edit((d) => (d.retreat.ambience.enabled = true));
       await audio.play(); audioAllowed = true;
@@ -315,6 +315,13 @@ async function makeItMine() {
 
 async function openNative() {
   const { world } = await api(`${base}/world`);
+  if (world.retreat?.ambience) {
+    // CSP permits only blob media; fetch only this operator-approved, content-addressed WAV.
+    fetch(`/api/v1/alpha/assets/${world.retreat.ambience.audio}`).then(async (r) => {
+      if (!r.ok) throw new Error('Audio unavailable');
+      audio = new Audio(URL.createObjectURL(await r.blob()));
+    }).catch(() => { $('#sound-status').textContent = 'Audio could not load. Reload to try again.'; });
+  }
   saved = clone(world);
   draft = clone(world);
   loading('Building the world…', 5);
