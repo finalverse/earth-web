@@ -13,6 +13,15 @@ import { OutputPass } from './vendor/addons/postprocessing/OutputPass.js';
 import { objectPose, lightLevel, fillLevel, canSelect } from './native-state.js';
 
 const RAD = Math.PI / 180;
+async function loadAsset(load) {
+  for (let attempt = 0; attempt < 4; attempt++) {
+    try { return await load(); }
+    catch (error) {
+      if (attempt === 3) throw new Error('A world asset could not load. Please reload to try again.', { cause: error });
+      await new Promise((resolve) => setTimeout(resolve, 700 * 2 ** attempt));
+    }
+  }
+}
 const asset = (sha) => `/api/v1/alpha/assets/${sha}`;
 // Calibration against FinalStorm captures of the same documents and cameras. Documents keep
 // FinalStorm's values (exposure, environment intensity); these map them onto this renderer.
@@ -145,7 +154,7 @@ export async function openWorld({ canvas, world, onProgress = () => {}, onSelect
     if (!textures.has(key))
       textures.set(
         key,
-        new THREE.TextureLoader().loadAsync(asset(sha)).then((t) => {
+        loadAsset(() => new THREE.TextureLoader().loadAsync(asset(sha))).then((t) => {
           t.flipY = false; // glTF texture convention
           t.wrapS = t.wrapT = THREE.RepeatWrapping;
           t.colorSpace = color ? THREE.SRGBColorSpace : THREE.NoColorSpace;
@@ -157,7 +166,7 @@ export async function openWorld({ canvas, world, onProgress = () => {}, onSelect
   };
   const models = new Map();
   const model = (sha) => {
-    if (!models.has(sha)) models.set(sha, loader.loadAsync(asset(sha)).then((g) => g.scene));
+    if (!models.has(sha)) models.set(sha, loadAsset(() => loader.loadAsync(asset(sha))).then((g) => g.scene));
     return models.get(sha);
   };
 
